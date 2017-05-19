@@ -51,7 +51,7 @@ make run      # Run the script
  * `run` runs testing script (It is not a unit test).
 
 ## Usage
-```bash
+```
 java -jar tabbyxl.jar <params>
 
 Params:
@@ -64,7 +64,7 @@ Params:
 -useCellText <true|false>          specify true to use cell values as text (false used by default)
 -useShortNames <true|false>        specify true to use short names (just sheet names) for output files (false used by default)
 -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
--help                              print the usage
+-help                              print this usage
 ```
 ## License
 
