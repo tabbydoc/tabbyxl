@@ -53,7 +53,7 @@ public final class TabbyXL {
     private static boolean useDSL;
     private static boolean useShortNames;
 
-    // TODO DSL_PATH initialisation from settings is needed
+    // TODO DSL initialisation from settings is needed
     private static final String DSL = "crl2.dsl";
 
     // Statistics

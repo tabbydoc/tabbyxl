@@ -16,26 +16,26 @@
 [keyword][] rule #{number:\d+} = rule "#{number}" salience -{number}
 
 #Cell querying
-[condition][] cell {cell:\S+} : {constraints} = {cell} : CCell({constraints})
+[condition][] cell {cell:\S+}\s*: {constraints} = {cell}: CCell({constraints})
 [condition][] cell {cell:\S+} = {cell} : CCell()
 
 #Entry querying
-[condition][] entry {entry:\S+} : {constraints} = {entry} : CEntry({constraints})
+[condition][] entry {entry:\S+}\s*: {constraints} = {entry}: CEntry({constraints})
 [condition][] entry {entry:\S+} = {entry} : CEntry()
 
 #Label querying
-[condition][] label {label:\S+} : {constraints} = {label} : CLabel({constraints})
+[condition][] label {label:\S+}\s*: {constraints} = {label}: CLabel({constraints})
 [condition][] label {label:\S+} = {label} : CLabel()
 
 #Category querying
-[condition][] category {category:\S+} : {constraints} = {category} : CCategory({constraints})
-[condition][] category {category:\S+} = {category} : CCategory()
+[condition][] category {category:\S+}\s*: {constraints} = {category}: CCategory({constraints})
+[condition][] category {category:\S+} = {category}: CCategory()
 
 #Not exists
-[condition][] no cells : {constraints} = not (exists CCell ({constraints}))
-[condition][] no entries : {constraints} = not (exists CEntry ({constraints}))
-[condition][] no labels : {constraints} = not (exists CLabel ({constraints}))
-[condition][] no categories : {constraints} = not (exists CCategory ({constraints}))
+[condition][] no cells\s*: {constraints} = not (exists CCell ({constraints}))
+[condition][] no entries\s*: {constraints} = not (exists CEntry ({constraints}))
+[condition][] no labels\s*: {constraints} = not (exists CLabel ({constraints}))
+[condition][] no categories\s*: {constraints} = not (exists CCategory ({constraints}))
 
 #Text editing
 [consequence][] set text {string_expression} to {cell:\S+} = {cell}.setText({string_expression});
