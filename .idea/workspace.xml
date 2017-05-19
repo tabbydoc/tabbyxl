@@ -1,0 +1,1424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ssdc:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/DataLoader.java" line="371" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dd205834-186b-4579-a8ce-57887b58dd57" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/TabbyXL.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/crl2.dsl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/usage.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/crl/test_crl.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T001.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T001.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T001a.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T001a/T001a.cat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T002.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T002.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T002a.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T003.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T003.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T004.drl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T004.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T005.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T005.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T005a.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T006.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T006.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T007.drl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T007.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T008.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T008.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T008a.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T009.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T009.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T010.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T010.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T011.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T011.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T012.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T012.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T013.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T013.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T014.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T014.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T015.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T015.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T016.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T016.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T017.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T017.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T018.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T018.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T019.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T019.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T020.dslr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/T020.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001/T001_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001/T001_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001/T001_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001/T001_0_3.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001a/T001_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001a/T001_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001a/T001_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T001a/T001_0_3.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T002/T002_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T002/T002_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T002/T002_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T002a/T002_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T002a/T002_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T002a/T002_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T003/T003_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T003/T003_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T003/T003_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T004/T004_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T005/T005_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T005/T005_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T005/T005_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T005a/T005_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T005a/T005_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T005a/T005_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T006/T006_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T006/T006_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T007/T007_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T007/T007_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T008/T008_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T008/T008_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T008/T008_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T008a/T008_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T008a/T008_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T008a/T008_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T009/T009_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T009/T009_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T010/T010_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T010/T010_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T011/T011_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T011/T011_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T012/T012_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T012/T012_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T013/T013_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T013/T013_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T014/T014_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T014/T014_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T015/T015_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T015/T015_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T016/T016_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T016/T016_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T016/T016_0_2.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T016/T016_0_3.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T017/T017_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T018/T018_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T018/T018_0_1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T019/T019_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/results/T020/T020_0_0.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/App.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ssdc.bat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ru/icc/cells/ssdc/App.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/ssdc_jar/ssdc.jar" afterPath="$PROJECT_DIR$/out/artifacts/ssdc_jar/ssdc.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ru/icc/cells/ssdc/DataLoader$CPoint.class" afterPath="$PROJECT_DIR$/target/classes/ru/icc/cells/ssdc/DataLoader$CPoint.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ru/icc/cells/ssdc/DataLoader.class" afterPath="$PROJECT_DIR$/target/classes/ru/icc/cells/ssdc/DataLoader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ru/icc/cells/ssdc/model/CCell.class" afterPath="$PROJECT_DIR$/target/classes/ru/icc/cells/ssdc/model/CCell.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/ssdc_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/ssdc_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/shig.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/shig.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NOTICE" afterPath="$PROJECT_DIR$/NOTICE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/DataLoader.java" afterPath="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/DataLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CCell.java" afterPath="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CCell.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/crl/crl.dsl" afterPath="$PROJECT_DIR$/src/main/resources/crl.dsl" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ssdc.iml" afterPath="$PROJECT_DIR$/TabbyXL.iml" />
+    </list>
+    <ignored path="cais.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/csstai$CRL2DRL.coverage" NAME="CRL2DRL Coverage Results" MODIFIED="1426748177335" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>ru.icc.cells.csstai.*</FILTER>
+    </SUITE>
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="cais" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="TabbyXL.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/TabbyXL.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#23023#0" expanded="true" />
+                <element signature="method#parseInputExcelFileParam#0;class#TabbyXL#0" expanded="false" />
+                <element signature="method#parseSheetIndexesParam#0;class#TabbyXL#0" expanded="false" />
+                <element signature="method#parseDrlFileParam#0;class#TabbyXL#0" expanded="false" />
+                <element signature="method#parseCatDirectoryParam#0;class#TabbyXL#0" expanded="false" />
+                <element signature="method#parseOutputDirectoryParam#0;class#TabbyXL#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EvaluationExcelWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/writers/EvaluationExcelWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataLoader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/DataLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#23218#0" expanded="true" />
+                <element signature="method#loadWorkbook#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#numOfSheets#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#goToSheet#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#nextTable#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#findPreviousPoint#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#findNextPoint#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#getFormatCellValue#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#findRefPoint#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#findEndPoint#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#extractCellFormulaValue#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#extractCellValue#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#getNotSuperscriptText#0;class#DataLoader#0" expanded="false" />
+                <element signature="method#getText#0;class#DataLoader#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="17">
+                <caret line="1" column="101" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="101" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+          <provider editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="0">
+                <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <folding />
+              </first_editor>
+              <second_editor>
+                <js_state />
+              </second_editor>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/NotAllowedParentCycleException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/ParentAssociatingException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/StatisticsManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/Tables.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/BorderType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/CBorder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/CColor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/CFont.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/CStyle.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/FillPattern.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/HorzAlignment.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/csstai/model/style/VertAlignment.java" />
+        <option value="$PROJECT_DIR$/.idea/.name" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/Tracer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/CRL2DRL.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/CRL2DRLConverter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/model/CLabel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/model/CCategory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/model/CategoryTemplateManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/App.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/model/LabelGroupBox.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/DataLoader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/util/CellsUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/sdet/util/PhoneticAlgorithm.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/util/PhoneticAlgorithm.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CValue.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CCategory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CanonicalForm.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CLabel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CEntry.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/writers/Writer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/writers/BasicExcelWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/eval/Evaluator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/util/eval/Evaluator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/util/evaluation/Evaluator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/writers/EvaluationExcelWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/Metrics.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/EvalResult.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/Eval.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/EvalView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/EvalBox.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/Evaluator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CCell.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/NOTICE" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/App.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/DataLoader.java" />
+        <option value="$PROJECT_DIR$/usage.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/TabbyXL.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1696" />
+    <option name="height" value="1026" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CELLS SSDC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CELLS SSDC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TabbyXL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CELLS SSDC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TabbyXL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CELLS SSDC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TabbyXL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ssdc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CELLS SSDC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TabbyXL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.36355227" />
+    <property name="recentsLimit" value="5" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="LayoutCode.rearrangeEntriesJava" value="false" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Box Sync\Codes\TabbyXL\src\main\resources" />
+      <recent name="D:\Dropbox\dd\codes\sdet" />
+      <recent name="D:\Dropbox\dd\sdet" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.TANGO2017">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="GAPID_DISABLE_PCS" value="false" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method>
+        <option name="Make" enabled="true" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="GAPID_DISABLE_PCS" value="false" />
+      </Profilers>
+      <method>
+        <option name="Make" enabled="true" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SCRATCH_FILE_ID" value="0" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="ssdc" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="executeSpecs" factoryName="Gauge Execution">
+      <setting name="environment" value="" />
+      <setting name="specsToExecute" value="" />
+      <setting name="tags" value="" />
+      <setting name="parallelNodes" value="" />
+      <setting name="execInParallel" value="false" />
+      <setting name="programParameters" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="moduleName" value="" />
+      <envMap />
+      <setting name="rowsRange" value="" />
+      <method />
+    </configuration>
+    <configuration default="false" name="TANGO2017 Evaluator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="ru.icc.cells.ssdc.evaluation.Evaluator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;D:\Box Sync\dd\experiments\Tango2017\results&quot; &quot;D:\Box Sync\dd\experiments\Tango2017\gt&quot;" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="TabbyXL" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="TANGO2017" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="ru.icc.cells.ssdc.TabbyXL" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-input &quot;D:\Box Sync\dd\experiments\Tango2017\TangoDataset.xlsx&quot; -ruleset &quot;D:\Box Sync\dd\experiments\Tango2017\TANGO.dslr&quot; -ignoreSuperscript true -useCellText false -debuggingMode false -output &quot;D:\Box Sync\dd\experiments\Tango2017\results&quot; -useShortNames true" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="TabbyXL" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Application.TANGO2017 Evaluator" />
+      <item index="1" class="java.lang.String" itemvalue="Application.TANGO2017" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dd205834-186b-4579-a8ce-57887b58dd57" name="Default" comment="" />
+      <created>1422093645565</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1422093645565</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40111732" sideWeight="0.089242056" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3605823" sideWeight="0.91075796" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21149144" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51287794" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.30256724" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297619" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281075" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="217" />
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="cl == 0 &amp;&amp; cr == getOwner().numOfCols()" language="JAVA" custom="" />
+        <watch expression="getOwner().numOfCols()" language="JAVA" custom="" />
+        <watch expression="text" language="JAVA" custom="" />
+        <watch expression="cr" language="JAVA" custom="" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/LocalCategoryBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/NotAllowedParentChangeException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/ParentAssociatingException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/StatisticsManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/Tables.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/NotAllowedParentCycleException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/BorderType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/CBorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/CColor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/CStyle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/FillPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/HorzAlignment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/VertAlignment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/.name">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="10" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_45/src.zip!/java/util/List.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="492" column="17" selection-start-line="492" selection-start-column="17" selection-end-line="492" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CategoryTemplateManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="90" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CellType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="24" column="11" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/util/CRL2DRLConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="151" column="5" selection-start-line="151" selection-start-column="5" selection-end-line="151" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi-ooxml/3.10-FINAL/poi-ooxml-3.10-FINAL-sources.jar!/org/apache/poi/xssf/usermodel/XSSFHyperlink.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="211" column="0" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/util/PhoneticAlgorithm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/util/CellsUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi/3.12/poi-3.12.jar!/org/apache/poi/ss/usermodel/Row.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_45/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="2926" column="25" selection-start-line="2926" selection-start-column="25" selection-end-line="2926" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi/3.12/poi-3.12.jar!/org/apache/poi/ss/usermodel/DataFormatter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="463" column="18" selection-start-line="463" selection-start-column="18" selection-end-line="463" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi/3.12/poi-3.12.jar!/org/apache/poi/ss/usermodel/Cell.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/writers/BasicExcelWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="26" column="77" selection-start-line="26" selection-start-column="77" selection-end-line="26" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/writers/Writer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="21" column="64" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CanonicalForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="901">
+          <caret line="89" column="5" selection-start-line="60" selection-start-column="0" selection-end-line="89" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_45/src.zip!/java/io/FileFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="48" column="12" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/EvalView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="80" column="41" selection-start-line="80" selection-start-column="41" selection-end-line="80" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/EvalBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1751">
+          <caret line="214" column="5" selection-start-line="214" selection-start-column="5" selection-end-line="214" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/LabelGroupBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="141" column="20" selection-start-line="141" selection-start-column="20" selection-end-line="141" selection-end-column="20" />
+          <folding>
+            <element signature="e#3400#3401#0" expanded="false" />
+            <element signature="e#3436#3437#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/evaluation/Evaluator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="15" column="96" selection-start-line="15" selection-start-column="96" selection-end-line="15" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CLabel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="867">
+          <caret line="81" column="50" selection-start-line="81" selection-start-column="50" selection-end-line="81" selection-end-column="50" />
+          <folding>
+            <element signature="method#getCompoundValue#0;class#CLabel#0" expanded="false" />
+            <element signature="method#isDescendant#0;class#CLabel#0" expanded="false" />
+            <element signature="method#setParent#0;class#CLabel#0" expanded="false" />
+            <element signature="method#trace#0;class#CLabel#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CEntry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/style/CFont.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#4058#0" expanded="false" />
+            <element signature="e#816#817#0" expanded="false" />
+            <element signature="e#848#849#0" expanded="false" />
+            <element signature="e#894#895#0" expanded="false" />
+            <element signature="e#926#927#0" expanded="false" />
+            <element signature="e#989#990#0" expanded="false" />
+            <element signature="e#1022#1023#0" expanded="false" />
+            <element signature="e#1070#1071#0" expanded="false" />
+            <element signature="e#1104#1105#0" expanded="false" />
+            <element signature="e#1220#1221#0" expanded="false" />
+            <element signature="e#1254#1255#0" expanded="false" />
+            <element signature="e#1362#1363#0" expanded="false" />
+            <element signature="e#1398#1399#0" expanded="false" />
+            <element signature="e#1498#1499#0" expanded="false" />
+            <element signature="e#1540#1541#0" expanded="false" />
+            <element signature="e#1605#1606#0" expanded="false" />
+            <element signature="e#1657#1658#0" expanded="false" />
+            <element signature="e#1909#1910#0" expanded="false" />
+            <element signature="e#1941#1942#0" expanded="false" />
+            <element signature="e#2039#2040#0" expanded="false" />
+            <element signature="e#2071#2072#0" expanded="false" />
+            <element signature="e#2137#2138#0" expanded="false" />
+            <element signature="e#2171#2172#0" expanded="false" />
+            <element signature="e#2222#2223#0" expanded="false" />
+            <element signature="e#2258#2259#0" expanded="false" />
+            <element signature="e#2330#2331#0" expanded="false" />
+            <element signature="e#2367#2368#0" expanded="false" />
+            <element signature="e#2424#2425#0" expanded="false" />
+            <element signature="e#2466#2467#0" expanded="false" />
+            <element signature="e#2539#2540#0" expanded="false" />
+            <element signature="e#2576#2577#0" expanded="false" />
+            <element signature="e#2633#2634#0" expanded="false" />
+            <element signature="e#2675#2676#0" expanded="false" />
+            <element signature="e#2810#2811#0" expanded="false" />
+            <element signature="e#2853#2854#0" expanded="false" />
+            <element signature="e#2995#2996#0" expanded="false" />
+            <element signature="e#3049#3050#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/model/CCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="48" column="17" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="17" />
+          <folding>
+            <element signature="e#1151#1152#0" expanded="true" />
+            <element signature="e#1179#1180#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="686">
+          <caret line="123" column="21" selection-start-line="123" selection-start-column="21" selection-end-line="123" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2193">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NOTICE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test_crl.dslr">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-612">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/DataLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#23218#0" expanded="true" />
+            <element signature="method#loadWorkbook#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#numOfSheets#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#goToSheet#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#nextTable#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#findPreviousPoint#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#findNextPoint#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#getFormatCellValue#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#findRefPoint#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#findEndPoint#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#extractCellFormulaValue#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#extractCellValue#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#getNotSuperscriptText#0;class#DataLoader#0" expanded="false" />
+            <element signature="method#getText#0;class#DataLoader#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/writers/EvaluationExcelWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usage.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="30" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/icc/cells/ssdc/TabbyXL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#23023#0" expanded="true" />
+            <element signature="method#parseInputExcelFileParam#0;class#TabbyXL#0" expanded="false" />
+            <element signature="method#parseSheetIndexesParam#0;class#TabbyXL#0" expanded="false" />
+            <element signature="method#parseDrlFileParam#0;class#TabbyXL#0" expanded="false" />
+            <element signature="method#parseCatDirectoryParam#0;class#TabbyXL#0" expanded="false" />
+            <element signature="method#parseOutputDirectoryParam#0;class#TabbyXL#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor>
+            <js_state />
+          </second_editor>
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="17">
+            <caret line="1" column="101" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="101" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor>
+            <show-content>
+              <type id="artifact" />
+              <type id="library" />
+            </show-content>
+          </artifact-editor>
+          <last-edited>ssdc:jar</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.36355227" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.36355227" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>drools-distribution-6.1.0.Final</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.36355227" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.36355227" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>TabbyXL</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.36355227" />
+                <option value="0.38989168" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: org.drools:drools-decisiontables:6.1.0.Final</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.36355227" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
