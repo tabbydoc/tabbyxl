@@ -54,7 +54,7 @@ public final class TabbyXL {
     private static boolean useShortNames;
 
     // TODO DSL initialisation from settings is needed
-    private static final String DSL = "crl2.dsl";
+    private static final String DSL = "/crl2.dsl";
 
     // Statistics
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
@@ -504,15 +504,14 @@ public final class TabbyXL {
         Resource resource = ResourceFactory.newFileResource(TabbyXL.drlFile.getAbsolutePath());
 
         if (useDSL) {
-            String dslPath = null;
+            InputStream in = null;
             try {
-                URL res = TabbyXL.class.getClassLoader().getResource(DSL);
-                dslPath = Paths.get(res.toURI()).toFile().getAbsolutePath();
+                in = TabbyXL.class.getResourceAsStream(DSL);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
             }
-            Resource dslResource = ResourceFactory.newFileResource(dslPath);
+            Resource dslResource = ResourceFactory.newInputStreamResource(in);
             kBuilder.add(dslResource, ResourceType.DSL);
             kBuilder.add(resource, ResourceType.DSLR);
         } else {

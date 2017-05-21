@@ -1,2 +1,17 @@
+# Compiled class file
 *.class
+
+# Log file
+*.log
+
+# Package Files #
 *.jar
+
+# Folders
+target/*
+out/*
+samples/results/*
+
+#OS junk files
+[Tt]humbs.db
+*.DS_Store

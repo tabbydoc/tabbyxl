@@ -1,7 +1,7 @@
 .PHONY: assembly-single single jar install build compile clean all run
 
 VERSION=0.1
-JAR=target/tabbyxl.jar
+JAR=target/TabbyXL-$(VERSION)-jar-with-dependencies.jar
 SRC=$(shell find src -name "*.java")
 
 all: assembly-single
@@ -29,4 +29,4 @@ clean:
 	rm -rf out/
 
 run: assembly-single
-	./tabbyxl.sh
+	./test.sh
