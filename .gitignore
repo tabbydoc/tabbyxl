@@ -8,9 +8,8 @@
 *.jar
 
 # Folders
-target/*
-target/classes/*
-out/*
+target
+out
 samples/results/*
 
 #OS junk files
