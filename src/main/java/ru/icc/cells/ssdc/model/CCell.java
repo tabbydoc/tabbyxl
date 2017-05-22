@@ -212,16 +212,16 @@ public final class CCell extends COwned implements Cloneable
     }
 
     // a data type from excel cell: числовой, текстовый, дата, денежный, формула
-    private CellType cellType;
+    private CellType type;
 
-    public CellType getCellType()
+    public CellType getType()
     {
-        return this.cellType;
+        return this.type;
     }
 
-    public void setCellType(CellType cellType)
+    public void setType(CellType type)
     {
-        this.cellType = cellType;
+        this.type = type;
     }
 
     private String mark;

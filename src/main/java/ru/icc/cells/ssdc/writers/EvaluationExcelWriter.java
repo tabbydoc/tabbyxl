@@ -177,10 +177,10 @@ public class EvaluationExcelWriter extends BasicExcelWriter
                 }
 
                 // Copying data type
-                copyCell.setCellType(sourceCell.getCellType());
+                copyCell.setType(sourceCell.getType());
 
                 // Copying value
-                switch (sourceCell.getCellType()) {
+                switch (sourceCell.getType()) {
                     case Cell.CELL_TYPE_BLANK:
                         copyCell.setCellValue(sourceCell.getStringCellValue());
                         break;

@@ -462,7 +462,7 @@ public final class DataLoader {
 
         cell.setId(this.cellCount);
 
-        cell.setCellType(cellType);
+        cell.setType(cellType);
 
         int height = excelCell.getRow().getHeight();
         cell.setHeight(height);

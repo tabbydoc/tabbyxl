@@ -161,7 +161,18 @@ public final class TabbyXL {
     private static Path parseOutputDirectoryParam(String outputDirectoryParam) {
         if (null != outputDirectoryParam) {
             try {
-                return Paths.get(outputDirectoryParam);
+                Path outputDirectory = Paths.get(outputDirectoryParam);
+
+                if (Files.notExists(outputDirectory)) {
+                    try {
+                        Files.createDirectory(outputDirectory);
+                    } catch (IOException e) {
+                        System.err.println("The output directory does not exist and cannot be created");
+                        e.printStackTrace();
+                        System.exit(1);
+                    }
+                }
+                return outputDirectory;
             } catch (InvalidPathException e) {
                 System.err.println("The output directory path is invalid");
                 e.printStackTrace();
