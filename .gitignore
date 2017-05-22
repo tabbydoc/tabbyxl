@@ -19,3 +19,4 @@ samples/results/*
 
 # IDEA project files
 *.iml
+.idea
