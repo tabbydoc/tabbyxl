@@ -18,5 +18,4 @@ samples/results/*
 *.DS_Store
 
 # IDEA project files
-.idea/*
 *.iml
