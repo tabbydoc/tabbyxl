@@ -9,9 +9,14 @@
 
 # Folders
 target/*
+target/classes/*
 out/*
 samples/results/*
 
 #OS junk files
 [Tt]humbs.db
 *.DS_Store
+
+# IDEA project files
+.idea/*
+*.iml
