@@ -63,5 +63,10 @@ Only two parameters are mandatory
 
 *We recommend you to use JRE 8 or more*
 
+## Authors
+
+* Alexey O. Shigarov
+* Andrey A. Mikhailov
+
 ## License
 Apache License, Version 2.0
