@@ -273,7 +273,7 @@ public final class TabbyXL {
         Option inputExcelFileOpt = OptionBuilder
                 .withArgName("input excel file path")
                 .hasArg()
-                .withDescription("an input excel workbook (*.xlsx file)")
+                .withDescription("path to an input excel workbook (*.xlsx file)")
                 //.isRequired()
                 .create("input");
 
@@ -286,20 +286,20 @@ public final class TabbyXL {
         Option drlFileOpt = OptionBuilder
                 .withArgName("ruleset path")
                 .hasArg()
-                .withDescription("a ruleset (*.drl or *.dslr file)")
+                .withDescription("path to a ruleset (*.drl or *.dslr file)")
                 //.isRequired()
                 .create("ruleset");
 
         Option catDirectoryOpt = OptionBuilder
                 .withArgName("category directory path")
                 .hasArg()
-                .withDescription("a directory with category specifications in YAML (*.cat files)")
+                .withDescription("path to a directory with category specifications in YAML (*.cat files)")
                 .create("categorySpec");
 
         Option outputDirectoryOpt = OptionBuilder
                 .withArgName("output directory path")
                 .hasArg()
-                .withDescription("a directory for outputting results")
+                .withDescription("path to a directory for outputting results")
                 .create("output");
 
         Option ignoreSuperscriptOpt = OptionBuilder
