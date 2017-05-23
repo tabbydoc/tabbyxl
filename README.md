@@ -40,7 +40,7 @@ Total rule firing time: 91
 then it works.
 
 ## Usage
-In order to run the executable JAR, you may use the following command with the parameters  
+In order to run the executable JAR, you may use the following command with parameters  
 ```
 java -jar target/TabbyXL-0.1-jar-with-dependencies.jar <params>
 
