@@ -1,5 +1,5 @@
 # TabbyXL
-A research system for rule-based transformation spreadsheet data from arbitrary to relational tables.
+A system for rule-based transformation spreadsheet data from arbitrary to relational tables.
 
 ## Building with Apache Maven
 
