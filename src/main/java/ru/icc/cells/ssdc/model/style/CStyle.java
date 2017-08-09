@@ -170,7 +170,7 @@ public class CStyle
         this.leftBorder = leftBorder;
     }
 
-    private CBorder rightBorder = new CBorder();;
+    private CBorder rightBorder = new CBorder();
 
     public CBorder getRightBorder()
     {
@@ -182,14 +182,14 @@ public class CStyle
         this.rightBorder = rightBorder;
     }
 
-    private CBorder topBorder = new CBorder();;
+    private CBorder topBorder = new CBorder();
 
     public CBorder getTopBorder()
     {
         return this.topBorder;
     }
 
-    private CBorder bottomBorder = new CBorder();;
+    private CBorder bottomBorder = new CBorder();
 
     public void setTopBorder( CBorder topBorder )
     {

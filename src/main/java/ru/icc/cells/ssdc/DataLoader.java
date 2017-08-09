@@ -472,6 +472,7 @@ public final class DataLoader {
 
         CellStyle excelCellStyle = excelCell.getCellStyle();
         CStyle cellStyle = cell.getStyle();
+        System.out.printf("cell = %s%n", cell.getText());
         fillCellStyle(cellStyle, excelCellStyle);
 
         String reference = new CellReference(excelCell).formatAsString();
@@ -522,8 +523,11 @@ public final class DataLoader {
         // Если Index цвета равен 64, то это значит, что ничего хорошего потом из такого цвета не получить,
         // это по сути тот же null для цвета
         if (null != bgColor && 64 != bgColor.getIndexed()) {
-            String bgColorHexRGB = bgColor.getARGBHex().substring(2);
-            cellStyle.setBgColor(new CColor(bgColorHexRGB));
+            String color = bgColor.getARGBHex();
+            if (null != color) {
+                color = color.substring(2);
+                cellStyle.setBgColor(new CColor(color));
+            }
         }
 
         // Этот цвет "Fill Background Color" задает цвет узора в тех случаях,
@@ -531,8 +535,11 @@ public final class DataLoader {
         XSSFColor fgColor = (XSSFColor) excelCellStyle.getFillForegroundColorColor();
 
         if (null != fgColor && 64 != fgColor.getIndexed()) {
-            String fgColorHexRGB = fgColor.getARGBHex().substring(2);
-            cellStyle.setFgColor(new CColor(fgColorHexRGB));
+            String color = fgColor.getARGBHex();
+            if (null != color) {
+                color = color.substring(2);
+                cellStyle.setFgColor(new CColor(color));
+            }
         }
 
         // TODO Заполнить цвета границ
