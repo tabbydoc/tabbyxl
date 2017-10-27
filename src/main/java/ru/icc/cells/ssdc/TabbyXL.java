@@ -16,29 +16,39 @@
 
 package ru.icc.cells.ssdc;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.file.*;
-import java.util.*;
-import java.util.regex.*;
-import java.sql.Timestamp;
-
-import org.apache.commons.io.FilenameUtils;
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
-
+import org.apache.commons.io.FilenameUtils;
 import org.kie.api.event.rule.DebugAgendaEventListener;
 import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
 import org.kie.internal.KnowledgeBase;
-
 import org.kie.internal.KnowledgeBaseFactory;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.definition.KnowledgePackage;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
+import ru.icc.cells.ssdc.interpreeter.AstModel.AstModel;
+import ru.icc.cells.ssdc.interpreeter.AstModelBuilder;
+import ru.icc.cells.ssdc.interpreeter.AstPrinter;
+import ru.icc.cells.ssdc.interpreeter.output.crl_gramLexer;
+import ru.icc.cells.ssdc.interpreeter.output.crl_gramParser;
 import ru.icc.cells.ssdc.model.*;
-import ru.icc.cells.ssdc.writers.*;
+import ru.icc.cells.ssdc.writers.EvaluationExcelWriter;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public final class TabbyXL {
     // Params
@@ -500,6 +510,7 @@ public final class TabbyXL {
             }
             // Checking and creating output data directory
             if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -508,6 +519,28 @@ public final class TabbyXL {
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
         }
+
+        try {
+            System.out.println("My interpreeter tries work");
+            ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
+            crl_gramLexer lexer = new crl_gramLexer(fileStream1);
+            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+            System.out.println("Token stream ok");
+            crl_gramParser pars = new crl_gramParser(tokenStream);
+            System.out.println("parser ok");
+            AstPrinter astPrinter = new AstPrinter();
+            System.out.println("printer ok");
+            CommonTree tree = pars.crl().getTree();
+            System.out.println("tree ok");
+            astPrinter.Print(tree);
+
+            AstModelBuilder astModelBuilder=new AstModelBuilder();
+            astModelBuilder.buildModel(tree);
+            AstModel astModel=astModelBuilder.getModel();
+            System.out.println(astModel.toString());
+
+        }catch (Exception e) { e.printStackTrace(); }
+
     }
 
     private static void loadRules() {
