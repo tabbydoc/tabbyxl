@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Condition {
 
-    private int id;
-    public int getId(){ return id; }
+    /*private int id;
+    public int getId(){ return id; }*/
 
     private String query;
     private String identifier;
@@ -19,10 +19,10 @@ public class Condition {
     public String getQuery() {return query; }
     public String getIdentifier() { return identifier; }
 
-    private List<String> constraints=new ArrayList<>();
+    private List<Constraint> constraints=new ArrayList<>();
     private List<Assignment> assignments=new ArrayList<>();
 
-    public void addConstraint(String constraint)
+    public void addConstraint(Constraint constraint)
     {
         constraints.add(constraint);
     }
@@ -38,8 +38,8 @@ public class Condition {
         StringBuilder result=new StringBuilder();
         result.append(query).append(" ").append(identifier).append(System.lineSeparator());
         result.append(String.format("constraints (%d): ",constraints.size()));
-        for(String constraint:constraints) {
-            result.append("[ ").append(constraint).append(" ] ");
+        for(Constraint constraint:constraints) {
+            result.append("[ ").append(constraint.toString()).append(" ] ");
         }
         result.append(System.lineSeparator());
         result.append(String.format("assignments (%d): ", assignments.size()));

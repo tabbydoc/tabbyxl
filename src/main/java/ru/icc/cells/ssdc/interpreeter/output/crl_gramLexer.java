@@ -1,12 +1,12 @@
-// $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2017-10-26 16:19:34
+// $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2017-11-07 14:49:57
+
 package ru.icc.cells.ssdc.interpreeter.output;
+
 import org.antlr.runtime.*;
 
 @SuppressWarnings("all")
 public class crl_gramLexer extends Lexer {
 	public static final int EOF=-1;
-	public static final int T__28=28;
-	public static final int T__29=29;
 	public static final int T__30=30;
 	public static final int T__31=31;
 	public static final int T__32=32;
@@ -39,10 +39,6 @@ public class crl_gramLexer extends Lexer {
 	public static final int T__59=59;
 	public static final int T__60=60;
 	public static final int T__61=61;
-	public static final int T__62=62;
-	public static final int T__63=63;
-	public static final int T__64=64;
-	public static final int T__65=65;
 	public static final int Action=4;
 	public static final int Actions=5;
 	public static final int Assignment=6;
@@ -53,20 +49,22 @@ public class crl_gramLexer extends Lexer {
 	public static final int Constraint=11;
 	public static final int DIGIT=12;
 	public static final int EOL=13;
-	public static final int Identifier=14;
-	public static final int Import_item=15;
-	public static final int J_Expression=16;
-	public static final int J_expr=17;
-	public static final int J_int_literal=18;
-	public static final int Java_string_expr=19;
-	public static final int LETTER=20;
-	public static final int Other_literals=21;
-	public static final int RULES=22;
-	public static final int SETTING=23;
-	public static final int Set_mark=24;
-	public static final int Set_text=25;
-	public static final int String_lit=26;
-	public static final int WS=27;
+	public static final int IDENT=14;
+	public static final int Identifier=15;
+	public static final int Import_item=16;
+	public static final int J_Expression=17;
+	public static final int J_expr=18;
+	public static final int J_int_literal=19;
+	public static final int Java_string_expr=20;
+	public static final int LETTER=21;
+	public static final int New_label=22;
+	public static final int Other_literals=23;
+	public static final int RULES=24;
+	public static final int SETTING=25;
+	public static final int Set_mark=26;
+	public static final int Set_text=27;
+	public static final int String_lit=28;
+	public static final int WS=29;
 
 	// delegates
 	// delegators
@@ -83,55 +81,15 @@ public class crl_gramLexer extends Lexer {
 	}
 	@Override public String getGrammarFileName() { return "C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g"; }
 
-	// $ANTLR start "T__28"
-	public final void mT__28() throws RecognitionException {
-		try {
-			int _type = T__28;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:8:7: ( '\"' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:8:9: '\"'
-			{
-			match('\"'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__28"
-
-	// $ANTLR start "T__29"
-	public final void mT__29() throws RecognitionException {
-		try {
-			int _type = T__29;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:9:7: ( ',' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:9:9: ','
-			{
-			match(','); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__29"
-
 	// $ANTLR start "T__30"
 	public final void mT__30() throws RecognitionException {
 		try {
 			int _type = T__30;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:10:7: ( ':' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:10:9: ':'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:8:7: ( '\"' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:8:9: '\"'
 			{
-			match(':'); 
+			match('\"'); 
 			}
 
 			state.type = _type;
@@ -148,10 +106,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__31;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:11:7: ( ';' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:11:9: ';'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:9:7: ( '*' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:9:9: '*'
 			{
-			match(';'); 
+			match('*'); 
 			}
 
 			state.type = _type;
@@ -168,11 +126,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__32;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:12:7: ( 'add label' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:12:9: 'add label'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:10:7: ( ',' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:10:9: ','
 			{
-			match("add label"); 
-
+			match(','); 
 			}
 
 			state.type = _type;
@@ -189,11 +146,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__33;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:13:7: ( 'as' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:13:9: 'as'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:11:7: ( '.' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:11:9: '.'
 			{
-			match("as"); 
-
+			match('.'); 
 			}
 
 			state.type = _type;
@@ -210,11 +166,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__34;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:14:7: ( 'category' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:14:9: 'category'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:12:7: ( ':' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:12:9: ':'
 			{
-			match("category"); 
-
+			match(':'); 
 			}
 
 			state.type = _type;
@@ -231,11 +186,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__35;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:15:7: ( 'cell' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:15:9: 'cell'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:13:7: ( ';' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:13:9: ';'
 			{
-			match("cell"); 
-
+			match(';'); 
 			}
 
 			state.type = _type;
@@ -252,10 +206,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__36;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:16:7: ( 'end' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:16:9: 'end'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:14:7: ( 'add label' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:14:9: 'add label'
 			{
-			match("end"); 
+			match("add label"); 
 
 			}
 
@@ -273,10 +227,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__37;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:17:7: ( 'entry' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:17:9: 'entry'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:15:7: ( 'as' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:15:9: 'as'
 			{
-			match("entry"); 
+			match("as"); 
 
 			}
 
@@ -294,10 +248,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__38;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:18:7: ( 'group' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:18:9: 'group'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:16:7: ( 'end' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:16:9: 'end'
 			{
-			match("group"); 
+			match("end"); 
 
 			}
 
@@ -315,10 +269,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__39;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:19:7: ( 'import' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:19:9: 'import'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:17:7: ( 'group' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:17:9: 'group'
 			{
-			match("import"); 
+			match("group"); 
 
 			}
 
@@ -336,10 +290,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__40;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:20:7: ( 'label' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:20:9: 'label'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:18:7: ( 'import' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:18:9: 'import'
 			{
-			match("label"); 
+			match("import"); 
 
 			}
 
@@ -357,8 +311,8 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__41;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:21:7: ( 'lock-on-active' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:21:9: 'lock-on-active'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:19:7: ( 'lock-on-active' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:19:9: 'lock-on-active'
 			{
 			match("lock-on-active"); 
 
@@ -378,8 +332,8 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__42;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:22:7: ( 'merge' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:22:9: 'merge'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:20:7: ( 'merge' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:20:9: 'merge'
 			{
 			match("merge"); 
 
@@ -399,8 +353,8 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__43;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:23:7: ( 'new entry' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:23:9: 'new entry'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:21:7: ( 'new entry' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:21:9: 'new entry'
 			{
 			match("new entry"); 
 
@@ -420,8 +374,8 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__44;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:24:7: ( 'new label' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:24:9: 'new label'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:22:7: ( 'new label' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:22:9: 'new label'
 			{
 			match("new label"); 
 
@@ -441,10 +395,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__45;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:25:7: ( 'no categories' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:25:9: 'no categories'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:23:7: ( 'of' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:23:9: 'of'
 			{
-			match("no categories"); 
+			match("of"); 
 
 			}
 
@@ -462,10 +416,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__46;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:26:7: ( 'no cells' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:26:9: 'no cells'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:24:7: ( 'package' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:24:9: 'package'
 			{
-			match("no cells"); 
+			match("package"); 
 
 			}
 
@@ -483,10 +437,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__47;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:27:7: ( 'no entries' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:27:9: 'no entries'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:25:7: ( 'print' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:25:9: 'print'
 			{
-			match("no entries"); 
+			match("print"); 
 
 			}
 
@@ -504,10 +458,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__48;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:28:7: ( 'no labels' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:28:9: 'no labels'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:26:7: ( 'printf' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:26:9: 'printf'
 			{
-			match("no labels"); 
+			match("printf"); 
 
 			}
 
@@ -525,10 +479,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__49;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:29:7: ( 'of' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:29:9: 'of'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:27:7: ( 'rule #' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:27:9: 'rule #'
 			{
-			match("of"); 
+			match("rule #"); 
 
 			}
 
@@ -546,10 +500,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__50;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:30:7: ( 'package' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:30:9: 'package'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:28:7: ( 'set category' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:28:9: 'set category'
 			{
-			match("package"); 
+			match("set category"); 
 
 			}
 
@@ -567,10 +521,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__51;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:31:7: ( 'print' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:31:9: 'print'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:29:7: ( 'set indent' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:29:9: 'set indent'
 			{
-			match("print"); 
+			match("set indent"); 
 
 			}
 
@@ -588,10 +542,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__52;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:32:7: ( 'printf' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:32:9: 'printf'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:30:7: ( 'set mark' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:30:9: 'set mark'
 			{
-			match("printf"); 
+			match("set mark"); 
 
 			}
 
@@ -609,10 +563,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__53;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:33:7: ( 'rule #' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:33:9: 'rule #'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:31:7: ( 'set parent' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:31:9: 'set parent'
 			{
-			match("rule #"); 
+			match("set parent"); 
 
 			}
 
@@ -630,10 +584,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__54;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:34:7: ( 'set category' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:34:9: 'set category'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:32:7: ( 'set text' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:32:9: 'set text'
 			{
-			match("set category"); 
+			match("set text"); 
 
 			}
 
@@ -651,10 +605,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__55;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:35:7: ( 'set indent' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:35:9: 'set indent'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:33:7: ( 'set value' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:33:9: 'set value'
 			{
-			match("set indent"); 
+			match("set value"); 
 
 			}
 
@@ -672,10 +626,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__56;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:36:7: ( 'set mark' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:36:9: 'set mark'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:34:7: ( 'split' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:34:9: 'split'
 			{
-			match("set mark"); 
+			match("split"); 
 
 			}
 
@@ -693,10 +647,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__57;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:37:7: ( 'set parent' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:37:9: 'set parent'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:35:7: ( 'then' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:35:9: 'then'
 			{
-			match("set parent"); 
+			match("then"); 
 
 			}
 
@@ -714,10 +668,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__58;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:38:7: ( 'set text' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:38:9: 'set text'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:36:7: ( 'to' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:36:9: 'to'
 			{
-			match("set text"); 
+			match("to"); 
 
 			}
 
@@ -735,10 +689,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__59;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:39:7: ( 'set value' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:39:9: 'set value'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:37:7: ( 'update' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:37:9: 'update'
 			{
-			match("set value"); 
+			match("update"); 
 
 			}
 
@@ -756,10 +710,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__60;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:40:7: ( 'split' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:40:9: 'split'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:38:7: ( 'when' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:38:9: 'when'
 			{
-			match("split"); 
+			match("when"); 
 
 			}
 
@@ -777,92 +731,8 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = T__61;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:41:7: ( 'then' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:41:9: 'then'
-			{
-			match("then"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__61"
-
-	// $ANTLR start "T__62"
-	public final void mT__62() throws RecognitionException {
-		try {
-			int _type = T__62;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:42:7: ( 'to' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:42:9: 'to'
-			{
-			match("to"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__62"
-
-	// $ANTLR start "T__63"
-	public final void mT__63() throws RecognitionException {
-		try {
-			int _type = T__63;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:43:7: ( 'update' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:43:9: 'update'
-			{
-			match("update"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__63"
-
-	// $ANTLR start "T__64"
-	public final void mT__64() throws RecognitionException {
-		try {
-			int _type = T__64;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:44:7: ( 'when' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:44:9: 'when'
-			{
-			match("when"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__64"
-
-	// $ANTLR start "T__65"
-	public final void mT__65() throws RecognitionException {
-		try {
-			int _type = T__65;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:45:7: ( 'with' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:45:9: 'with'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:39:7: ( 'with' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:39:9: 'with'
 			{
 			match("with"); 
 
@@ -875,17 +745,17 @@ public class crl_gramLexer extends Lexer {
 			// do for sure before leaving
 		}
 	}
-	// $ANTLR end "T__65"
+	// $ANTLR end "T__61"
 
 	// $ANTLR start "WS"
 	public final void mWS() throws RecognitionException {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:149:2: ( ( ' ' )+ )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:149:5: ( ' ' )+
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:172:2: ( ( ' ' )+ )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:172:5: ( ' ' )+
 			{
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:149:5: ( ' ' )+
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:172:5: ( ' ' )+
 			int cnt1=0;
 			loop1:
 			while (true) {
@@ -897,7 +767,7 @@ public class crl_gramLexer extends Lexer {
 
 				switch (alt1) {
 				case 1 :
-					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:149:6: ' '
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:172:6: ' '
 					{
 					match(' '); 
 					}
@@ -928,10 +798,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = EOL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:153:2: ( ( '\\n' | '\\r' )+ )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:153:4: ( '\\n' | '\\r' )+
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:176:2: ( ( '\\n' | '\\r' )+ )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:176:4: ( '\\n' | '\\r' )+
 			{
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:153:4: ( '\\n' | '\\r' )+
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:176:4: ( '\\n' | '\\r' )+
 			int cnt2=0;
 			loop2:
 			while (true) {
@@ -980,10 +850,10 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = J_int_literal;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:156:2: ( ( DIGIT )+ )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:156:4: ( DIGIT )+
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:179:2: ( ( DIGIT )+ )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:179:4: ( DIGIT )+
 			{
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:156:4: ( DIGIT )+
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:179:4: ( DIGIT )+
 			int cnt3=0;
 			loop3:
 			while (true) {
@@ -1032,19 +902,143 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = Other_literals;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:159:2: ( '=' | '!' | '?' | '|' | '>' | '<' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
-			{
-			if ( input.LA(1)=='!'||(input.LA(1) >= '<' && input.LA(1) <= '?')||input.LA(1)=='|' ) {
-				input.consume();
-			}
-			else {
-				MismatchedSetException mse = new MismatchedSetException(null,input);
-				recover(mse);
-				throw mse;
-			}
-			}
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:2: ( '=' | '!' | '?' | '|' | '>' | '<' | '==' | '>=' | '<=' | '!=' )
+			int alt4=10;
+			switch ( input.LA(1) ) {
+			case '=':
+				{
+				int LA4_1 = input.LA(2);
+				if ( (LA4_1=='=') ) {
+					alt4=7;
+				}
 
+				else {
+					alt4=1;
+				}
+
+				}
+				break;
+			case '!':
+				{
+				int LA4_2 = input.LA(2);
+				if ( (LA4_2=='=') ) {
+					alt4=10;
+				}
+
+				else {
+					alt4=2;
+				}
+
+				}
+				break;
+			case '?':
+				{
+				alt4=3;
+				}
+				break;
+			case '|':
+				{
+				alt4=4;
+				}
+				break;
+			case '>':
+				{
+				int LA4_5 = input.LA(2);
+				if ( (LA4_5=='=') ) {
+					alt4=8;
+				}
+
+				else {
+					alt4=5;
+				}
+
+				}
+				break;
+			case '<':
+				{
+				int LA4_6 = input.LA(2);
+				if ( (LA4_6=='=') ) {
+					alt4=9;
+				}
+
+				else {
+					alt4=6;
+				}
+
+				}
+				break;
+			default:
+				NoViableAltException nvae =
+					new NoViableAltException("", 4, 0, input);
+				throw nvae;
+			}
+			switch (alt4) {
+				case 1 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:4: '='
+					{
+					match('='); 
+					}
+					break;
+				case 2 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:8: '!'
+					{
+					match('!'); 
+					}
+					break;
+				case 3 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:12: '?'
+					{
+					match('?'); 
+					}
+					break;
+				case 4 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:16: '|'
+					{
+					match('|'); 
+					}
+					break;
+				case 5 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:20: '>'
+					{
+					match('>'); 
+					}
+					break;
+				case 6 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:24: '<'
+					{
+					match('<'); 
+					}
+					break;
+				case 7 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:28: '=='
+					{
+					match("=="); 
+
+					}
+					break;
+				case 8 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:33: '>='
+					{
+					match(">="); 
+
+					}
+					break;
+				case 9 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:38: '<='
+					{
+					match("<="); 
+
+					}
+					break;
+				case 10 :
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:182:43: '!='
+					{
+					match("!="); 
+
+					}
+					break;
+
+			}
 			state.type = _type;
 			state.channel = _channel;
 		}
@@ -1059,8 +1053,8 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = Identifier;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:162:2: ( ( '$' | '_' | LETTER ) ( '$' | '_' | LETTER | DIGIT | '.' | '*' )* )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:162:4: ( '$' | '_' | LETTER ) ( '$' | '_' | LETTER | DIGIT | '.' | '*' )*
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:185:2: ( ( '$' | '_' | LETTER ) ( '$' | '_' | LETTER | DIGIT )* )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:185:4: ( '$' | '_' | LETTER ) ( '$' | '_' | LETTER | DIGIT )*
 			{
 			if ( input.LA(1)=='$'||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 				input.consume();
@@ -1070,20 +1064,20 @@ public class crl_gramLexer extends Lexer {
 				recover(mse);
 				throw mse;
 			}
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:162:20: ( '$' | '_' | LETTER | DIGIT | '.' | '*' )*
-			loop4:
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:185:20: ( '$' | '_' | LETTER | DIGIT )*
+			loop5:
 			while (true) {
-				int alt4=2;
-				int LA4_0 = input.LA(1);
-				if ( (LA4_0=='$'||LA4_0=='*'||LA4_0=='.'||(LA4_0 >= '0' && LA4_0 <= '9')||(LA4_0 >= 'A' && LA4_0 <= 'Z')||LA4_0=='_'||(LA4_0 >= 'a' && LA4_0 <= 'z')) ) {
-					alt4=1;
+				int alt5=2;
+				int LA5_0 = input.LA(1);
+				if ( (LA5_0=='$'||(LA5_0 >= '0' && LA5_0 <= '9')||(LA5_0 >= 'A' && LA5_0 <= 'Z')||LA5_0=='_'||(LA5_0 >= 'a' && LA5_0 <= 'z')) ) {
+					alt5=1;
 				}
 
-				switch (alt4) {
+				switch (alt5) {
 				case 1 :
 					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
 					{
-					if ( input.LA(1)=='$'||input.LA(1)=='*'||input.LA(1)=='.'||(input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
+					if ( input.LA(1)=='$'||(input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
 					}
 					else {
@@ -1095,7 +1089,7 @@ public class crl_gramLexer extends Lexer {
 					break;
 
 				default :
-					break loop4;
+					break loop5;
 				}
 			}
 
@@ -1115,32 +1109,32 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = String_lit;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:165:2: ( '\"' ( . )* '\"' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:165:4: '\"' ( . )* '\"'
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:188:2: ( '\"' ( . )* '\"' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:188:4: '\"' ( . )* '\"'
 			{
 			match('\"'); 
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:165:8: ( . )*
-			loop5:
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:188:8: ( . )*
+			loop6:
 			while (true) {
-				int alt5=2;
-				int LA5_0 = input.LA(1);
-				if ( (LA5_0=='\"') ) {
-					alt5=2;
+				int alt6=2;
+				int LA6_0 = input.LA(1);
+				if ( (LA6_0=='\"') ) {
+					alt6=2;
 				}
-				else if ( ((LA5_0 >= '\u0000' && LA5_0 <= '!')||(LA5_0 >= '#' && LA5_0 <= '\uFFFF')) ) {
-					alt5=1;
+				else if ( ((LA6_0 >= '\u0000' && LA6_0 <= '!')||(LA6_0 >= '#' && LA6_0 <= '\uFFFF')) ) {
+					alt6=1;
 				}
 
-				switch (alt5) {
+				switch (alt6) {
 				case 1 :
-					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:165:9: .
+					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:188:9: .
 					{
 					matchAny(); 
 					}
 					break;
 
 				default :
-					break loop5;
+					break loop6;
 				}
 			}
 
@@ -1161,12 +1155,12 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = Char_lit;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:169:2: ( '\\'' ( . ) '\\'' )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:169:4: '\\'' ( . ) '\\''
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:192:2: ( '\\'' ( . ) '\\'' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:192:4: '\\'' ( . ) '\\''
 			{
 			match('\''); 
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:169:9: ( . )
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:169:10: .
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:192:9: ( . )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:192:10: .
 			{
 			matchAny(); 
 			}
@@ -1188,7 +1182,7 @@ public class crl_gramLexer extends Lexer {
 		try {
 			int _type = Breackits;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:172:2: ( '(' | ')' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:195:2: ( '(' | ')' )
 			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
 			{
 			if ( (input.LA(1) >= '(' && input.LA(1) <= ')') ) {
@@ -1213,7 +1207,7 @@ public class crl_gramLexer extends Lexer {
 	// $ANTLR start "DIGIT"
 	public final void mDIGIT() throws RecognitionException {
 		try {
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:178:2: ( '0' .. '9' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:201:2: ( '0' .. '9' )
 			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
 			{
 			if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
@@ -1236,7 +1230,7 @@ public class crl_gramLexer extends Lexer {
 	// $ANTLR start "LETTER"
 	public final void mLETTER() throws RecognitionException {
 		try {
-			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:181:2: ( 'A' .. 'Z' | 'a' .. 'z' )
+			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:204:2: ( 'A' .. 'Z' | 'a' .. 'z' )
 			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
 			{
 			if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
@@ -1258,327 +1252,285 @@ public class crl_gramLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:8: ( T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | WS | EOL | J_int_literal | Other_literals | Identifier | String_lit | Char_lit | Breackits )
-		int alt6=46;
-		alt6 = dfa6.predict(input);
-		switch (alt6) {
+		// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:8: ( T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | WS | EOL | J_int_literal | Other_literals | Identifier | String_lit | Char_lit | Breackits )
+		int alt7=40;
+		alt7 = dfa7.predict(input);
+		switch (alt7) {
 			case 1 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:10: T__28
-				{
-				mT__28(); 
-
-				}
-				break;
-			case 2 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:16: T__29
-				{
-				mT__29(); 
-
-				}
-				break;
-			case 3 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:22: T__30
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:10: T__30
 				{
 				mT__30(); 
 
 				}
 				break;
-			case 4 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:28: T__31
+			case 2 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:16: T__31
 				{
 				mT__31(); 
 
 				}
 				break;
-			case 5 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:34: T__32
+			case 3 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:22: T__32
 				{
 				mT__32(); 
 
 				}
 				break;
-			case 6 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:40: T__33
+			case 4 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:28: T__33
 				{
 				mT__33(); 
 
 				}
 				break;
-			case 7 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:46: T__34
+			case 5 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:34: T__34
 				{
 				mT__34(); 
 
 				}
 				break;
-			case 8 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:52: T__35
+			case 6 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:40: T__35
 				{
 				mT__35(); 
 
 				}
 				break;
-			case 9 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:58: T__36
+			case 7 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:46: T__36
 				{
 				mT__36(); 
 
 				}
 				break;
-			case 10 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:64: T__37
+			case 8 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:52: T__37
 				{
 				mT__37(); 
 
 				}
 				break;
-			case 11 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:70: T__38
+			case 9 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:58: T__38
 				{
 				mT__38(); 
 
 				}
 				break;
-			case 12 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:76: T__39
+			case 10 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:64: T__39
 				{
 				mT__39(); 
 
 				}
 				break;
-			case 13 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:82: T__40
+			case 11 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:70: T__40
 				{
 				mT__40(); 
 
 				}
 				break;
-			case 14 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:88: T__41
+			case 12 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:76: T__41
 				{
 				mT__41(); 
 
 				}
 				break;
-			case 15 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:94: T__42
+			case 13 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:82: T__42
 				{
 				mT__42(); 
 
 				}
 				break;
-			case 16 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:100: T__43
+			case 14 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:88: T__43
 				{
 				mT__43(); 
 
 				}
 				break;
-			case 17 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:106: T__44
+			case 15 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:94: T__44
 				{
 				mT__44(); 
 
 				}
 				break;
-			case 18 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:112: T__45
+			case 16 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:100: T__45
 				{
 				mT__45(); 
 
 				}
 				break;
-			case 19 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:118: T__46
+			case 17 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:106: T__46
 				{
 				mT__46(); 
 
 				}
 				break;
-			case 20 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:124: T__47
+			case 18 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:112: T__47
 				{
 				mT__47(); 
 
 				}
 				break;
-			case 21 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:130: T__48
+			case 19 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:118: T__48
 				{
 				mT__48(); 
 
 				}
 				break;
-			case 22 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:136: T__49
+			case 20 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:124: T__49
 				{
 				mT__49(); 
 
 				}
 				break;
-			case 23 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:142: T__50
+			case 21 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:130: T__50
 				{
 				mT__50(); 
 
 				}
 				break;
-			case 24 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:148: T__51
+			case 22 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:136: T__51
 				{
 				mT__51(); 
 
 				}
 				break;
-			case 25 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:154: T__52
+			case 23 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:142: T__52
 				{
 				mT__52(); 
 
 				}
 				break;
-			case 26 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:160: T__53
+			case 24 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:148: T__53
 				{
 				mT__53(); 
 
 				}
 				break;
-			case 27 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:166: T__54
+			case 25 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:154: T__54
 				{
 				mT__54(); 
 
 				}
 				break;
-			case 28 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:172: T__55
+			case 26 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:160: T__55
 				{
 				mT__55(); 
 
 				}
 				break;
-			case 29 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:178: T__56
+			case 27 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:166: T__56
 				{
 				mT__56(); 
 
 				}
 				break;
-			case 30 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:184: T__57
+			case 28 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:172: T__57
 				{
 				mT__57(); 
 
 				}
 				break;
-			case 31 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:190: T__58
+			case 29 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:178: T__58
 				{
 				mT__58(); 
 
 				}
 				break;
-			case 32 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:196: T__59
+			case 30 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:184: T__59
 				{
 				mT__59(); 
 
 				}
 				break;
-			case 33 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:202: T__60
+			case 31 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:190: T__60
 				{
 				mT__60(); 
 
 				}
 				break;
-			case 34 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:208: T__61
+			case 32 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:196: T__61
 				{
 				mT__61(); 
 
 				}
 				break;
-			case 35 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:214: T__62
-				{
-				mT__62(); 
-
-				}
-				break;
-			case 36 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:220: T__63
-				{
-				mT__63(); 
-
-				}
-				break;
-			case 37 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:226: T__64
-				{
-				mT__64(); 
-
-				}
-				break;
-			case 38 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:232: T__65
-				{
-				mT__65(); 
-
-				}
-				break;
-			case 39 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:238: WS
+			case 33 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:202: WS
 				{
 				mWS(); 
 
 				}
 				break;
-			case 40 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:241: EOL
+			case 34 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:205: EOL
 				{
 				mEOL(); 
 
 				}
 				break;
-			case 41 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:245: J_int_literal
+			case 35 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:209: J_int_literal
 				{
 				mJ_int_literal(); 
 
 				}
 				break;
-			case 42 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:259: Other_literals
+			case 36 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:223: Other_literals
 				{
 				mOther_literals(); 
 
 				}
 				break;
-			case 43 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:274: Identifier
+			case 37 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:238: Identifier
 				{
 				mIdentifier(); 
 
 				}
 				break;
-			case 44 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:285: String_lit
+			case 38 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:249: String_lit
 				{
 				mString_lit(); 
 
 				}
 				break;
-			case 45 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:296: Char_lit
+			case 39 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:260: Char_lit
 				{
 				mChar_lit(); 
 
 				}
 				break;
-			case 46 :
-				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:305: Breackits
+			case 40 :
+				// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:1:269: Breackits
 				{
 				mBreackits(); 
 
@@ -1589,250 +1541,199 @@ public class crl_gramLexer extends Lexer {
 	}
 
 
-	protected DFA6 dfa6 = new DFA6(this);
-	static final String DFA6_eotS =
-		"\1\uffff\1\33\3\uffff\17\30\11\uffff\1\30\1\65\12\30\1\101\6\30\1\110"+
-		"\4\30\1\uffff\2\30\1\117\7\30\2\uffff\6\30\1\uffff\3\30\1\uffff\1\30\1"+
-		"\144\1\uffff\6\30\4\uffff\3\30\1\uffff\1\30\1\171\1\30\1\173\1\174\1\30"+
-		"\1\uffff\1\176\1\177\1\30\1\u0081\1\uffff\1\u0082\4\uffff\1\30\1\u0085"+
-		"\7\uffff\1\u0086\1\uffff\1\30\2\uffff\1\30\2\uffff\1\u0089\2\uffff\1\30"+
-		"\1\u008b\2\uffff\1\u008c\1\30\1\uffff\1\u008e\2\uffff\1\u008f\2\uffff";
-	static final String DFA6_eofS =
-		"\u0090\uffff";
-	static final String DFA6_minS =
-		"\1\12\1\0\3\uffff\1\144\1\141\1\156\1\162\1\155\1\141\2\145\1\146\1\141"+
-		"\1\165\1\145\1\150\1\160\1\150\11\uffff\1\144\1\44\1\164\1\154\1\144\1"+
-		"\157\1\160\1\142\1\143\1\162\1\167\1\40\1\44\1\143\1\151\1\154\1\164\1"+
-		"\154\1\145\1\44\1\144\1\145\1\164\1\40\1\uffff\1\145\1\154\1\44\1\162"+
-		"\1\165\1\157\1\145\1\153\1\147\1\40\1\143\1\uffff\1\153\1\156\1\145\1"+
-		"\40\1\151\1\156\1\uffff\1\141\1\156\1\150\1\uffff\1\147\1\44\1\uffff\1"+
-		"\171\1\160\1\162\1\154\1\55\2\145\1\141\2\uffff\1\141\1\164\1\40\1\143"+
-		"\1\164\1\44\1\164\2\44\1\157\1\uffff\2\44\1\164\1\44\1\uffff\1\44\4\uffff"+
-		"\1\147\1\44\7\uffff\1\44\1\uffff\1\145\2\uffff\1\162\2\uffff\1\44\2\uffff"+
-		"\1\145\1\44\2\uffff\1\44\1\171\1\uffff\1\44\2\uffff\1\44\2\uffff";
-	static final String DFA6_maxS =
-		"\1\174\1\uffff\3\uffff\1\163\1\145\1\156\1\162\1\155\1\157\1\145\1\157"+
-		"\1\146\1\162\1\165\1\160\1\157\1\160\1\151\11\uffff\1\144\1\172\1\164"+
-		"\1\154\1\164\1\157\1\160\1\142\1\143\1\162\1\167\1\40\1\172\1\143\1\151"+
-		"\1\154\1\164\1\154\1\145\1\172\1\144\1\145\1\164\1\40\1\uffff\1\145\1"+
-		"\154\1\172\1\162\1\165\1\157\1\145\1\153\1\147\1\40\1\154\1\uffff\1\153"+
-		"\1\156\1\145\1\40\1\151\1\156\1\uffff\1\141\1\156\1\150\1\uffff\1\147"+
-		"\1\172\1\uffff\1\171\1\160\1\162\1\154\1\55\1\145\1\154\1\145\2\uffff"+
-		"\1\141\1\164\1\40\1\166\1\164\1\172\1\164\2\172\1\157\1\uffff\2\172\1"+
-		"\164\1\172\1\uffff\1\172\4\uffff\1\147\1\172\7\uffff\1\172\1\uffff\1\145"+
-		"\2\uffff\1\162\2\uffff\1\172\2\uffff\1\145\1\172\2\uffff\1\172\1\171\1"+
-		"\uffff\1\172\2\uffff\1\172\2\uffff";
-	static final String DFA6_acceptS =
-		"\2\uffff\1\2\1\3\1\4\17\uffff\1\47\1\50\1\51\1\52\1\53\1\55\1\56\1\1\1"+
-		"\54\30\uffff\1\6\13\uffff\1\26\6\uffff\1\43\3\uffff\1\5\2\uffff\1\11\10"+
-		"\uffff\1\24\1\25\12\uffff\1\10\4\uffff\1\16\1\uffff\1\20\1\21\1\22\1\23"+
-		"\2\uffff\1\32\1\33\1\34\1\35\1\36\1\37\1\40\1\uffff\1\42\1\uffff\1\45"+
-		"\1\46\1\uffff\1\12\1\13\1\uffff\1\15\1\17\2\uffff\1\30\1\41\2\uffff\1"+
-		"\14\1\uffff\1\31\1\44\1\uffff\1\27\1\7";
-	static final String DFA6_specialS =
-		"\1\uffff\1\0\u008e\uffff}>";
-	static final String[] DFA6_transitionS = {
-			"\1\25\2\uffff\1\25\22\uffff\1\24\1\27\1\1\1\uffff\1\30\2\uffff\1\31\2"+
-			"\32\2\uffff\1\2\3\uffff\12\26\1\3\1\4\4\27\1\uffff\32\30\4\uffff\1\30"+
-			"\1\uffff\1\5\1\30\1\6\1\30\1\7\1\30\1\10\1\30\1\11\2\30\1\12\1\13\1\14"+
-			"\1\15\1\16\1\30\1\17\1\20\1\21\1\22\1\30\1\23\3\30\1\uffff\1\27",
-			"\0\34",
+	protected DFA7 dfa7 = new DFA7(this);
+	static final String DFA7_eotS =
+		"\1\uffff\1\34\5\uffff\16\31\11\uffff\1\31\1\62\6\31\1\71\6\31\1\100\4"+
+		"\31\1\uffff\1\105\5\31\1\uffff\6\31\1\uffff\3\31\2\uffff\4\31\1\uffff"+
+		"\3\31\1\uffff\1\31\1\144\1\31\1\146\1\147\1\150\1\31\1\uffff\1\152\2\uffff"+
+		"\1\31\1\155\7\uffff\1\156\1\uffff\1\31\3\uffff\1\160\1\uffff\1\31\1\162"+
+		"\2\uffff\1\163\1\uffff\1\164\3\uffff";
+	static final String DFA7_eofS =
+		"\165\uffff";
+	static final String DFA7_minS =
+		"\1\12\1\0\5\uffff\1\144\1\156\1\162\1\155\1\157\2\145\1\146\1\141\1\165"+
+		"\1\145\1\150\1\160\1\150\11\uffff\1\144\1\44\1\144\1\157\1\160\1\143\1"+
+		"\162\1\167\1\44\1\143\1\151\1\154\1\164\1\154\1\145\1\44\1\144\1\145\1"+
+		"\164\1\40\1\uffff\1\44\1\165\1\157\1\153\1\147\1\40\1\uffff\1\153\1\156"+
+		"\1\145\1\40\1\151\1\156\1\uffff\1\141\1\156\1\150\2\uffff\1\160\1\162"+
+		"\1\55\2\145\1\141\1\164\1\40\1\143\1\164\1\44\1\164\3\44\1\164\1\uffff"+
+		"\1\44\2\uffff\1\147\1\44\7\uffff\1\44\1\uffff\1\145\3\uffff\1\44\1\uffff"+
+		"\1\145\1\44\2\uffff\1\44\1\uffff\1\44\3\uffff";
+	static final String DFA7_maxS =
+		"\1\174\1\uffff\5\uffff\1\163\1\156\1\162\1\155\1\157\2\145\1\146\1\162"+
+		"\1\165\1\160\1\157\1\160\1\151\11\uffff\1\144\1\172\1\144\1\157\1\160"+
+		"\1\143\1\162\1\167\1\172\1\143\1\151\1\154\1\164\1\154\1\145\1\172\1\144"+
+		"\1\145\1\164\1\40\1\uffff\1\172\1\165\1\157\1\153\1\147\1\40\1\uffff\1"+
+		"\153\1\156\1\145\1\40\1\151\1\156\1\uffff\1\141\1\156\1\150\2\uffff\1"+
+		"\160\1\162\1\55\1\145\1\154\1\141\1\164\1\40\1\166\1\164\1\172\1\164\3"+
+		"\172\1\164\1\uffff\1\172\2\uffff\1\147\1\172\7\uffff\1\172\1\uffff\1\145"+
+		"\3\uffff\1\172\1\uffff\1\145\1\172\2\uffff\1\172\1\uffff\1\172\3\uffff";
+	static final String DFA7_acceptS =
+		"\2\uffff\1\2\1\3\1\4\1\5\1\6\16\uffff\1\41\1\42\1\43\1\44\1\45\1\47\1"+
+		"\50\1\1\1\46\24\uffff\1\10\6\uffff\1\20\6\uffff\1\35\3\uffff\1\7\1\11"+
+		"\20\uffff\1\14\1\uffff\1\16\1\17\2\uffff\1\24\1\25\1\26\1\27\1\30\1\31"+
+		"\1\32\1\uffff\1\34\1\uffff\1\37\1\40\1\12\1\uffff\1\15\2\uffff\1\22\1"+
+		"\33\1\uffff\1\13\1\uffff\1\23\1\36\1\21";
+	static final String DFA7_specialS =
+		"\1\uffff\1\0\163\uffff}>";
+	static final String[] DFA7_transitionS = {
+			"\1\26\2\uffff\1\26\22\uffff\1\25\1\30\1\1\1\uffff\1\31\2\uffff\1\32\2"+
+			"\33\1\2\1\uffff\1\3\1\uffff\1\4\1\uffff\12\27\1\5\1\6\4\30\1\uffff\32"+
+			"\31\4\uffff\1\31\1\uffff\1\7\3\31\1\10\1\31\1\11\1\31\1\12\2\31\1\13"+
+			"\1\14\1\15\1\16\1\17\1\31\1\20\1\21\1\22\1\23\1\31\1\24\3\31\1\uffff"+
+			"\1\30",
+			"\0\35",
 			"",
 			"",
 			"",
-			"\1\35\16\uffff\1\36",
-			"\1\37\3\uffff\1\40",
+			"",
+			"",
+			"\1\36\16\uffff\1\37",
+			"\1\40",
 			"\1\41",
 			"\1\42",
 			"\1\43",
-			"\1\44\15\uffff\1\45",
+			"\1\44",
+			"\1\45",
 			"\1\46",
-			"\1\47\11\uffff\1\50",
+			"\1\47\20\uffff\1\50",
 			"\1\51",
-			"\1\52\20\uffff\1\53",
-			"\1\54",
-			"\1\55\12\uffff\1\56",
-			"\1\57\6\uffff\1\60",
+			"\1\52\12\uffff\1\53",
+			"\1\54\6\uffff\1\55",
+			"\1\56",
+			"\1\57\1\60",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
 			"\1\61",
-			"\1\62\1\63",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
+			"\1\63",
 			"\1\64",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
+			"\1\65",
 			"\1\66",
 			"\1\67",
-			"\1\70\17\uffff\1\71",
+			"\1\70",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"\1\72",
 			"\1\73",
 			"\1\74",
 			"\1\75",
 			"\1\76",
 			"\1\77",
-			"\1\100",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
+			"\1\101",
 			"\1\102",
 			"\1\103",
 			"\1\104",
-			"\1\105",
+			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"\1\106",
 			"\1\107",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
+			"\1\110",
 			"\1\111",
 			"\1\112",
+			"",
 			"\1\113",
 			"\1\114",
-			"",
 			"\1\115",
 			"\1\116",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
+			"\1\117",
 			"\1\120",
+			"",
 			"\1\121",
 			"\1\122",
 			"\1\123",
+			"",
+			"",
 			"\1\124",
 			"\1\125",
 			"\1\126",
-			"\1\127\1\uffff\1\130\6\uffff\1\131",
-			"",
+			"\1\127",
+			"\1\130\6\uffff\1\131",
 			"\1\132",
 			"\1\133",
 			"\1\134",
-			"\1\135",
-			"\1\136",
-			"\1\137",
-			"",
-			"\1\140",
-			"\1\141",
+			"\1\135\5\uffff\1\136\3\uffff\1\137\2\uffff\1\140\3\uffff\1\141\1\uffff"+
 			"\1\142",
-			"",
 			"\1\143",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"\1\145",
-			"\1\146",
-			"\1\147",
-			"\1\150",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"\1\151",
-			"\1\152",
-			"\1\153\6\uffff\1\154",
-			"\1\155\3\uffff\1\156",
 			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
+			"",
+			"",
+			"\1\153",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\5\31\1\154\24"+
+			"\31",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"",
 			"\1\157",
-			"\1\160",
+			"",
+			"",
+			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
+			"",
 			"\1\161",
-			"\1\162\5\uffff\1\163\3\uffff\1\164\2\uffff\1\165\3\uffff\1\166\1\uffff"+
-			"\1\167",
-			"\1\170",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"\1\172",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"\1\175",
-			"",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"\1\u0080",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"",
 			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"",
+			"\1\31\13\uffff\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31",
 			"",
-			"\1\u0083",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\5\30\1\u0084\24\30",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"",
-			"\1\u0087",
-			"",
-			"",
-			"\1\u0088",
-			"",
-			"",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"",
-			"",
-			"\1\u008a",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"",
-			"",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"\1\u008d",
-			"",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
-			"",
-			"",
-			"\1\30\5\uffff\1\30\3\uffff\1\30\1\uffff\12\30\7\uffff\32\30\4\uffff"+
-			"\1\30\1\uffff\32\30",
 			"",
 			""
 	};
 
-	static final short[] DFA6_eot = DFA.unpackEncodedString(DFA6_eotS);
-	static final short[] DFA6_eof = DFA.unpackEncodedString(DFA6_eofS);
-	static final char[] DFA6_min = DFA.unpackEncodedStringToUnsignedChars(DFA6_minS);
-	static final char[] DFA6_max = DFA.unpackEncodedStringToUnsignedChars(DFA6_maxS);
-	static final short[] DFA6_accept = DFA.unpackEncodedString(DFA6_acceptS);
-	static final short[] DFA6_special = DFA.unpackEncodedString(DFA6_specialS);
-	static final short[][] DFA6_transition;
+	static final short[] DFA7_eot = DFA.unpackEncodedString(DFA7_eotS);
+	static final short[] DFA7_eof = DFA.unpackEncodedString(DFA7_eofS);
+	static final char[] DFA7_min = DFA.unpackEncodedStringToUnsignedChars(DFA7_minS);
+	static final char[] DFA7_max = DFA.unpackEncodedStringToUnsignedChars(DFA7_maxS);
+	static final short[] DFA7_accept = DFA.unpackEncodedString(DFA7_acceptS);
+	static final short[] DFA7_special = DFA.unpackEncodedString(DFA7_specialS);
+	static final short[][] DFA7_transition;
 
 	static {
-		int numStates = DFA6_transitionS.length;
-		DFA6_transition = new short[numStates][];
+		int numStates = DFA7_transitionS.length;
+		DFA7_transition = new short[numStates][];
 		for (int i=0; i<numStates; i++) {
-			DFA6_transition[i] = DFA.unpackEncodedString(DFA6_transitionS[i]);
+			DFA7_transition[i] = DFA.unpackEncodedString(DFA7_transitionS[i]);
 		}
 	}
 
-	protected class DFA6 extends DFA {
+	protected class DFA7 extends DFA {
 
-		public DFA6(BaseRecognizer recognizer) {
+		public DFA7(BaseRecognizer recognizer) {
 			this.recognizer = recognizer;
-			this.decisionNumber = 6;
-			this.eot = DFA6_eot;
-			this.eof = DFA6_eof;
-			this.min = DFA6_min;
-			this.max = DFA6_max;
-			this.accept = DFA6_accept;
-			this.special = DFA6_special;
-			this.transition = DFA6_transition;
+			this.decisionNumber = 7;
+			this.eot = DFA7_eot;
+			this.eof = DFA7_eof;
+			this.min = DFA7_min;
+			this.max = DFA7_max;
+			this.accept = DFA7_accept;
+			this.special = DFA7_special;
+			this.transition = DFA7_transition;
 		}
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | WS | EOL | J_int_literal | Other_literals | Identifier | String_lit | Char_lit | Breackits );";
+			return "1:1: Tokens : ( T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | WS | EOL | J_int_literal | Other_literals | Identifier | String_lit | Char_lit | Breackits );";
 		}
 		@Override
 		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
@@ -1840,15 +1741,15 @@ public class crl_gramLexer extends Lexer {
 			int _s = s;
 			switch ( s ) {
 					case 0 : 
-						int LA6_1 = input.LA(1);
+						int LA7_1 = input.LA(1);
 						s = -1;
-						if ( ((LA6_1 >= '\u0000' && LA6_1 <= '\uFFFF')) ) {s = 28;}
-						else s = 27;
+						if ( ((LA7_1 >= '\u0000' && LA7_1 <= '\uFFFF')) ) {s = 29;}
+						else s = 28;
 						if ( s>=0 ) return s;
 						break;
 			}
 			NoViableAltException nvae =
-				new NoViableAltException(getDescription(), 6, _s, input);
+				new NoViableAltException(getDescription(), 7, _s, input);
 			error(nvae);
 			throw nvae;
 		}

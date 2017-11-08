@@ -1,6 +1,7 @@
 grammar crl_gram;
 
 options {
+
 	language=Java;
 	TokenLabelType=CommonToken;
 	output=AST;
@@ -26,7 +27,14 @@ tokens
 	Assignment;
 	Set_mark;
 	Set_text;
+	New_label;
+	IDENT;
 }
+
+/*@headers
+{	
+	package ru.icc.cells.ssdc.interpreeter.output;
+}*/
 
 
 //parser
@@ -44,7 +52,7 @@ import_item returns [String value]
 @init{ $value=""; }
 @after{ $value+=";"; }
 	:	t=('import'|'package') { $value+=$t.text+" "; }
-		t1=identifier { $value+=$t1.text; } ';'? EOL
+		t1=identifier { $value+=$t1.value; } ';'? EOL
 	;
 crl_rule
 	:	'rule #' J_int_literal 'lock-on-active'? EOL
@@ -59,26 +67,40 @@ condition
 		-> ^(Condition query identifier constraint* assignment*)
 	;
 query
-	:	'cell'|'entry'|'label'|'category'|'no cells'|'no labels'|'no entries'|'no categories'
+	:	Identifier //'cell'|'entry'|'label'|'category'|'no cells'|'no labels'|'no entries'|'no categories'
 	;
+	
 constraint
 	:	j_expr -> ^(Constraint j_expr)+
 	;
 assignment
-	:	identifier ':' j_expr -> ^(Assignment identifier j_expr)
+	:	identifier ':' j_expr_ -> ^(Assignment identifier j_expr_)
 	;
-j_expr
+/*j_expr
 	:	i=j_expr_ -> J_Expression [$i.value]//^(J_Expression j_expr_)
 	;
-/*j_expr_ returns [String value]
-@init	{$value="";}
-	:	( i=j_expr_sym { $value+=$i.value; } )*
-	;*/
+
 j_expr_ returns [String value]
 @init	{$value="";}
 	:	 (i1=  ~(','|'"'|':'|'to'|'as'|'of'|'with'|EOL) { $value+=$i1.text; }
 		 (i2=  ~(','|'"'|':'|'to'|'as'|'of'|'with'|EOL) { $value+=" "+$i2.text; })* )?
+	;*/
+	
+/* 
+j_expr returns [String value]
+@init{ $value=""; }
+	:	 ( i= ~(','|'"'|':'|'to'|'as'|'of'|'with'|EOL) { $value+=$i.text; } )+
 	;
+*/
+j_expr returns [String value]
+@init{ $value=""; }
+	:	 ( i= ~(','|'"'|':'|'to'|EOL) { $value+=$i.text; } )+
+	;
+	
+j_expr_
+	:	j=j_expr -> ^(J_expr [$j.value])
+	;
+
 action
 	:	action_ EOL -> action_
 	;
@@ -131,7 +153,7 @@ add_label
 	:	'add label' identifier ('of' identifier)? 'to' identifier
 	;
 new_label
-	:	'new label' identifier ('as' j_expr)?
+	:	'new label' identifier ('as' j_expr)? -> ^(New_label identifier j_expr?)
 	;
 update
 	:	'update' identifier
@@ -140,8 +162,9 @@ c_print
 	:	('print'|'printf') j_expr
 	;
 
-identifier
-	: 	Identifier
+identifier returns [String value]
+@init { $value=""; }
+	: 	t1=Identifier { $value+=$t1.text; } ('.' t2=Identifier { $value+="."+$t2.text; })* ('.' '*' { $value+=".*"; })? -> IDENT [$value]
 	;
 
 //lexer
@@ -156,10 +179,10 @@ J_int_literal
 	:	DIGIT+
 	;
 Other_literals
-	:	'='|'!'|'?'|'|'|'>'|'<'
+	:	'='|'!'|'?'|'|'|'>'|'<'|'=='|'>='|'<='|'!='
 	;
 Identifier
-	:	('$'|'_'|LETTER)('$'|'_'|LETTER|DIGIT|'.'|'*')*
+	:	('$'|'_'|LETTER)('$'|'_'|LETTER|DIGIT)*
 	;
 String_lit
 	:	'"' (.)* '"'

@@ -1,10 +1,7 @@
 package ru.icc.cells.ssdc.interpreeter;
 
 import org.antlr.runtime.tree.Tree;
-import ru.icc.cells.ssdc.interpreeter.AstModel.Assignment;
-import ru.icc.cells.ssdc.interpreeter.AstModel.AstModel;
-import ru.icc.cells.ssdc.interpreeter.AstModel.Condition;
-import ru.icc.cells.ssdc.interpreeter.AstModel.Rule;
+import ru.icc.cells.ssdc.interpreeter.AstModel.*;
 
 public class AstModelBuilder {
 
@@ -63,26 +60,38 @@ public class AstModelBuilder {
 
     private void addConditionsToRule(Tree subTree, Rule rule)
     {
-        for(int i=0;i<subTree.getChildCount();i++)
+        for (int i=0;i<subTree.getChildCount();i++)
         {
-            Tree conditionBranch=subTree.getChild(i);
-            Condition newCondition=new Condition(conditionBranch.getChild(0).getText(),conditionBranch.getChild(1).getText());
-            if(conditionBranch.getChildCount()>2)
-            {
-                for(int j=2;j<conditionBranch.getChildCount();j++)
-                {
-                    if(conditionBranch.getChild(j).getText()=="Constraint")
-                        newCondition.addConstraint(conditionBranch.getChild(j).getChild(0).getText());
-                    else if(conditionBranch.getChild(j).getText()=="Assignment")
-                    {
-                        Assignment assignment =
-                                new Assignment(conditionBranch.getChild(j).getChild(0).getText(),
-                                        conditionBranch.getChild(j).getChild(1).getText());
-                        newCondition.addAssignment(assignment);
-                    }
-                }
-            }
-            rule.addCondition(newCondition);
+            rule.addCondition(buildCondition(subTree.getChild(i)));
         }
+    }
+
+    private Condition buildCondition(Tree subTree)
+    {
+        Condition condition=new Condition(subTree.getChild(0).getText(), subTree.getChild(1).getText());
+        if(subTree.getChildCount()>2)
+        {
+            for(int i=2;i<subTree.getChildCount();i++)
+            {
+                if(subTree.getChild(i).getText()=="Constraint") addConstraintToCondition(subTree.getChild(i), condition);
+                else if(subTree.getChild(i).getText()=="Assignment") addAssignmentToCondition(subTree.getChild(i),condition);
+            }
+        }
+        return condition;
+    }
+
+    private void addConstraintToCondition(Tree subTree, Condition condition)
+    {
+        Constraint constraint=new Constraint();
+        for(int i=0; i<subTree.getChildCount();i++)
+            constraint.addPart(subTree.getChild(i).getText());
+        condition.addConstraint(constraint);
+    }
+
+    private void addAssignmentToCondition(Tree subTree, Condition condition)
+    {
+        Assignment assignment=new Assignment(subTree.getChild(0).getText(), subTree.getChild(1).getText());
+        condition.addAssignment(assignment);
+
     }
 }

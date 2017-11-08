@@ -11,7 +11,7 @@ public class __Test__ {
         crl_gramLexer lex = new crl_gramLexer(new ANTLRFileStream("C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\output\\__Test___input.txt", "UTF8"));
         CommonTokenStream tokens = new CommonTokenStream(lex);
 
-        crl_gramParser g = new crl_gramParser(tokens);
+        crl_gramParser g = new crl_gramParser(tokens, null);
         try {
             g.crl();
         } catch (RecognitionException e) {

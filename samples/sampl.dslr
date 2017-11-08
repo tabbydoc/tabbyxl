@@ -60,7 +60,7 @@ end
 rule #7
     when
         cell $c1: mark == "@ColLabel"
-        cell $c2: mark == "@Entry", cl >= $c1.cl, cr <= $c1.cr, $k.label: "label yahu"
+        cell $c2: mark == "@Entry", cl >= $c1.cl, cr <= $c1.cr
     then
         add label $c1.label to $c2.entry
 end

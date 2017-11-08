@@ -519,4 +519,5 @@ public final class CCell extends COwned implements Cloneable
     {
         return String.format("L%dT%dR%dB%d", getCl(), getRt(), getCr(), getRb());
     }
+
 }

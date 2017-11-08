@@ -23,6 +23,10 @@ public class AstModel {
         rules.add(rule);
     }
 
+    public List<Rule> getRules() {
+        return rules;
+    }
+
     @Override
     public String toString()
     {
