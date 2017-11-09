@@ -23,6 +23,7 @@ public class Rule {
     {
         conditions.add(condition);
     }
+    public List<Condition> getConditions() { return conditions; }
 
     @Override
     public String toString()

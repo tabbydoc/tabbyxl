@@ -27,6 +27,8 @@ public class AstModel {
         return rules;
     }
 
+    public List<String> getImports() { return settings; }
+
     @Override
     public String toString()
     {
