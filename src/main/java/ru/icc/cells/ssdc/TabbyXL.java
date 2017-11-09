@@ -33,6 +33,7 @@ import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 import ru.icc.cells.ssdc.interpreeter.AstModel.AstModel;
 import ru.icc.cells.ssdc.interpreeter.AstModelBuilder;
+import ru.icc.cells.ssdc.interpreeter.AstModelInterpreeter;
 import ru.icc.cells.ssdc.interpreeter.AstPrinter;
 import ru.icc.cells.ssdc.interpreeter.output.crl_gramLexer;
 import ru.icc.cells.ssdc.interpreeter.output.crl_gramParser;
@@ -538,6 +539,19 @@ public final class TabbyXL {
             astModelBuilder.buildModel(tree);
             AstModel astModel=astModelBuilder.getModel();
             System.out.println(astModel.toString());
+            System.out.println();
+            System.out.println("************************");
+            System.out.println("***  Try use JShell  ***");
+            System.out.println("************************");
+           // for (int sheetNo : sheetIndexes) {
+                DATA_LOADER.goToSheet(0);
+                String sheetName = DATA_LOADER.getCurrentSheetName();
+
+                    CTable table = DATA_LOADER.nextTable();
+
+                    AstModelInterpreeter.fireAllRules(table, astModel);
+
+            //}
 
         }catch (Exception e) { e.printStackTrace(); }
 
