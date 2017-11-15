@@ -1,5 +1,3 @@
-package ru.icc.cells.ssdc
-
 import ru.icc.cells.ssdc.model.*
 import ru.icc.cells.ssdc.model.style.*
 

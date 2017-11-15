@@ -16,14 +16,18 @@
 
 package ru.icc.cells.ssdc;
 
-import java.io.*;
-
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.*;
-import ru.icc.cells.ssdc.model.*;
+import ru.icc.cells.ssdc.model.CCell;
+import ru.icc.cells.ssdc.model.CTable;
+import ru.icc.cells.ssdc.model.CellType;
 import ru.icc.cells.ssdc.model.style.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public final class DataLoader {
     private File sourceWorkbookFile;

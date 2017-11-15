@@ -16,7 +16,8 @@
 
 package ru.icc.cells.ssdc.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Alexey Shigarov (shigarov@gmail.com) on 13.02.2015.

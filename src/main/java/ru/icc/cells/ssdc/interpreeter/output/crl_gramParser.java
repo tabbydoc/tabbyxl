@@ -1,4 +1,5 @@
-// $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2017-11-07 14:49:57
+// $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2017-11-14 11:17:14
+
 package ru.icc.cells.ssdc.interpreeter.output;
 
 import org.antlr.runtime.*;
@@ -591,7 +592,7 @@ public class crl_gramParser extends Parser {
 			}
 
 			// AST REWRITE
-			// elements: J_int_literal, condition, action
+			// elements: action, condition, J_int_literal
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -798,7 +799,7 @@ public class crl_gramParser extends Parser {
 			stream_EOL.add(EOL25);
 
 			// AST REWRITE
-			// elements: constraint, assignment, identifier, query
+			// elements: assignment, query, identifier, constraint
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1669,7 +1670,7 @@ public class crl_gramParser extends Parser {
 
 			stream_identifier.add(identifier49.getTree());
 			// AST REWRITE
-			// elements: j_expr, identifier
+			// elements: identifier, j_expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1764,7 +1765,7 @@ public class crl_gramParser extends Parser {
 
 			stream_identifier.add(identifier53.getTree());
 			// AST REWRITE
-			// elements: j_expr, identifier
+			// elements: identifier, j_expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2542,7 +2543,7 @@ public class crl_gramParser extends Parser {
 			}
 
 			// AST REWRITE
-			// elements: j_expr, identifier
+			// elements: identifier, j_expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 

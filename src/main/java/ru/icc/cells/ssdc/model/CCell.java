@@ -18,7 +18,9 @@ package ru.icc.cells.ssdc.model;
 
 import ru.icc.cells.ssdc.model.style.CStyle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Alexey Shigarov (shigarov@gmail.com) on 24.01.2015.
