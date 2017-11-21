@@ -62,13 +62,13 @@ public class AstModelBuilder {
     {
         for (int i=0;i<subTree.getChildCount();i++)
         {
-            rule.addCondition(buildCondition(subTree.getChild(i)));
+            rule.addCondition(buildCondition(i+1, subTree.getChild(i)));
         }
     }
 
-    private Condition buildCondition(Tree subTree)
+    private Condition buildCondition(int id, Tree subTree)
     {
-        Condition condition=new Condition(subTree.getChild(0).getText(), subTree.getChild(1).getText());
+        Condition condition=new Condition(id, subTree.getChild(0).getText(), subTree.getChild(1).getText());
         if(subTree.getChildCount()>2)
         {
             for(int i=2;i<subTree.getChildCount();i++)

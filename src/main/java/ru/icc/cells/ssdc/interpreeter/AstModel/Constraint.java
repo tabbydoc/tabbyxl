@@ -15,7 +15,7 @@ public class Constraint {
         StringBuilder stringBuilder=new StringBuilder();
         for(String s:parts)
         {
-            stringBuilder.append(s).append(" ");
+            stringBuilder.append(s);
         }
         return stringBuilder.toString();
     }

@@ -26,6 +26,33 @@ public class Rule {
     }
     public List<Condition> getConditions() { return conditions; }
 
+    public String gerenateClass(List<String> imports)
+    {
+        StringBuilder builder = new StringBuilder();
+        String lineSep = System.lineSeparator();
+        builder.append("import java.util.*;").append(lineSep);
+        for(String item : imports)
+        {
+            builder.append(item).append(lineSep);
+        }
+        builder.append("public class Rule").append(num).append("{").append(lineSep);
+        for(Condition condition:conditions)
+        {
+            builder.append("private List<");
+            switch (condition.getQuery())
+            {
+                case "cell" : builder.append("CCell> "); break;
+            }
+            builder.append(condition.getIdentifier()).append(" = new ArrayList<>();").append(lineSep);
+        }
+        for(Condition condition:conditions)
+        {
+            builder.append(condition.generateCondition());
+        }
+        builder.append("}").append(lineSep);
+        return builder.toString();
+    }
+
     @Override
     public String toString()
     {
