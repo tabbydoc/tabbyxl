@@ -72,6 +72,7 @@ Only two parameters are mandatory
 
 * Alexey O. Shigarov
 * Andrey A. Mikhailov
+* Vasiliy V. Khristyuk
 
 ## License
 Apache License, Version 2.0
