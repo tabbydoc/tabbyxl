@@ -3,7 +3,7 @@ package ru.icc.cells.ssdc.interpreeter.AstModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AstModel {
+public class Model {
 
     private int id;
     public int getId() {
@@ -13,7 +13,7 @@ public class AstModel {
     List<String> settings=new ArrayList<>();
     List<Rule> rules=new ArrayList<>();
 
-    public AstModel(){}
+    public Model(){}
 
     public void addSetting(String setting)
     {

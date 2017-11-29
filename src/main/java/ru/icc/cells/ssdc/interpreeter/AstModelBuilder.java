@@ -5,15 +5,15 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.*;
 
 public class AstModelBuilder {
 
-    private AstModel model;
+    private Model model;
 
-    public AstModel getModel() {
+    public Model getModel() {
         return model;
     }
 
     public AstModelBuilder()
     {
-        model=new AstModel();
+        model=new Model();
     }
 
     public void buildModel(Tree ast)
