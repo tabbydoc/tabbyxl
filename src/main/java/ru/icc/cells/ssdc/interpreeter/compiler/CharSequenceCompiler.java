@@ -61,7 +61,7 @@ public class CharSequenceCompiler<T> {
         return castable(newClass, types);
     }
 
-    public synchronized Map<String, Class<T>> compile(Map<String, CharSequence> classes,
+    private synchronized Map<String, Class<T>> compile(Map<String, CharSequence> classes,
                                                       DiagnosticCollector<JavaFileObject> diagnasticList)
             throws CharSequenceCompilerException
     {

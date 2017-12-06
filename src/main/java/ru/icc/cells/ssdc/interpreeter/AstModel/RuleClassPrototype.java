@@ -3,15 +3,20 @@ package ru.icc.cells.ssdc.interpreeter.AstModel;
 import ru.icc.cells.ssdc.model.CTable;
 
 public abstract class RuleClassPrototype implements RuleClassInterface{
-    private String str;
+    private CTable table;
 
-    public String getStr() {
-        return str;
+    public CTable getTable() {
+        return table;
     }
 
-    public RuleClassPrototype(String s) { str = s; }
+    public RuleClassPrototype(CTable table) { this.table = table; }
+
     @Override
-    public String sayHello(){
-        return "Super says "+str;
+    public String sayHello() { return null; }
+   /* @Override
+    public CTable evalLHS(){
+        return null;
     }
+    @Override
+    public CTable evalRHS() { return null; }*/
 }

@@ -9,18 +9,25 @@ public class Condition {
     private int id;
     public int getId(){ return id; }
 
-    private String query;
-    private String identifier;
+    private RuleVariable variable;
+
+    public RuleVariable getVariable() {
+        return variable;
+    }
+
+    //private String query;
+    //private String identifier;
 
     public Condition(int id, String query, String identifier)
     {
         this.id = id;
-        this.query=query;
-        this.identifier=identifier;
+        //this.query=query;
+        //this.identifier=identifier;
+        this.variable = new RuleVariable(query, identifier);
     }
 
-    public String getQuery() {return query; }
-    public String getIdentifier() { return identifier; }
+   // public String getQuery() {return query; }
+   // public String getIdentifier() { return identifier; }
 
     private List<Constraint> constraints = new ArrayList<>();
     private List<Assignment> assignments = new ArrayList<>();
@@ -47,7 +54,7 @@ public class Condition {
             if(i<constraints.size()-1) builder.append(" && ");
         }
         builder.append(")").append(lineSep);
-        builder.append(identifier).append(".add(").append(query).append(");").append(lineSep);
+        builder.append(variable.getName()).append(".add(").append(variable.getType()).append(");").append(lineSep);
         builder.append("}").append(lineSep);
         return builder.toString();
     }
@@ -56,7 +63,7 @@ public class Condition {
     public String toString()
     {
         StringBuilder result=new StringBuilder();
-        result.append(query).append(" ").append(identifier).append(System.lineSeparator());
+        result.append(variable.getType()).append(" ").append(variable.getName()).append(System.lineSeparator());
         result.append(String.format("constraints (%d): ",constraints.size()));
         for(Constraint constraint:constraints) {
             result.append("[ ").append(constraint.toString()).append(" ] ");

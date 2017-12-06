@@ -10,14 +10,14 @@ public class Model {
         return id;
     }
 
-    List<String> settings=new ArrayList<>();
+    List<String> imports=new ArrayList<>();
     List<Rule> rules=new ArrayList<>();
 
     public Model(){}
 
     public void addSetting(String setting)
     {
-        settings.add(setting);
+        imports.add(setting);
     }
     public void addRule(Rule rule)
     {
@@ -28,7 +28,7 @@ public class Model {
         return rules;
     }
 
-    public List<String> getImports() { return settings; }
+    public List<String> getImports() { return imports; }
 
     @Override
     public String toString()
@@ -36,9 +36,9 @@ public class Model {
         String lineSeparator=System.lineSeparator();
         StringBuilder result=new StringBuilder();
         result
-                .append(String.format("Settings (%d):",settings.size()))
+                .append(String.format("Settings (%d):",imports.size()))
                 .append(lineSeparator);
-        for(String setting:settings)
+        for(String setting:imports)
             result.append(setting).append(lineSeparator);
         result
                 .append(lineSeparator)
