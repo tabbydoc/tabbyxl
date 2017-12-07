@@ -4,6 +4,6 @@ import ru.icc.cells.ssdc.model.CTable;
 
 public interface RuleClassInterface {
     String sayHello();
-   // CTable evalLHS();
+    void evalLHS();
    // CTable evalRHS();
 }

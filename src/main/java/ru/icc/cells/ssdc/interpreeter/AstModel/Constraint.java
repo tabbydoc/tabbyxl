@@ -8,7 +8,12 @@ public class Constraint {
     private List<String> parts=new ArrayList<>();
 
     public Constraint(){}
+
     public void addPart(String part) { parts.add(part); }
+
+    public List<String> getParts() {
+        return parts;
+    }
 
     public String toString()
     {

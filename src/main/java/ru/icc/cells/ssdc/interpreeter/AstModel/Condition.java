@@ -1,6 +1,7 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -36,13 +37,14 @@ public class Condition {
     {
         constraints.add(constraint);
     }
+    public List<Constraint> getConstraints() { return constraints;}
 
     public void addAssignment(Assignment assignment)
     {
         assignments.add(assignment);
     }
 
-    public String generateCondition()
+    /*public String generateCondition()
     {
         String lineSep = System.lineSeparator();
         StringBuilder builder = new StringBuilder();
@@ -57,7 +59,7 @@ public class Condition {
         builder.append(variable.getName()).append(".add(").append(variable.getType()).append(");").append(lineSep);
         builder.append("}").append(lineSep);
         return builder.toString();
-    }
+    }*/
 
     @Override
     public String toString()
