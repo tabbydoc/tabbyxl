@@ -20,10 +20,9 @@ public class AstModelInterpreeter {
         List<? extends RuleClassPrototype> ruleObjects = getRuleObjects(classes, table);
         for(RuleClassPrototype obj:ruleObjects)
         {
-            System.out.println(obj.sayHello());
+            obj.evalLHS();
+            //System.out.println(obj.sayHello());
         }
-        List<CCell> $c = new ArrayList<>();
-        table.getCells().forEachRemaining($c::add);
     }
 
     private static List<Class<? extends RuleClassPrototype>> compileClasses(Model model, CharSequenceCompiler compiler)
@@ -140,6 +139,7 @@ public class AstModelInterpreeter {
             switch (variable.getType())
             {
                 case "CCell": code.append("table.getCells().forEachRemaining(").append(variable.getName()).append("::add);"); break;
+                //case "CCell": code.append(variable.getName()).append(" = table.getCells2();"); break;
                 case "CEntry": code.append("table.getEntries();"); break;
                 case "CLabel": code.append("table.getLabels();");break;
                 case "CCategory": code.append("table.getLocalCategoryBox().getCategories();"); break;
@@ -161,6 +161,13 @@ public class AstModelInterpreeter {
         {
             code.append(generateCondition(condition, vars));
         }
+        for(RuleVariable var:vars)
+        {
+            code.append("for( ").append(var.getType()).append(" k:").append(var.getName()).append(" ) {").append(System.lineSeparator());
+            code.append("System.out.println(k.getId());").append(System.lineSeparator());
+            code.append("}").append(System.lineSeparator());
+        }
+        code.append("System.out.println(\"done\");").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
         return code.toString();
     }
@@ -172,107 +179,112 @@ public class AstModelInterpreeter {
         List<Alias> aliases = new ArrayList<>();
         aliases.add(new Alias(condition.getVariable().getName(), "item"));
 
-        code.append("boolean flag;").append(System.lineSeparator());
+        //code.append("boolean flag;").append(System.lineSeparator());
+
+        code.append("List<").append(condition.getVariable().getType()).append("> ").append(condition.getVariable().getName()).append("RemoveList = new ArrayList<>();").append(System.lineSeparator());
+
         code.append("for( ").append(condition.getVariable().getType()).append(" item:").append(condition.getVariable().getName()).append(" ) {").append(System.lineSeparator());
+
+        int flagIterator = 0;
         for(Constraint constraint:condition.getConstraints())
         {
-            code.append(generateConstraint(constraint, condition.getVariable().getName(), vars, aliases));
-        }
-        code.append("}").append(System.lineSeparator());
+            flagIterator ++;
+            code.append("boolean flag").append(flagIterator).append(" = false;").append(System.lineSeparator());
 
-        /*code.append("for(").append(condition.getVariable().getType()).append(" item:").append(condition.getVariable().getName()).append(") {").append(System.lineSeparator());
-        code.append(generateConstraints(condition.getConstraints(), condition.getVariable().getName(), vars));
-        code.append("}").append(System.lineSeparator());*/
+            code.append(generateConstraint(constraint, flagIterator, condition.getVariable().getName(), vars, aliases));
+
+            code.append("if(!flag").append(flagIterator).append(") {").append(System.lineSeparator());
+            //code.append(condition.getVariable().getName()).append(".remove(item);").append(System.lineSeparator());
+            code.append(condition.getVariable().getName()).append("RemoveList.add(item);").append(System.lineSeparator());
+            code.append("continue;").append(System.lineSeparator());
+            code.append("}").append(System.lineSeparator());
+        }
+        //code.append(condition.getVariable().getName()).append(".removeAll(").append(condition.getVariable().getName()).append("RemoveList);").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+        code.append(condition.getVariable().getName()).append(".removeAll(").append(condition.getVariable().getName()).append("RemoveList);").append(System.lineSeparator());
+
 
         return code.toString();
     }
 
-    private static String generateConstraint(Constraint constraint, String conditionVarName, List<RuleVariable> vars, List<Alias> aliases)
+    private static String generateConstraint(Constraint constraint, int flagIterator, String conditionVarName, List<RuleVariable> vars, List<Alias> aliases)
     {
         StringBuilder code = new StringBuilder();
-        boolean constraintHasVars = false;
-        RuleVariable currentVar = null;
+        //boolean constraintHasVars = false;
+        //RuleVariable currentVar = null;
+        List<RuleVariable> replacementVars = new ArrayList<>();
         for(String part:constraint.getParts())
         {
             for(RuleVariable var:vars)
             {
                 if(part.equals(var.getName()))
                 {
-                    constraintHasVars = true;
-                    currentVar = var;
+                    replacementVars.add(var);
                     aliases.add(new Alias(part, var.getName()+ "_item"));
-                    break;
                 }
             }
         }
         //RuleVariable var = constraintHasVars(constraint, vars);
-        if(constraintHasVars) {
 
-            code.append("flag = false;").append(System.lineSeparator());
+        code.append(buildConstraint(constraint, replacementVars.iterator(), flagIterator, aliases));
+
+        return code.toString();
+    }
+
+    private static String buildConstraint(Constraint constraint, Iterator<RuleVariable> replacementVars, int flagIterator, List<Alias> aliases)
+    {
+        StringBuilder code = new StringBuilder();
+        //code.append("boolean flag").append(flagIterator).append(" = false;").append(System.lineSeparator());
+        if(replacementVars.hasNext())
+        {
+            RuleVariable currentVar = replacementVars.next();
             code.append("for( ").append(currentVar.getType()).append(" ").append(replaceVarsWithAlias(currentVar.getName(), aliases)).append(":").append(currentVar.getName()).append(" ) {").append(System.lineSeparator());
 
-            code.append("if(").append(getConstraintString(constraint, aliases)).append(" ) {").append(System.lineSeparator());
-            code.append("flag = true;").append(System.lineSeparator());
-            code.append("break;").append(System.lineSeparator());
-            code.append("}").append(System.lineSeparator());
-            code.append("if(!flag) {").append(System.lineSeparator());
-
-            code
-                    .append(conditionVarName).append(".remove(item);").append(System.lineSeparator())
-                    .append("continue; ").append(System.lineSeparator())
-                    .append("}").append(System.lineSeparator());
+            code.append(buildConstraint(constraint, replacementVars, flagIterator, aliases));
 
             code.append("}").append(System.lineSeparator());
         }
         else
         {
-            code.append("if( !( ").append(getConstraintString(constraint, aliases)).append( ")) { ").append(System.lineSeparator());
-            code
-                    .append(conditionVarName).append(".remove(item);").append(System.lineSeparator())
-                    .append("continue; ").append(System.lineSeparator())
-                    .append("}").append(System.lineSeparator());
+            code.append("if(").append(getConstraintString(constraint, aliases, new FieldAlias().getAliases())).append(" ) {").append(System.lineSeparator());
+            code.append("flag").append(flagIterator).append(" = true;").append(System.lineSeparator());
+            //code.append("break;").append(System.lineSeparator());
+            code.append("}").append(System.lineSeparator());
         }
         return code.toString();
     }
 
-    private static String getConstraintString(Constraint constraint, List<Alias> aliases)
+    private static String getConstraintString(Constraint constraint, List<Alias> aliases, Map<String, String> fieldMap)
     {
         StringBuilder builder = new StringBuilder();
-        for(String part:constraint.getParts())
+        for(int i=0; i<constraint.getParts().size();i++)
+        {
+            if(fieldMap.containsKey(constraint.getParts().get(i))) {
+                if (i < 2) builder.append("item." + fieldMap.get(constraint.getParts().get(i)));
+                else
+                {
+                    if(constraint.getParts().get(i-1).equals(".")) builder.append(fieldMap.get(constraint.getParts().get(i))).append(" ");
+                }
+            }
+            else
+                builder.append(replaceVarsWithAlias(constraint.getParts().get(i),aliases)).append(" ");
+        }
+        /*for(String part:constraint.getParts())
         {
             builder.append(replaceVarsWithAlias(part, aliases)).append(" ");
-        }
+        }*/
         return builder.toString();
     }
 
-    private static String replaceVarsWithAlias(String var, List<Alias> aliases)
+    private static String replaceVarsWithAlias(String part, List<Alias> aliases)
     {
         for(Alias alias:aliases)
         {
-            if( var.equals(alias.getName()))
+            if( part.equals(alias.getName()))
                 return alias.getAlias();
         }
-        return var;
+        return part;
     }
-    /*private static RuleVariable constraintHasVars(Constraint constraint, List<RuleVariable> vars)
-    {
-        for(String part:constraint.getParts())
-        {
-            for(RuleVariable var:vars)
-                if(part.equals(var.getName()))
-                {
-                    return var;
-                }
-        }
-        return null;
-    }
-    /*private static String generateConstraint(Constraint constraints, String varName, List<RuleVariable> vars)
-    {
-        StringBuilder code = new StringBuilder();
-        for(Constraint constraint:constraints)
-        {
 
-        }
-        return code.toString();
-    }*/
+
 }
