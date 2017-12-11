@@ -27,7 +27,18 @@ tokens
 	Assignment;
 	Set_mark;
 	Set_text;
+	Set_indent;
+	Set_value;
+	Set_category;
+	Set_parent;
+	Split;
+	Merge;
+	Group;
+	New_entry;
 	New_label;
+	Add_label;
+	Update;
+	Print;
 	IDENT;
 }
 
@@ -126,40 +137,40 @@ set_text
 	:	'set text' j_expr 'to' identifier -> ^(Set_text identifier j_expr)
 	;
 set_indent
-	:	'set indent' J_int_literal 'to' identifier
+	:	'set indent' J_int_literal 'to' identifier -> ^(Set_indent identifier J_int_literal)
 	;
 split
-	:	'split' identifier
+	:	'split' identifier -> ^(Split identifier)
 	;
 merge
-	:	'merge' identifier 'with' identifier
+	:	'merge' i1=identifier 'with' i2=identifier -> ^(Merge $i1 $i2)
 	;
 new_entry
-	:	'new entry' identifier ('as' j_expr)?
+	:	'new entry' identifier ('as' j_expr)? -> ^(New_entry identifier j_expr?)
 	;
 set_value
-	:	'set value' j_expr 'to' identifier 
+	:	'set value' j_expr 'to' identifier -> ^(Set_value j_expr identifier)
 	;
 set_category
-	:	'set category' identifier 'to' identifier
+	:	'set category' i1=identifier 'to' i2=identifier -> ^(Set_category $i1 $i2)
 	;
 set_parent
-	:	'set parent' identifier 'to' identifier
+	:	'set parent' i1=identifier 'to' i2=identifier -> ^(Set_parent $i1 $i2)
 	;
 group
-	:	'group' identifier 'with' identifier
+	:	'group' i1=identifier 'with' i2=identifier -> ^(Group $i1 $i2)
 	;
 add_label
-	:	'add label' identifier ('of' identifier)? 'to' identifier
+	:	'add label' i1=identifier ('of' i2=identifier)? 'to' i3=identifier -> ^(Add_label $i1 $i2? $i3)
 	;
 new_label
 	:	'new label' identifier ('as' j_expr)? -> ^(New_label identifier j_expr?)
 	;
 update
-	:	'update' identifier
+	:	'update' identifier -> ^(Update identifier)
 	;
 c_print
-	:	('print'|'printf') j_expr
+	:	('print'|'printf') j_expr -> ^(Print j_expr)
 	;
 
 identifier returns [String value]

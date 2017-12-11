@@ -1,17 +1,19 @@
 package ru.icc.cells.ssdc.interpreeter.output;
 
-import org.antlr.runtime.ANTLRFileStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
+import java.io.*;
+import org.antlr.runtime.*;
+import org.antlr.runtime.debug.DebugEventSocketProxy;
+import ru.icc.cells.ssdc.interpreeter.output.crl_gramLexer;
+import ru.icc.cells.ssdc.interpreeter.output.crl_gramParser;
 
 
 public class __Test__ {
 
     public static void main(String args[]) throws Exception {
-        crl_gramLexer lex = new crl_gramLexer(new ANTLRFileStream("C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\output\\__Test___input.txt", "UTF8"));
+        crl_gramLexer lex = new crl_gramLexer(new ANTLRFileStream("C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\output\\__Test___input.txt", "UTF8"));
         CommonTokenStream tokens = new CommonTokenStream(lex);
 
-        crl_gramParser g = new crl_gramParser(tokens,  null);
+        crl_gramParser g = new crl_gramParser(tokens, null);
         try {
             g.crl();
         } catch (RecognitionException e) {
