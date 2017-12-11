@@ -7,6 +7,7 @@ import ru.icc.cells.ssdc.model.CCell;
 import ru.icc.cells.ssdc.model.CTable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.CharacterCodingException;
 import java.util.*;
 
 public class AstModelInterpreeter {
@@ -21,22 +22,15 @@ public class AstModelInterpreeter {
         for(RuleClassPrototype obj:ruleObjects)
         {
             obj.evalLHS();
-            //System.out.println(obj.sayHello());
         }
     }
 
-    private static List<Class<? extends RuleClassPrototype>> compileClasses(Model model, CharSequenceCompiler compiler)
-    {
+    private static List<Class<? extends RuleClassPrototype>> compileClasses(Model model, CharSequenceCompiler compiler) throws CharSequenceCompilerException {
         List<Class<? extends RuleClassPrototype>> ruleClasses = new ArrayList<>();
         for(Rule rule:model.getRules())
         {
-            try
-            {
-                Class<? extends RuleClassPrototype> ruleClass = compiler.compile(getRuleClassName(rule), fetchCodeFromRule(rule, model.getImports()), null, new Class<?>[]{ RuleClassPrototype.class });
-                ruleClasses.add(ruleClass);
-            } catch (CharSequenceCompilerException e) {
-                e.printStackTrace();
-            }
+            Class<? extends RuleClassPrototype> ruleClass = compiler.compile(getRuleClassName(rule), fetchCodeFromRule(rule, model.getImports()), null, new Class<?>[]{ RuleClassPrototype.class });
+            ruleClasses.add(ruleClass);
         }
         return ruleClasses;
     }
@@ -46,24 +40,12 @@ public class AstModelInterpreeter {
         return String.format("%s.Rule%d", PACK, rule.getNum());
     }
 
-    private static List<? extends RuleClassPrototype> getRuleObjects(List<Class<? extends RuleClassPrototype>> ruleClasses, CTable table)
-    {
+    private static List<? extends RuleClassPrototype> getRuleObjects(List<Class<? extends RuleClassPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<RuleClassPrototype> ruleObjects = new ArrayList<>();
         for(Class<? extends RuleClassPrototype> c:ruleClasses)
         {
-            try
-            {
-                RuleClassPrototype obj = c.getConstructor(new Class[]{ CTable.class }).newInstance(new Object[] { table });
-                ruleObjects.add(obj);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            RuleClassPrototype obj = c.getConstructor(new Class[]{ CTable.class }).newInstance(new Object[] { table });
+            ruleObjects.add(obj);
         }
         return ruleObjects;
     }
@@ -72,8 +54,7 @@ public class AstModelInterpreeter {
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
-       /* for(RuleVariable r:rule.getRuleVariables())
-            System.out.println(r.getName());*/
+
         // import classes
         code.append(generateImports(imports));
 
@@ -121,10 +102,10 @@ public class AstModelInterpreeter {
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
+        code.append("List<CCell> cells = new ArrayList<>();").append(System.lineSeparator());
         for(RuleVariable variable:vars)
         {
             code.append("private List<").append(variable.getType()).append("> ").append(variable.getName()).append(" = new ArrayList<>();").append(lineSep);
-            //code.append("public Iterator<").append(variable.getType()).append("> get").append(variable.getName()).append(" () { return ").append(variable.getName()).append("; }").append(lineSep);
         }
         return code.toString();
     }
@@ -134,19 +115,7 @@ public class AstModelInterpreeter {
         StringBuilder code = new StringBuilder();
         code.append("public Rule").append(rule.getNum()).append(" (CTable table) {").append(System.lineSeparator());
         code.append("super(table);").append(System.lineSeparator());
-        for(RuleVariable variable:rule.getRuleVariables())
-        {
-            switch (variable.getType())
-            {
-                case "CCell": code.append("table.getCells().forEachRemaining(").append(variable.getName()).append("::add);"); break;
-                //case "CCell": code.append(variable.getName()).append(" = table.getCells2();"); break;
-                case "CEntry": code.append("table.getEntries();"); break;
-                case "CLabel": code.append("table.getLabels();");break;
-                case "CCategory": code.append("table.getLocalCategoryBox().getCategories();"); break;
-                default: code.append("null;"); break;
-            }
-            code.append(System.lineSeparator());
-        }
+        code.append("table.getCells().forEachRemaining(cells::add);").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
         return code.toString();
     }
@@ -179,11 +148,11 @@ public class AstModelInterpreeter {
         List<Alias> aliases = new ArrayList<>();
         aliases.add(new Alias(condition.getVariable().getName(), "item"));
 
-        //code.append("boolean flag;").append(System.lineSeparator());
-
-        code.append("List<").append(condition.getVariable().getType()).append("> ").append(condition.getVariable().getName()).append("RemoveList = new ArrayList<>();").append(System.lineSeparator());
-
-        code.append("for( ").append(condition.getVariable().getType()).append(" item:").append(condition.getVariable().getName()).append(" ) {").append(System.lineSeparator());
+        code.append("for( ").append(condition.getVariable().getType()).append(" item:");
+        switch (condition.getVariable().getType())
+        {
+            case "CCell": code.append("cells ) {").append(System.lineSeparator());
+        }
 
         int flagIterator = 0;
         for(Constraint constraint:condition.getConstraints())
@@ -194,15 +163,11 @@ public class AstModelInterpreeter {
             code.append(generateConstraint(constraint, flagIterator, condition.getVariable().getName(), vars, aliases));
 
             code.append("if(!flag").append(flagIterator).append(") {").append(System.lineSeparator());
-            //code.append(condition.getVariable().getName()).append(".remove(item);").append(System.lineSeparator());
-            code.append(condition.getVariable().getName()).append("RemoveList.add(item);").append(System.lineSeparator());
             code.append("continue;").append(System.lineSeparator());
             code.append("}").append(System.lineSeparator());
         }
-        //code.append(condition.getVariable().getName()).append(".removeAll(").append(condition.getVariable().getName()).append("RemoveList);").append(System.lineSeparator());
+        code.append(condition.getVariable().getName()).append(".add(item);").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
-        code.append(condition.getVariable().getName()).append(".removeAll(").append(condition.getVariable().getName()).append("RemoveList);").append(System.lineSeparator());
-
 
         return code.toString();
     }
@@ -210,8 +175,6 @@ public class AstModelInterpreeter {
     private static String generateConstraint(Constraint constraint, int flagIterator, String conditionVarName, List<RuleVariable> vars, List<Alias> aliases)
     {
         StringBuilder code = new StringBuilder();
-        //boolean constraintHasVars = false;
-        //RuleVariable currentVar = null;
         List<RuleVariable> replacementVars = new ArrayList<>();
         for(String part:constraint.getParts())
         {
@@ -224,7 +187,6 @@ public class AstModelInterpreeter {
                 }
             }
         }
-        //RuleVariable var = constraintHasVars(constraint, vars);
 
         code.append(buildConstraint(constraint, replacementVars.iterator(), flagIterator, aliases));
 
@@ -234,7 +196,6 @@ public class AstModelInterpreeter {
     private static String buildConstraint(Constraint constraint, Iterator<RuleVariable> replacementVars, int flagIterator, List<Alias> aliases)
     {
         StringBuilder code = new StringBuilder();
-        //code.append("boolean flag").append(flagIterator).append(" = false;").append(System.lineSeparator());
         if(replacementVars.hasNext())
         {
             RuleVariable currentVar = replacementVars.next();
@@ -248,7 +209,6 @@ public class AstModelInterpreeter {
         {
             code.append("if(").append(getConstraintString(constraint, aliases, new FieldAlias().getAliases())).append(" ) {").append(System.lineSeparator());
             code.append("flag").append(flagIterator).append(" = true;").append(System.lineSeparator());
-            //code.append("break;").append(System.lineSeparator());
             code.append("}").append(System.lineSeparator());
         }
         return code.toString();
@@ -269,10 +229,6 @@ public class AstModelInterpreeter {
             else
                 builder.append(replaceVarsWithAlias(constraint.getParts().get(i),aliases)).append(" ");
         }
-        /*for(String part:constraint.getParts())
-        {
-            builder.append(replaceVarsWithAlias(part, aliases)).append(" ");
-        }*/
         return builder.toString();
     }
 
@@ -285,6 +241,7 @@ public class AstModelInterpreeter {
         }
         return part;
     }
+
 
 
 }
