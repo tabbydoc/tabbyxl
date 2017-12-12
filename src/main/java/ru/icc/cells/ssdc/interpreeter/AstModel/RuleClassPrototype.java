@@ -14,8 +14,7 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
     @Override
     public String sayHello() { return null; }
     @Override
-    public void evalLHS(){
-    }
-   /* @Override
-    public CTable evalRHS() { return null; }*/
+    public void evalLHS() { }
+    @Override
+    public void evalRHS() { }
 }

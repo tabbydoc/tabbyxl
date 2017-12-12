@@ -22,16 +22,24 @@ public class Rule {
     private List<Action> actions=new ArrayList<>();
 
     public void addVariable(RuleVariable variable) { ruleVariables.add(variable); }
+
     public List<RuleVariable> getRuleVariables() { return ruleVariables; }
 
-    public void addCondition(Condition condition)
-    {
+    public void addCondition(Condition condition) {
         ruleVariables.add(condition.getVariable());
         conditions.add(condition);
     }
+
     public List<Condition> getConditions() { return conditions; }
 
-    @Override
+    public void addAction(Action action) {
+        this.actions.add(action);
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
     public String toString()
     {
         String lineSeparator=System.lineSeparator();

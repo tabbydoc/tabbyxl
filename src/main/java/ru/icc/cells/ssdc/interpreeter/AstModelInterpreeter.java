@@ -56,19 +56,22 @@ public class AstModelInterpreeter {
         String lineSep = System.lineSeparator();
 
         // import classes
-        code.append(generateImports(imports));
+        code.append(generateImports(imports)).append(lineSep);
 
         // begin class
-        code.append("public class Rule").append(rule.getNum()).append(" extends RuleClassPrototype {").append(lineSep);
+        code.append("public class Rule").append(rule.getNum()).append(" extends RuleClassPrototype {").append(lineSep).append(lineSep);
 
         // append vars
-        code.append(generateVars(rule.getRuleVariables()));
+        code.append(generateVars(rule.getRuleVariables())).append(lineSep);
 
         // make constructor
-        code.append(generateConstructor(rule));
+        code.append(generateConstructor(rule)).append(lineSep);
 
         // generate LHS
-        code.append(generateLHS(rule.getConditions(), rule.getRuleVariables()));
+        code.append(generateLHS(rule.getConditions(), rule.getRuleVariables())).append(lineSep);
+
+        // generate RHS
+        code.append(generateRHS(rule.getActions())).append(lineSep);
 
         code
                 .append("@Override").append(lineSep)
@@ -125,10 +128,10 @@ public class AstModelInterpreeter {
         StringBuilder code = new StringBuilder();
         code
                 .append("@Override").append(System.lineSeparator())
-                .append("public void evalLHS () {").append(System.lineSeparator());
+                .append("public void evalLHS () {").append(System.lineSeparator()).append(System.lineSeparator());
         for(Condition condition:conditions)
         {
-            code.append(generateCondition(condition, vars));
+            code.append(generateCondition(condition, vars)).append(System.lineSeparator());
         }
         for(RuleVariable var:vars)
         {
@@ -162,9 +165,7 @@ public class AstModelInterpreeter {
 
             code.append(generateConstraint(constraint, flagIterator, condition.getVariable().getName(), vars, aliases));
 
-            code.append("if(!flag").append(flagIterator).append(") {").append(System.lineSeparator());
-            code.append("continue;").append(System.lineSeparator());
-            code.append("}").append(System.lineSeparator());
+            code.append("if(!flag").append(flagIterator).append(") { continue; }").append(System.lineSeparator());
         }
         code.append(condition.getVariable().getName()).append(".add(item);").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
@@ -207,9 +208,7 @@ public class AstModelInterpreeter {
         }
         else
         {
-            code.append("if(").append(getConstraintString(constraint, aliases, new FieldAlias().getAliases())).append(" ) {").append(System.lineSeparator());
-            code.append("flag").append(flagIterator).append(" = true;").append(System.lineSeparator());
-            code.append("}").append(System.lineSeparator());
+            code.append("if(").append(getConstraintString(constraint, aliases, new FieldAlias().getAliases())).append(" ) { flag").append(flagIterator).append(" = true; }").append(System.lineSeparator());
         }
         return code.toString();
     }
@@ -242,6 +241,50 @@ public class AstModelInterpreeter {
         return part;
     }
 
+    private static String generateRHS(List<Action> actions)
+    {
+        StringBuilder code = new StringBuilder();
 
+        code.append("@Override").append(System.lineSeparator());
+        code.append("public void evalRHS() {").append(System.lineSeparator());
+
+        for(Action action:actions) {
+            code.append(generateAction(action));
+        }
+
+        code.append("}").append(System.lineSeparator());
+
+        return code.toString();
+    }
+
+    private static String generateAction(Action action)
+    {
+        StringBuilder code = new StringBuilder();
+
+        switch (action.getName())
+        {
+            case "Set_mark": code.append(generateSetMark(action.getParams())); break;
+            case "New_label": code.append(generateNewLabel(action.getParams())); break;
+        }
+
+        return code.toString();
+    }
+
+    private static String generateSetMark(List<String> params)
+    {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for ( CCell item:").append(params.get(0)).append(" ) {").append(System.lineSeparator());
+        code.append("item.setMark( ").append(params.get(1)).append(" );").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+
+        return code.toString();
+    }
+
+    private static String generateNewLabel(List<String> params)
+    {
+        StringBuilder code = new StringBuilder();
+        return code.toString();
+    }
 
 }

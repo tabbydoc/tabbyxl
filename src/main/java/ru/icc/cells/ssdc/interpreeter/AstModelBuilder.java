@@ -50,9 +50,13 @@ public class AstModelBuilder {
         Rule newRule=new Rule(Integer.parseInt(subTree.getText()));
         for(int i=0;i<subTree.getChildCount();i++)
         {
-            if(subTree.getChild(i).getText()=="Conditions")
+            if(subTree.getChild(i).getText() == "Conditions")
             {
                 addConditionsToRule(subTree.getChild(i), newRule);
+            }
+            else if(subTree.getChild(i).getText() == "Actions")
+            {
+                addActionsToRule(subTree.getChild(i), newRule);
             }
         }
         return newRule;
@@ -93,5 +97,20 @@ public class AstModelBuilder {
         Assignment assignment=new Assignment(subTree.getChild(0).getText(), subTree.getChild(1).getText());
         condition.addAssignment(assignment);
 
+    }
+
+    private void addActionsToRule(Tree subTree, Rule rule) {
+        for (int i=0; i<subTree.getChildCount(); i++) {
+            rule.addAction(buildAction(subTree.getChild(i)));
+        }
+    }
+
+    private Action buildAction(Tree subTree) {
+        Action action = new Action(subTree.getText());
+        for (int i=0; i< subTree.getChildCount(); i++)
+        {
+            action.addParam(subTree.getChild(i).getText());
+        }
+        return action;
     }
 }
