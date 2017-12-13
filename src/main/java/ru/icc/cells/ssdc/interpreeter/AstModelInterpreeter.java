@@ -22,6 +22,7 @@ public class AstModelInterpreeter {
         for(RuleClassPrototype obj:ruleObjects)
         {
             obj.evalLHS();
+            obj.evalRHS();
         }
     }
 
@@ -265,6 +266,7 @@ public class AstModelInterpreeter {
         {
             case "Set_mark": code.append(generateSetMark(action.getParams())); break;
             case "New_label": code.append(generateNewLabel(action.getParams())); break;
+            case "New_entry": code.append(generateNewEntry(action.getParams())); break;
         }
 
         return code.toString();
@@ -284,6 +286,24 @@ public class AstModelInterpreeter {
     private static String generateNewLabel(List<String> params)
     {
         StringBuilder code = new StringBuilder();
+
+        code.append("for ( CCell item:").append(params.get(0)).append(" ) {").append(System.lineSeparator());
+        code.append("item.newLabel(");
+        if(params.size()>1) code.append(params.get(1));
+        code.append(");").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+        return code.toString();
+    }
+
+    private static String generateNewEntry(List<String> params)
+    {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for ( CCell item:").append(params.get(0)).append(" ) {").append(System.lineSeparator());
+        code.append("item.newEntry(");
+        if(params.size()>1) code.append(params.get(1));
+        code.append(");").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
         return code.toString();
     }
 
