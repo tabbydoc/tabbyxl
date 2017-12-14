@@ -1,13 +1,12 @@
 package ru.icc.cells.ssdc.interpreeter;
 
 import ru.icc.cells.ssdc.interpreeter.AstModel.*;
+import ru.icc.cells.ssdc.interpreeter.AstModel.actions.Action;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompiler;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompilerException;
-import ru.icc.cells.ssdc.model.CCell;
 import ru.icc.cells.ssdc.model.CTable;
 
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.CharacterCodingException;
 import java.util.*;
 
 public class AstModelInterpreeter {
@@ -109,7 +108,7 @@ public class AstModelInterpreeter {
         code.append("List<CCell> cells = new ArrayList<>();").append(System.lineSeparator());
         for(RuleVariable variable:vars)
         {
-            code.append("private List<").append(variable.getType()).append("> ").append(variable.getName()).append(" = new ArrayList<>();").append(lineSep);
+            code.append("private List<").append(variable.getType()).append("> ").append(variable.getIdentifier().toString()).append(" = new ArrayList<>();").append(lineSep);
         }
         return code.toString();
     }
@@ -136,7 +135,7 @@ public class AstModelInterpreeter {
         }
         for(RuleVariable var:vars)
         {
-            code.append("for( ").append(var.getType()).append(" k:").append(var.getName()).append(" ) {").append(System.lineSeparator());
+            code.append("for( ").append(var.getType()).append(" k:").append(var.getIdentifier().toString()).append(" ) {").append(System.lineSeparator());
             code.append("System.out.println(k.getId());").append(System.lineSeparator());
             code.append("}").append(System.lineSeparator());
         }
@@ -150,7 +149,7 @@ public class AstModelInterpreeter {
         StringBuilder code = new StringBuilder();
 
         List<Alias> aliases = new ArrayList<>();
-        aliases.add(new Alias(condition.getVariable().getName(), "item"));
+        aliases.add(new Alias(condition.getVariable().getIdentifier().toString(), "item"));
 
         code.append("for( ").append(condition.getVariable().getType()).append(" item:");
         switch (condition.getVariable().getType())
@@ -164,11 +163,11 @@ public class AstModelInterpreeter {
             flagIterator ++;
             code.append("boolean flag").append(flagIterator).append(" = false;").append(System.lineSeparator());
 
-            code.append(generateConstraint(constraint, flagIterator, condition.getVariable().getName(), vars, aliases));
+            code.append(generateConstraint(constraint, flagIterator, condition.getVariable().getIdentifier().toString(), vars, aliases));
 
             code.append("if(!flag").append(flagIterator).append(") { continue; }").append(System.lineSeparator());
         }
-        code.append(condition.getVariable().getName()).append(".add(item);").append(System.lineSeparator());
+        code.append(condition.getVariable().getIdentifier().toString()).append(".add(item);").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
 
         return code.toString();
@@ -182,10 +181,10 @@ public class AstModelInterpreeter {
         {
             for(RuleVariable var:vars)
             {
-                if(part.equals(var.getName()))
+                if(part.equals(var.getIdentifier().toString()))
                 {
                     replacementVars.add(var);
-                    aliases.add(new Alias(part, var.getName()+ "_item"));
+                    aliases.add(new Alias(part, var.getIdentifier().toString()+ "_item"));
                 }
             }
         }
@@ -201,7 +200,7 @@ public class AstModelInterpreeter {
         if(replacementVars.hasNext())
         {
             RuleVariable currentVar = replacementVars.next();
-            code.append("for( ").append(currentVar.getType()).append(" ").append(replaceVarsWithAlias(currentVar.getName(), aliases)).append(":").append(currentVar.getName()).append(" ) {").append(System.lineSeparator());
+            code.append("for( ").append(currentVar.getType()).append(" ").append(replaceVarsWithAlias(currentVar.getIdentifier().toString(), aliases)).append(":").append(currentVar.getIdentifier().toString()).append(" ) {").append(System.lineSeparator());
 
             code.append(buildConstraint(constraint, replacementVars, flagIterator, aliases));
 
@@ -249,9 +248,9 @@ public class AstModelInterpreeter {
         code.append("@Override").append(System.lineSeparator());
         code.append("public void evalRHS() {").append(System.lineSeparator());
 
-        for(Action action:actions) {
+        /*for(Action action:actions) {
             code.append(generateAction(action));
-        }
+        }*/
 
         code.append("}").append(System.lineSeparator());
 
@@ -262,12 +261,12 @@ public class AstModelInterpreeter {
     {
         StringBuilder code = new StringBuilder();
 
-        switch (action.getName())
+        /*switch (action.getName())
         {
             case "Set_mark": code.append(generateSetMark(action.getParams())); break;
             case "New_label": code.append(generateNewLabel(action.getParams())); break;
             case "New_entry": code.append(generateNewEntry(action.getParams())); break;
-        }
+        }*/
 
         return code.toString();
     }

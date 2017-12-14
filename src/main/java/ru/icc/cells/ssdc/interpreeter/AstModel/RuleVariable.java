@@ -1,11 +1,14 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel;
 
 public class RuleVariable {
-    private String name;
+
+    private Identifier identifier;
     private String type;
-    public RuleVariable(String type, String name)
-    {
-        this.name = name;
+
+    public RuleVariable(String type, Identifier identifier) {
+
+        this.identifier = identifier;
+
         switch (type)
         {
             case "cell": this.type = "CCell"; break;
@@ -15,6 +18,12 @@ public class RuleVariable {
             default: this.type = type; break;
         }
     }
-    public String getName() { return name; }
-    public String getType() { return type; }
+
+    public Identifier getIdentifier() {
+        return identifier;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

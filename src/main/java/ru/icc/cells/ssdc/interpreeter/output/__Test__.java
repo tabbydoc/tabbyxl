@@ -3,8 +3,6 @@ package ru.icc.cells.ssdc.interpreeter.output;
 import java.io.*;
 import org.antlr.runtime.*;
 import org.antlr.runtime.debug.DebugEventSocketProxy;
-import ru.icc.cells.ssdc.interpreeter.output.crl_gramLexer;
-import ru.icc.cells.ssdc.interpreeter.output.crl_gramParser;
 
 
 public class __Test__ {

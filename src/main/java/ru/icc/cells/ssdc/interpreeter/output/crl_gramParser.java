@@ -1,4 +1,4 @@
-// $ANTLR 3.4 C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2017-12-11 20:24:54
+// $ANTLR 3.4 C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2017-12-14 11:49:20
 package ru.icc.cells.ssdc.interpreeter.output;
 
 import org.antlr.runtime.*;
@@ -207,7 +207,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: import_stmt, crl_rule
+            // elements: crl_rule, import_stmt
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -676,7 +676,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: action, condition, J_int_literal
+            // elements: action, J_int_literal, condition
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -921,7 +921,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: identifier, query, assignment, constraint
+            // elements: identifier, constraint, assignment, query
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2008,7 +2008,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_identifier.add(identifier53.getTree());
 
             // AST REWRITE
-            // elements: identifier, j_expr
+            // elements: j_expr, identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2115,7 +2115,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_identifier.add(identifier57.getTree());
 
             // AST REWRITE
-            // elements: J_int_literal, identifier
+            // elements: identifier, J_int_literal
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2317,7 +2317,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_identifier.add(i2.getTree());
 
             // AST REWRITE
-            // elements: i2, i1
+            // elements: i1, i2
             // token labels: 
             // rule labels: i1, i2, retval
             // token list labels: 
@@ -2446,7 +2446,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: j_expr, identifier
+            // elements: identifier, j_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2670,7 +2670,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_identifier.add(i2.getTree());
 
             // AST REWRITE
-            // elements: i1, i2
+            // elements: i2, i1
             // token labels: 
             // rule labels: i1, i2, retval
             // token list labels: 
@@ -2781,7 +2781,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_identifier.add(i2.getTree());
 
             // AST REWRITE
-            // elements: i1, i2
+            // elements: i2, i1
             // token labels: 
             // rule labels: i1, i2, retval
             // token list labels: 
@@ -2892,7 +2892,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_identifier.add(i2.getTree());
 
             // AST REWRITE
-            // elements: i2, i1
+            // elements: i1, i2
             // token labels: 
             // rule labels: i1, i2, retval
             // token list labels: 
@@ -3036,7 +3036,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_identifier.add(i3.getTree());
 
             // AST REWRITE
-            // elements: i3, i2, i1
+            // elements: i1, i3, i2
             // token labels: 
             // rule labels: i1, i2, i3, retval
             // token list labels: 
@@ -3173,7 +3173,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: identifier, j_expr
+            // elements: j_expr, identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3462,7 +3462,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "identifier"
-    // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:176:1: identifier returns [String value] : t1= Identifier ( '.' t2= Identifier )* ( '.' '*' )? -> IDENT[$value] ;
+    // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:176:1: identifier returns [String value] : t1= Identifier ( '.' t2= Identifier )* ( '.' '*' )? -> ^( IDENT ( Identifier )+ ) ;
     public final crl_gramParser.identifier_return identifier() throws RecognitionException {
         crl_gramParser.identifier_return retval = new crl_gramParser.identifier_return();
         retval.start = input.LT(1);
@@ -3487,7 +3487,7 @@ public TreeAdaptor getTreeAdaptor() {
 
          retval.value =""; 
         try {
-            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:178:2: (t1= Identifier ( '.' t2= Identifier )* ( '.' '*' )? -> IDENT[$value] )
+            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:178:2: (t1= Identifier ( '.' t2= Identifier )* ( '.' '*' )? -> ^( IDENT ( Identifier )+ ) )
             // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:178:5: t1= Identifier ( '.' t2= Identifier )* ( '.' '*' )?
             {
             t1=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_identifier1011);  
@@ -3564,7 +3564,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: 
+            // elements: Identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3574,11 +3574,28 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 178:117: -> IDENT[$value]
+            // 178:117: -> ^( IDENT ( Identifier )+ )
             {
-                adaptor.addChild(root_0, 
-                (CommonTree)adaptor.create(IDENT, retval.value)
-                );
+                // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:178:120: ^( IDENT ( Identifier )+ )
+                {
+                CommonTree root_1 = (CommonTree)adaptor.nil();
+                root_1 = (CommonTree)adaptor.becomeRoot(
+                (CommonTree)adaptor.create(IDENT, "IDENT")
+                , root_1);
+
+                if ( !(stream_Identifier.hasNext()) ) {
+                    throw new RewriteEarlyExitException();
+                }
+                while ( stream_Identifier.hasNext() ) {
+                    adaptor.addChild(root_1, 
+                    stream_Identifier.nextNode()
+                    );
+
+                }
+                stream_Identifier.reset();
+
+                adaptor.addChild(root_0, root_1);
+                }
 
             }
 

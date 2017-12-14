@@ -175,7 +175,7 @@ c_print
 
 identifier returns [String value]
 @init { $value=""; }
-	: 	t1=Identifier { $value+=$t1.text; } ('.' t2=Identifier { $value+="."+$t2.text; })* ('.' '*' { $value+=".*"; })? -> IDENT [$value]
+	: 	t1=Identifier { $value+=$t1.text; } ('.' t2=Identifier { $value+="."+$t2.text; })* ('.' '*' { $value+=".*"; })? -> ^(IDENT Identifier+)
 	;
 
 //lexer
