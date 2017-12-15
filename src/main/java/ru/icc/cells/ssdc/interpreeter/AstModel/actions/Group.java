@@ -1,6 +1,7 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
 
 import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
+import ru.icc.cells.ssdc.interpreeter.FieldAlias;
 
 public class Group extends Action {
 
@@ -32,4 +33,15 @@ public class Group extends Action {
     public String toString() {
         return String.format("[ %s ( %s, %s ) ]", getName(), identifier1.toString(), identifier2.toString());
     }
+
+    @Override
+    public String fetchCode() {
+
+        StringBuilder code = new StringBuilder();
+
+
+
+        return code.toString();
+    }
+
 }

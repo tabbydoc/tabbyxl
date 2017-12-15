@@ -248,25 +248,25 @@ public class AstModelInterpreeter {
         code.append("@Override").append(System.lineSeparator());
         code.append("public void evalRHS() {").append(System.lineSeparator());
 
-        /*for(Action action:actions) {
-            code.append(generateAction(action));
-        }*/
+        for(Action action:actions) {
+            code.append(action.fetchCode());
+        }
 
         code.append("}").append(System.lineSeparator());
 
         return code.toString();
     }
 
-    private static String generateAction(Action action)
+    /*private static String generateAction(Action action)
     {
         StringBuilder code = new StringBuilder();
 
-        /*switch (action.getName())
+        switch (action.getName())
         {
             case "Set_mark": code.append(generateSetMark(action.getParams())); break;
             case "New_label": code.append(generateNewLabel(action.getParams())); break;
             case "New_entry": code.append(generateNewEntry(action.getParams())); break;
-        }*/
+        }
 
         return code.toString();
     }
@@ -304,6 +304,6 @@ public class AstModelInterpreeter {
         code.append(");").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
         return code.toString();
-    }
+    }*/
 
 }
