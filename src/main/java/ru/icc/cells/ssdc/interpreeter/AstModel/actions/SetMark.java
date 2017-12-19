@@ -32,4 +32,16 @@ public class SetMark extends Action {
     public String toString() {
         return String.format("[ %s ( %s, %s ) ]", getName(), identifier.toString(), stringExoression);
     }
+
+    @Override
+    public String fetchCode() {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append("for ( CCell cell:").append(identifier.toString()).append(" ) {").append(System.lineSeparator());
+        code.append("cell.setMark( ").append(stringExoression).append(" );").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+
+        return code.toString();
+    }
 }

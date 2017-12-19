@@ -254,6 +254,7 @@ public class AstModelInterpreeter {
 
         for(Action action:actions) {
             code.append(generateAction(action));
+            code.append(action.fetchCode());
         }
 
         code.append("}").append(System.lineSeparator());

@@ -36,7 +36,7 @@ rule #4
         cell $c1: mark == "@RowLabel"
         cell $c2: mark == "@RowLabel", cl == $c1.cl, cr == $c1.cr
     then
-        group $c1.label with $c2.label
+        group $c1.label[1] with $c2.label[2]
 end
 
 rule #5
