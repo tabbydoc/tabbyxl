@@ -5,60 +5,27 @@ rule #1
     when
         cell $corner: cl == 1, rt == 1, blank
         cell $c: rb <= $corner.rb, cl > $corner.cr, ! blank, ! marked
+	entry $e: rb <= $corner.rb, cl > $corner.cr, ! blank, ! marked, $x: "hello assignment"
+	label $l
+	no cells : rb>=2
     then
+	set text str.getText() to $c
+	set indent 12 to $c
+	split $c
+	merge $c1 with $c2
         set mark "@ColLabel" to $c
+	new entry $c as "str_expr".toUpCase()
+	new entry $c
+	new label $c as String.format("str_expr")
         new label $c
-        update $c
-end
-
-rule #2
-    when
-        cell $corner: cl == 1, rt == 1, blank
-        cell $c: cr <= $corner.cr, rt > $corner.rb, ! blank, ! marked
-    then
-        set mark "@RowLabel" to $c
-        new label $c
-        update $c
-end
-
-rule #3
-    when
-        cell $corner: cl == 1, rt == 1, blank
-        cell $c: cl > $corner.cr, rt > $corner.rb, ! marked
-    then
-        set mark "@Entry" to $c
-        new entry $c as "asdfgsdfg"
-        update $c
-end
-
-rule #4
-    when
-        cell $c1: mark == "@RowLabel"
-        cell $c2: mark == "@RowLabel", cl == $c1.cl, cr == $c1.cr
-    then
-        group $c1.label with $c2.label
-end
-
-rule #5
-    when
-        cell $c1: mark == "@ColLabel"
-        cell $c2: mark == "@ColLabel", rt == $c1.rt, rb == $c1.rb
-    then
-        group $c1.label with $c2.label
-end
-
-rule #6
-    when
-        cell $c1: mark == "@RowLabel"
-        cell $c2: mark == "@Entry", rt >= $c1.rt, rb <= $c1.rb
-    then
-        add label $c1.label to $c2.entry
-end
-
-rule #7
-    when
-        cell $c1: mark == "@ColLabel"
-        cell $c2: mark == "@Entry", cl >= $c1.cl, cr <= $c1.cr
-    then
-        add label $c1.label of $c2 to $c2.entry
+	add label "label" of cat1 to $c
+	add label "label2".toUpCase() to $v
+	set value "str" to $c.label[1]
+        set value "str" to val
+	set category cat1 to $l
+	set category cat2 to $c.label
+	set parent $c.label to $l
+	group $c.label[1] with $l
+	update $val
+	update $c
 end

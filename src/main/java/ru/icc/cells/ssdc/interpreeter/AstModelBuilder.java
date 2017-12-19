@@ -3,6 +3,8 @@ package ru.icc.cells.ssdc.interpreeter;
 import org.antlr.runtime.tree.Tree;
 import ru.icc.cells.ssdc.interpreeter.AstModel.*;
 import ru.icc.cells.ssdc.interpreeter.AstModel.actions.*;
+import ru.icc.cells.ssdc.interpreeter.AstModel.Condition;
+import ru.icc.cells.ssdc.interpreeter.AstModel.NoCondition;
 
 public class AstModelBuilder {
 
@@ -23,18 +25,18 @@ public class AstModelBuilder {
         {
             for(int i=0;i<ast.getChildCount();i++)
             {
-                if(ast.getChild(i).getText()=="SETTING") buildSetting(ast.getChild(i));
+                if(ast.getChild(i).getText()=="Imports") buildImports(ast.getChild(i));
                 else if(ast.getChild(i).getText()=="RULES")
                     buildAllRules(ast.getChild(i));
             }
         }catch (Exception e) { e.printStackTrace(); }
     }
 
-    private void buildSetting(Tree subTree)
+    private void buildImports(Tree subTree)
     {
         for(int i=0;i<subTree.getChildCount();i++)
         {
-            model.addSetting(subTree.getChild(i).getText());
+            model.addImport(subTree.getChild(i).getText());
         }
     }
 
@@ -69,18 +71,22 @@ public class AstModelBuilder {
     {
         for (int i=0;i<subTree.getChildCount();i++)
         {
-            rule.addCondition(buildCondition(i+1, subTree.getChild(i)));
+            if(subTree.getChild(i).getText() == "Condition") {
+                Condition condition = buildCondition(i+1, subTree.getChild(i));
+                rule.addCondition(condition);
+                rule.addVariable(condition.getVariable());
+            }
+            /*else if(subTree.getChild(i).getText() == "No_condiiton") {
+                NoCondition noCondition = buildNoCondition(i+1, subTree.getChild(i));
+                rule.addCondition(noCondition);
+            }*/
         }
     }
 
     private Condition buildCondition(int id, Tree subTree)
     {
-        Identifier ident = new Identifier();
-        for (int i=0; i<subTree.getChild(1).getChildCount(); i++) {
-            ident.addPart(subTree.getChild(1).getChild(i).getText());
-        }
 
-        Condition condition=new Condition(id, subTree.getChild(0).getText(), ident);
+        Condition condition=new Condition(id, new RuleVariable(subTree.getChild(0).getText(), subTree.getChild(1).getText()));
 
         if(subTree.getChildCount()>2)
         {
@@ -94,6 +100,18 @@ public class AstModelBuilder {
         return condition;
     }
 
+    /*private NoCondition buildNoCondition(int id, Tree subTree) {
+
+        NoCondition noCondition = new NoCondition(id, subTree.getChild(0).getText());
+
+        for(int i=1; i<subTree.getChildCount(); i++) {
+            if(subTree.getChild(i).getText()=="Constraint") addConstraintToCondition(subTree.getChild(i), noCondition);
+            else if(subTree.getChild(i).getText()=="Assignment") addAssignmentToCondition(subTree.getChild(i), noCondition);
+        }
+
+        return noCondition;
+    }*/
+
     private void addConstraintToCondition(Tree subTree, Condition condition)
     {
         Constraint constraint=new Constraint();
@@ -106,8 +124,8 @@ public class AstModelBuilder {
     {
         Assignment assignment=new Assignment(subTree.getChild(0).getText(), subTree.getChild(1).getText());
         condition.addAssignment(assignment);
-
     }
+
 
     private void addActionsToRule(Tree subTree, Rule rule) {
 
@@ -152,8 +170,8 @@ public class AstModelBuilder {
 
         SetMark setMark = new SetMark(subTree.getText());
 
-        setMark.setIdentifier(buildIdentifier(subTree.getChild(0)));
-        setMark.setStringExoression(subTree.getChild(1).getText());
+        setMark.setIdentifier(subTree.getChild(0).getChild(0).getText());
+        setMark.setStringExpression(subTree.getChild(1).getChild(0).getText());
 
         return setMark;
     }
@@ -162,8 +180,8 @@ public class AstModelBuilder {
 
         SetText action = new SetText(subTree.getText());
 
-        action.setIdentifier(buildIdentifier(subTree.getChild(0)));
-        action.setStringExpression(subTree.getChild(1).getText());
+        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
+        action.setStringExpression(subTree.getChild(1).getChild(0).getText());
 
         return action;
     }
@@ -172,8 +190,8 @@ public class AstModelBuilder {
 
         SetIndent action = new SetIndent(subTree.getText());
 
-        action.setIdentifier(buildIdentifier(subTree.getChild(0)));
-        action.setIndent(Integer.parseInt(subTree.getChild(1).getText()));
+        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
+        action.setIndent(subTree.getChild(1).getChild(0).getText());
 
         return action;
     }
@@ -182,7 +200,7 @@ public class AstModelBuilder {
 
         Split action = new Split(subTree.getText());
 
-        action.setIdentifier(buildIdentifier(subTree.getChild(0)));
+        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
 
         return action;
     }

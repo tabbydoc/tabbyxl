@@ -13,16 +13,14 @@ options {
 tokens
 {	
 	RULES;
-	J_Expression;
 	Constraint;
 	Condition;
+	No_condition;
 	Conditions;
 	Action;
 	Actions;
-	Set_mark;
-	Java_string_expr;
 	J_expr;
-	SETTING;
+	Imports;
 	Import_item;
 	Assignment;
 	Set_mark;
@@ -40,6 +38,15 @@ tokens
 	Update;
 	Print;
 	IDENT;
+	IDENT1;
+	IDENT2;
+	ADV_IDENT;
+	ADV_IDENT1;
+	ADV_IDENT2;
+	STRING;
+	INT;
+	CATEGORY;
+	LABEL;
 }
 
 /*@headers
@@ -52,73 +59,77 @@ tokens
 
 
 crl
-	:	import_stmt* crl_rule+ -> ^(SETTING import_stmt*) ^(RULES crl_rule+)
+	:	import_stmt* crl_rule+ -> ^(Imports import_stmt*) ^(RULES crl_rule+)
 	;
 	
 	
 import_stmt
-	:	i=import_item -> Import_item [$i.value]
+	:	i=import_unit -> Import_item [$i.value]
 	;
-import_item returns [String value]
+	
+import_unit returns [String value]
 @init{ $value=""; }
 @after{ $value+=";"; }
-	:	t=('import'|'package') { $value+=$t.text+" "; }
-		t1=identifier { $value+=$t1.value; } ';'? EOL
+	:	t=('import'|'package') { $value+=$t.text+" "; } t1=import_item { $value+=$t1.value; } ';'? EOL
 	;
+	
+import_item returns [String value]
+@init { $value=""; }
+	: 	i1=Identifier { $value+=$i1.text; } ('.' i2=Identifier { $value+="."+$i2.text; })* ('.' '*' { $value+=".*"; })? //-> ^(IDENT Identifier1 Identifier2)
+	;
+	
 crl_rule
 	:	'rule #' J_int_literal 'lock-on-active'? EOL
 		'when' EOL 
-		condition+
+		condition_unit+
 		'then' EOL
 		action+
-		'end' EOL? -> ^(J_int_literal ^(Conditions condition+) ^(Actions action+))
+		'end' EOL? -> ^(J_int_literal ^(Conditions condition_unit+) ^(Actions action+))
 	;
+
+condition_unit
+	:	condition|no_condition
+	;
+
 condition
-	:	query identifier (':' constraint (',' constraint)* (',' assignment)* )? EOL 
-		-> ^(Condition query identifier constraint* assignment*)
+	:	query Identifier (':' constraint (',' constraint)* (',' assignment)* )? EOL 
+		-> ^(Condition query Identifier constraint* assignment*)
 	;
+	
 query
-	:	Identifier //'cell'|'entry'|'label'|'category'|'no cells'|'no labels'|'no entries'|'no categories'
+	:	'cell'|'entry'|'label'|'category'
+	;
+	
+no_condition
+	:	no_query ':' constraint (',' constraint)* EOL -> ^(No_condition no_query constraint+)
+	;
+	
+no_query
+	:	'no cells'|'no labels'|'no entries'|'no categories'
 	;
 	
 constraint
-	:	j_expr -> ^(Constraint j_expr)+
+	:	j_expr -> ^(Constraint j_expr)
 	;
+	
 assignment
-	:	identifier ':' j_expr_ -> ^(Assignment identifier j_expr_)
-	;
-/*j_expr
-	:	i=j_expr_ -> J_Expression [$i.value]//^(J_Expression j_expr_)
-	;
-
-j_expr_ returns [String value]
-@init	{$value="";}
-	:	 (i1=  ~(','|'"'|':'|'to'|'as'|'of'|'with'|EOL) { $value+=$i1.text; }
-		 (i2=  ~(','|'"'|':'|'to'|'as'|'of'|'with'|EOL) { $value+=" "+$i2.text; })* )?
-	;*/
-	
-/* 
-j_expr returns [String value]
-@init{ $value=""; }
-	:	 ( i= ~(','|'"'|':'|'to'|'as'|'of'|'with'|EOL) { $value+=$i.text; } )+
-	;
-*/
-j_expr returns [String value]
-@init{ $value=""; }
-	:	 ( i= ~(','|'"'|':'|'to'|EOL) { $value+=$i.text; } )+
+	:	Identifier ':' j_expr -> ^(Assignment Identifier j_expr)
 	;
 	
-j_expr_
-	:	j=j_expr -> ^(J_expr [$j.value])
+j_expr returns [String value]
+@init{ $value=""; }
+	:	 ( i= ~(','|'"'|':'|'to'|'of'|EOL) { $value+=$i.text; } )+
 	;
 
 action
 	:	action_ EOL -> action_
 	;
+	
 action_
 	:	set_mark
 		|set_text
 		|set_indent
+		|set_value
 		|split
 		|merge
 		|new_label
@@ -130,54 +141,66 @@ action_
 		|c_print
 		|update
 	;
+	
 set_mark
-	:	'set mark' j_expr 'to' identifier -> ^(Set_mark identifier j_expr)
+	:	'set mark' j_expr 'to' Identifier -> ^(Set_mark ^(IDENT Identifier) ^(STRING j_expr))
 	;
+	
 set_text
-	:	'set text' j_expr 'to' identifier -> ^(Set_text identifier j_expr)
+	:	'set text' j_expr 'to' Identifier -> ^(Set_text ^(IDENT Identifier) ^(STRING j_expr))
 	;
+	
 set_indent
-	:	'set indent' J_int_literal 'to' identifier -> ^(Set_indent identifier J_int_literal)
+	:	'set indent' J_int_literal 'to' Identifier -> ^(Set_indent ^(IDENT Identifier) ^(INT J_int_literal))
 	;
+	
 split
-	:	'split' identifier -> ^(Split identifier)
+	:	'split' Identifier -> ^(Split ^(IDENT Identifier))
 	;
+	
 merge
-	:	'merge' i1=identifier 'with' i2=identifier -> ^(Merge $i1 $i2)
+	:	'merge' Identifier 'with' Identifier -> ^(Merge ^(IDENT1 Identifier) ^(IDENT2 Identifier))
 	;
+	
 new_entry
-	:	'new entry' identifier ('as' j_expr)? -> ^(New_entry identifier j_expr?)
+	:	'new entry' Identifier ('as' j_expr)? -> ^(New_entry ^(IDENT Identifier) ^(STRING j_expr)? )
 	;
+	
 set_value
-	:	'set value' j_expr 'to' identifier -> ^(Set_value j_expr identifier)
+	:	'set value' j_expr 'to' advanced_identifier -> ^(Set_value ^(ADV_IDENT advanced_identifier) ^(STRING j_expr))
 	;
+	
 set_category
-	:	'set category' i1=identifier 'to' i2=identifier -> ^(Set_category $i1 $i2)
+	:	'set category' j_expr 'to' advanced_identifier -> ^(Set_category ^(ADV_IDENT advanced_identifier) ^(CATEGORY j_expr))
 	;
+	
 set_parent
-	:	'set parent' i1=identifier 'to' i2=identifier -> ^(Set_parent $i1 $i2)
+	:	'set parent' advanced_identifier 'to' advanced_identifier -> ^(Set_parent ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
 	;
+	
 group
-	:	'group' i1=identifier 'with' i2=identifier -> ^(Group $i1 $i2)
+	:	'group' advanced_identifier 'with' advanced_identifier -> ^(Group ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
 	;
+	
 add_label
-	:	'add label' i1=identifier ('of' i2=identifier)? 'to' i3=identifier -> ^(Add_label $i1 $i2? $i3)
+	:	'add label' j_expr ('of' j_expr)? 'to' advanced_identifier -> ^(Add_label ^(LABEL j_expr) ^(CATEGORY j_expr)? ^(ADV_IDENT advanced_identifier))
 	;
+	
 new_label
-	:	'new label' identifier ('as' j_expr)? -> ^(New_label identifier j_expr?)
+	:	'new label' Identifier ('as' j_expr)? -> ^(New_label ^(IDENT Identifier) ^(STRING j_expr)?)
 	;
+	
 update
-	:	'update' identifier -> ^(Update identifier)
+	:	'update' advanced_identifier -> ^(Update ^(ADV_IDENT advanced_identifier))
 	;
+	
 c_print
 	:	('print'|'printf') j_expr -> ^(Print j_expr)
 	;
 
-identifier returns [String value]
-@init { $value=""; }
-	: 	t1=Identifier { $value+=$t1.text; } ('.' t2=Identifier { $value+="."+$t2.text; })* ('.' '*' { $value+=".*"; })? -> ^(IDENT Identifier+)
+advanced_identifier	
+	:	Identifier ('.' query index?)?
 	;
-
 //lexer
 WS
 	:	 (' ')+ { $channel=HIDDEN; } 
@@ -193,7 +216,11 @@ Other_literals
 	:	'='|'!'|'?'|'|'|'>'|'<'|'=='|'>='|'<='|'!='
 	;
 Identifier
-	:	('$'|'_'|LETTER)('$'|'_'|LETTER|DIGIT)*
+	:	('$'|'_'|LETTER|DIGIT)('$'|'_'|LETTER|DIGIT)*
+
+	;
+index
+	:	'[' J_int_literal ']' -> J_int_literal
 	;
 String_lit
 	:	'"' (.)* '"'

@@ -19,16 +19,27 @@ public class Rule {
         this.num=num;
     }
 
-    private List<RuleVariable> ruleVariables = new ArrayList<>();
     private List<Condition> conditions=new ArrayList<>();
     private List<Action> actions=new ArrayList<>();
 
-    public void addVariable(RuleVariable variable) { ruleVariables.add(variable); }
+    /*private Map<String, String> varTypes = new HashMap<>();
 
-    public List<RuleVariable> getRuleVariables() { return ruleVariables; }
+    public void addVarType (String identifier, String type) {
+        varTypes.put(identifier, type);
+    }*/
+
+    private List<RuleVariable> variables = new ArrayList<>();
+
+    public List<RuleVariable> getVariables() {
+        return variables;
+    }
+
+    public void addVariable(RuleVariable variable) {
+        variables.add(variable);
+    }
 
     public void addCondition(Condition condition) {
-        ruleVariables.add(condition.getVariable());
+
         conditions.add(condition);
     }
 

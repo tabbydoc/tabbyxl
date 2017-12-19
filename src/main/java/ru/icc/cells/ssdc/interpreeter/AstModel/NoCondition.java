@@ -2,24 +2,21 @@ package ru.icc.cells.ssdc.interpreeter.AstModel;
 
 import ru.icc.cells.ssdc.interpreeter.AstModel.Assignment;
 import ru.icc.cells.ssdc.interpreeter.AstModel.Constraint;
-import ru.icc.cells.ssdc.interpreeter.AstModel.RuleVariable;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.StringJoiner;
 
-public class Condition {
+public class NoCondition{
 
-    public Condition(int id, RuleVariable variable) {
+    public NoCondition(int id, String query) {
         this.id = id;
-        this.variable = variable;
+        this.query = query;
     }
 
-    private RuleVariable variable;
+    private String query;
 
-    public RuleVariable getVariable() {
-        return variable;
+    public String getQuery() {
+        return query;
     }
 
     private int id;
@@ -45,18 +42,23 @@ public class Condition {
         return assignments;
     }
 
-    public String toString()
-    {
-        StringBuilder result=new StringBuilder();
-        result.append(variable.getType()).append(" ").append(variable.getIdentifier()).append(System.lineSeparator());
+    public String toString() {
+
+        StringBuilder result = new StringBuilder();
+
+        result.append(query).append(System.lineSeparator());
+
         result.append(String.format("constraints (%d): ",getConstraints().size()));
         for(Constraint constraint:getConstraints()) {
             result.append("[ ").append(constraint.toString()).append(" ] ");
         }
         result.append(System.lineSeparator());
+
         result.append(String.format("assignments (%d): ", getAssignments().size()));
         for(Assignment assignment:getAssignments())
             result.append("[ ").append(assignment.toString()).append(" ] ");
+        result.append(System.lineSeparator());
+
         return result.toString();
     }
 }

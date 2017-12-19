@@ -8,13 +8,13 @@ public class SetText extends Action {
         super(name);
     }
 
-    private Identifier identifier;
+    private String identifier;
 
-    public Identifier getIdentifier() {
+    public String getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(Identifier identifier) {
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 

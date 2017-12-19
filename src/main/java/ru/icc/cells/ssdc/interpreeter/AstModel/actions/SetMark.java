@@ -8,23 +8,23 @@ public class SetMark extends Action {
         super(name);
     }
 
-    private Identifier identifier;
+    private String identifier;
 
-    public void setIdentifier(Identifier identifier) {
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
-    public Identifier getIdentifier() {
+    public String getIdentifier() {
         return identifier;
     }
 
     private String stringExoression;
 
-    public void setStringExoression(String stringExoression) {
+    public void setStringExpression(String stringExoression) {
         this.stringExoression = stringExoression;
     }
 
-    public String getStringExoression() {
+    public String getStringExpression() {
         return stringExoression;
     }
 

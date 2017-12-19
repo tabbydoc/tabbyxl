@@ -1,7 +1,8 @@
 package ru.icc.cells.ssdc.interpreeter;
 
 import ru.icc.cells.ssdc.interpreeter.AstModel.*;
-import ru.icc.cells.ssdc.interpreeter.AstModel.actions.Action;
+import ru.icc.cells.ssdc.interpreeter.AstModel.actions.*;
+import ru.icc.cells.ssdc.interpreeter.AstModel.Condition;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompiler;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompilerException;
 import ru.icc.cells.ssdc.model.CTable;
@@ -62,13 +63,13 @@ public class AstModelInterpreeter {
         code.append("public class Rule").append(rule.getNum()).append(" extends RuleClassPrototype {").append(lineSep).append(lineSep);
 
         // append vars
-        code.append(generateVars(rule.getRuleVariables())).append(lineSep);
+        code.append(generateVars(rule.getVariables())).append(lineSep);
 
         // make constructor
         code.append(generateConstructor(rule)).append(lineSep);
 
         // generate LHS
-        code.append(generateLHS(rule.getConditions(), rule.getRuleVariables())).append(lineSep);
+        code.append(generateLHS(rule.getConditions(), rule.getVariables())).append(lineSep);
 
         // generate RHS
         code.append(generateRHS(rule.getActions())).append(lineSep);
@@ -104,8 +105,11 @@ public class AstModelInterpreeter {
     private static String generateVars(List<RuleVariable> vars)
     {
         StringBuilder code = new StringBuilder();
+
         String lineSep = System.lineSeparator();
+
         code.append("List<CCell> cells = new ArrayList<>();").append(System.lineSeparator());
+
         for(RuleVariable variable:vars)
         {
             code.append("private List<").append(variable.getType()).append("> ").append(variable.getIdentifier().toString()).append(" = new ArrayList<>();").append(lineSep);
@@ -248,9 +252,9 @@ public class AstModelInterpreeter {
         code.append("@Override").append(System.lineSeparator());
         code.append("public void evalRHS() {").append(System.lineSeparator());
 
-        /*for(Action action:actions) {
+        for(Action action:actions) {
             code.append(generateAction(action));
-        }*/
+        }
 
         code.append("}").append(System.lineSeparator());
 
@@ -261,22 +265,55 @@ public class AstModelInterpreeter {
     {
         StringBuilder code = new StringBuilder();
 
-        /*switch (action.getName())
+        switch (action.getName())
         {
-            case "Set_mark": code.append(generateSetMark(action.getParams())); break;
-            case "New_label": code.append(generateNewLabel(action.getParams())); break;
-            case "New_entry": code.append(generateNewEntry(action.getParams())); break;
-        }*/
+            case "Set_text": code.append(generateSetText((SetText) action)); break;
+            case "Set_indent": code.append(generateSetIndent((SetIndent) action)); break;
+            case "Split": code.append(generateSplit((Split) action)); break;
+            case "Set_mark": code.append(generateSetMark((SetMark) action)); break;
+            /*case "New_label": code.append(generateNewLabel(action.getParams())); break;
+            case "New_entry": code.append(generateNewEntry(action.getParams())); break;*/
+        }
 
         return code.toString();
     }
 
-    private static String generateSetMark(List<String> params)
+    private static String generateSetText(SetText action) {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for(CCell cell:").append(action.getIdentifier()).append(") {").append(System.lineSeparator());
+        code.append("cell.setText(").append(action.getStringExpression()).append(");").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+
+        return code.toString();
+    }
+
+    private static String generateSetIndent(SetIndent action) {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for(CCell cell:").append(action.getIdentifier()).append(") {").append(System.lineSeparator());
+        code.append("cell.setIndent(").append(action.getIndent()).append(");").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+
+        return code.toString();
+    }
+
+    private static String generateSplit(Split action) {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for(CCell cell:)").append(action.getIdentifier()).append(") {").append(System.lineSeparator());
+        code.append("cell.split();").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+
+        return code.toString();
+    }
+
+    private static String generateSetMark(SetMark action)
     {
         StringBuilder code = new StringBuilder();
 
-        code.append("for ( CCell item:").append(params.get(0)).append(" ) {").append(System.lineSeparator());
-        code.append("item.setMark( ").append(params.get(1)).append(" );").append(System.lineSeparator());
+        code.append("for ( CCell cell:").append(action.getIdentifier()).append(" ) {").append(System.lineSeparator());
+        code.append("cell.setMark( ").append(action.getStringExpression()).append(" );").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
 
         return code.toString();

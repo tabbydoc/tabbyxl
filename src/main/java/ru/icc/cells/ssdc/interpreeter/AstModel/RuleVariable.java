@@ -2,10 +2,10 @@ package ru.icc.cells.ssdc.interpreeter.AstModel;
 
 public class RuleVariable {
 
-    private Identifier identifier;
+    private String identifier;
     private String type;
 
-    public RuleVariable(String type, Identifier identifier) {
+    public RuleVariable(String type, String identifier) {
 
         this.identifier = identifier;
 
@@ -19,7 +19,7 @@ public class RuleVariable {
         }
     }
 
-    public Identifier getIdentifier() {
+    public String getIdentifier() {
         return identifier;
     }
 

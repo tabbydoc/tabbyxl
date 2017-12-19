@@ -1,35 +1,33 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
 
-import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
-
 public class SetIndent extends Action {
 
     public SetIndent(String name) {
         super(name);
     }
 
-    private Identifier identifier;
+    private String identifier;
 
-    public void setIdentifier(Identifier identifier) {
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
-    public Identifier getIdentifier() {
+    public String getIdentifier() {
         return identifier;
     }
 
-    private int indent;
+    private String indent;
 
-    public void setIndent(int indent) {
+    public void setIndent(String indent) {
         this.indent = indent;
     }
 
-    public int getIndent() {
+    public String getIndent() {
         return indent;
     }
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %d ) ]", getName(), identifier.toString(), indent);
+        return String.format("[ %s ( %s, %d ) ]", getName(), identifier, indent);
     }
 }

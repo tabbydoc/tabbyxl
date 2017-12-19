@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Model {
 
-    private int id;
+    /*private int id;
     public int getId() {
         return id;
-    }
+    }*/
 
     List<String> imports=new ArrayList<>();
     List<Rule> rules=new ArrayList<>();
 
     public Model(){}
 
-    public void addSetting(String setting)
+    public void addImport(String setting)
     {
         imports.add(setting);
     }
@@ -30,7 +30,6 @@ public class Model {
 
     public List<String> getImports() { return imports; }
 
-    @Override
     public String toString()
     {
         String lineSeparator=System.lineSeparator();
