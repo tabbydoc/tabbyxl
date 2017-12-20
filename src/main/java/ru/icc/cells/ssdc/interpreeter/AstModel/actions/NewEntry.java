@@ -8,13 +8,13 @@ public class NewEntry extends Action {
         super(name);
     }
 
-    private Identifier identifier;
+    private String identifier;
 
-    public void setIdentifier(Identifier identifier) {
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
-    public Identifier getIdentifier() {
+    public String getIdentifier() {
         return identifier;
     }
 
@@ -32,19 +32,5 @@ public class NewEntry extends Action {
     public String toString() {
         if(stringExpression != null) return String.format("[ %s ( %s, %s ) ]", getName(), identifier.toString(), stringExpression);
         else return String.format("[ %s ( %s ) ]", getName(), identifier.toString());
-    }
-
-    @Override
-    public String fetchCode() {
-
-        StringBuilder code = new StringBuilder();
-
-        code.append("for ( CCell cell:").append(identifier.toString()).append(" ) {").append(System.lineSeparator());
-        code.append("cell.newEntry(");
-        if(stringExpression != null) code.append(stringExpression);
-        code.append(");").append(System.lineSeparator());
-        code.append("}").append(System.lineSeparator());
-
-        return code.toString();
     }
 }

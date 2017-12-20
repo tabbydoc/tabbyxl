@@ -209,8 +209,8 @@ public class AstModelBuilder {
 
         Merge action = new Merge(subTree.getText());
 
-        action.setIdentifier1(buildIdentifier(subTree.getChild(0)));
-        action.setIdentifier2(buildIdentifier(subTree.getChild(1)));
+        action.setIdentifier1(subTree.getChild(0).getChild(0).getText());
+        action.setIdentifier2(subTree.getChild(1).getChild(0).getText());
 
         return action;
     }
@@ -219,9 +219,9 @@ public class AstModelBuilder {
 
         NewEntry action = new NewEntry(subTree.getText());
 
-        action.setIdentifier(buildIdentifier(subTree.getChild(0)));
+        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
 
-        if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getText());
+        if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getChild(0).getText());
 
         return action;
     }
@@ -230,9 +230,9 @@ public class AstModelBuilder {
 
         NewLabel action = new NewLabel(subTree.getText());
 
-        action.setIdentifier(buildIdentifier(subTree.getChild(0)));
+        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
 
-        if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getText());
+        if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getChild(0).getText());
 
         return action;
     }

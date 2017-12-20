@@ -8,23 +8,23 @@ public class Merge extends Action {
         super(name);
     }
 
-    private Identifier identifier1;
+    private String identifier1;
 
-    public Identifier getIdentifier1() {
+    public String getIdentifier1() {
         return identifier1;
     }
 
-    public void setIdentifier1(Identifier identifier1) {
+    public void setIdentifier1(String identifier1) {
         this.identifier1 = identifier1;
     }
 
-    private Identifier identifier2;
+    private String identifier2;
 
-    public Identifier getIdentifier2() {
+    public String getIdentifier2() {
         return identifier2;
     }
 
-    public void setIdentifier2(Identifier identifier2) {
+    public void setIdentifier2(String identifier2) {
         this.identifier2 = identifier2;
     }
 

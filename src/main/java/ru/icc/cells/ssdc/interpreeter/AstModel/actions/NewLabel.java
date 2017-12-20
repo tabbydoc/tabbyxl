@@ -8,13 +8,13 @@ public class NewLabel extends Action {
         super(name);
     }
 
-    private Identifier identifier;
+    private String identifier;
 
-    public Identifier getIdentifier() {
+    public String getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(Identifier identifier) {
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
@@ -34,7 +34,7 @@ public class NewLabel extends Action {
         else return String.format("[ %s ( %s ) ]", getName(), identifier.toString());
     }
 
-    @Override
+    /*@Override
     public String fetchCode() {
 
         StringBuilder code = new StringBuilder();
@@ -50,5 +50,5 @@ public class NewLabel extends Action {
         code.append("}").append(System.lineSeparator());
 
         return code.toString();
-    }
+    }*/
 }

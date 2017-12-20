@@ -7,8 +7,10 @@ import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompiler;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompilerException;
 import ru.icc.cells.ssdc.model.CTable;
 
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.List;
 
 public class AstModelInterpreeter {
 
@@ -18,12 +20,26 @@ public class AstModelInterpreeter {
 
         CharSequenceCompiler compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
         List<Class<? extends RuleClassPrototype>> classes = compileClasses(model, compiler);
-        List<? extends RuleClassPrototype> ruleObjects = getRuleObjects(classes, table);
+
+        System.out.println("****** Table in begin *******");
+        System.out.println(table.trace());
+        System.out.println();
+
+        for(Class<? extends RuleClassPrototype> ruleClass:classes) {
+            RuleClassPrototype ruleObject = ruleClass.getConstructor(new Class[] { CTable.class }).newInstance(new Object[] { table });
+            ruleObject.evalLHS();
+            ruleObject.evalRHS();
+
+            System.out.println(String.format("****** Table after %s ******", ruleObject.getClass().getSimpleName()));
+            System.out.println(ruleObject.getTable().trace());
+            System.out.println();
+        }
+        /*List<? extends RuleClassPrototype> ruleObjects = getRuleObjects(classes, table);
         for(RuleClassPrototype obj:ruleObjects)
         {
             obj.evalLHS();
             obj.evalRHS();
-        }
+        }*/
     }
 
     private static List<Class<? extends RuleClassPrototype>> compileClasses(Model model, CharSequenceCompiler compiler) throws CharSequenceCompilerException {
@@ -41,7 +57,7 @@ public class AstModelInterpreeter {
         return String.format("%s.Rule%d", PACK, rule.getNum());
     }
 
-    private static List<? extends RuleClassPrototype> getRuleObjects(List<Class<? extends RuleClassPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    /*private static List<? extends RuleClassPrototype> getRuleObjects(List<Class<? extends RuleClassPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<RuleClassPrototype> ruleObjects = new ArrayList<>();
         for(Class<? extends RuleClassPrototype> c:ruleClasses)
         {
@@ -49,7 +65,7 @@ public class AstModelInterpreeter {
             ruleObjects.add(obj);
         }
         return ruleObjects;
-    }
+    }*/
 
     private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
     {
@@ -137,13 +153,15 @@ public class AstModelInterpreeter {
         {
             code.append(generateCondition(condition, vars)).append(System.lineSeparator());
         }
-        for(RuleVariable var:vars)
+
+        /*for(RuleVariable var:vars)
         {
             code.append("for( ").append(var.getType()).append(" k:").append(var.getIdentifier().toString()).append(" ) {").append(System.lineSeparator());
             code.append("System.out.println(k.getId());").append(System.lineSeparator());
             code.append("}").append(System.lineSeparator());
         }
-        code.append("System.out.println(\"done\");").append(System.lineSeparator());
+        code.append("System.out.println(\"done\");").append(System.lineSeparator());*/
+
         code.append("}").append(System.lineSeparator());
         return code.toString();
     }
@@ -271,6 +289,9 @@ public class AstModelInterpreeter {
             case "Set_text": code.append(generateSetText((SetText) action)); break;
             case "Set_indent": code.append(generateSetIndent((SetIndent) action)); break;
             case "Split": code.append(generateSplit((Split) action)); break;
+            case "Merge": code.append(generateMerge((Merge) action)); break;
+            case "New_entry": code.append(generateNewEntry((NewEntry) action)); break;
+            case "New_label": code.append(generateNewLabel((NewLabel) action)); break;
             case "Set_mark": code.append(generateSetMark((SetMark) action)); break;
             /*case "New_label": code.append(generateNewLabel(action.getParams())); break;
             case "New_entry": code.append(generateNewEntry(action.getParams())); break;*/
@@ -303,9 +324,45 @@ public class AstModelInterpreeter {
         StringBuilder code = new StringBuilder();
 
         code.append("for(CCell cell:)").append(action.getIdentifier()).append(") {").append(System.lineSeparator());
-        code.append("cell.split();").append(System.lineSeparator());
+        code.append("for(CCell newCell:cell.split()) {").append(System.lineSeparator());
+        code.append("table.addCell(newCell);").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+        code.append("table.removeCell( cell );").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
 
+        return code.toString();
+    }
+
+    private static String generateMerge(Merge action) {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for ( CCell cell1:").append(action.getIdentifier1()).append(" ) {").append(System.lineSeparator());
+        code.append("for ( CCell cell2:").append(action.getIdentifier2()).append(" ) {").append(System.lineSeparator());
+        code.append("cell1.merge( cell2 );").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+        code.append("table.removeCell(cell1);").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+
+        return code.toString();
+    }
+
+    private static String generateNewEntry(NewEntry action)
+    {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for ( CCell item:").append(action.getIdentifier()).append(" ) {").append(System.lineSeparator());
+        code.append("item.newEntry(").append(action.getStringExpression()).append(");").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
+        return code.toString();
+    }
+
+    private static String generateNewLabel(NewLabel action)
+    {
+        StringBuilder code = new StringBuilder();
+
+        code.append("for ( CCell item:").append(action.getIdentifier()).append(" ) {").append(System.lineSeparator());
+        code.append("item.newLabel(").append(action.getStringExpression()).append(");").append(System.lineSeparator());
+        code.append("}").append(System.lineSeparator());
         return code.toString();
     }
 
@@ -317,30 +374,6 @@ public class AstModelInterpreeter {
         code.append("cell.setMark( ").append(action.getStringExpression()).append(" );").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
 
-        return code.toString();
-    }
-
-    private static String generateNewLabel(List<String> params)
-    {
-        StringBuilder code = new StringBuilder();
-
-        code.append("for ( CCell item:").append(params.get(0)).append(" ) {").append(System.lineSeparator());
-        code.append("item.newLabel(");
-        if(params.size()>1) code.append(params.get(1));
-        code.append(");").append(System.lineSeparator());
-        code.append("}").append(System.lineSeparator());
-        return code.toString();
-    }
-
-    private static String generateNewEntry(List<String> params)
-    {
-        StringBuilder code = new StringBuilder();
-
-        code.append("for ( CCell item:").append(params.get(0)).append(" ) {").append(System.lineSeparator());
-        code.append("item.newEntry(");
-        if(params.size()>1) code.append(params.get(1));
-        code.append(");").append(System.lineSeparator());
-        code.append("}").append(System.lineSeparator());
         return code.toString();
     }
 

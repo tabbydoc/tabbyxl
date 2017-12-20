@@ -59,12 +59,12 @@ public final class CTable
         return this.cells.iterator();
     }
 
-    void removeCell( CCell cell )
+    public void removeCell( CCell cell )
     {
         cells.remove( cell );
     }
 
-    void addCell( CCell cell )
+    public void addCell( CCell cell )
     {
         // TODO checking conflicts in cell coordinate intersection
         cells.add( cell );
