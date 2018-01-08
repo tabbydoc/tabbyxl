@@ -450,7 +450,7 @@ public final class TabbyXL {
     public static void main(String[] args) {
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
 
-        try {
+        /*try {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
@@ -525,8 +525,17 @@ public final class TabbyXL {
         System.out.println();
         System.out.println("My interpreeter tries work");
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
-
+*/
         try {
+            parseCommandLineParams(args);
+            System.out.printf("%s%n%n", traceParsedParams());
+
+            loadWorkbook();
+            loadRules();
+            loadCatFiles();
+            DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
+            DATA_LOADER.setUseCellValue(useCellValue);
+
             ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
             crl_gramLexer lexer = new crl_gramLexer(fileStream1);
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
@@ -547,15 +556,6 @@ public final class TabbyXL {
 
             AstModelInterpreeter.compileAllRules(model);
             System.out.println("RuleClasses ok");
-
-            parseCommandLineParams(args);
-            System.out.printf("%s%n%n", traceParsedParams());
-
-            loadWorkbook();
-            //loadRules();
-            loadCatFiles();
-            DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
-            DATA_LOADER.setUseCellValue(useCellValue);
 
             int count = 0;
 
