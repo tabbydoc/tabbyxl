@@ -1,11 +1,15 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
 
 import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
+import ru.icc.cells.ssdc.interpreeter.AstModelInterpreeter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetValue extends Action {
 
-    public SetValue(String name) {
-        super(name);
+    public SetValue(int id, String name) {
+        super(id, name);
     }
 
     private Identifier identifier;
@@ -18,18 +22,35 @@ public class SetValue extends Action {
         return identifier;
     }
 
-    private String stringExpression;
+    private List<String> stringExpression = new ArrayList<>();
 
-    public void setStringExpression(String stringExpression) {
-        this.stringExpression = stringExpression;
+    public void addStringToExpression(String string) {
+        this.stringExpression.add(string);
     }
 
-    public String getStringExpression() {
+    public List<String> getStringExpression() {
         return stringExpression;
     }
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %s) ]", getName(), identifier.toString(), stringExpression);
+
+        StringBuilder string = new StringBuilder();
+
+        for (String part : stringExpression) {
+            string.append(part);
+        }
+
+        return String.format("[ %d %s ( %s, %s) ]", getId(), getName(), identifier.toString(), string.toString());
+    }
+
+    @Override
+    public String generateCallingAction () {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval( ").append(identifier.getNormalForm()).append(", ").append(AstModelInterpreeter.buildExpression(stringExpression, "")).append(" )");
+
+        return code.toString();
     }
 }

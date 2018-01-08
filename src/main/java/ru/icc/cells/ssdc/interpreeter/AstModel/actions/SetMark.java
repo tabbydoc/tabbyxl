@@ -1,11 +1,15 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
 
 import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
+import ru.icc.cells.ssdc.interpreeter.AstModelInterpreeter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetMark extends Action {
 
-    public SetMark(String name) {
-        super(name);
+    public SetMark(int id, String name) {
+        super(id, name);
     }
 
     private String identifier;
@@ -18,22 +22,39 @@ public class SetMark extends Action {
         return identifier;
     }
 
-    private String stringExoression;
+    private List<String> stringExoression = new ArrayList<>();
 
-    public void setStringExpression(String stringExoression) {
-        this.stringExoression = stringExoression;
+    public void addStringToExpression(String stringExoression) {
+        this.stringExoression.add(stringExoression);
     }
 
-    public String getStringExpression() {
+    public List<String> getStringExpression() {
         return stringExoression;
     }
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %s ) ]", getName(), identifier.toString(), stringExoression);
+
+        StringBuilder exprBuilder = new StringBuilder();
+
+        for(String part:stringExoression) {
+            exprBuilder.append(part);
+        }
+
+        return String.format("[ %d %s ( %s, %s ) ]", getId(), getName(), identifier.toString(), exprBuilder.toString());
     }
 
     @Override
+    public String generateCallingAction() {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval(").append(identifier).append(", ").append(AstModelInterpreeter.buildExpression(stringExoression, "")).append(")");
+
+        return code.toString();
+    }
+
+    /*@Override
     public String fetchCode() {
 
         StringBuilder code = new StringBuilder();
@@ -43,5 +64,5 @@ public class SetMark extends Action {
         code.append("}").append(System.lineSeparator());
 
         return code.toString();
-    }
+    }*/
 }

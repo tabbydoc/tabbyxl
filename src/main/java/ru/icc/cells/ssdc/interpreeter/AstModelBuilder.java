@@ -6,6 +6,8 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.actions.*;
 import ru.icc.cells.ssdc.interpreeter.AstModel.Condition;
 import ru.icc.cells.ssdc.interpreeter.AstModel.NoCondition;
 
+import java.util.List;
+
 public class AstModelBuilder {
 
     private Model model;
@@ -71,29 +73,46 @@ public class AstModelBuilder {
     {
         for (int i=0;i<subTree.getChildCount();i++)
         {
-            if(subTree.getChild(i).getText() == "Condition") {
+            if(subTree.getChild(i).getText() == "Condition" || subTree.getChild(i).getText() == "No_condition") {
                 Condition condition = buildCondition(i+1, subTree.getChild(i));
                 rule.addCondition(condition);
-                rule.addVariable(condition.getVariable());
+                if (condition.getVariable() != null)
+                    rule.addVariable(condition.getVariable());
             }
-            /*else if(subTree.getChild(i).getText() == "No_condiiton") {
-                NoCondition noCondition = buildNoCondition(i+1, subTree.getChild(i));
-                rule.addCondition(noCondition);
-            }*/
         }
     }
 
     private Condition buildCondition(int id, Tree subTree)
     {
+        Condition condition = new Condition(id);
 
-        Condition condition=new Condition(id, new RuleVariable(subTree.getChild(0).getText(), subTree.getChild(1).getText()));
+        switch (subTree.getChild(0).getText()) {
+            case "cell": condition.setType("condition"); condition.setVariable(new RuleVariable("CCell", subTree.getChild(1).getText()));
+                break;
+            case "label": condition.setType("condition"); condition.setVariable(new RuleVariable("CLabel", subTree.getChild(1).getText()));
+                break;
+            case "entry": condition.setType("condition"); condition.setVariable(new RuleVariable("CEntry", subTree.getChild(1).getText()));
+                break;
+            case "category": condition.setType("condition"); condition.setVariable(new RuleVariable("Category", subTree.getChild(1).getText()));
+                break;
+            case "no cells": condition.setType("no_condition"); condition.setVariable(new RuleVariable("CCell", "$id"+condition.getId()));
+                break;
+            case "no labels": condition.setType("no_condition"); condition.setVariable(new RuleVariable("CLabel", "$id"+condition.getId()));
+                break;
+            case "no entries": condition.setType("no_condition"); condition.setVariable(new RuleVariable("CEntry", "$id"+condition.getId()));
+                break;
+            case "no categories": condition.setType("no_condition"); condition.setVariable(new RuleVariable("CCategory", "$id"+condition.getId()));
+                break;
+            default: condition.setType(subTree.getChild(0).getText());
+        }
 
-        if(subTree.getChildCount()>2)
+        for (int i=0; i<subTree.getChildCount(); i++)
         {
-            for(int i=2;i<subTree.getChildCount();i++)
-            {
-                if(subTree.getChild(i).getText()=="Constraint") addConstraintToCondition(subTree.getChild(i), condition);
-                else if(subTree.getChild(i).getText()=="Assignment") addAssignmentToCondition(subTree.getChild(i),condition);
+            if (subTree.getChild(i).getText() == "Constraint") {
+                addConstraintToCondition(subTree.getChild(i), condition);
+            }
+            else if (subTree.getChild(i).getText() == "Assignment") {
+                addAssignmentToCondition(subTree.getChild(i), condition);
             }
         }
 
@@ -122,7 +141,11 @@ public class AstModelBuilder {
 
     private void addAssignmentToCondition(Tree subTree, Condition condition)
     {
-        Assignment assignment=new Assignment(subTree.getChild(0).getText(), subTree.getChild(1).getText());
+        Assignment assignment=new Assignment(subTree.getChild(0).getChild(0).getText());
+
+        for(int i=0; i<subTree.getChild(1).getChildCount(); i++)
+            assignment.addExpressionPart(subTree.getChild(1).getChild(i).getText());
+
         condition.addAssignment(assignment);
     }
 
@@ -130,28 +153,28 @@ public class AstModelBuilder {
     private void addActionsToRule(Tree subTree, Rule rule) {
 
         for (int i=0; i<subTree.getChildCount(); i++) {
-            rule.addAction(buildAction(subTree.getChild(i)));
+            rule.addAction(buildAction(subTree.getChild(i), i+1));
         }
 
     }
 
-    private Action buildAction(Tree subTree) {
+    private Action buildAction(Tree subTree, int id) {
 
         switch (subTree.getText())
         {
-            case "Set_mark": return buildSetMark(subTree);
-            case "Set_text": return buildSetText(subTree);
-            case "Set_indent": return buildSetIndent(subTree);
-            case "Set_value": return buildSetValue(subTree);
-            case "Set_category": return buildSetCategory(subTree);
-            case "Set_parent": return buildSetParent(subTree);
-            case "Split": return buildSplit(subTree);
-            case "Merge": return buildMerge(subTree);
-            case "Group": return buildGroup(subTree);
-            case "New_entry": return buildNewEntry(subTree);
-            case "New_label": return buildNewLabel(subTree);
-            case "Add_label": return buildAddLabel(subTree);
-            default: return new Action(subTree.getText());
+            case "Set_mark": return buildSetMark(id, subTree);
+            case "Set_text": return buildSetText(id, subTree);
+            case "Set_indent": return buildSetIndent(id, subTree);
+            case "Set_value": return buildSetValue(id, subTree);
+            case "Set_category": return buildSetCategory(id, subTree);
+            case "Set_parent": return buildSetParent(id, subTree);
+            case "Split": return buildSplit(id, subTree);
+            case "Merge": return buildMerge(id, subTree);
+            case "Group": return buildGroup(id, subTree);
+            case "New_entry": return buildNewEntry(id, subTree);
+            case "New_label": return buildNewLabel(id, subTree);
+            case "Add_label": return buildAddLabel(id, subTree);
+            default: return null;
         }
     }
 
@@ -166,48 +189,57 @@ public class AstModelBuilder {
         return identifier;
     }
 
-    private SetMark buildSetMark(Tree subTree) {
+    private SetMark buildSetMark(int id, Tree subTree) {
 
-        SetMark setMark = new SetMark(subTree.getText());
+        SetMark setMark = new SetMark(id, subTree.getText());
 
         setMark.setIdentifier(subTree.getChild(0).getChild(0).getText());
-        setMark.setStringExpression(subTree.getChild(1).getChild(0).getText());
+        //setMark.setStringExpression(subTree.getChild(1).getChild(0).getText());
+
+        for(int i=0; i<subTree.getChild(1).getChildCount(); i++)
+            setMark.addStringToExpression(subTree.getChild(1).getChild(i).getText());
 
         return setMark;
     }
 
-    private SetText buildSetText(Tree subTree) {
+    private SetText buildSetText(int id, Tree subTree) {
 
-        SetText action = new SetText(subTree.getText());
+        SetText action = new SetText(id, subTree.getText());
 
         action.setIdentifier(subTree.getChild(0).getChild(0).getText());
-        action.setStringExpression(subTree.getChild(1).getChild(0).getText());
+
+        for(int i=0; i<subTree.getChild(1).getChildCount(); i++) {
+            action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
+        }
 
         return action;
     }
 
-    private SetIndent buildSetIndent(Tree subTree) {
+    private SetIndent buildSetIndent(int id, Tree subTree) {
 
-        SetIndent action = new SetIndent(subTree.getText());
+        SetIndent action = new SetIndent(id, subTree.getText());
 
         action.setIdentifier(subTree.getChild(0).getChild(0).getText());
-        action.setIndent(subTree.getChild(1).getChild(0).getText());
+        //action.setIndent(subTree.getChild(1).getChild(0).getText());
+
+        for(int i=0; i<subTree.getChild(1).getChildCount(); i++)
+            action.addIndentPart(subTree.getChild(1).getChild(i).getText());
 
         return action;
     }
 
-    private Split buildSplit(Tree subTree) {
+    private Split buildSplit(int id, Tree subTree) {
 
-        Split action = new Split(subTree.getText());
+        Split action = new Split(id, subTree.getText());
 
         action.setIdentifier(subTree.getChild(0).getChild(0).getText());
 
         return action;
     }
 
-    private Merge buildMerge(Tree subTree) {
+    private Merge buildMerge(int id, Tree subTree) {
 
-        Merge action = new Merge(subTree.getText());
+        Merge action = new Merge(id, subTree.getText());
 
         action.setIdentifier1(subTree.getChild(0).getChild(0).getText());
         action.setIdentifier2(subTree.getChild(1).getChild(0).getText());
@@ -215,41 +247,59 @@ public class AstModelBuilder {
         return action;
     }
 
-    private NewEntry buildNewEntry(Tree subTree) {
+    private NewEntry buildNewEntry(int id, Tree subTree) {
 
-        NewEntry action = new NewEntry(subTree.getText());
+        NewEntry action = new NewEntry(id, subTree.getText());
 
         action.setIdentifier(subTree.getChild(0).getChild(0).getText());
 
-        if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getChild(0).getText());
+        //if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getChild(0).getText());
+        if( subTree.getChildCount() > 1 ) {
+
+            for ( int i=0; i<subTree.getChild(1).getChildCount(); i++) {
+                action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
+            }
+        }
 
         return action;
     }
 
-    private NewLabel buildNewLabel(Tree subTree) {
+    private NewLabel buildNewLabel(int id, Tree subTree) {
 
-        NewLabel action = new NewLabel(subTree.getText());
+        NewLabel action = new NewLabel(id, subTree.getText());
 
         action.setIdentifier(subTree.getChild(0).getChild(0).getText());
 
-        if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getChild(0).getText());
+        //if(subTree.getChildCount()>1) action.setStringExpression(subTree.getChild(1).getChild(0).getText());
+
+        if( subTree.getChildCount() > 1 ) {
+            for (int i = 0; i < subTree.getChild(1).getChildCount(); i++) {
+                action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
+            }
+        }
 
         return action;
     }
 
-    private SetValue buildSetValue(Tree subTree) {
+    private SetValue buildSetValue(int id, Tree subTree) {
 
-        SetValue action = new SetValue(subTree.getText());
+        SetValue action = new SetValue(id, subTree.getText());
 
         action.setIdentifier(buildIdentifier(subTree.getChild(0)));
-        action.setStringExpression(subTree.getChild(1).getText());
+        //action.setStringExpression(subTree.getChild(1).getText());
+
+        if( subTree.getChildCount() > 1 ) {
+            for (int i = 0; i < subTree.getChild(1).getChildCount(); i++) {
+                action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
+            }
+        }
 
         return action;
     }
 
-    private SetCategory buildSetCategory(Tree subTree) {
+    private SetCategory buildSetCategory(int id, Tree subTree) {
 
-        SetCategory action = new SetCategory(subTree.getText());
+        SetCategory action = new SetCategory(id, subTree.getText());
 
         action.setIdentifier1(buildIdentifier(subTree.getChild(0)));
         action.setIdentifier2(buildIdentifier(subTree.getChild(1)));
@@ -257,9 +307,9 @@ public class AstModelBuilder {
         return action;
     }
 
-    private SetParent buildSetParent(Tree subTree) {
+    private SetParent buildSetParent(int id, Tree subTree) {
 
-        SetParent action = new SetParent(subTree.getText());
+        SetParent action = new SetParent(id, subTree.getText());
 
         action.setParent(buildIdentifier(subTree.getChild(0)));
         action.setChild(buildIdentifier(subTree.getChild(1)));
@@ -267,9 +317,9 @@ public class AstModelBuilder {
         return action;
     }
 
-    private Group buildGroup(Tree subTree) {
+    private Group buildGroup(int id, Tree subTree) {
 
-        Group action = new Group(subTree.getText());
+        Group action = new Group(id, subTree.getText());
 
         action.setIdentifier1(buildIdentifier(subTree.getChild(0)));
         action.setIdentifier2(buildIdentifier(subTree.getChild(1)));
@@ -277,9 +327,9 @@ public class AstModelBuilder {
         return action;
     }
 
-    private AddLabel buildAddLabel(Tree subTree) {
+    private AddLabel buildAddLabel(int id, Tree subTree) {
 
-        AddLabel action = new AddLabel(subTree.getText());
+        AddLabel action = new AddLabel(id, subTree.getText());
 
         if(subTree.getChildCount()>2) {
             action.setLabelIdentifier(buildIdentifier(subTree.getChild(0)));

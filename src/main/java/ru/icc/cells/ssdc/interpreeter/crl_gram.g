@@ -101,7 +101,7 @@ query
 	;
 	
 no_condition
-	:	no_query ':' constraint (',' constraint)* EOL -> ^(No_condition no_query constraint+)
+	:	no_query (':' constraint (',' constraint)* )? EOL -> ^(No_condition no_query constraint*)
 	;
 	
 no_query
@@ -113,7 +113,7 @@ constraint
 	;
 	
 assignment
-	:	Identifier ':' j_expr -> ^(Assignment Identifier j_expr)
+	:	Identifier ':' j_expr -> ^(Assignment ^(IDENT Identifier) ^(STRING j_expr))
 	;
 	
 j_expr returns [String value]

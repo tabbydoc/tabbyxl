@@ -1,12 +1,24 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
 
+import ru.icc.cells.ssdc.model.CCell;
+import ru.icc.cells.ssdc.model.CTable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Action implements ActionInterface {
+
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
     private String name;
 
-    public Action(String name) {
+    public Action(int id, String name) {
+
+        this.id = id;
         this.name = name;
     }
 
@@ -22,6 +34,11 @@ public class Action implements ActionInterface {
 
     @Override
     public String toString() {
-        return String.format("[ %s ]", name);
+        return String.format("[ %d %s ]", id, name);
+    }
+
+    @Override
+    public String generateCallingAction() {
+        return "";
     }
 }

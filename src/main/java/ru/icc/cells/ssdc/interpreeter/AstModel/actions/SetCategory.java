@@ -4,8 +4,8 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
 
 public class SetCategory extends Action {
 
-    public SetCategory(String name) {
-        super(name);
+    public SetCategory(int id, String name) {
+        super(id, name);
     }
 
     private Identifier identifier1;
@@ -30,6 +30,16 @@ public class SetCategory extends Action {
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %s) ]", getName(), identifier1.toString(), identifier2.toString());
+        return String.format("[ %d %s ( %s, %s) ]", getId(), getName(), identifier1.toString(), identifier2.toString());
+    }
+
+    @Override
+    public String generateCallingAction() {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval( ").append(identifier1.getNormalForm()).append(", ").append(identifier2.getNormalForm()).append(" )");
+
+        return code.toString();
     }
 }

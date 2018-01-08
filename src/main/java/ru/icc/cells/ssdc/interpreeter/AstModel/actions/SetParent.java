@@ -4,8 +4,8 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
 
 public class SetParent extends Action {
 
-    public SetParent(String name) {
-        super(name);
+    public SetParent(int id, String name) {
+        super(id, name);
     }
 
     private Identifier parent;
@@ -30,6 +30,16 @@ public class SetParent extends Action {
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %s) ]", getName(), parent.toString(), child.toString());
+        return String.format("[ %d %s ( %s, %s) ]", getId(), getName(), parent.toString(), child.toString());
+    }
+
+    @Override
+    public String generateCallingAction() {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval( ").append(parent.getNormalForm()).append(", ").append(child.getNormalForm()).append(" )");
+
+        return code.toString();
     }
 }

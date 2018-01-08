@@ -7,4 +7,6 @@ public interface ActionInterface {
     String fetchCode();
 
     String toString();
+
+    String generateCallingAction();
 }

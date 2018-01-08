@@ -71,7 +71,8 @@ public class Rule {
                 .append(lineSeparator);
 
         for(Action action:actions)
-            result.append((action.toString())).append(lineSeparator);
+            if(action != null)
+                result.append((action.toString())).append(lineSeparator);
 
         return result.toString();
     }

@@ -11,15 +11,28 @@ import java.util.StringJoiner;
 
 public class Condition {
 
-    public Condition(int id, RuleVariable variable) {
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Condition(int id) {
         this.id = id;
-        this.variable = variable;
     }
 
     private RuleVariable variable;
 
     public RuleVariable getVariable() {
         return variable;
+    }
+
+    public void setVariable(RuleVariable variable) {
+        this.variable = variable;
     }
 
     private int id;
@@ -48,7 +61,12 @@ public class Condition {
     public String toString()
     {
         StringBuilder result=new StringBuilder();
-        result.append(variable.getType()).append(" ").append(variable.getIdentifier()).append(System.lineSeparator());
+        result.append(type.toString());
+        if (type.equals("condition"))
+        {
+            result.append(" ").append(variable.getType()).append(" ").append(variable.getIdentifier());
+        }
+        result.append(System.lineSeparator());
         result.append(String.format("constraints (%d): ",getConstraints().size()));
         for(Constraint constraint:getConstraints()) {
             result.append("[ ").append(constraint.toString()).append(" ] ");
