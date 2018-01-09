@@ -521,11 +521,11 @@ public final class TabbyXL {
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
         }
-
+*/
         System.out.println();
         System.out.println("My interpreeter tries work");
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
-*/
+
         try {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
@@ -576,7 +576,15 @@ public final class TabbyXL {
                     if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
                         CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
-                    AstModelInterpreeter.fireAllRules(table, model);
+                    Date startDate = new Date();
+
+                    AstModelInterpreeter.fireAllRules(table);
+
+                    Date endDate = new Date();
+
+                    currentRuleFiringTime = endDate.getTime() - startDate.getTime();
+                    totalRuleFiringTime += currentRuleFiringTime;
+
                     table.update();
 
                     System.out.println(table.trace());
@@ -605,16 +613,6 @@ public final class TabbyXL {
                     tableNo++;
 
                 }
-                // for (int sheetNo : sheetIndexes) {
-            /*DATA_LOADER.goToSheet(0);
-            String sheetName = DATA_LOADER.getCurrentSheetName();
-
-            CTable table = DATA_LOADER.nextTable();
-
-            AstModelInterpreeter.fireAllRules(table, model);
-
-            //}
-*/
             }
 
             if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);

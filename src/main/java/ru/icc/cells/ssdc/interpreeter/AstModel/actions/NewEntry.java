@@ -53,7 +53,7 @@ public class NewEntry extends Action {
         if( stringExpression.size() > 0 )
             code.append(", ").append(AstModelInterpreeter.buildExpression(stringExpression, ""));
 
-        code.append(", ").append("getTable() )");
+        code.append(", getTable() )");
 
         return code.toString();
     }

@@ -29,7 +29,7 @@ public class AstModelInterpreeter {
         }
     }
 
-    public static void fireAllRules(CTable table, Model model) throws Exception, CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public static void fireAllRules(CTable table) throws Exception, CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         for(Class<? extends RuleClassPrototype> ruleClass:classes) {
             RuleClassPrototype ruleObject = ruleClass.getConstructor(new Class[] { CTable.class }).newInstance(new Object[] { table });
@@ -50,7 +50,7 @@ public class AstModelInterpreeter {
         return ruleClasses;
     }
 
-    /*private static String getRuleClassName(Rule rule) {
+    private static String getRuleClassName(Rule rule) {
 
         return String.format("%s.Rule%d", PACK, rule.getNum());
 
@@ -268,7 +268,7 @@ public class AstModelInterpreeter {
 
         StringBuilder code = new StringBuilder();
 
-        code.append("String ").append(assignment.getIdentifier()).append(" = ").append(buildExpression(assignment.getExpression(), conditionVarName)).append(";").append(System.lineSeparator());
+        code.append("String ").append(assignment.getIdentifier()).append(" = String.valueOf( ").append(buildExpression(assignment.getExpression(), conditionVarName)).append(" );").append(System.lineSeparator());
 
         return code.toString();
     }
