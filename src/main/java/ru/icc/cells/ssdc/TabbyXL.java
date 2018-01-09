@@ -18,6 +18,7 @@ package ru.icc.cells.ssdc;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
@@ -449,7 +450,7 @@ public final class TabbyXL {
     public static void main(String[] args) {
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
 
-        try {
+        /*try {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
@@ -521,8 +522,20 @@ public final class TabbyXL {
             CATEGORY_TEMPLATE_MANAGER.release();
         }
 
+        System.out.println();
+        System.out.println("My interpreeter tries work");
+        System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
+*/
         try {
-            System.out.println("My interpreeter tries work");
+            parseCommandLineParams(args);
+            System.out.printf("%s%n%n", traceParsedParams());
+
+            loadWorkbook();
+            loadRules();
+            loadCatFiles();
+            DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
+            DATA_LOADER.setUseCellValue(useCellValue);
+
             ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
             crl_gramLexer lexer = new crl_gramLexer(fileStream1);
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
@@ -535,12 +548,65 @@ public final class TabbyXL {
             System.out.println("tree ok");
             astPrinter.Print(tree);
 
-            AstModelBuilder astModelBuilder=new AstModelBuilder();
+            AstModelBuilder astModelBuilder = new AstModelBuilder();
             astModelBuilder.buildModel(tree);
-            Model model =astModelBuilder.getModel();
+            Model model = astModelBuilder.getModel();
+            System.out.println("model ok");
             System.out.println(model.toString());
-           // for (int sheetNo : sheetIndexes) {
-            DATA_LOADER.goToSheet(0);
+
+            AstModelInterpreeter.compileAllRules(model);
+            System.out.println("RuleClasses ok");
+
+            int count = 0;
+
+            for (int sheetNo : sheetIndexes) {
+                DATA_LOADER.goToSheet(sheetNo);
+                String sheetName = DATA_LOADER.getCurrentSheetName();
+
+                int tableNo = 0;
+                while (true) {
+                    CTable table = DATA_LOADER.nextTable();
+                    if (null == table) break;
+
+                    count++;
+
+                    System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
+                    Tables.recoverCellBorders(table);
+
+                    if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
+                        CATEGORY_TEMPLATE_MANAGER.createCategories(table);
+
+                    AstModelInterpreeter.fireAllRules(table, model);
+                    table.update();
+
+                    System.out.println(table.trace());
+                    System.out.println();
+
+                    CanonicalForm canonicalForm = table.toCanonicalForm();
+                    System.out.println("Canonical form:");
+                    canonicalForm.print();
+                    System.out.println();
+
+                    StatisticsManager.Statistics statistics = statisticsManager.collect(table);
+                    System.out.println(statistics.trace());
+                    System.out.printf("Current rule firing time: %s%n%n", currentRuleFiringTime);
+
+                    String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
+
+                    String outFileName = null;
+                    if (useShortNames) {
+                        outFileName = String.format("%s\\%s.xlsx", outputDirectory, sheetName);
+                    } else {
+                        outFileName = String.format("%s\\%s_%s_%s.xlsx", outputDirectory, fileName, sheetNo, tableNo);
+                    }
+                    EvaluationExcelWriter writer = new EvaluationExcelWriter(new File(outFileName));
+                    writer.write(table);
+
+                    tableNo++;
+
+                }
+                // for (int sheetNo : sheetIndexes) {
+            /*DATA_LOADER.goToSheet(0);
             String sheetName = DATA_LOADER.getCurrentSheetName();
 
             CTable table = DATA_LOADER.nextTable();
@@ -548,8 +614,23 @@ public final class TabbyXL {
             AstModelInterpreeter.fireAllRules(table, model);
 
             //}
+*/
+            }
 
-        }catch (Exception e) { e.printStackTrace(); }
+            if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
+
+        } catch (RecognitionException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(statisticsManager.trace());
+            System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
+            System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
+            CATEGORY_TEMPLATE_MANAGER.release();
+        }
 
     }
 

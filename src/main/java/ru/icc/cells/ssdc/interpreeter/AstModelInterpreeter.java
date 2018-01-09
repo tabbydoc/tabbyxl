@@ -5,6 +5,7 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.actions.*;
 import ru.icc.cells.ssdc.interpreeter.AstModel.Condition;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompiler;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompilerException;
+import ru.icc.cells.ssdc.model.CCell;
 import ru.icc.cells.ssdc.model.CTable;
 
 import java.awt.*;
@@ -16,39 +17,36 @@ public class AstModelInterpreeter {
 
     private static final String PACK = "ru.icc.cells.ssdc.interpreeter";
 
-    public static void fireAllRules(CTable table, Model model) throws CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static List<Class<? extends RuleClassPrototype>> classes = new ArrayList<>();
+
+    public static void compileAllRules(Model model) {
 
         CharSequenceCompiler compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
-        List<Class<? extends RuleClassPrototype>> classes = compileClasses(model, compiler);
+        try {
+            classes = compileClasses(model, compiler);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        System.out.println("****** Table in begin *******");
-        System.out.println(table.trace());
-        System.out.println();
+    public static void fireAllRules(CTable table, Model model) throws Exception, CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         for(Class<? extends RuleClassPrototype> ruleClass:classes) {
             RuleClassPrototype ruleObject = ruleClass.getConstructor(new Class[] { CTable.class }).newInstance(new Object[] { table });
-            ruleObject.evalLHS();
-            ruleObject.evalRHS();
-
-            System.out.println(String.format("****** Table after %s ******", ruleObject.getClass().getSimpleName()));
-            System.out.println(ruleObject.getTable().trace());
-            System.out.println();
+            ruleObject.eval();
         }
-        /*List<? extends RuleClassPrototype> ruleObjects = getRuleObjects(classes, table);
-        for(RuleClassPrototype obj:ruleObjects)
-        {
-            obj.evalLHS();
-            obj.evalRHS();
-        }*/
+
     }
 
-    private static List<Class<? extends RuleClassPrototype>> compileClasses(Model model, CharSequenceCompiler compiler) throws CharSequenceCompilerException {
+    private static List<Class<? extends RuleClassPrototype>> compileClasses(Model model, CharSequenceCompiler compiler) throws CharSequenceCompilerException, Exception {
         List<Class<? extends RuleClassPrototype>> ruleClasses = new ArrayList<>();
+
         for(Rule rule:model.getRules())
         {
             Class<? extends RuleClassPrototype> ruleClass = compiler.compile(getRuleClassName(rule), fetchCodeFromRule(rule, model.getImports()), null, new Class<?>[]{ RuleClassPrototype.class });
             ruleClasses.add(ruleClass);
         }
+
         return ruleClasses;
     }
 
@@ -58,7 +56,7 @@ public class AstModelInterpreeter {
 
     }
 
-    /*private static List<? extends RuleClassPrototype> getRuleObjects(List<Class<? extends RuleClassPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static List<? extends RuleClassPrototype> getRuleObjects(List<Class<? extends RuleClassPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<RuleClassPrototype> ruleObjects = new ArrayList<>();
         for(Class<? extends RuleClassPrototype> c:ruleClasses)
         {
@@ -66,9 +64,9 @@ public class AstModelInterpreeter {
             ruleObjects.add(obj);
         }
         return ruleObjects;
-    }*/
+    }
 
-    private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
+    private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports) throws Exception
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
@@ -82,20 +80,16 @@ public class AstModelInterpreeter {
         // append vars
         code.append(generateVars(rule.getVariables())).append(lineSep);
 
+        // append Actions Objects
+
+        code.append(generateActionsObjects(rule.getActions())).append(lineSep);
+
         // make constructor
         code.append(generateConstructor(rule)).append(lineSep);
 
-        // generate LHS
-        code.append(generateLHS(rule.getConditions(), rule.getVariables())).append(lineSep);
+        // generate eval
+        code.append(generateEval(rule)).append(lineSep);
 
-        // generate RHS
-        code.append(generateRHS(rule.getActions())).append(lineSep);
-
-        code
-                .append("@Override").append(lineSep)
-                .append("public String sayHello() {").append(lineSep)
-                .append("return String.format(\"Hello, my table is %d\", getTable().getId());").append(lineSep)
-                .append("}").append(lineSep);
 
         code
                 .append("}").append(lineSep);
@@ -119,17 +113,18 @@ public class AstModelInterpreeter {
         return code.toString();
     }
 
-    private static String generateVars(List<RuleVariable> vars)
+    private static String generateVars(List<RuleVariable> vars) throws Exception
     {
         StringBuilder code = new StringBuilder();
 
         String lineSep = System.lineSeparator();
 
-        code.append("List<CCell> cells = new ArrayList<>();").append(System.lineSeparator());
+        //code.append("List<CCell> cells = new ArrayList<>();").append(System.lineSeparator());
 
-        for(RuleVariable variable:vars)
-        {
-            code.append("private List<").append(variable.getType()).append("> ").append(variable.getIdentifier().toString()).append(" = new ArrayList<>();").append(lineSep);
+        for(RuleVariable variable:vars) {
+            if (variable != null) {
+                code.append("private ").append(variable.getType()).append(" ").append(variable.getIdentifier().toString()).append(";").append(lineSep);
+            }
         }
         return code.toString();
     }
@@ -139,85 +134,228 @@ public class AstModelInterpreeter {
         StringBuilder code = new StringBuilder();
         code.append("public Rule").append(rule.getNum()).append(" (CTable table) {").append(System.lineSeparator());
         code.append("super(table);").append(System.lineSeparator());
-        code.append("table.getCells().forEachRemaining(cells::add);").append(System.lineSeparator());
+
+        code.append(addActionsObjectsToConstructor(rule.getActions()));
+        //code.append("table.getCells().forEachRemaining(cells::add);").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
         return code.toString();
     }
 
-    private static String generateLHS(List<Condition> conditions, List<RuleVariable> vars)
+    private static String addActionsObjectsToConstructor(List<Action> actions) {
+
+        StringBuilder code = new StringBuilder();
+
+        for(Action action:actions) {
+            if(action != null)
+                code.append(action.getName()).append(action.getId()).append(" = new ").append(action.getName()).append("();").append(System.lineSeparator());
+        }
+
+        return code.toString();
+    }
+
+    private static String generateEval(Rule rule)
     {
         StringBuilder code = new StringBuilder();
+
         code
                 .append("@Override").append(System.lineSeparator())
-                .append("public void evalLHS () {").append(System.lineSeparator()).append(System.lineSeparator());
-        for(Condition condition:conditions)
-        {
-            code.append(generateCondition(condition, vars)).append(System.lineSeparator());
-        }
+                .append("public void eval () {").append(System.lineSeparator()).append(System.lineSeparator());
 
-        /*for(RuleVariable var:vars)
-        {
-            code.append("for( ").append(var.getType()).append(" k:").append(var.getIdentifier().toString()).append(" ) {").append(System.lineSeparator());
-            code.append("System.out.println(k.getId());").append(System.lineSeparator());
-            code.append("}").append(System.lineSeparator());
-        }
-        code.append("System.out.println(\"done\");").append(System.lineSeparator());*/
+
+        code.append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), "  ")).append(System.lineSeparator());
 
         code.append("}").append(System.lineSeparator());
         return code.toString();
     }
 
-    private static String generateCondition(Condition condition, List<RuleVariable> vars)
+    private static String generateCondition(Iterator<Condition> conditions, Iterator<Action> actions, String indent)
     {
         StringBuilder code = new StringBuilder();
 
-        List<Alias> aliases = new ArrayList<>();
-        aliases.add(new Alias(condition.getVariable().getIdentifier().toString(), "item"));
+        Condition currentCondition = conditions.next();
 
-        code.append("for( ").append(condition.getVariable().getType()).append(" item:");
-        switch (condition.getVariable().getType())
-        {
-            case "CCell": code.append("cells ) {").append(System.lineSeparator());
-        }
+        if(currentCondition.getVariable() != null) {
 
-        int flagIterator = 0;
-        for(Constraint constraint:condition.getConstraints())
-        {
-            flagIterator ++;
-            code.append("boolean flag").append(flagIterator).append(" = false;").append(System.lineSeparator());
+            code.append(indent).append("Iterator<").append(currentCondition.getVariable().getType()).append("> $iterator").append(currentCondition.getId()).append(" = ");
 
-            code.append(generateConstraint(constraint, flagIterator, condition.getVariable().getIdentifier().toString(), vars, aliases));
+            switch (currentCondition.getVariable().getType()) {
 
-            code.append("if(!flag").append(flagIterator).append(") { continue; }").append(System.lineSeparator());
-        }
-        code.append(condition.getVariable().getIdentifier().toString()).append(".add(item);").append(System.lineSeparator());
-        code.append("}").append(System.lineSeparator());
-
-        return code.toString();
-    }
-
-    private static String generateConstraint(Constraint constraint, int flagIterator, String conditionVarName, List<RuleVariable> vars, List<Alias> aliases)
-    {
-        StringBuilder code = new StringBuilder();
-        List<RuleVariable> replacementVars = new ArrayList<>();
-        for(String part:constraint.getParts())
-        {
-            for(RuleVariable var:vars)
-            {
-                if(part.equals(var.getIdentifier().toString()))
-                {
-                    replacementVars.add(var);
-                    aliases.add(new Alias(part, var.getIdentifier().toString()+ "_item"));
-                }
+                case "CCell":
+                    code.append("getTable().getCells();");
+                    break;
+                case "CLabel":
+                    code.append("getTable().getLabels();");
+                    break;
+                case "CEntry":
+                    code.append("getTable().getEntries();");
+                    break;
+                case "CCategory":
+                    code.append("getTable().getLocalCategoryBox().getCategories();");
+                    break;
+                default:
+                    break;
             }
         }
 
-        code.append(buildConstraint(constraint, replacementVars.iterator(), flagIterator, aliases));
+            code.append(System.lineSeparator());
+
+        if (currentCondition.getType() == "condition") {
+            code.append(indent).append("while ( $iterator").append(currentCondition.getId()).append(".hasNext() ) {").append(System.lineSeparator());
+
+            code.append(indent + "    ").append(currentCondition.getVariable().getIdentifier()).append(" = $iterator").append(currentCondition.getId()).append(".next();").append(System.lineSeparator());
+            code.append(indent + "    ").append("if ( ");
+
+            if(currentCondition.getConstraints().size()!=0) {
+                code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getVariable().getIdentifier()));
+            } else {
+                code.append("true");
+            }
+
+            code.append(" ) {").append(System.lineSeparator());
+
+            for(Assignment assignment:currentCondition.getAssignments()) {
+                code.append(indent + "        ").append(generateAssignment(assignment, currentCondition.getVariable().getIdentifier()));
+            }
+
+            if (conditions.hasNext()) {
+                code.append(generateCondition(conditions, actions, indent + "        "));
+            } else {
+                code.append(generateActions(actions, indent + "    "));
+            }
+
+            code.append(indent + "    ").append("}").append(System.lineSeparator());
+            code.append(indent).append("}").append(System.lineSeparator());
+        }
+        else if (currentCondition.getType() == "no_condition") {
+
+            code.append(indent).append("boolean $flag").append(currentCondition.getId()).append(" = true;").append(System.lineSeparator());
+            code.append(indent).append("while ( $iterator").append(currentCondition.getId()).append(".hasNext() ) {").append(System.lineSeparator());
+
+            code.append(indent + "    ").append(currentCondition.getVariable().getIdentifier()).append(" = $iterator").append(currentCondition.getId()).append(".next();").append(System.lineSeparator());
+            code.append(indent + "    ").append("if ( ");
+
+            if(currentCondition.getConstraints().size()!=0) {
+                code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getVariable().getIdentifier()));
+            } else {
+                code.append("false");
+            }
+
+            code.append(" ) {").append(System.lineSeparator());
+
+
+            code.append(indent + "        ").append("$flag").append(currentCondition.getId()).append(" = false;").append(System.lineSeparator());
+            code.append(indent + "        ").append("break;").append(System.lineSeparator());
+
+            code.append(indent + "    ").append("}").append(System.lineSeparator());
+
+            code.append(indent).append("}").append(System.lineSeparator());
+
+            code.append(indent).append("if ( $flag").append(currentCondition.getId()).append(" ) {").append(System.lineSeparator());
+
+            if(conditions.hasNext()) {
+                code.append(generateCondition(conditions, actions, indent + "        "));
+            } else {
+                code.append(generateActions(actions, indent + "    "));
+            }
+
+            code.append(indent).append("}").append(System.lineSeparator());
+        }
 
         return code.toString();
     }
 
-    private static String buildConstraint(Constraint constraint, Iterator<RuleVariable> replacementVars, int flagIterator, List<Alias> aliases)
+    private static String generateAssignment(Assignment assignment, String conditionVarName) {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append("String ").append(assignment.getIdentifier()).append(" = ").append(buildExpression(assignment.getExpression(), conditionVarName)).append(";").append(System.lineSeparator());
+
+        return code.toString();
+    }
+
+    public static String buildExpression (List<String> expression, String variableName) {
+
+        StringBuilder code = new StringBuilder();
+        FieldAlias aliases = new FieldAlias();
+
+        for ( int i=0; i<expression.size(); i++ ) {
+            if(aliases.getAliases().containsKey(expression.get(i))) {
+
+                if (i<2) {
+                    code.append(variableName).append(".").append(aliases.getAliases().get(expression.get(i)));
+                }
+                else {
+                    if( !expression.get(i-1).equals(".") ) {
+                        code.append(variableName).append(".").append(aliases.getAliases().get(expression.get(i)));
+                    }
+                    else
+                    {
+                        code.append(aliases.getAliases().get(expression.get(i)));
+                    }
+                }
+                if( i > expression.size()-3) {
+                    code.append("()");
+                }
+                else
+                {
+                    if(expression.get(i+1).equals("[") && expression.get(i+3).equals("]")) {
+                        code.append("(").append(expression.get(i + 2)).append(")");
+                        i=i+3;
+                    }
+                    else
+                        code.append("()");
+                }
+            }
+            else {
+                code.append(expression.get(i));
+            }
+        }
+
+        return code.toString();
+    }
+
+    private static String generateConstraints(List<Constraint> constraints, String conditionVarName) {
+
+        StringBuilder code = new StringBuilder();
+
+        for( int i=0; i<constraints.size(); i++ ) {
+            code.append(buildExpression(constraints.get(i).getParts(), conditionVarName));
+            if(i<constraints.size()-1) code.append(" && ");
+        }
+
+        return code.toString();
+
+    }
+
+    private static String generateActionsObjects(List<Action> actions) {
+
+        StringBuilder code = new StringBuilder();
+
+        for(Action action:actions) {
+            if(action != null)
+                code.append("private ").append(action.getName()).append(" ").append(action.getName()).append(action.getId()).append(";").append(System.lineSeparator());
+        }
+
+        return code.toString();
+    }
+
+    private static String generateActions(Iterator<Action> actions, String indent) {
+
+        StringBuilder code = new StringBuilder();
+        Action currentAction;
+
+        while(actions.hasNext()) {
+            currentAction = actions.next();
+            if(currentAction != null) {
+                code.append(indent).append(currentAction.generateCallingAction()).append(";").append(System.lineSeparator());
+            }
+        }
+
+        return code.toString();
+
+    }
+
+/*    private static String buildConstraint(Constraint constraint, Iterator<RuleVariable> replacementVars, int flagIterator, List<Alias> aliases)
     {
         StringBuilder code = new StringBuilder();
         if(replacementVars.hasNext())
@@ -268,7 +406,7 @@ public class AstModelInterpreeter {
     {
         StringBuilder code = new StringBuilder();
 
-        code.append("@Override").append(System.lineSeparator());
+        /*code.append("@Override").append(System.lineSeparator());
         code.append("public void evalRHS() {").append(System.lineSeparator());
 
         for(Action action:actions) {
@@ -295,7 +433,7 @@ public class AstModelInterpreeter {
             case "New_label": code.append(generateNewLabel((NewLabel) action)); break;
             case "Set_mark": code.append(generateSetMark((SetMark) action)); break;
             /*case "New_label": code.append(generateNewLabel(action.getParams())); break;
-            case "New_entry": code.append(generateNewEntry(action.getParams())); break;*/
+            case "New_entry": code.append(generateNewEntry(action.getParams())); break;
         }
 
         return code.toString();
@@ -376,6 +514,6 @@ public class AstModelInterpreeter {
         code.append("}").append(System.lineSeparator());
 
         return code.toString();
-    }
+    }*/
 
 }

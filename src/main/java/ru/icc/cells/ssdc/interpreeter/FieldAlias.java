@@ -12,14 +12,15 @@ public class FieldAlias {
 
     public FieldAlias()
     {
-        aliases.put("cl", "getCl()");
-        aliases.put("cr", "getCr()");
-        aliases.put("rt", "getRt()");
-        aliases.put("rb", "getRb()");
-        aliases.put("blank", "isBlank()");
-        aliases.put("marked", "isMarked()");
-        aliases.put("mark", "getMark()");
-        aliases.put("label", "getLabel()");
-        aliases.put("entry", "getEntry()");
+        aliases.put("cl", "getCl");
+        aliases.put("cr", "getCr");
+        aliases.put("rt", "getRt");
+        aliases.put("rb", "getRb");
+        aliases.put("blank", "isBlank");
+        aliases.put("marked", "isMarked");
+        aliases.put("mark", "getMark");
+        aliases.put("label", "getLabel");
+        aliases.put("entry", "getEntry");
+        aliases.put("text", "getText");
     }
 }

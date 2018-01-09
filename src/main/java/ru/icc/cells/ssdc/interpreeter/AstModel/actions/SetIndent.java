@@ -1,9 +1,14 @@
 package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
 
+import ru.icc.cells.ssdc.interpreeter.AstModelInterpreeter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SetIndent extends Action {
 
-    public SetIndent(String name) {
-        super(name);
+    public SetIndent(int id, String name) {
+        super(id, name);
     }
 
     private String identifier;
@@ -16,18 +21,33 @@ public class SetIndent extends Action {
         return identifier;
     }
 
-    private String indent;
+    private List<String> indent = new ArrayList<>();
 
-    public void setIndent(String indent) {
-        this.indent = indent;
+    public void addIndentPart(String indent) {
+        this.indent.add(indent);
     }
 
-    public String getIndent() {
+    public List<String> getIndent() {
         return indent;
     }
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %d ) ]", getName(), identifier, indent);
+        StringBuilder indetnBuilder = new StringBuilder();
+
+        for(String part:indent) {
+            indetnBuilder.append(part);
+        }
+        return String.format("[ %d %s ( %s, %s ) ]", getId(), getName(), identifier, indetnBuilder.toString());
+    }
+
+    @Override
+    public String generateCallingAction() {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval(").append(identifier).append(", ").append(AstModelInterpreeter.buildExpression(indent, "")).append(")");
+
+        return code.toString();
     }
 }

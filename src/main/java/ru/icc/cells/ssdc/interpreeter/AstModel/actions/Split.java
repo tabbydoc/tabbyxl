@@ -4,8 +4,8 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
 
 public class Split extends Action {
 
-    public Split(String name) {
-        super(name);
+    public Split(int id, String name) {
+        super(id, name);
     }
 
     private String identifier;
@@ -20,6 +20,16 @@ public class Split extends Action {
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s ) ]", getName(), identifier.toString());
+        return String.format("[ %d %s ( %s ) ]", getId(), getName(), identifier.toString());
+    }
+
+    @Override
+    public String generateCallingAction() {
+
+        StringBuilder code= new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval(").append(identifier).append(")");
+
+        return code.toString();
     }
 }

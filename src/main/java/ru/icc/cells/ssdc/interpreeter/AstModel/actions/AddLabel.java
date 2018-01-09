@@ -4,8 +4,8 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
 
 public class AddLabel extends Action {
 
-    public AddLabel(String name) {
-        super(name);
+    public AddLabel(int id, String name) {
+        super(id, name);
     }
 
     private Identifier labelIdentifier;
@@ -42,7 +42,21 @@ public class AddLabel extends Action {
     public String toString() {
 
         if(categoryIdentifier != null) return String.format("[ %s ( %s, %s, %s ) ]", getName(), labelIdentifier.toString(), categoryIdentifier.toString(), destinationIdentifier.toString());
-        else return String.format("[ %s ( %s, %s ) ]", getName(), labelIdentifier.toString(), destinationIdentifier.toString());
+        else return String.format("[ %d %s ( %s, %s ) ]", getId(), getName(), labelIdentifier.toString(), destinationIdentifier.toString());
 
+    }
+
+    @Override
+    public String generateCallingAction () {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval( ").append(labelIdentifier.getNormalForm()).append(", ").append(destinationIdentifier.getNormalForm());
+
+        if(categoryIdentifier != null) code.append(", ").append(categoryIdentifier.getNormalForm());
+
+        code.append(" )");
+
+        return code.toString();
     }
 }

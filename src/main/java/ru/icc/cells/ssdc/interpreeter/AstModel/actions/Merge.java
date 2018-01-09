@@ -4,8 +4,8 @@ import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
 
 public class Merge extends Action {
 
-    public Merge(String name) {
-        super(name);
+    public Merge(int id, String name) {
+        super(id, name);
     }
 
     private String identifier1;
@@ -30,6 +30,16 @@ public class Merge extends Action {
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %s) ]", getName(), identifier1.toString(), identifier2.toString());
+        return String.format("[ %d %s ( %s, %s) ]", getId(), getName(), identifier1.toString(), identifier2.toString());
+    }
+
+    @Override
+    public String generateCallingAction() {
+
+        StringBuilder code = new StringBuilder();
+
+        code.append(getName()).append(getId()).append(".eval(").append(identifier1).append(", ").append(identifier2).append(", getTable() ").append(")");
+
+        return code.toString();
     }
 }

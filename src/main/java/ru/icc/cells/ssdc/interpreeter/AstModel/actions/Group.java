@@ -5,8 +5,8 @@ import ru.icc.cells.ssdc.interpreeter.FieldAlias;
 
 public class Group extends Action {
 
-    public Group(String name) {
-        super(name);
+    public Group(int id, String name) {
+        super(id, name);
     }
 
     private Identifier identifier1;
@@ -31,17 +31,16 @@ public class Group extends Action {
 
     @Override
     public String toString() {
-        return String.format("[ %s ( %s, %s ) ]", getName(), identifier1.toString(), identifier2.toString());
+        return String.format("[ %d %s ( %s, %s ) ]", getId(), getName(), identifier1.toString(), identifier2.toString());
     }
 
     @Override
-    public String fetchCode() {
+    public String generateCallingAction() {
 
         StringBuilder code = new StringBuilder();
 
-
+        code.append(getName()).append(getId()).append(".eval( ").append(identifier1.getNormalForm()).append(", ").append(identifier2.getNormalForm()).append(" )");
 
         return code.toString();
     }
-
 }
