@@ -52,9 +52,10 @@ public class AstModelInterpreeter {
         return ruleClasses;
     }
 
-    private static String getRuleClassName(Rule rule)
-    {
+    /*private static String getRuleClassName(Rule rule) {
+
         return String.format("%s.Rule%d", PACK, rule.getNum());
+
     }
 
     /*private static List<? extends RuleClassPrototype> getRuleObjects(List<Class<? extends RuleClassPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
