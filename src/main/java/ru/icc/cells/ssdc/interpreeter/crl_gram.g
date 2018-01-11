@@ -79,7 +79,7 @@ import_item returns [String value]
 	;
 	
 crl_rule
-	:	'rule #' J_int_literal 'lock-on-active'? EOL
+	:	'rule #' J_int_literal useless? EOL
 		'when' EOL 
 		condition_unit+
 		'then' EOL
@@ -234,7 +234,12 @@ Breackits
 	;
 /*lockonactive
 	:	'lockonactive'
+	
 	;*/
+useless
+	:	'lock-on-active'|'no-loop true'|'no-loop false'
+	;
+
 fragment DIGIT
 	:	'0'..'9'
 	;

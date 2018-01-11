@@ -1,31 +1,140 @@
 import ru.icc.cells.ssdc.model.*
 import ru.icc.cells.ssdc.model.style.*
 
-rule #1
-    when
-        cell $corner: cl == 1, rt == 1, blank
-        cell $c: rb <= $corner.rb, cl > $corner.cr, ! blank, ! marked
-	entry $e: rb <= $corner.rb, cl > $corner.cr, ! blank, ! marked, $x: "hello assignment"
-	label $l
-	no cells : rb>=2
-    then
-	set text str.getText() to $c
-	set indent 12 to $c
-	split $c
-	merge $c1 with $c2
-        set mark "@ColLabel" to $c
-	new entry $c as "str_expr".toUpCase()
-	new entry $c
-	new label $c as String.format("str_expr")
-        new label $c
-	add label "label" of cat1 to $c
-	add label "label2".toUpCase() to $v
-	set value "str" to $c.label[1]
-        set value "str" to val
-	set category cat1 to $l
-	set category cat2 to $c.label
-	set parent $c.label to $l
-	group $c.label[1] with $l
-	update $val
-	update $c
+rule #1 lock-on-active
+	when
+		cell $c : rt > 1, cl > 1, !blank, text.matches( "#|s" )
+	then
+		set text "0" to $c
+		update $c
+end
+
+rule #2 lock-on-active
+	when
+		cell $c : rt > 1, cl > 1, !blank, text.matches( "F|\\.|\\.{2}+|\\.{3}+|\\u2026|\\u2014|x|-|NA" )
+	then
+		set text null to $c
+		update $c
+end
+
+rule #3 lock-on-active
+	when
+		cell $c : rt > 1, cl > 1, !blank, text.matches( "(\\u2012|\\u2013|\\u2014|\\u2015|\\u002D|\\u2212|\\uFF0D)(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ), $t :text
+	then
+		set text "-".concat($t.substring(1)) to $c
+		update $c
+end
+
+rule #4 lock-on-active
+	when
+		cell $c : rt == 1, cl > 1, !blank
+	then
+		set mark "ColumnHeading" to $c
+		new label $c
+		update $c
+end
+
+rule #5
+	when
+		cell $c1 : mark == "ColumnHeading"
+		cell $c2 : mark == null, rt > 1, cl > 1, !blank, rt == $c1.rb + 1, ( $c1.cl <= cl && cr < $c1.cr ) || ( $c1.cl < cl  && cr <= $c1.cr )
+	then
+		set mark "ColumnHeading" to $c2
+		new label $c2
+		set parent $c1.label to $c2.label
+		update $c1
+		update $c2
+end
+
+rule #6 lock-on-active
+	when
+		cell $c : rt > 1, cl == 1, !blank, mark == null
+	then
+		set mark "RowHeading" to $c
+		new label $c
+		update $c
+end
+
+rule #7 lock-on-active
+	when
+		cell $c1 : rt > 1, cl > 1, !blank, mark == null, text not matches "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?"
+		cell $c2 : rt > 1, cl > 1, !blank, mark == null, cl <= $c1.cl
+	then
+		set mark "RowHeading" to $c2
+		new label $c2
+		update $c2
+end
+
+rule #8 lock-on-active
+	when
+		cell $c : cl > 1, rt > 1, !blank, mark == null
+	then
+		set mark "DataCell" to $c
+		new entry $c
+		update $c
+end
+
+rule #9 no-loop true
+	when
+		cell $c : cl == 1, mark == "RowHeading", (int)text.charAt(0) == 45, $t : text
+	then
+		set indent 2 to $c
+		update $c
+end
+
+rule #10 no-loop true
+	when
+		cell $c1 : cl == 1, mark == "RowHeading"
+		cell $c2 : cl == 1, mark == "RowHeading", rt > $c1.rt, indent == $c1.indent + 2
+		no cells : cl == 1, mark == "RowHeading", indent == $c1.indent, rt > $c1.rt, rt < $c2.rt
+	then
+		set parent $c1.label to $c2.label
+end
+
+rule #11 no-loop true
+	when
+		cell $c1 : cl == 1, mark == "RowHeading", style.font.bold, indent == 0, text not matches "(?i)(Total\\s*)|(I alt\\s*)|(All\\s*)"
+		cell $c2 : cl == 1, mark == "RowHeading", rt > $c1.rt, style.font.normal, indent == 0
+		no cells : cl == 1, mark == "RowHeading", style.font.bold, rt > $c1.rt, rt < $c2.rt, indent == 0
+	then
+		set parent $c1.label to $c2.label
+end
+
+rule #12 no-loop true
+	when
+		cell $c : mark == "ColumnHeading"
+	then
+		set category "ColumnHeading" to $c.label
+end
+
+rule #13 no-loop true
+	when
+		cell $c1 : rt == 1, cl > 1, !blank, $index: cl
+		cell $c2 : mark == "RowHeading", cl == $c1.cl
+	then
+		set category "RowHeading" + $index to $c2.label
+end
+
+rule #14 no-loop true
+	when
+		cell $c1 : rt == 1, cl == 1
+		cell $c2 : mark == "RowHeading", cl == 1
+	then
+		set category "RowHeading1" to $c2.label
+end
+
+rule #15 no-loop true
+	when
+		cell $c1 : mark == "ColumnHeading", label.terminal
+		cell $c2 : mark == "DataCell", cl == $c1.cl
+	then
+		add label $c1.label to $c2.entry
+end
+
+rule #16 no-loop true
+	when
+		cell $c1 : mark == "RowHeading"
+		cell $c2 : mark == "DataCell", rt == $c1.rt
+	then
+		add label $c1.label to $c2.entry
 end
