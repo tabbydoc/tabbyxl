@@ -34,11 +34,11 @@ public class SetParent extends Action {
     }
 
     @Override
-    public String generateCallingAction() {
+    public String generateAddSet() {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".eval( ").append(parent.getNormalForm()).append(", ").append(child.getNormalForm()).append(" )");
+        code.append(getName()).append(getId()).append(".add( ").append(parent.getNormalForm()).append(", ").append(child.getNormalForm()).append(" )");
 
         return code.toString();
     }

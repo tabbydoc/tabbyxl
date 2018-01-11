@@ -164,6 +164,8 @@ public class AstModelInterpreeter {
 
         code.append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), "  ")).append(System.lineSeparator());
 
+        code.append("   ").append(generateActionsExecute(rule.getActions())).append(System.lineSeparator());
+
         code.append("}").append(System.lineSeparator());
         return code.toString();
     }
@@ -220,7 +222,7 @@ public class AstModelInterpreeter {
             if (conditions.hasNext()) {
                 code.append(generateCondition(conditions, actions, indent + "        "));
             } else {
-                code.append(generateActions(actions, indent + "    "));
+                code.append(generateActionsAddSet(actions, indent + "       "));
             }
 
             code.append(indent + "    ").append("}").append(System.lineSeparator());
@@ -255,7 +257,7 @@ public class AstModelInterpreeter {
             if(conditions.hasNext()) {
                 code.append(generateCondition(conditions, actions, indent + "        "));
             } else {
-                code.append(generateActions(actions, indent + "    "));
+                code.append(generateActionsAddSet(actions, indent + "       "));
             }
 
             code.append(indent).append("}").append(System.lineSeparator());
@@ -319,7 +321,7 @@ public class AstModelInterpreeter {
         StringBuilder code = new StringBuilder();
 
         for( int i=0; i<constraints.size(); i++ ) {
-            code.append(buildExpression(constraints.get(i).getParts(), conditionVarName));
+            code.append("( ").append(buildExpression(constraints.get(i).getParts(), conditionVarName)).append(" )");
             if(i<constraints.size()-1) code.append(" && ");
         }
 
@@ -339,7 +341,7 @@ public class AstModelInterpreeter {
         return code.toString();
     }
 
-    private static String generateActions(Iterator<Action> actions, String indent) {
+    private static String generateActionsAddSet(Iterator<Action> actions, String indent) {
 
         StringBuilder code = new StringBuilder();
         Action currentAction;
@@ -347,12 +349,24 @@ public class AstModelInterpreeter {
         while(actions.hasNext()) {
             currentAction = actions.next();
             if(currentAction != null) {
-                code.append(indent).append(currentAction.generateCallingAction()).append(";").append(System.lineSeparator());
+                code.append(indent).append(currentAction.generateAddSet()).append(";").append(System.lineSeparator());
             }
         }
 
         return code.toString();
 
+    }
+
+    private static String generateActionsExecute(List<Action> actions) {
+
+        StringBuilder code = new StringBuilder();
+
+        for(Action action:actions) {
+            if(action != null)
+                code.append(action.generateExecute()).append(";").append(System.lineSeparator());
+        }
+
+        return code.toString();
     }
 
 /*    private static String buildConstraint(Constraint constraint, Iterator<RuleVariable> replacementVars, int flagIterator, List<Alias> aliases)

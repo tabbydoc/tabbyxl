@@ -8,5 +8,9 @@ public interface ActionInterface {
 
     String toString();
 
-    String generateCallingAction();
+    //String generateCallingAction();
+
+    String generateAddSet();
+
+    String generateExecute();
 }

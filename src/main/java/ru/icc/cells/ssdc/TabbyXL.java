@@ -481,6 +481,7 @@ public final class TabbyXL {
                         CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
                     fireRules(table, KNOWLEDGE_BASE);
+
                     table.update();
 
                     System.out.println(table.trace());
@@ -522,6 +523,8 @@ public final class TabbyXL {
             CATEGORY_TEMPLATE_MANAGER.release();
         }
 */
+
+        //System.setOut(null);
         System.out.println();
         System.out.println("My interpreeter tries work");
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
@@ -531,7 +534,7 @@ public final class TabbyXL {
             System.out.printf("%s%n%n", traceParsedParams());
 
             loadWorkbook();
-            loadRules();
+            //loadRules();
             loadCatFiles();
             DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
             DATA_LOADER.setUseCellValue(useCellValue);
@@ -558,6 +561,10 @@ public final class TabbyXL {
             System.out.println("RuleClasses ok");
 
             int count = 0;
+
+            // for testing
+            /*List<Integer> sheetIndexes2 = new ArrayList<>();
+            sheetIndexes2.add(119);*/
 
             for (int sheetNo : sheetIndexes) {
                 DATA_LOADER.goToSheet(sheetNo);

@@ -203,7 +203,7 @@ advanced_identifier
 	;
 //lexer
 WS
-	:	 (' ')+ { $channel=HIDDEN; } 
+	:	 (' '|'\t')+ { $channel=HIDDEN; } 
 	;
 //S	:	' '	;
 EOL
@@ -236,6 +236,7 @@ Breackits
 	:	'lockonactive'
 	
 	;*/
+	
 useless
 	:	'lock-on-active'|'no-loop true'|'no-loop false'
 	;

@@ -42,11 +42,11 @@ public class SetText extends Action {
     }
 
     @Override
-    public String generateCallingAction() {
+    public String generateAddSet() {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".eval(").append(identifier).append(", ").append(AstModelInterpreeter.buildExpression(stringExpression, "")).append(")");
+        code.append(getName()).append(getId()).append(".add( ").append(identifier).append(", ").append(AstModelInterpreeter.buildExpression(stringExpression, "")).append(" )");
 
         return code.toString();
     }

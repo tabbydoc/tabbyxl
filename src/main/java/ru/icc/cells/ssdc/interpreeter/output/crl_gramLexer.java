@@ -1,4 +1,4 @@
-// $ANTLR 3.4 C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2018-01-09 20:28:17
+// $ANTLR 3.4 C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2018-01-11 17:57:51
 package ru.icc.cells.ssdc.interpreeter.output;
 
 import org.antlr.runtime.*;
@@ -1115,26 +1115,34 @@ public class crl_gramLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:206:2: ( ( ' ' )+ )
-            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:206:5: ( ' ' )+
+            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:206:2: ( ( ' ' | '\\t' )+ )
+            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:206:5: ( ' ' | '\\t' )+
             {
-            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:206:5: ( ' ' )+
+            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:206:5: ( ' ' | '\\t' )+
             int cnt1=0;
             loop1:
             do {
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==' ') ) {
+                if ( (LA1_0=='\t'||LA1_0==' ') ) {
                     alt1=1;
                 }
 
 
                 switch (alt1) {
             	case 1 :
-            	    // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:206:6: ' '
+            	    // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
             	    {
-            	    match(' '); 
+            	    if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
+            	        input.consume();
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        recover(mse);
+            	        throw mse;
+            	    }
+
 
             	    }
             	    break;
@@ -1704,7 +1712,7 @@ public class crl_gramLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:244:2: ( '0' .. '9' )
+            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:245:2: ( '0' .. '9' )
             // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
             {
             if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
@@ -1730,7 +1738,7 @@ public class crl_gramLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:247:2: ( 'A' .. 'Z' | 'a' .. 'z' )
+            // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:248:2: ( 'A' .. 'Z' | 'a' .. 'z' )
             // C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
@@ -2193,7 +2201,7 @@ public class crl_gramLexer extends Lexer {
     static final String DFA7_eofS =
         "\u009f\uffff";
     static final String DFA7_minS =
-        "\1\12\1\0\7\uffff\1\144\1\141\1\156\1\162\1\155\1\141\2\145\1\146"+
+        "\1\11\1\0\7\uffff\1\144\1\141\1\156\1\162\1\155\1\141\2\145\1\146"+
         "\1\141\1\165\1\145\1\150\1\160\1\150\2\uffff\1\44\7\uffff\1\144"+
         "\1\44\1\164\1\154\1\144\1\157\1\160\1\142\1\143\1\162\1\167\1\40"+
         "\1\44\1\143\1\151\1\154\1\164\1\154\1\145\1\44\1\144\1\145\1\164"+
@@ -2230,11 +2238,11 @@ public class crl_gramLexer extends Lexer {
     static final String DFA7_specialS =
         "\1\uffff\1\0\u009d\uffff}>";
     static final String[] DFA7_transitionS = {
-            "\1\31\2\uffff\1\31\22\uffff\1\30\1\33\1\1\1\uffff\1\34\2\33"+
-            "\1\35\2\36\1\2\1\33\1\3\1\33\1\4\1\33\12\32\1\5\1\6\4\33\1\uffff"+
-            "\32\34\1\7\1\uffff\1\10\1\33\1\34\1\uffff\1\11\1\34\1\12\1\34"+
-            "\1\13\1\34\1\14\1\34\1\15\2\34\1\16\1\17\1\20\1\21\1\22\1\34"+
-            "\1\23\1\24\1\25\1\26\1\34\1\27\3\34\1\uffff\1\33",
+            "\1\30\1\31\2\uffff\1\31\22\uffff\1\30\1\33\1\1\1\uffff\1\34"+
+            "\2\33\1\35\2\36\1\2\1\33\1\3\1\33\1\4\1\33\12\32\1\5\1\6\4\33"+
+            "\1\uffff\32\34\1\7\1\uffff\1\10\1\33\1\34\1\uffff\1\11\1\34"+
+            "\1\12\1\34\1\13\1\34\1\14\1\34\1\15\2\34\1\16\1\17\1\20\1\21"+
+            "\1\22\1\34\1\23\1\24\1\25\1\26\1\34\1\27\3\34\1\uffff\1\33",
             "\0\40",
             "",
             "",

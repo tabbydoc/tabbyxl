@@ -34,11 +34,11 @@ public class SetCategory extends Action {
     }
 
     @Override
-    public String generateCallingAction() {
+    public String generateAddSet() {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".eval( ").append(identifier1.getNormalForm()).append(", ").append(identifier2.getNormalForm()).append(" )");
+        code.append(getName()).append(getId()).append(".add( ").append(identifier1.getNormalForm()).append(", ").append(identifier2.getNormalForm()).append(" )");
 
         return code.toString();
     }

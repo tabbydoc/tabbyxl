@@ -47,11 +47,11 @@ public class AddLabel extends Action {
     }
 
     @Override
-    public String generateCallingAction () {
+    public String generateAddSet () {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".eval( ").append(labelIdentifier.getNormalForm()).append(", ").append(destinationIdentifier.getNormalForm());
+        code.append(getName()).append(getId()).append(".add( ").append(labelIdentifier.getNormalForm()).append(", ").append(destinationIdentifier.getNormalForm());
 
         if(categoryIdentifier != null) code.append(", ").append(categoryIdentifier.getNormalForm());
 

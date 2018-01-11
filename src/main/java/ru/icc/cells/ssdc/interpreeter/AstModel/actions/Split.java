@@ -24,11 +24,11 @@ public class Split extends Action {
     }
 
     @Override
-    public String generateCallingAction() {
+    public String generateAddSet() {
 
         StringBuilder code= new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".eval(").append(identifier).append(")");
+        code.append(getName()).append(getId()).append(".add( ").append(identifier).append(" )");
 
         return code.toString();
     }

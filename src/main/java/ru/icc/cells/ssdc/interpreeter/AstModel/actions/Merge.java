@@ -34,11 +34,11 @@ public class Merge extends Action {
     }
 
     @Override
-    public String generateCallingAction() {
+    public String generateAddSet() {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".eval(").append(identifier1).append(", ").append(identifier2).append(", getTable() ").append(")");
+        code.append(getName()).append(getId()).append(".add( ").append(identifier1).append(", ").append(identifier2).append(" )");
 
         return code.toString();
     }

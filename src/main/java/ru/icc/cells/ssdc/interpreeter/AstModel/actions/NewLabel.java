@@ -47,16 +47,16 @@ public class NewLabel extends Action {
     }
 
     @Override
-    public String generateCallingAction () {
+    public String generateAddSet () {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".eval(").append(identifier);
+        code.append(getName()).append(getId()).append(".add( ").append(identifier);
 
         if( stringExpression.size() > 0 )
             code.append(", ").append(AstModelInterpreeter.buildExpression(stringExpression, ""));
 
-        code.append(", ").append("getTable() )");
+        code.append(" )");
 
         return code.toString();
     }

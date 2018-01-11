@@ -1,15 +1,25 @@
 import ru.icc.cells.ssdc.model.*
 import ru.icc.cells.ssdc.model.style.*
 
+<<<<<<< HEAD
 rule #1 lock-on-active
 	when
 		cell $c : rt > 1, cl > 1, !blank, text.matches( "#|s" )
+=======
+rule #1
+	when
+		cell $c : rt > 1, cl > 1, !blank, text.matches("#|s")
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	then
 		set text "0" to $c
 		update $c
 end
 
+<<<<<<< HEAD
 rule #2 lock-on-active
+=======
+rule #2
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c : rt > 1, cl > 1, !blank, text.matches( "F|\\.|\\.{2}+|\\.{3}+|\\u2026|\\u2014|x|-|NA" )
 	then
@@ -17,7 +27,11 @@ rule #2 lock-on-active
 		update $c
 end
 
+<<<<<<< HEAD
 rule #3 lock-on-active
+=======
+rule #3
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c : rt > 1, cl > 1, !blank, text.matches( "(\\u2012|\\u2013|\\u2014|\\u2015|\\u002D|\\u2212|\\uFF0D)(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ), $t :text
 	then
@@ -25,7 +39,11 @@ rule #3 lock-on-active
 		update $c
 end
 
+<<<<<<< HEAD
 rule #4 lock-on-active
+=======
+rule #4
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c : rt == 1, cl > 1, !blank
 	then
@@ -46,7 +64,11 @@ rule #5
 		update $c2
 end
 
+<<<<<<< HEAD
 rule #6 lock-on-active
+=======
+rule #6
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c : rt > 1, cl == 1, !blank, mark == null
 	then
@@ -55,9 +77,15 @@ rule #6 lock-on-active
 		update $c
 end
 
+<<<<<<< HEAD
 rule #7 lock-on-active
 	when
 		cell $c1 : rt > 1, cl > 1, !blank, mark == null, text not matches "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?"
+=======
+rule #7
+	when
+		cell $c1 : rt > 1, cl > 1, !blank, mark == null, !text.matches( "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" )
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 		cell $c2 : rt > 1, cl > 1, !blank, mark == null, cl <= $c1.cl
 	then
 		set mark "RowHeading" to $c2
@@ -65,7 +93,11 @@ rule #7 lock-on-active
 		update $c2
 end
 
+<<<<<<< HEAD
 rule #8 lock-on-active
+=======
+rule #8
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c : cl > 1, rt > 1, !blank, mark == null
 	then
@@ -74,7 +106,11 @@ rule #8 lock-on-active
 		update $c
 end
 
+<<<<<<< HEAD
 rule #9 no-loop true
+=======
+rule #9
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c : cl == 1, mark == "RowHeading", (int)text.charAt(0) == 45, $t : text
 	then
@@ -82,7 +118,11 @@ rule #9 no-loop true
 		update $c
 end
 
+<<<<<<< HEAD
 rule #10 no-loop true
+=======
+rule #10
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c1 : cl == 1, mark == "RowHeading"
 		cell $c2 : cl == 1, mark == "RowHeading", rt > $c1.rt, indent == $c1.indent + 2
@@ -91,23 +131,37 @@ rule #10 no-loop true
 		set parent $c1.label to $c2.label
 end
 
+<<<<<<< HEAD
 rule #11 no-loop true
 	when
 		cell $c1 : cl == 1, mark == "RowHeading", style.font.bold, indent == 0, text not matches "(?i)(Total\\s*)|(I alt\\s*)|(All\\s*)"
+=======
+rule #11
+	when
+		cell $c1 : cl == 1, mark == "RowHeading", style.font.bold, indent == 0, !text.matches("(?i)(Total\\s*)|(I alt\\s*)|(All\\s*)")
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 		cell $c2 : cl == 1, mark == "RowHeading", rt > $c1.rt, style.font.normal, indent == 0
 		no cells : cl == 1, mark == "RowHeading", style.font.bold, rt > $c1.rt, rt < $c2.rt, indent == 0
 	then
 		set parent $c1.label to $c2.label
 end
 
+<<<<<<< HEAD
 rule #12 no-loop true
+=======
+rule #12
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c : mark == "ColumnHeading"
 	then
 		set category "ColumnHeading" to $c.label
 end
 
+<<<<<<< HEAD
 rule #13 no-loop true
+=======
+rule #13
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c1 : rt == 1, cl > 1, !blank, $index: cl
 		cell $c2 : mark == "RowHeading", cl == $c1.cl
@@ -115,7 +169,11 @@ rule #13 no-loop true
 		set category "RowHeading" + $index to $c2.label
 end
 
+<<<<<<< HEAD
 rule #14 no-loop true
+=======
+rule #14
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c1 : rt == 1, cl == 1
 		cell $c2 : mark == "RowHeading", cl == 1
@@ -123,7 +181,11 @@ rule #14 no-loop true
 		set category "RowHeading1" to $c2.label
 end
 
+<<<<<<< HEAD
 rule #15 no-loop true
+=======
+rule #15
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c1 : mark == "ColumnHeading", label.terminal
 		cell $c2 : mark == "DataCell", cl == $c1.cl
@@ -131,7 +193,11 @@ rule #15 no-loop true
 		add label $c1.label to $c2.entry
 end
 
+<<<<<<< HEAD
 rule #16 no-loop true
+=======
+rule #16
+>>>>>>> 2dbe85439b1cd2c9f8dd3795918946c3d4dc03c0
 	when
 		cell $c1 : mark == "RowHeading"
 		cell $c2 : mark == "DataCell", rt == $c1.rt

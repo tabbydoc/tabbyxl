@@ -37,8 +37,14 @@ public class Action implements ActionInterface {
         return String.format("[ %d %s ]", id, name);
     }
 
-    @Override
+    /*@Override
     public String generateCallingAction() {
         return "";
-    }
+    }*/
+
+    @Override
+    public String generateAddSet() { return ""; }
+
+    @Override
+    public String generateExecute() { return String.format("%s%d.execute()", name, id); }
 }
