@@ -203,7 +203,7 @@ advanced_identifier
 	;
 //lexer
 WS
-	:	 (' ')+ { $channel=HIDDEN; } 
+	:	 (' '|'\t')+ { $channel=HIDDEN; } 
 	;
 //S	:	' '	;
 EOL

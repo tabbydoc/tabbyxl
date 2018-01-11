@@ -174,6 +174,7 @@ public class AstModelBuilder {
             case "New_entry": return buildNewEntry(id, subTree);
             case "New_label": return buildNewLabel(id, subTree);
             case "Add_label": return buildAddLabel(id, subTree);
+            case "Print": return buildPrint(id, subTree);
             default: return null;
         }
     }
@@ -339,6 +340,20 @@ public class AstModelBuilder {
         else {
             action.setLabelIdentifier(buildIdentifier(subTree.getChild(0)));
             action.setDestinationIdentifier(buildIdentifier(subTree.getChild(1)));
+        }
+
+        return action;
+    }
+
+    private Print buildPrint(int id, Tree subTree) {
+
+        Print action = new Print(id, subTree.getText());
+
+        if(subTree.getChildCount()>0)
+        {
+            for(int i=0; i<subTree.getChildCount(); i++) {
+                action.addPartToExpression(subTree.getChild(i).getText());
+            }
         }
 
         return action;

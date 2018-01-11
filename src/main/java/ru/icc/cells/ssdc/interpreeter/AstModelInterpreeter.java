@@ -319,7 +319,7 @@ public class AstModelInterpreeter {
         StringBuilder code = new StringBuilder();
 
         for( int i=0; i<constraints.size(); i++ ) {
-            code.append(buildExpression(constraints.get(i).getParts(), conditionVarName));
+            code.append("( ").append(buildExpression(constraints.get(i).getParts(), conditionVarName)).append(" )");
             if(i<constraints.size()-1) code.append(" && ");
         }
 

@@ -110,16 +110,16 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void eval(CCell cell, String string, CTable table) {
             if(previousCell != cell) {
-                //table.addEntry(cell.newEntry(string));
-                cell.newEntry(string);
+                table.addEntry(cell.newEntry(string));
+                //cell.newEntry(string);
                 previousCell = cell;
             }
         }
 
         public void eval(CCell cell, CTable table) {
             if(previousCell != cell) {
-                //table.addEntry(cell.newEntry());
-                cell.newEntry();
+                table.addEntry(cell.newEntry());
+                //cell.newEntry();
                 previousCell = cell;
             }
         }
@@ -133,16 +133,16 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void eval (CCell cell, String string, CTable table) {
             if(previousCell != cell) {
-                //table.addLabel(cell.newLabel(string));
-                cell.newLabel(string);
+                table.addLabel(cell.newLabel(string));
+                //cell.newLabel(string);
                 previousCell = cell;
             }
         }
 
         public void eval (CCell cell, CTable table) {
             if(previousCell != cell) {
-                //table.addLabel(cell.newLabel());
-                cell.newLabel();
+                table.addLabel(cell.newLabel());
+                //cell.newLabel();
                 previousCell = cell;
             }
         }

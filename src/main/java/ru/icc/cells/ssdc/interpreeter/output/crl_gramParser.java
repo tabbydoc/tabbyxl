@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2018-01-09 13:17:24
+// $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g 2018-01-11 11:06:31
 package ru.icc.cells.ssdc.interpreeter.output;
 
 import org.antlr.runtime.*;
@@ -748,7 +748,7 @@ public class crl_gramParser extends Parser {
 			}
 
 			// AST REWRITE
-			// elements: condition_unit, J_int_literal, action
+			// elements: J_int_literal, condition_unit, action
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1055,7 +1055,7 @@ public class crl_gramParser extends Parser {
 			stream_EOL.add(EOL30);
 
 			// AST REWRITE
-			// elements: query, assignment, Identifier, constraint
+			// elements: constraint, assignment, Identifier, query
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1492,7 +1492,7 @@ public class crl_gramParser extends Parser {
 
 			stream_j_expr.add(j_expr42.getTree());
 			// AST REWRITE
-			// elements: Identifier, j_expr
+			// elements: j_expr, Identifier
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2196,7 +2196,7 @@ public class crl_gramParser extends Parser {
 			stream_Identifier.add(Identifier66);
 
 			// AST REWRITE
-			// elements: j_expr, Identifier
+			// elements: Identifier, j_expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2733,7 +2733,7 @@ public class crl_gramParser extends Parser {
 
 			stream_advanced_identifier.add(advanced_identifier84.getTree());
 			// AST REWRITE
-			// elements: advanced_identifier, j_expr
+			// elements: j_expr, advanced_identifier
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2842,7 +2842,7 @@ public class crl_gramParser extends Parser {
 
 			stream_advanced_identifier.add(advanced_identifier88.getTree());
 			// AST REWRITE
-			// elements: j_expr, advanced_identifier
+			// elements: advanced_identifier, j_expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -3732,13 +3732,13 @@ public class crl_gramParser extends Parser {
 			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:223:2: ( '[' J_int_literal ']' -> J_int_literal )
 			// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\interpreeter\\crl_gram.g:223:4: '[' J_int_literal ']'
 			{
-			char_literal116=(CommonToken)match(input,55,FOLLOW_55_in_index1380);  
+			char_literal116=(CommonToken)match(input,55,FOLLOW_55_in_index1382);  
 			stream_55.add(char_literal116);
 
-			J_int_literal117=(CommonToken)match(input,J_int_literal,FOLLOW_J_int_literal_in_index1382);  
+			J_int_literal117=(CommonToken)match(input,J_int_literal,FOLLOW_J_int_literal_in_index1384);  
 			stream_J_int_literal.add(J_int_literal117);
 
-			char_literal118=(CommonToken)match(input,56,FOLLOW_56_in_index1384);  
+			char_literal118=(CommonToken)match(input,56,FOLLOW_56_in_index1386);  
 			stream_56.add(char_literal118);
 
 			// AST REWRITE
@@ -3903,7 +3903,7 @@ public class crl_gramParser extends Parser {
 	public static final BitSet FOLLOW_52_in_advanced_identifier1247 = new BitSet(new long[]{0x5800000000000000L,0x0000000000000002L});
 	public static final BitSet FOLLOW_query_in_advanced_identifier1249 = new BitSet(new long[]{0x0080000000000002L});
 	public static final BitSet FOLLOW_index_in_advanced_identifier1251 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_55_in_index1380 = new BitSet(new long[]{0x0000000010000000L});
-	public static final BitSet FOLLOW_J_int_literal_in_index1382 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_56_in_index1384 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_55_in_index1382 = new BitSet(new long[]{0x0000000010000000L});
+	public static final BitSet FOLLOW_J_int_literal_in_index1384 = new BitSet(new long[]{0x0100000000000000L});
+	public static final BitSet FOLLOW_56_in_index1386 = new BitSet(new long[]{0x0000000000000002L});
 }
