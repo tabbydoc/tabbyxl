@@ -164,7 +164,7 @@ public class AstModelInterpreeter {
 
         code.append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), "  ")).append(System.lineSeparator());
 
-        code.append("   ").append(generateActionsExecute(rule.getActions())).append(System.lineSeparator());
+        //code.append(generateActionsExecute(rule.getActions())).append(System.lineSeparator());
 
         code.append("}").append(System.lineSeparator());
         return code.toString();

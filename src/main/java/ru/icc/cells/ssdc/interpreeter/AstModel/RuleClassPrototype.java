@@ -29,20 +29,22 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_text() { previousCell = null; }
+        public Set_text() {
+            previousCell = null;
+            }
 
         public void add(CCell cell, String string) {
             if(previousCell != cell) {
-                //cell.setText(string);
-                setList.add(new Set(cell, string));
+                cell.setText(string);
+                //setList.add(new Set(cell, string));
                 previousCell = cell;
             }
         }
 
         public void execute() {
             for(Set set:setList) {
-                if(set.cell != null)
-                    set.cell.setText(set.string);
+                //if(set.cell != null)
+                set.cell.setText(set.string);
             }
         }
 
@@ -62,19 +64,22 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_indent() { previousCell = null; }
+        public Set_indent() {
+            previousCell = null;
+        }
 
         public void add(CCell cell, int value) {
             if(previousCell != cell) {
-                //cell.setIndent(value);
-                setList.add(new Set(cell, value));
+                cell.setIndent(value);
+                //setList.add(new Set(cell, value));
                 previousCell = cell;
             }
         }
 
         public void execute() {
             for(Set set:setList) {
-                if(set.cell != null) set.cell.setIndent(set.value);
+                //if(set.cell != null)
+                set.cell.setIndent(set.value);
             }
         }
 
@@ -94,28 +99,30 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public Split() { previousCell = null; }
+        public Split() {
+            previousCell = null;
+        }
 
         public void add(CCell cell){
             if(previousCell != cell) {
-                /*for(CCell c:cell.split()) {
+                for(CCell c:cell.split()) {
                     table.addCell(c);
                 }
-                table.removeCell(cell);*/
-                setList.add(new Set(cell));
+                table.removeCell(cell);
+                //setList.add(new Set(cell));
                 previousCell = cell;
             }
         }
 
         public void execute() {
             for(Set set:setList) {
-                if(set.cell != null) {
+                //if(set.cell != null) {
                     for (CCell c : set.cell.split()) {
-                        table.addCell(c);
+                        getTable().addCell(c);
                     }
-                    table.removeCell(set.cell);
+                    getTable().removeCell(set.cell);
                 }
-            }
+                //}
         }
 
         private class Set {
@@ -139,9 +146,9 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void add (CCell cell1, CCell cell2) {
             if(previousCell1 != cell1 || previousCell2 != cell2) {
-                /*cell1.merge(cell2);
-                table.removeCell(cell1);*/
-                setList.add(new Set(cell1, cell2));
+                cell1.merge(cell2);
+                table.removeCell(cell1);
+                //setList.add(new Set(cell1, cell2));
                 previousCell1 = cell1;
                 previousCell2 = cell2;
             }
@@ -149,16 +156,18 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void execute() {
             for(Set set:setList) {
-                if(set.cell1 != null && set.cell2 != null) {
+                    //if(set.cell1 != null && set.cell2 != null) {
                     set.cell1.merge(set.cell2);
-                    table.removeCell(set.cell1);
+                    getTable().removeCell(set.cell1);
+
                 }
-            }
+                //}
         }
 
         private class Set {
             private CCell cell1;
             private CCell cell2;
+
             public Set(CCell cell1, CCell cell2) {
                 this.cell1 = cell1;
                 this.cell2 = cell2;
@@ -172,22 +181,24 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private List<Set> setList = new ArrayList<>();
 
         public Set_mark() {
+
             previousCell = null;
         }
 
         public void add(CCell cell, String string) {
             if(previousCell != cell) {
-                //cell.setMark(string);
-                setList.add(new Set(cell, string));
+                cell.setMark(string);
+                //setList.add(new Set(cell, string));
                 previousCell = cell;
             }
         }
 
         public void execute() {
             for(Set set:setList) {
-                if(set.cell!=null) {
+                    //if(set.cell!=null) {
                     set.cell.setMark(set.string);
-                }
+                    previousCell = set.cell;
+                //}
             }
         }
 
@@ -206,47 +217,55 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public New_entry() { previousCell = null; }
+        public New_entry() {
+            previousCell = null;
+        }
 
         public void add(CCell cell, String string) {
             if(previousCell != cell) {
-                //table.addEntry(cell.newEntry(string));
-                setList.add(new Set(cell, string));
+                table.addEntry(cell.newEntry(string));
+                //setList.add(new Set(cell, string));
                 previousCell = cell;
             }
         }
 
         public void add(CCell cell) {
             if(previousCell != cell) {
-                //table.addEntry(cell.newEntry());
-                setList.add(new Set(cell));
+                table.addEntry(cell.newEntry());
+                //setList.add(new Set(cell));
                 previousCell = cell;
             }
         }
 
         public void execute() {
+            previousCell = null;
+
             for(Set set:setList) {
-                if(set.cell!=null) {
-                    if (set.string != null) {
+                    //if(set.cell!=null) {
+                    if (set.type == 2) {
                         table.addEntry(set.cell.newEntry(set.string));
                         //set.cell.newEntry(set.string);
-                    } else {
+                    } else if (set.type == 1) {
                         table.addEntry(set.cell.newEntry());
                         //set.cell.newEntry();
                     }
-                }
+                    previousCell = set.cell;
+                //}
             }
         }
 
         private class Set {
             private CCell cell;
             private String string;
+            private int type;
 
             public Set(CCell cell) {
+                this.type = 1;
                 this.cell = cell;
             }
 
             public Set(CCell cell, String string) {
+                this.type = 2;
                 this.cell = cell;
                 this.string = string;
             }
@@ -258,47 +277,54 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public New_label() { previousCell = null; }
+        public New_label() {
+            previousCell = null;
+        }
 
         public void add (CCell cell, String string) {
             if(previousCell != cell) {
-                //table.addLabel(cell.newLabel(string));
+                table.addLabel(cell.newLabel(string));
                 //cell.newLabel(string);
-                setList.add(new Set(cell, string));
+                //setList.add(new Set(cell, string));
                 previousCell = cell;
             }
         }
 
         public void add (CCell cell) {
             if(previousCell != cell) {
-                //table.addLabel(cell.newLabel());
+                table.addLabel(cell.newLabel());
                 //cell.newLabel();
-                setList.add(new Set(cell));
+                //setList.add(new Set(cell));
                 previousCell = cell;
             }
         }
 
         public void execute() {
+            previousCell = null;
+
             for(Set set:setList) {
-                if (set.cell != null) {
-                    if (set.string != null) {
+                    //if (set.cell != null) {
+                    if (set.type == 2) {
                         table.addLabel(set.cell.newLabel(set.string));
-                    } else {
+                    } else if (set.type == 1) {
                         table.addLabel(set.cell.newLabel());
                     }
-                }
+                //}
             }
         }
 
         private class Set {
             private CCell cell;
             private String string;
+            private int type;
 
             public Set(CCell cell) {
+                this.type = 1;
                 this.cell = cell;
             }
 
             public Set(CCell cell, String string) {
+                this.type = 2;
                 this.cell = cell;
                 this.string = string;
             }
@@ -310,21 +336,24 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private CValue previousVar;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_value() { previousVar = null; }
+        public Set_value() {
+            previousVar = null;
+        }
 
         public void add(CValue var, String value) {
             if(previousVar != var) {
-                //var.setValue(string);
-                setList.add(new Set(var, value));
+                var.setValue(value);
+                //setList.add(new Set(var, value));
                 previousVar = var;
             }
         }
 
         public void execute() {
             for(Set set:setList) {
-                if (set.var != null) {
+                    //if (set.var != null) {
                     set.var.setValue(set.value);
-                }
+                    previousVar = set.var;
+                //}
             }
         }
 
@@ -344,33 +373,36 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
         private CLabel previousLabel;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_category() { previousLabel = null; }
+        public Set_category() {
+            previousLabel = null;
+        }
 
         public void add(CLabel label, CCategory category) {
             if(previousLabel != label) {
-                //label.setCategory(category);
-                setList.add(new Set(label, category));
+                label.setCategory(category);
+                //setList.add(new Set(label, category));
                 previousLabel = label;
             }
         }
 
         public void add (CLabel label, String categoryName) {
             if(previousLabel != label) {
-                //label.setCategory(categoryName);
-                setList.add(new Set(label, categoryName));
+                label.setCategory(categoryName);
+                //setList.add(new Set(label, categoryName));
                 previousLabel = label;
             }
         }
 
         public void execute() {
+            previousLabel = null;
             for(Set set:setList) {
-                if (set.label != null) {
+                    //if (set.label != null) {
                     if (set.type == 1) {
                         set.label.setCategory(set.category);
                     } else if (set.type == 2) {
                         set.label.setCategory(set.categoryName);
                     }
-                }
+                //}
             }
         }
 
@@ -407,17 +439,24 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void add (CLabel label1, CLabel label2) {
             if(previousLabel1 != label1 || previousLabel2 != label2) {
-                //label2.setParent(label1);
-                sets.add(new Set(label1, label2));
+                label2.setParent(label1);
+                //sets.add(new Set(label1, label2));
                 previousLabel1 = label1;
                 previousLabel2 = label2;
             }
         }
 
         public void execute() {
+            previousLabel1 = null;
+            previousLabel2 = null;
             for(Set set:sets) {
-                if(set.label1 != null && set.label2 != null)
-                    set.label2.setParent(set.label1);
+                if(previousLabel1 != set.label1 || previousLabel2 != set.label2) {
+                    //if(set.label1 != null && set.label2 != null)
+                        set.label2.setParent(set.label1);
+
+                    previousLabel1 = set.label1;
+                    previousLabel2 = set.label2;
+                }
             }
         }
 
@@ -445,18 +484,20 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void add(CLabel label1, CLabel label2) {
             if(previousLabel1 != label1 || previousLabel2 != label2) {
-                //label2.group(label1);
-                sets.add(new Set(label1, label2));
+                label2.group(label1);
+                //sets.add(new Set(label1, label2));
                 previousLabel1 = label1;
                 previousLabel2 = label2;
             }
         }
 
         public void execute() {
+
             for(Set set:sets) {
-                if (set.label1 != null && set.label2 != null) {
+                    //if (set.label1 != null && set.label2 != null) {
                     set.label2.group(set.label1);
-                }
+
+                  //}
             }
         }
 
@@ -484,8 +525,8 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void add(CLabel label, CEntry entry) {
             if(previousLabel != label || previousEntry != entry) {
-                //entry.addLabel(label);
-                sets.add(new Set(label, entry));
+                entry.addLabel(label);
+                //sets.add(new Set(label, entry));
                 previousLabel = label;
                 previousEntry = entry;
             }
@@ -493,8 +534,8 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void add(CLabel label, CEntry entry, CCategory category) {
             if(previousLabel != label || previousEntry != entry) {
-                //entry.addLabel(label.getValue(), category);
-                sets.add(new Set(label, entry, category));
+                entry.addLabel(label.getValue(), category);
+                //sets.add(new Set(label, entry, category));
                 previousEntry = entry;
                 previousLabel = label;
             }
@@ -502,25 +543,31 @@ public abstract class RuleClassPrototype implements RuleClassInterface{
 
         public void add(CLabel label, CEntry entry, String categoryName) {
             if(previousLabel != label || previousEntry != entry) {
-                //entry.addLabel(label.getValue(), category);
-                sets.add(new Set(label, entry, categoryName));
+                entry.addLabel(label.getValue(), categoryName);
+                //sets.add(new Set(label, entry, categoryName));
                 previousEntry = entry;
                 previousLabel = label;
             }
         }
 
         public void execute() {
+            previousLabel = null;
+            previousEntry = null;
+
             for(Set set:sets) {
-                if(set.label != null && set.entry != null) {
+                    //if(set.label != null && set.entry != null) {
                     switch (set.type) {
                         case 1:
                             set.entry.addLabel(set.label);
+                            break;
                         case 2:
-                            if(set.category != null) set.entry.addLabel(set.label.getValue(), set.category);
+                            if (set.category != null) set.entry.addLabel(set.label.getValue(), set.category);
+                            break;
                         case 3:
-                            if(set.categoryName != null) set.entry.addLabel(set.label.getValue(), set.categoryName);
+                            if (set.categoryName != null) set.entry.addLabel(set.label.getValue(), set.categoryName);
+                            break;
                     }
-                }
+                //}
             }
         }
 
