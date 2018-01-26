@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RuleClassPrototype implements RuleClassInterface{
+
     private CTable table;
 
     public CTable getTable() {

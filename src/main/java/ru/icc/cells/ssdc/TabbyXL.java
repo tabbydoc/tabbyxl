@@ -73,6 +73,9 @@ public final class TabbyXL {
     private static long totalRuleFiringTime;
     private static long currentRuleFiringTime;
 
+    private static long beginTime;
+    private static long endTime;
+
     private static final DataLoader DATA_LOADER = DataLoader.getInstance();
     private static final CategoryTemplateManager CATEGORY_TEMPLATE_MANAGER = CategoryTemplateManager.getInstance();
     private static final KnowledgeBase KNOWLEDGE_BASE = KnowledgeBaseFactory.newKnowledgeBase();
@@ -448,125 +451,160 @@ public final class TabbyXL {
     }
 
     public static void main(String[] args) {
-        System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
-
-        /*try {
-            parseCommandLineParams(args);
-            System.out.printf("%s%n%n", traceParsedParams());
-
-            loadWorkbook();
-            loadRules();
-            loadCatFiles();
-            DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
-            DATA_LOADER.setUseCellValue(useCellValue);
-
-            int count = 0;
-
-            // Processing sheets from the input Excel workbook
-            for (int sheetNo : sheetIndexes) {
-                DATA_LOADER.goToSheet(sheetNo);
-                String sheetName = DATA_LOADER.getCurrentSheetName();
-
-                int tableNo = 0;
-                while (true) {
-                    CTable table = DATA_LOADER.nextTable();
-                    if (null == table) break;
-
-                    count++;
-
-                    System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
-                    Tables.recoverCellBorders(table);
-
-                    if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
-                        CATEGORY_TEMPLATE_MANAGER.createCategories(table);
-
-                    fireRules(table, KNOWLEDGE_BASE);
-
-                    table.update();
-
-                    System.out.println(table.trace());
-                    System.out.println();
-
-                    CanonicalForm canonicalForm = table.toCanonicalForm();
-                    //System.out.println( canonicalForm.trace() );
-                    System.out.println("Canonical form:");
-                    canonicalForm.print();
-                    System.out.println();
-
-                    StatisticsManager.Statistics statistics = statisticsManager.collect(table);
-                    System.out.println(statistics.trace());
-                    System.out.printf("Current rule firing time: %s%n%n", currentRuleFiringTime);
-
-                    String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
-
-                    String outFileName = null;
-                    if (useShortNames) {
-                        outFileName = String.format("%s\\%s.xlsx", outputDirectory, sheetName);
-                    } else {
-                        outFileName = String.format("%s\\%s_%s_%s.xlsx", outputDirectory, fileName, sheetNo, tableNo);
-                    }
-                    EvaluationExcelWriter writer = new EvaluationExcelWriter(new File(outFileName));
-                    writer.write(table);
-
-                    tableNo++;
-                }
-            }
-            // Checking and creating output data directory
-            if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println(statisticsManager.trace());
-            System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
-            System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
-            CATEGORY_TEMPLATE_MANAGER.release();
-        }
-*/
-
-        //System.setOut(null);
-        System.out.println();
-        System.out.println("My interpreeter tries work");
+        beginTime = new Date().getTime();
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
 
         try {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            loadWorkbook();
-            //loadRules();
-            loadCatFiles();
-            DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
-            DATA_LOADER.setUseCellValue(useCellValue);
+            if(false)
+                fireWithDrools();
+            else
+                fireWithOwnInterpreeter();
 
-            ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
-            crl_gramLexer lexer = new crl_gramLexer(fileStream1);
-            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-            System.out.println("Token stream ok");
-            crl_gramParser pars = new crl_gramParser(tokenStream);
-            System.out.println("parser ok");
-            AstPrinter astPrinter = new AstPrinter();
-            System.out.println("printer ok");
-            CommonTree tree = pars.crl().getTree();
-            System.out.println("tree ok");
-            astPrinter.Print(tree);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            endTime = new Date().getTime();
+            System.out.println(statisticsManager.trace());
+            System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
+            System.out.printf("General rules firing time: %s%n%n", endTime - beginTime);
+            System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
+            CATEGORY_TEMPLATE_MANAGER.release();
+        }
 
-            AstModelBuilder astModelBuilder = new AstModelBuilder();
-            astModelBuilder.buildModel(tree);
-            Model model = astModelBuilder.getModel();
-            System.out.println("model ok");
-            System.out.println(model.toString());
+    }
 
-            AstModelInterpreeter.compileAllRules(model);
-            System.out.println("RuleClasses ok");
+    private static void fireWithDrools() throws Exception {
 
-            int count = 0;
+        loadWorkbook();
+        loadRules();
+        loadCatFiles();
+        DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
+        DATA_LOADER.setUseCellValue(useCellValue);
 
-            // for testing
+        int count = 0;
+
+        // Processing sheets from the input Excel workbook
+        for (int sheetNo : sheetIndexes) {
+            DATA_LOADER.goToSheet(sheetNo);
+            String sheetName = DATA_LOADER.getCurrentSheetName();
+
+            int tableNo = 0;
+            while (true) {
+                CTable table = DATA_LOADER.nextTable();
+                if (null == table) break;
+
+                count++;
+
+                System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
+                Tables.recoverCellBorders(table);
+
+                if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
+                    CATEGORY_TEMPLATE_MANAGER.createCategories(table);
+
+                Date startDate = new Date();
+                fireRules(table, KNOWLEDGE_BASE);
+                Date endDate = new Date();
+
+                currentRuleFiringTime = endDate.getTime() - startDate.getTime();
+                totalRuleFiringTime += currentRuleFiringTime;
+
+                table.update();
+
+                System.out.println(table.trace());
+                System.out.println();
+
+                CanonicalForm canonicalForm = table.toCanonicalForm();
+                //System.out.println( canonicalForm.trace() );
+                System.out.println("Canonical form:");
+                canonicalForm.print();
+                System.out.println();
+
+                StatisticsManager.Statistics statistics = statisticsManager.collect(table);
+                System.out.println(statistics.trace());
+                System.out.printf("Current rule firing time: %s%n%n", currentRuleFiringTime);
+
+                String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
+
+                String outFileName = null;
+                if (useShortNames) {
+                    outFileName = String.format("%s\\%s.xlsx", outputDirectory, sheetName);
+                } else {
+                    outFileName = String.format("%s\\%s_%s_%s.xlsx", outputDirectory, fileName, sheetNo, tableNo);
+                }
+                EvaluationExcelWriter writer = new EvaluationExcelWriter(new File(outFileName));
+                writer.write(table);
+
+                tableNo++;
+            }
+        }
+        // Checking and creating output data directory
+        if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
+
+    }
+
+    private static void loadInterpreeter() throws IOException, RecognitionException {
+        ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
+        crl_gramLexer lexer = new crl_gramLexer(fileStream1);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        System.out.println("Token stream ok");
+        crl_gramParser pars = new crl_gramParser(tokenStream);
+        System.out.println("parser ok");
+        AstPrinter astPrinter = new AstPrinter();
+        System.out.println("printer ok");
+        CommonTree tree = pars.crl().getTree();
+        System.out.println("tree ok");
+        //astPrinter.Print(tree);
+
+        AstModelBuilder astModelBuilder = new AstModelBuilder();
+        astModelBuilder.buildModel(tree);
+        Model model = astModelBuilder.getModel();
+        System.out.println("model ok");
+        //System.out.println(model.toString());
+
+        AstModelInterpreeter.compileAllRules(model);
+        System.out.println("RuleClasses ok");
+    }
+
+    private static void fireWithOwnInterpreeter() throws Exception {
+
+        loadWorkbook();
+        loadCatFiles();
+        loadInterpreeter();
+        DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
+        DATA_LOADER.setUseCellValue(useCellValue);
+
+        /*ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
+        crl_gramLexer lexer = new crl_gramLexer(fileStream1);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        System.out.println("Token stream ok");
+        crl_gramParser pars = new crl_gramParser(tokenStream);
+        System.out.println("parser ok");
+        AstPrinter astPrinter = new AstPrinter();
+        System.out.println("printer ok");
+        CommonTree tree = pars.crl().getTree();
+        System.out.println("tree ok");
+        //astPrinter.Print(tree);
+
+        AstModelBuilder astModelBuilder = new AstModelBuilder();
+        astModelBuilder.buildModel(tree);
+        Model model = astModelBuilder.getModel();
+        System.out.println("model ok");
+        //System.out.println(model.toString());
+
+        AstModelInterpreeter.compileAllRules(model);
+        System.out.println("RuleClasses ok");*/
+
+        int count = 0;
+
+        // for testing
             /*List<Integer> sheetIndexes2 = new ArrayList<>();
             sheetIndexes2.add(119);*/
 
-            for (int sheetNo : sheetIndexes) {
+
+         for (int sheetNo : sheetIndexes) {
                 DATA_LOADER.goToSheet(sheetNo);
                 String sheetName = DATA_LOADER.getCurrentSheetName();
 
@@ -623,19 +661,6 @@ public final class TabbyXL {
             }
 
             if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
-
-        } catch (RecognitionException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println(statisticsManager.trace());
-            System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
-            System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
-            CATEGORY_TEMPLATE_MANAGER.release();
-        }
 
     }
 
@@ -694,13 +719,13 @@ public final class TabbyXL {
             kSession.insert(categories.next());
         }
 
-        Date startDate = new Date();
+        //Date startDate = new Date();
         //kSession.execute( facts );
         kSession.fireAllRules();
-        Date endDate = new Date();
+        //Date endDate = new Date();
 
-        currentRuleFiringTime = endDate.getTime() - startDate.getTime();
-        totalRuleFiringTime += currentRuleFiringTime;
+        //currentRuleFiringTime = endDate.getTime() - startDate.getTime();
+        //totalRuleFiringTime += currentRuleFiringTime;
     }
 
     private TabbyXL() {

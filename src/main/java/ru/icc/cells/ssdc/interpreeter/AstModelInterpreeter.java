@@ -91,9 +91,10 @@ public class AstModelInterpreeter {
         code.append(generateEval(rule)).append(lineSep);
 
 
+
         code
                 .append("}").append(lineSep);
-        System.out.println(code.toString());
+        //System.out.println(code.toString());
         return code;
     }
 
