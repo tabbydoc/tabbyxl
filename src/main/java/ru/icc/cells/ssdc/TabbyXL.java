@@ -32,7 +32,7 @@ import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.definition.KnowledgePackage;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
-import ru.icc.cells.ssdc.interpreeter.AstModel.Model;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.Model;
 import ru.icc.cells.ssdc.interpreeter.AstModelBuilder;
 import ru.icc.cells.ssdc.interpreeter.AstModelInterpreeter;
 import ru.icc.cells.ssdc.interpreeter.AstPrinter;
@@ -458,7 +458,7 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            if(false)
+            if(true)
                 fireWithDrools();
             else
                 fireWithOwnInterpreeter();
@@ -469,6 +469,7 @@ public final class TabbyXL {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
             System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
+            System.out.printf("Rules loading time: %s%n%n", time2.getTime() - time1.getTime());
             System.out.printf("General rules firing time: %s%n%n", endTime - beginTime);
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
@@ -476,10 +477,17 @@ public final class TabbyXL {
 
     }
 
+    private static Date time1;
+    private static Date time2;
+
     private static void fireWithDrools() throws Exception {
 
         loadWorkbook();
+
+        time1 = new Date();
         loadRules();
+        time2 = new Date();
+
         loadCatFiles();
         DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
         DATA_LOADER.setUseCellValue(useCellValue);
@@ -546,6 +554,7 @@ public final class TabbyXL {
     }
 
     private static void loadInterpreeter() throws IOException, RecognitionException {
+
         ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
         crl_gramLexer lexer = new crl_gramLexer(fileStream1);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
@@ -572,7 +581,11 @@ public final class TabbyXL {
 
         loadWorkbook();
         loadCatFiles();
+
+        time1 = new Date();
         loadInterpreeter();
+        time2 = new Date();
+
         DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
         DATA_LOADER.setUseCellValue(useCellValue);
 

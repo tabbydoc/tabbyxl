@@ -1,4 +1,4 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel.actions;
 
 public interface ActionInterface {
 

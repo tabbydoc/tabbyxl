@@ -1,6 +1,4 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel;
-
-import ru.icc.cells.ssdc.model.CTable;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel;
 
 public interface RuleClassInterface {
    /* String sayHello();

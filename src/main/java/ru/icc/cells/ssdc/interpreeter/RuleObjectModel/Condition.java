@@ -1,22 +1,32 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel;
-
-import ru.icc.cells.ssdc.interpreeter.AstModel.Assignment;
-import ru.icc.cells.ssdc.interpreeter.AstModel.Constraint;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoCondition{
+public class Condition {
 
-    public NoCondition(int id, String query) {
-        this.id = id;
-        this.query = query;
+    private String type;
+
+    public String getType() {
+        return type;
     }
 
-    private String query;
+    public void setType(String type) {
+        this.type = type;
+    }
 
-    public String getQuery() {
-        return query;
+    public Condition(int id) {
+        this.id = id;
+    }
+
+    private RuleVariable variable;
+
+    public RuleVariable getVariable() {
+        return variable;
+    }
+
+    public void setVariable(RuleVariable variable) {
+        this.variable = variable;
     }
 
     private int id;
@@ -42,23 +52,23 @@ public class NoCondition{
         return assignments;
     }
 
-    public String toString() {
-
-        StringBuilder result = new StringBuilder();
-
-        result.append(query).append(System.lineSeparator());
-
+    public String toString()
+    {
+        StringBuilder result=new StringBuilder();
+        result.append(type.toString());
+        if (type.equals("condition"))
+        {
+            result.append(" ").append(variable.getType()).append(" ").append(variable.getIdentifier());
+        }
+        result.append(System.lineSeparator());
         result.append(String.format("constraints (%d): ",getConstraints().size()));
         for(Constraint constraint:getConstraints()) {
             result.append("[ ").append(constraint.toString()).append(" ] ");
         }
         result.append(System.lineSeparator());
-
         result.append(String.format("assignments (%d): ", getAssignments().size()));
         for(Assignment assignment:getAssignments())
             result.append("[ ").append(assignment.toString()).append(" ] ");
-        result.append(System.lineSeparator());
-
         return result.toString();
     }
 }

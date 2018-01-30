@@ -1,14 +1,12 @@
 package ru.icc.cells.ssdc.interpreeter;
 
-import ru.icc.cells.ssdc.interpreeter.AstModel.*;
-import ru.icc.cells.ssdc.interpreeter.AstModel.actions.*;
-import ru.icc.cells.ssdc.interpreeter.AstModel.Condition;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.*;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.actions.*;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.Condition;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompiler;
 import ru.icc.cells.ssdc.interpreeter.compiler.CharSequenceCompilerException;
-import ru.icc.cells.ssdc.model.CCell;
 import ru.icc.cells.ssdc.model.CTable;
 
-import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
@@ -106,7 +104,7 @@ public class AstModelInterpreeter {
                 .append("package ").append(PACK).append(";").append(lineSep)
                 .append("import java.util.*;").append(lineSep)
                 .append("import java.lang.*;").append(lineSep)
-                .append("import ru.icc.cells.ssdc.interpreeter.AstModel.RuleClassPrototype;").append(lineSep);
+                .append("import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.RuleClassPrototype;").append(lineSep);
         for(String item:imports)
         {
             code.append(item).append(lineSep);

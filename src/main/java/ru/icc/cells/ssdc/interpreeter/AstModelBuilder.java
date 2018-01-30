@@ -1,12 +1,9 @@
 package ru.icc.cells.ssdc.interpreeter;
 
 import org.antlr.runtime.tree.Tree;
-import ru.icc.cells.ssdc.interpreeter.AstModel.*;
-import ru.icc.cells.ssdc.interpreeter.AstModel.actions.*;
-import ru.icc.cells.ssdc.interpreeter.AstModel.Condition;
-import ru.icc.cells.ssdc.interpreeter.AstModel.NoCondition;
-
-import java.util.List;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.*;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.actions.*;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.Condition;
 
 public class AstModelBuilder {
 

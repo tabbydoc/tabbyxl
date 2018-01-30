@@ -1,4 +1,4 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel;
 
 import ru.icc.cells.ssdc.model.*;
 

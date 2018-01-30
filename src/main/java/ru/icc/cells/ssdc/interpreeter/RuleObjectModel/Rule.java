@@ -1,6 +1,6 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel;
 
-import ru.icc.cells.ssdc.interpreeter.AstModel.actions.Action;
+import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.actions.Action;
 
 import java.util.ArrayList;
 import java.util.List;

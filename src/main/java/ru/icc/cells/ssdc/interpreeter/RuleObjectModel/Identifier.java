@@ -1,10 +1,8 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel;
 
-import ru.icc.cells.ssdc.interpreeter.AstModelInterpreeter;
 import ru.icc.cells.ssdc.interpreeter.FieldAlias;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

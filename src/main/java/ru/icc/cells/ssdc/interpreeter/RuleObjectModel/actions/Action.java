@@ -1,10 +1,4 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
-
-import ru.icc.cells.ssdc.model.CCell;
-import ru.icc.cells.ssdc.model.CTable;
-
-import java.util.ArrayList;
-import java.util.List;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel.actions;
 
 public class Action implements ActionInterface {
 

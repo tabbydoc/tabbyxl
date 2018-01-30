@@ -1,6 +1,4 @@
-package ru.icc.cells.ssdc.interpreeter.AstModel.actions;
-
-import ru.icc.cells.ssdc.interpreeter.AstModel.Identifier;
+package ru.icc.cells.ssdc.interpreeter.RuleObjectModel.actions;
 
 public class Split extends Action {
 
