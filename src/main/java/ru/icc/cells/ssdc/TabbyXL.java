@@ -32,12 +32,12 @@ import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.definition.KnowledgePackage;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
-import ru.icc.cells.ssdc.interpreeter.RuleObjectModel.Model;
-import ru.icc.cells.ssdc.interpreeter.AstModelBuilder;
-import ru.icc.cells.ssdc.interpreeter.AstModelInterpreeter;
-import ru.icc.cells.ssdc.interpreeter.AstPrinter;
-import ru.icc.cells.ssdc.interpreeter.output.crl_gramLexer;
-import ru.icc.cells.ssdc.interpreeter.output.crl_gramParser;
+import ru.icc.cells.ssdc.engine.RuleObjectModel.Model;
+import ru.icc.cells.ssdc.engine.RuleModelBuilder;
+import ru.icc.cells.ssdc.engine.RuleCodeGen;
+import ru.icc.cells.ssdc.engine.AstPrinter;
+import ru.icc.cells.ssdc.engine.parsing.crl_gramLexer;
+import ru.icc.cells.ssdc.engine.parsing.crl_gramParser;
 import ru.icc.cells.ssdc.model.*;
 import ru.icc.cells.ssdc.writers.EvaluationExcelWriter;
 
@@ -182,18 +182,18 @@ public final class TabbyXL {
                     try {
                         Files.createDirectory(outputDirectory);
                     } catch (IOException e) {
-                        System.err.println("The output directory does not exist and cannot be created");
+                        System.err.println("The parsing directory does not exist and cannot be created");
                         e.printStackTrace();
                         System.exit(1);
                     }
                 }
                 return outputDirectory;
             } catch (InvalidPathException e) {
-                System.err.println("The output directory path is invalid");
+                System.err.println("The parsing directory path is invalid");
                 e.printStackTrace();
             }
         } else {
-            // Creating default output directory
+            // Creating default parsing directory
             String defaultOutputDirectoryPath = inputExcelFile.getParent();
             return Paths.get(defaultOutputDirectoryPath);
         }
@@ -275,10 +275,10 @@ public final class TabbyXL {
      * -sheets <sheet indexes>            sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
      * -ruleset <drl or dslr file>        a ruleset (*.drl or *.dslr file)
      * -categorySpec <category directory> a directory with category specifications in YAML (*.cat files)
-     * -output <output directory>         a directory for outputting results
+     * -parsing <parsing directory>         a directory for outputting results
      * -ignoreSuperscript <true|false>    specify true to ignore superscript text in cells (false used by default)
      * -useCellText <true|false>          specify true to use cell values as text (false used by default)
-     * -useShortNames <true|false>        specify true to use short names (just sheet names) for output files (false used by default)
+     * -useShortNames <true|false>        specify true to use short names (just sheet names) for parsing files (false used by default)
      * -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
      * -help                              print the usage
      */
@@ -332,7 +332,7 @@ public final class TabbyXL {
         Option useShortNamesOpt = OptionBuilder
                 .withArgName("true|false")
                 .hasArg()
-                .withDescription("specify true to use short names (just sheet names) for output files (false used by default)")
+                .withDescription("specify true to use short names (just sheet names) for parsing files (false used by default)")
                 .create("useShortNames");
 
         Option debuggingModeOpt = OptionBuilder
@@ -458,10 +458,10 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            if(true)
+            if(false)
                 fireWithDrools();
             else
-                fireWithOwnInterpreeter();
+                fireWithOurEngine();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -548,12 +548,12 @@ public final class TabbyXL {
                 tableNo++;
             }
         }
-        // Checking and creating output data directory
+        // Checking and creating parsing data directory
         if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
 
     }
 
-    private static void loadInterpreeter() throws IOException, RecognitionException {
+    private static void loadEngine() throws IOException, RecognitionException {
 
         ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
         crl_gramLexer lexer = new crl_gramLexer(fileStream1);
@@ -567,48 +567,27 @@ public final class TabbyXL {
         System.out.println("tree ok");
         //astPrinter.Print(tree);
 
-        AstModelBuilder astModelBuilder = new AstModelBuilder();
-        astModelBuilder.buildModel(tree);
-        Model model = astModelBuilder.getModel();
+        RuleModelBuilder ruleModelBuilder = new RuleModelBuilder();
+        ruleModelBuilder.buildModel(tree);
+        Model model = ruleModelBuilder.getModel();
         System.out.println("model ok");
         //System.out.println(model.toString());
 
-        AstModelInterpreeter.compileAllRules(model);
+        RuleCodeGen.compileAllRules(model);
         System.out.println("RuleClasses ok");
     }
 
-    private static void fireWithOwnInterpreeter() throws Exception {
+    private static void fireWithOurEngine() throws Exception {
 
         loadWorkbook();
         loadCatFiles();
 
         time1 = new Date();
-        loadInterpreeter();
+        loadEngine();
         time2 = new Date();
 
         DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
         DATA_LOADER.setUseCellValue(useCellValue);
-
-        /*ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
-        crl_gramLexer lexer = new crl_gramLexer(fileStream1);
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        System.out.println("Token stream ok");
-        crl_gramParser pars = new crl_gramParser(tokenStream);
-        System.out.println("parser ok");
-        AstPrinter astPrinter = new AstPrinter();
-        System.out.println("printer ok");
-        CommonTree tree = pars.crl().getTree();
-        System.out.println("tree ok");
-        //astPrinter.Print(tree);
-
-        AstModelBuilder astModelBuilder = new AstModelBuilder();
-        astModelBuilder.buildModel(tree);
-        Model model = astModelBuilder.getModel();
-        System.out.println("model ok");
-        //System.out.println(model.toString());
-
-        AstModelInterpreeter.compileAllRules(model);
-        System.out.println("RuleClasses ok");*/
 
         int count = 0;
 
@@ -636,7 +615,7 @@ public final class TabbyXL {
 
                     Date startDate = new Date();
 
-                    AstModelInterpreeter.fireAllRules(table);
+                    RuleCodeGen.fireAllRules(table);
 
                     Date endDate = new Date();
 

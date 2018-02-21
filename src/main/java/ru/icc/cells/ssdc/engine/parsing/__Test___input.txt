@@ -1,0 +1,6 @@
+rule #1
+	when
+		cell $c : rt > 1, cl > 1, !blank
+	then
+		set text "0" to $c
+end
