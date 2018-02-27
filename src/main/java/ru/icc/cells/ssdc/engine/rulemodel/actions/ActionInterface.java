@@ -1,4 +1,4 @@
-package ru.icc.cells.ssdc.engine.RuleObjectModel.actions;
+package ru.icc.cells.ssdc.engine.rulemodel.actions;
 
 public interface ActionInterface {
 

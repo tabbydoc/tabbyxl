@@ -1,6 +1,6 @@
-package ru.icc.cells.ssdc.engine.RuleObjectModel.actions;
+package ru.icc.cells.ssdc.engine.rulemodel.actions;
 
-import ru.icc.cells.ssdc.engine.RuleObjectModel.Identifier;
+import ru.icc.cells.ssdc.engine.rulemodel.Identifier;
 
 public class AddLabel extends Action {
 

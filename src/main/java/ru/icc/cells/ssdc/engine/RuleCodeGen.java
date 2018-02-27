@@ -1,11 +1,11 @@
 package ru.icc.cells.ssdc.engine;
 
-import ru.icc.cells.ssdc.engine.RuleObjectModel.*;
-import ru.icc.cells.ssdc.engine.RuleObjectModel.actions.*;
-import ru.icc.cells.ssdc.engine.RuleObjectModel.Condition;
+import ru.icc.cells.ssdc.engine.rulemodel.*;
+import ru.icc.cells.ssdc.engine.rulemodel.actions.*;
+import ru.icc.cells.ssdc.engine.rulemodel.Condition;
 import ru.icc.cells.ssdc.engine.compiler.CharSequenceCompiler;
 import ru.icc.cells.ssdc.engine.compiler.CharSequenceCompilerException;
-import ru.icc.cells.ssdc.engine.output.RuleProgramPrototype;
+import ru.icc.cells.ssdc.engine.synthesis.RuleProgramPrototype;
 import ru.icc.cells.ssdc.model.CTable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class RuleCodeGen {
 
-    private static final String PACK = "ru.icc.cells.ssdc.engine.output";
+    private static final String PACK = "ru.icc.cells.ssdc.engine.synthesis";
 
     private static List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
@@ -105,7 +105,7 @@ public class RuleCodeGen {
                 .append("package ").append(PACK).append(";").append(lineSep)
                 .append("import java.util.*;").append(lineSep)
                 .append("import java.lang.*;").append(lineSep)
-                .append("import ru.icc.cells.ssdc.engine.output.RuleProgramPrototype;").append(lineSep);
+                .append("import ru.icc.cells.ssdc.engine.synthesis.RuleProgramPrototype;").append(lineSep);
         for(String item:imports)
         {
             code.append(item).append(lineSep);

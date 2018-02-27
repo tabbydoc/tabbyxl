@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FieldAliases {
+    private static FieldAliases instance = new FieldAliases();
+
+    public static FieldAliases getInstance() {
+        return instance;
+    }
+
     private Map<String, String> aliases = new HashMap<>();
 
     public Map<String, String> getAliases() {

@@ -1,4 +1,4 @@
-package ru.icc.cells.ssdc.engine.RuleObjectModel;
+package ru.icc.cells.ssdc.engine.rulemodel;
 
 public class Part {
 

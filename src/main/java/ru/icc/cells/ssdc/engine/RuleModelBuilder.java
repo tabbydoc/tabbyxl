@@ -1,9 +1,9 @@
 package ru.icc.cells.ssdc.engine;
 
 import org.antlr.runtime.tree.Tree;
-import ru.icc.cells.ssdc.engine.RuleObjectModel.*;
-import ru.icc.cells.ssdc.engine.RuleObjectModel.actions.*;
-import ru.icc.cells.ssdc.engine.RuleObjectModel.Condition;
+import ru.icc.cells.ssdc.engine.rulemodel.*;
+import ru.icc.cells.ssdc.engine.rulemodel.actions.*;
+import ru.icc.cells.ssdc.engine.rulemodel.Condition;
 
 public class RuleModelBuilder {
 
