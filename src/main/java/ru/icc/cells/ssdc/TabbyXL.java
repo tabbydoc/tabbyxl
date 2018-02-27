@@ -22,6 +22,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
+import org.drools.jsr94.rules.admin.RuleAdministratorImpl;
 import org.kie.api.event.rule.DebugAgendaEventListener;
 import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
@@ -41,9 +42,13 @@ import ru.icc.cells.ssdc.engine.parsing.crl_gramParser;
 import ru.icc.cells.ssdc.model.*;
 import ru.icc.cells.ssdc.writers.EvaluationExcelWriter;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.rules.*;
+import javax.rules.admin.LocalRuleExecutionSetProvider;
+import javax.rules.admin.RuleAdministrator;
+import javax.rules.admin.RuleExecutionSet;
+import javax.rules.admin.RuleExecutionSetProvider;
+import javax.xml.crypto.Data;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -461,7 +466,7 @@ public final class TabbyXL {
             if(false)
                 fireWithDrools();
             else
-                fireWithOurEngine();
+                fireUsingRulesEngineAPI();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -469,7 +474,7 @@ public final class TabbyXL {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
             System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
-            System.out.printf("Rules loading time: %s%n%n", time2.getTime() - time1.getTime());
+//            System.out.printf("Rules loading time: %s%n%n", time2.getTime() - time1.getTime());
             System.out.printf("General rules firing time: %s%n%n", endTime - beginTime);
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
@@ -480,6 +485,120 @@ public final class TabbyXL {
     private static Date time1;
     private static Date time2;
 
+
+    /*
+     * Use Java Rules Engine API
+     */
+
+    private static final String RULE_SERVICE_PROVIDER = "http://drools.org/";
+    private static final String RULE_SERVICE_PROVIDER_IMPL = "org.drools.jsr94.rules.RuleServiceProviderImpl";
+
+    private static void fireUsingRulesEngineAPI() throws Exception {
+
+        loadWorkbook();
+
+        time1 = new Date();
+
+        Class.forName(RULE_SERVICE_PROVIDER_IMPL);
+        RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(RULE_SERVICE_PROVIDER);
+        RuleAdministrator ruleAdministrator = ruleServiceProvider.getRuleAdministrator();
+
+        LocalRuleExecutionSetProvider ruleExecutionSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
+
+        Reader drlReader = new InputStreamReader(new FileInputStream(drlFile));
+        Reader dslReader = new InputStreamReader(TabbyXL.class.getResourceAsStream(DSL));
+
+        Map properties = new HashMap();
+        properties.put("source", "drl");
+        properties.put("dsl", dslReader);
+
+        RuleExecutionSet ruleExecutionSet = ruleExecutionSetProvider.createRuleExecutionSet(drlReader, properties);
+
+        RuleRuntime ruleRuntime = ruleServiceProvider.getRuleRuntime();
+
+        ruleAdministrator.registerRuleExecutionSet(ruleExecutionSet.getName(), ruleExecutionSet, null);
+        StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(ruleExecutionSet.getName(), null, RuleRuntime.STATEFUL_SESSION_TYPE);
+
+        drlReader.close();
+        dslReader.close();
+
+        time2 = new Date();
+
+            loadCatFiles();
+            DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
+            DATA_LOADER.setUseCellValue(useCellValue);
+
+            int count = 0;
+
+            for(int sheetNo : sheetIndexes) {
+
+                DATA_LOADER.goToSheet(sheetNo);
+                String sheetName = DATA_LOADER.getCurrentSheetName();
+
+                int tableNo = 0;
+                while (true) {
+                    CTable table = DATA_LOADER.nextTable();
+                    if(null == table) break;
+
+                    count++;
+
+                    System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
+                    Tables.recoverCellBorders(table);
+
+                    if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
+                        CATEGORY_TEMPLATE_MANAGER.createCategories(table);
+
+                    Date startDate = new Date();
+
+                    //StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(executionSetName, null, RuleRuntime.STATEFUL_SESSION_TYPE);
+
+                    session.addObjects(table.getCellsList());
+                    session.addObjects(table.getLocalCategoryBox().getCategoriesList());
+
+                    session.executeRules();
+                    session.reset();
+
+                    table.update();
+
+                    Date endDate = new Date();
+
+                    currentRuleFiringTime = endDate.getTime() - startDate.getTime();
+                    totalRuleFiringTime += currentRuleFiringTime;
+
+                    System.out.println(table.trace());
+                    System.out.println();
+
+                    CanonicalForm canonicalForm = table.toCanonicalForm();
+                    //System.out.println( canonicalForm.trace() );
+                    System.out.println("Canonical form:");
+                    canonicalForm.print();
+                    System.out.println();
+
+                    StatisticsManager.Statistics statistics = statisticsManager.collect(table);
+                    System.out.println(statistics.trace());
+                    System.out.printf("Current rule firing time: %s%n%n", currentRuleFiringTime);
+
+                    String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
+
+                    String outFileName = null;
+                    if (useShortNames) {
+                        outFileName = String.format("%s\\%s.xlsx", outputDirectory, sheetName);
+                    } else {
+                        outFileName = String.format("%s\\%s_%s_%s.xlsx", outputDirectory, fileName, sheetNo, tableNo);
+                    }
+                    EvaluationExcelWriter writer = new EvaluationExcelWriter(new File(outFileName));
+                    writer.write(table);
+
+                    tableNo++;
+                }
+
+            }
+    }
+
+
+    /*
+     * firing with Drools Engine
+     */
     private static void fireWithDrools() throws Exception {
 
         loadWorkbook();
@@ -552,6 +671,11 @@ public final class TabbyXL {
         if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
 
     }
+
+
+    /*
+     * firing with Our Engine
+     */
 
     private static void loadEngine() throws IOException, RecognitionException {
 

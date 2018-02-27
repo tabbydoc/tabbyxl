@@ -16,9 +16,7 @@
 
 package ru.icc.cells.ssdc.model;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Alexey Shigarov (shigarov@gmail.com) on 01.02.2015.
@@ -31,6 +29,13 @@ public final class LocalCategoryBox extends COwned
     public Iterator<CCategory> getCategories()
     {
         return categories.iterator();
+    }
+    public List<CCategory> getCategoriesList() {
+        List<CCategory> res = new ArrayList();
+        Iterator iterator = categories.iterator();
+        while (iterator.hasNext())
+            res.add((CCategory) iterator.next());
+        return res;
     }
 
     int numOfCategories()

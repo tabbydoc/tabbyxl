@@ -58,6 +58,7 @@ public final class CTable
     {
         return this.cells.iterator();
     }
+    public List<CCell> getCellsList() { return this.cells; }
 
     public void removeCell( CCell cell )
     {
@@ -106,8 +107,7 @@ public final class CTable
         return entries.add( entry );
     }
 
-    public Iterator<CEntry> getEntries()
-    {
+    public Iterator<CEntry> getEntries() {
         return this.entries.iterator();
     }
 
