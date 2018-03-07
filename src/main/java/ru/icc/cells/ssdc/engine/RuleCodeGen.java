@@ -42,6 +42,7 @@ public class RuleCodeGen {
 
         for(Rule rule:model.getRules())
         {
+            //System.out.println(fetchCodeFromRule(rule, model.getImports()));
             Class<? extends RuleProgramPrototype> ruleClass = compiler.compile(getRuleClassName(rule), fetchCodeFromRule(rule, model.getImports()), null, new Class<?>[]{ RuleProgramPrototype.class });
             ruleClasses.add(ruleClass);
         }
