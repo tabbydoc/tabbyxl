@@ -1,4 +1,4 @@
-package ru.icc.cells.ssdc.engine.RuleObjectModel;
+package ru.icc.cells.ssdc.engine.rulemodel;
 
 import ru.icc.cells.ssdc.engine.FieldAliases;
 

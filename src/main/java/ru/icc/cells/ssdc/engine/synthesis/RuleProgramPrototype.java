@@ -1,4 +1,4 @@
-package ru.icc.cells.ssdc.engine.output;
+package ru.icc.cells.ssdc.engine.synthesis;
 
 import ru.icc.cells.ssdc.model.*;
 

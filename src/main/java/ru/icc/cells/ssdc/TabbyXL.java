@@ -22,7 +22,6 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import org.drools.jsr94.rules.admin.RuleAdministratorImpl;
 import org.kie.api.event.rule.DebugAgendaEventListener;
 import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
@@ -33,7 +32,7 @@ import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.definition.KnowledgePackage;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
-import ru.icc.cells.ssdc.engine.RuleObjectModel.Model;
+import ru.icc.cells.ssdc.engine.rulemodel.Model;
 import ru.icc.cells.ssdc.engine.RuleModelBuilder;
 import ru.icc.cells.ssdc.engine.RuleCodeGen;
 import ru.icc.cells.ssdc.engine.AstPrinter;
@@ -46,8 +45,6 @@ import javax.rules.*;
 import javax.rules.admin.LocalRuleExecutionSetProvider;
 import javax.rules.admin.RuleAdministrator;
 import javax.rules.admin.RuleExecutionSet;
-import javax.rules.admin.RuleExecutionSetProvider;
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -69,6 +66,7 @@ public final class TabbyXL {
     private static boolean debuggingMode;
     private static boolean useDSL;
     private static boolean useShortNames;
+    private static String engine;
 
     // TODO DSL initialisation from settings is needed
     private static final String DSL = "/crl2.dsl";
@@ -350,6 +348,10 @@ public final class TabbyXL {
                 .withDescription("print this message")
                 .create("help");
 
+        /*Option engineOpt = OptionBuilder
+                .withDescription("choose engine")
+                .create("engine");*/
+
         Options options = new Options();
 
         options.addOption(inputExcelFileOpt);
@@ -463,8 +465,8 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            if(false)
-                fireWithDrools();
+            if(true)
+                fireWithOurEngine();
             else
                 fireUsingRulesEngineAPI();
 

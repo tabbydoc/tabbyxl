@@ -1,6 +1,6 @@
-package ru.icc.cells.ssdc.engine.RuleObjectModel;
+package ru.icc.cells.ssdc.engine.rulemodel;
 
-import ru.icc.cells.ssdc.engine.RuleObjectModel.actions.Action;
+import ru.icc.cells.ssdc.engine.rulemodel.actions.Action;
 
 import java.util.ArrayList;
 import java.util.List;
