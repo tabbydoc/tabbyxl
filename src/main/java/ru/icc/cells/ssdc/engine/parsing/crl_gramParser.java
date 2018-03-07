@@ -1,6 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 // $ANTLR 3.4 C:\\Users\\ZKLN\\Documents\\GitHub\\TabbyXL\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\engine\\crl_gram.g 2018-03-06 17:26:42
 
+=======
+// $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\engine\\crl_gram.g 2018-02-27 11:17:58
+package ru.icc.cells.ssdc.engine.parsing;
+>>>>>>> 1fc984c72bbc712585553b925ba6cbb53f141c72
 =======
 // $ANTLR 3.5.1 C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\engine\\crl_gram.g 2018-02-27 11:17:58
 package ru.icc.cells.ssdc.engine.parsing;
@@ -13,6 +18,7 @@ import java.util.ArrayList;
 import org.antlr.runtime.tree.*;
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 @SuppressWarnings({"all", "warnings", "unchecked"})
 public class crl_gramParser extends DebugParser {
@@ -1407,6 +1413,8 @@ public TreeAdaptor getTreeAdaptor() {
                         int alt11=2;
                         try { dbg.enterDecision(11, decisionCanBacktrack[11]);
 =======
+=======
+>>>>>>> 1fc984c72bbc712585553b925ba6cbb53f141c72
 @SuppressWarnings("all")
 public class crl_gramParser extends Parser {
 	public static final String[] tokenNames = new String[] {
@@ -3300,6 +3308,9 @@ public class crl_gramParser extends Parser {
 					// C:\\Users\\user\\Documents\\GitHub\\tabbyxl2\\src\\main\\java\\ru\\icc\\cells\\ssdc\\engine\\crl_gram.g:134:4: merge
 					{
 					root_0 = (CommonTree)adaptor.nil();
+<<<<<<< HEAD
+>>>>>>> 1fc984c72bbc712585553b925ba6cbb53f141c72
+=======
 >>>>>>> 1fc984c72bbc712585553b925ba6cbb53f141c72
 
 
@@ -3407,6 +3418,7 @@ public class crl_gramParser extends Parser {
 
 					adaptor.addChild(root_0, c_print57.getTree());
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                     }
                     break;
@@ -7475,6 +7487,8 @@ public class crl_gramParser extends Parser {
 
 }
 =======
+=======
+>>>>>>> 1fc984c72bbc712585553b925ba6cbb53f141c72
 					}
 					break;
 				case 14 :
@@ -9435,4 +9449,7 @@ public class crl_gramParser extends Parser {
 	public static final BitSet FOLLOW_J_int_literal_in_index1384 = new BitSet(new long[]{0x0100000000000000L});
 	public static final BitSet FOLLOW_56_in_index1386 = new BitSet(new long[]{0x0000000000000002L});
 }
+<<<<<<< HEAD
+>>>>>>> 1fc984c72bbc712585553b925ba6cbb53f141c72
+=======
 >>>>>>> 1fc984c72bbc712585553b925ba6cbb53f141c72
