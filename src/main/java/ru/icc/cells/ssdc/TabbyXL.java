@@ -54,6 +54,7 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.regex.Pattern;
 
+
 public final class TabbyXL {
     // Params
     private static File inputExcelFile;
@@ -145,14 +146,14 @@ public final class TabbyXL {
                 final String DSLR_EXTENSION = "DSLR";
                 final String DRL_EXTENSION = "DRL";
 
-                if (DSLR_EXTENSION.equalsIgnoreCase(fileExtension)) {
+                /*if (DSLR_EXTENSION.equalsIgnoreCase(fileExtension)) {
                     useDSL = true;
                 } else if (DRL_EXTENSION.equalsIgnoreCase(fileExtension)) {
                     useDSL = false;
                 } else {
                     System.err.println("The knowledge base file extension must be DSLR_EXTENSION or DRL_EXTENSION");
                     System.exit(0);
-                }
+                }*/
             } else {
                 System.err.println("The knowledge base file cannot be read");
                 System.exit(0);
@@ -465,7 +466,7 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            if(true)
+            if(false)
                 fireWithOurEngine();
             else
                 fireUsingRulesEngineAPI();
@@ -492,8 +493,10 @@ public final class TabbyXL {
      * Use Java Rules Engine API
      */
 
-    private static final String RULE_SERVICE_PROVIDER = "http://drools.org/";
-    private static final String RULE_SERVICE_PROVIDER_IMPL = "org.drools.jsr94.rules.RuleServiceProviderImpl";
+    //private static final String RULE_SERVICE_PROVIDER = "http://drools.org/";
+    //private static final String RULE_SERVICE_PROVIDER_IMPL = "org.drools.jsr94.rules.RuleServiceProviderImpl";
+    private static final String RULE_SERVICE_PROVIDER = "jess.jsr94";
+    private static final String RULE_SERVICE_PROVIDER_IMPL = RULE_SERVICE_PROVIDER + ".RuleServiceProviderImpl";
 
     private static void fireUsingRulesEngineAPI() throws Exception {
 
@@ -511,8 +514,9 @@ public final class TabbyXL {
         Reader dslReader = new InputStreamReader(TabbyXL.class.getResourceAsStream(DSL));
 
         Map properties = new HashMap();
-        properties.put("source", "drl");
-        properties.put("dsl", dslReader);
+        //properties.put("source", "drl");
+        //properties.put("dsl", dslReader);
+        properties.put("source", "clp");
 
         RuleExecutionSet ruleExecutionSet = ruleExecutionSetProvider.createRuleExecutionSet(drlReader, properties);
 

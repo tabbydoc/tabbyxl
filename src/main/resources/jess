@@ -1,0 +1,75 @@
+(import ru.icc.cells.ssdc.model.*)
+(import ru.icc.cells.ssdc.model.style.*)
+
+(deftemplate Cell (declare (from-class CCell)))
+(deftemplate Label (declare (from-class CLabel)))
+(deftemplate Entry (declare (from-class CEntry)))
+(deftemplate Category (declare (from-class CCategory)))
+
+(defrule rule1
+?c <- ( Cell {rt > 1} {cl > 1} { blank != TRUE }  )
+( call text matches "#|s" )
+=>
+( setText ?c "0")
+)
+
+(defrule rule2
+?c <- ( Cell {rt > 1} {cl > 1} { blank != TRUE }  )
+( call text matches "F|\\.|\\.{2}+|\\.{3}+|\\u2026|\\u2014|x|-|NA" )
+=>
+( setText ?c null)
+)
+
+(defrule rule3
+?c <- ( Cell {rt > 1} {cl > 1} { blank != TRUE }  )
+( call text matches "(\\u2012|\\u2013|\\u2014|\\u2015|\\u002D|\\u2212|\\uFF0D)(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" )
+(declare ?t text)
+=>
+( setText ?c (call "-" concat (call ?t substring 1)))
+)
+
+(defrule rule4
+?c <- ( Cell {rt > 1} {cl > 1} { blank != TRUE }  )
+=>
+( setMark ?c "ColumnHeading" )
+( newLabel ?c )
+)
+
+(defrule rule5
+?c1 <- (Cell {mark == "ColumnHeading"})
+?c2 <- (Cell {mark == null} {rt > 1} {cl > 1} {blank != TRUE} { rt == (+ (?c1 rb) 1) } { ( cl >= (?c1 cl) && cr < (?c1 cr)) ||  ( cl > (?c1 cl) && cr <= (?c1 cr) )})
+=>
+(setMark ?c2 "ColumnHeading")
+(newLabel ?c2)
+(setParent ?c2 ?c1)
+)
+
+(defrule rule6
+?c <- (Cell {rt > 1} { cl == 1} {blank != TRUE} {mark == null})
+=>
+(setMark ?c "RowHeading")
+(newLabel ?c)
+)
+
+(defrule rule7
+?c0 <- (Cell {rt == 1} {cl == 1} {blank != TRUE})
+?c1 <- (Cell {rt > 1} {cl > 1} {blank != TRUE} {mark == null} )
+(not ( call text matches "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ))
+?c2 <- (Cell {rt > 1} {cl > 1} {blank != TRUE} {mark == null} {cl <= (?c1 cl)})
+=>
+(setMark ?c2 "RowHeading")
+(newLabel ?c2)
+)
+
+(defrule rule8
+?c <- (Cell {cl > 1} {rt > 1} {blank != TRUE} {mark == null})
+=>
+(setMark ?c "DataCell")
+(newEntry ?c)
+)
+
+(defrule rule9
+?c <- (Cell {cl == 1} {mark == "RowHeading"} )
+=>
+(setIndent ?c 2)
+)
