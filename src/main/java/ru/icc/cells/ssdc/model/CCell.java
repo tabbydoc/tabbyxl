@@ -522,4 +522,18 @@ public final class CCell extends COwned implements Cloneable
         return String.format("L%dT%dR%dB%d", getCl(), getRt(), getCr(), getRb());
     }
 
+    // methods for JassRules
+    private int charAt0 = text == null? 0 : (int) text.charAt(0);
+    public int getCharAt0()
+    {
+        return charAt0;
+    }
+
+    private boolean boldFlag = style.getFont().isBold();
+    public boolean getBoldFlag()
+    {
+        return boldFlag;
+    }
+
+    // *******************
 }
