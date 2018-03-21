@@ -523,6 +523,7 @@ public final class CCell extends COwned implements Cloneable
     }
 
     // methods for JassRules
+
     private int charAt0 = text == null? 0 : (int) text.charAt(0);
     public int getCharAt0()
     {
@@ -535,20 +536,15 @@ public final class CCell extends COwned implements Cloneable
         return boldFlag;
     }
 
-    private boolean labelIsTerminalFlag = false;
+    /*private boolean labelIsTerminalFlag = label.isTerminal();
     public void setLabelIsTerminalFlag(boolean value)
     {
         labelIsTerminalFlag = value;
     }
     public boolean getLabelIsTerminalFlag() {
         return  labelIsTerminalFlag;
-    }
+    }*/
 
-    public void testMethod()
-    {
-        System.out.println("Fuck! It's working! I'm "+id);
-        //return "Fuck! It's working!";
-    }
 
     // *******************
 }
