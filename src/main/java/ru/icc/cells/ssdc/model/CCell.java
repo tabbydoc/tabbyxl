@@ -535,5 +535,20 @@ public final class CCell extends COwned implements Cloneable
         return boldFlag;
     }
 
+    private boolean labelIsTerminalFlag = false;
+    public void setLabelIsTerminalFlag(boolean value)
+    {
+        labelIsTerminalFlag = value;
+    }
+    public boolean getLabelIsTerminalFlag() {
+        return  labelIsTerminalFlag;
+    }
+
+    public void testMethod()
+    {
+        System.out.println("Fuck! It's working! I'm "+id);
+        //return "Fuck! It's working!";
+    }
+
     // *******************
 }
