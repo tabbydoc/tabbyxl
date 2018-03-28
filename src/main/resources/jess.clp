@@ -15,7 +15,7 @@
 ( declare (salience 220)
           ( no-loop TRUE ))
 
-?c <- ( CCell { rt > 1 && cl > 1 && blank == FALSE } (text ?t&:( ?t matches "#|s" )))
+?c <- ( CCell { rt > 1 && cl > 1 && blank == FALSE } (text ?t&:(eq ( call ?t matches "#|s" ) TRUE )))
 
 =>
 
@@ -30,7 +30,7 @@
 ( declare (salience 210)
           ( no-loop TRUE ))
 
-?c <- ( CCell { rt > 1 && cl > 1 && blank == FALSE } ( text ?t&:( ?t matches "F|\\.|\\.{2}+|\\.{3}+|\\u2026|\\u2014|x|-|NA" ) ) )
+?c <- ( CCell { rt > 1 && cl > 1 && blank == FALSE } ( text ?t&:( eq ( call ?t matches "F|\\.|\\.{2}+|\\.{3}+|\\u2026|\\u2014|x|-|NA" ) TRUE ) ) )
 
 =>
 
@@ -45,12 +45,12 @@
 ( declare (salience 200)
           ( no-loop TRUE ))
 
-?c <- ( CCell { rt > 1 && cl > 1 && blank == FALSE } ( text ?t&:( ?t matches "(\\u2012|\\u2013|\\u2014|\\u2015|\\u002D|\\u2212|\\uFF0D)(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ) ) )
+?c <- ( CCell { rt > 1 && cl > 1 && blank == FALSE } ( text ?t&:( eq ( call ?t matches "(\\u2012|\\u2013|\\u2014|\\u2015|\\u002D|\\u2212|\\uFF0D)(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ) TRUE ) ) )
 
 =>
 
 ( bind ?s "-" )
-( ?c.OBJECT setText ( call ?s concat ( ?t substring 1 )))
+( ?c.OBJECT setText ( call ?s concat ( call ?t substring 1 )))
 ( update ?c.OBJECT )
 (printout t "RULE 3" crlf)
 )
@@ -83,15 +83,15 @@
           )
 
 ?c1 <- ( CCell { mark == "ColumnHeading" }  (rb ?rb1) (cl ?cl1) (cr ?cr1))
-?c2 <- ( CCell { mark == nil && blank == FALSE } (rt ?rt2&:(and (> ?rt2 1) (= ?rt2 (+ ?rb1 1)))) (cr ?cr2) (cl ?cl2&:(and (> ?cl2 1) (or (and (<= ?cl1 ?cl2) (< ?cr2 ?cr1)) (and (< ?cl1 ?cl2) (<= ?cr2 ?cr1)) ) )) ) ;;(rt ?rt2&:( and (> ?rt2 1) (= ?rt2 (+ ?rb1 1))))  (cl ?cl2&:(> ?cl2 1) ) (cr ?cr2) )
-
+?c2 <- ( CCell { mark == nil && blank == FALSE } (rt ?rt2&:( and (> ?rt2 1) (= ?rt2 (+ ?rb1 1)))) (cr ?cr2) (cl ?cl2&:(> ?cl2 1)) )  ;;(cl ?cl2&:(and (> ?cl2 1) (or (and (<= ?cl1 ?cl2) (< ?cr2 ?cr1)) (and (< ?cl1 ?cl2) (<= ?cr2 ?cr1)) ) )) )
+(test (or (and (<= ?cl1 ?cl2) (< ?cr2 ?cr1)) (and (< ?cl1 ?cl2) (<= ?cr2 ?cr1))))
 =>
 ( ?c2.OBJECT setMark "ColumnHeading" )
 ( ?c2.OBJECT newLabel )
 ((?c2.OBJECT getLabel) setParent (?c1.OBJECT getLabel) )
 ( update ?c1.OBJECT )
 ( update ?c2.OBJECT )
-(printout t "RULE 5 " ?c2.text " " ((?c2.OBJECT getLabel) isTerminal) " " (((?c2.OBJECT getLabel) getParent ) isTerminal) crlf)
+(printout t "RULE 5 " ?c2.text " " ?c1.text crlf)
 )
 
 
@@ -101,7 +101,7 @@
 ( declare (salience 160)
           ( no-loop TRUE ))
 
-?c <- ( CCell { rt > 1 && cl == 1 && blank != TRUE && mark == nil } )
+?c <- ( CCell { rt > 1 && cl == 1 && blank == FALSE && mark == nil } )
 
 =>
 
@@ -119,15 +119,15 @@
           ( no-loop TRUE ))
 
 ?c0 <- ( CCell { rt == 1 && cl == 1 && blank == FALSE } )
-?c1 <- ( CCell { rt > 1 && cl > 1 && blank == FALSE && mark == nil } (text ?t&:(not ( ?t matches "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ) ) ) )
-?c2 <- ( CCell { rt > 1 && blank == FALSE && mark == nil && cl > 1 && cl <= c1.cl } )
+?c1 <- ( CCell { rt > 1 && cl > 1 && blank == FALSE && mark == nil } (text ?t&:(not ( call ?t matches "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?"  ) ) ) )
+?c2 <- ( CCell { rt > 1 && cl > 1 && blank == FALSE && mark == nil && cl <= c1.cl } )
 
 =>
 
 ( ?c2.OBJECT setMark "RowHeading" )
 ( ?c2.OBJECT newLabel )
 ( update ?c2.OBJECT )
-(printout t "RULE 7 " (not (regexp "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ?c1.text )) " " ?c1.text " "  ?c2.text crlf)
+;;(printout t "RULE 7 " (not (regexp "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ?c1.text )) " " ?c1.text " "  ?c2.text crlf)
 )
 
 
@@ -144,7 +144,7 @@
 ( ?c.OBJECT setMark "DataCell" )
 ( ?c.OBJECT newEntry )
 ( update ?c.OBJECT )
-(printout t "RULE 8" crlf)
+(printout t "RULE 8 " (?c.OBJECT getText) crlf)
 )
 
 
@@ -169,7 +169,7 @@
 
 ( defrule rule10
 ( declare ( no-loop TRUE )
-          ( salience 110 )
+          ( salience 100 )
           )
 
 ?c1 <- ( CCell { cl == 1 && mark == "RowHeading" }  (indent ?ind1) )
@@ -187,11 +187,11 @@
 
 ( defrule rule11
 ( declare (no-loop TRUE )
-          ( salience 100 ))
+          ( salience 80 ))
 
 ?c1 <- ( CCell { cl == 1 && mark == "RowHeading" && indent == 0 } ( style ?s1&:( eq ( call (call ?s1 getFont) isBold ) TRUE ) ) ( text ?t&: (not ( regexp "(?i)(Total\\s*)|(I alt\\s*)|(All\\s*)" ?t ) ) ) )
 ?c2 <- ( CCell { cl == 1 && mark == "RowHeading" && rt > c1.rt && indent == 0 } ( style ?s2&:( eq (call (call ?s2 getFont) isNormal) TRUE ) ) )
-( not ( exists ( CCell { cl == 1 && mark == "RowHeading" && rt > c1.rt && rt < c2.rt && indent == 0 } (style ?s3&:(call (call ?s3 getFont) isBold) ) ) ) ) ;;  (rt ?rtn & : ( and ( > ?rtn ?rt1) ( ?rtn < ?rt2 ))))))
+( not ( exists ( CCell { cl == 1 && mark == "RowHeading" && rt > c1.rt && rt < c2.rt && indent == 0 } (style ?s3&:(call (call ?s3 getFont) isBold) ) ) ) )
 
 =>
 
@@ -219,15 +219,14 @@
 
 ( defrule rule13
 ( declare ( no-loop TRUE )
-          ( salience 50 ))
+          ( salience 40 ))
 
-?c1 <- ( CCell { rt == 1 && blank == FALSE }  (cl ?cl1&:(> ?cl1 1)) )
+?c1 <- ( CCell { rt == 1 && blank == FALSE && cl > 1 } ) ;; (cl ?cl1&:(> ?cl1 1)) )
 ?c2 <- ( CCell { mark == "RowHeading" && cl == c1.cl } )
 
 =>
 
-;;( bind ?index ?cl1 )
-((?c2.OBJECT getLabel) setCategory (str-cat "RowHeading" ?cl1))
+((?c2.OBJECT getLabel) setCategory (str-cat "RowHeading" ( call ?c1.OBJECT getCl)))
 ( update ?c2.OBJECT )
 (printout t "RULE 13" crlf)
 )
@@ -236,7 +235,7 @@
 
 ( defrule rule14
 ( declare ( no-loop TRUE)
-          ( salience 50 ))
+          ( salience 30 ))
 
 ?c1 <- ( CCell { rt == 1 && cl == 1 } )
 ?c2 <- ( CCell { mark == "RowHeading" && cl == 1 } )
@@ -254,11 +253,11 @@
 
 ( defrule rule15
 ( declare (no-loop TRUE)
-          ( salience 0 ))
+          ( salience 10 ))
 
 ?c1 <- ( CCell  { mark == "ColumnHeading" } ( label ?l ) )  ;;&:(neq ?label nil) ) ))
 ;;(test ( eq (call ?l isTerminal ) TRUE ))
-?c2 <- ( CCell { mark == "DataCell" && cl == c1.cl } ) ;;&:( = ?cl2 ?cl1))
+?c2 <- ( CCell { mark == "DataCell" && cl == c1.cl } )
 =>
 (if (call ?l isTerminal ) then
 ((?c2.OBJECT getEntry) addLabel (?c1.OBJECT getLabel) )
