@@ -524,7 +524,7 @@ public final class CCell extends COwned implements Cloneable
 
     // methods for JassRules
 
-    private int charAt0 = text == null? 0 : (int) text.charAt(0);
+    private int charAt0 = null == text ? -1 : (int) text.charAt(0);
     public int getCharAt0()
     {
         return charAt0;

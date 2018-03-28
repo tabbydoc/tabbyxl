@@ -485,6 +485,7 @@ public final class TabbyXL {
 
     }
 
+
     private static Date time1;
     private static Date time2;
 
@@ -536,8 +537,8 @@ public final class TabbyXL {
 
             int count = 0;
 
-            for(int sheetNo : sheetIndexes) {
-            //for(int sheetNo : new int[]{0}) {
+            //for(int sheetNo : sheetIndexes) {
+            for(int sheetNo : new int[]{104}) {
                 DATA_LOADER.goToSheet(sheetNo);
                 String sheetName = DATA_LOADER.getCurrentSheetName();
 
