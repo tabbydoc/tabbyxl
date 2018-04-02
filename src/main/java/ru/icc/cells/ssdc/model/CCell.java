@@ -16,6 +16,7 @@
 
 package ru.icc.cells.ssdc.model;
 
+import org.drools.core.util.StringUtils;
 import ru.icc.cells.ssdc.model.style.CStyle;
 
 import java.util.ArrayList;
@@ -524,10 +525,10 @@ public final class CCell extends COwned implements Cloneable
 
     // methods for JassRules
 
-    private int charAt0 = null == text ? -1 : (int) text.charAt(0);
+    private int charAt0; // = null == text ? -1 : (int) text.charAt(0);
     public int getCharAt0()
     {
-        return charAt0;
+        return StringUtils.isEmpty(text) ? -1 : (int) text.charAt(0);
     }
 
     private boolean boldFlag = style.getFont().isBold();

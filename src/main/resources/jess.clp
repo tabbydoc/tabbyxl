@@ -116,26 +116,28 @@
 
 ( defrule rule7
 ( declare (salience 150)
-          ( no-loop TRUE ))
+          ;;( no-loop TRUE )
+          )
 
 ?c0 <- ( CCell { rt == 1 && cl == 1 && blank == FALSE } )
-?c1 <- ( CCell { rt > 1 && cl > 1 && blank == FALSE && mark == nil } (text ?t&:(not ( call ?t matches "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?"  ) ) ) )
-?c2 <- ( CCell { rt > 1 && cl > 1 && blank == FALSE && mark == nil && cl <= c1.cl } )
+?c1 <- ( CCell { rt > 1 && cl > 1 && blank == FALSE && (mark == nil || mark == "RowHeading") } (text ?t&:(not ( call ?t matches "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?"  ) ) ) )
+?c2 <- ( CCell { rt > 1 && blank == FALSE && mark == nil && cl > 1 && cl <= c1.cl } )
 
 =>
 
 ( ?c2.OBJECT setMark "RowHeading" )
 ( ?c2.OBJECT newLabel )
 ( update ?c2.OBJECT )
-;;(printout t "RULE 7 " (not (regexp "(-|\\+|\\$)?(\\d+(\\s|\\.|,)?\\d*)+(E|%|\\*)?" ?c1.text )) " " ?c1.text " "  ?c2.text crlf)
+(printout t "RULE 7 " ?c2.text crlf)
 )
 
 
 
 
 ( defrule rule8
-( declare (salience 140)
-          ( no-loop TRUE ))
+( declare (salience 130)
+          ( no-loop TRUE )
+          )
 
 ?c <- ( CCell { cl > 1 && rt > 1 && blank == FALSE && mark == nil } )
 
@@ -154,7 +156,7 @@
 ( declare ( no-loop TRUE )
           ( salience 120 ))
 
-?c <- ( CCell { cl == 1 && mark == "RowHeading" && charAt0 == 45 } )
+?c <- ( CCell { cl == 1 && mark == "RowHeading" && charAt0 == 45 } );;(text ?t&:(= ( call Character getNumericValue (call ?t charAt 0 ) ) 45 )) )
 
 =>
 
@@ -173,7 +175,7 @@
           )
 
 ?c1 <- ( CCell { cl == 1 && mark == "RowHeading" }  (indent ?ind1) )
-?c2 <- ( CCell { cl == 1 && mark == "RowHeading" && rt > c1.rt } (indent ?ind2&:( = ?ind2 ( + ?ind1 2 ))) )
+?c2 <- ( CCell { cl == 1 && mark == "RowHeading" && rt > c1.rt } (indent ?ind2&:( = ?ind2 ( + ?ind1 2 ) )) )
 ( not  ( exists ( CCell { cl == 1 && mark == "RowHeading" && indent == c1.indent && rt > c1.rt && rt < c2.rt } ) ) )
 
 =>
@@ -274,8 +276,8 @@
 ( declare (no-loop TRUE)
           ( salience 0 ))
 
-?c1 <- ( CCell { mark == "RowHeading" } (rt ?rt1) )
-?c2 <- ( CCell { mark == "DataCell" && rt == ?rt1 } )
+?c1 <- ( CCell { mark == "RowHeading" } )
+?c2 <- ( CCell { mark == "DataCell" && rt == c1.rt } )
 
 =>
 

@@ -537,8 +537,8 @@ public final class TabbyXL {
 
             int count = 0;
 
-            //for(int sheetNo : sheetIndexes) {
-            for(int sheetNo : new int[]{129}) {
+            for(int sheetNo : sheetIndexes) {
+            //for(int sheetNo : new int[]{88}) {
                 DATA_LOADER.goToSheet(sheetNo);
                 String sheetName = DATA_LOADER.getCurrentSheetName();
 
@@ -727,8 +727,8 @@ public final class TabbyXL {
             sheetIndexes2.add(119);*/
 
 
-         //for (int sheetNo : sheetIndexes) {
-             for(int sheetNo : new int[]{0}) {
+         for (int sheetNo : sheetIndexes) {
+             //for(int sheetNo : new int[]{0}) {
                 DATA_LOADER.goToSheet(sheetNo);
                 String sheetName = DATA_LOADER.getCurrentSheetName();
 
