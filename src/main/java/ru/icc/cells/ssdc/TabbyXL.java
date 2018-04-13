@@ -67,7 +67,8 @@ public final class TabbyXL {
     private static boolean debuggingMode;
     private static boolean useDSL;
     private static boolean useShortNames;
-    private static String engine;
+    private static boolean useRuleEngine;
+    private static File engineConfigFile;
 
     // TODO DSL initialisation from settings is needed
     private static final String DSL = "/crl2.dsl";
@@ -232,6 +233,21 @@ public final class TabbyXL {
         return false;
     }
 
+    private static boolean parseEngineParam(String engineParam) {
+        if (null != engineParam) {
+            engineConfigFile = new File(engineParam);
+            if (engineConfigFile.exists() && engineConfigFile.canRead()) {
+                return true;
+            }
+            else
+            {
+                System.err.println("Engine's configuration file is not exists or can not be read. Will be used imbedded engine");
+                return false;
+            }
+        }
+        return false;
+    }
+
     private static String traceParsedParams() {
         StringBuilder sb = new StringBuilder();
         sb.append("Command line parameters:\r\n");
@@ -261,7 +277,9 @@ public final class TabbyXL {
             sb.append(indent).append(String.format("Using cell values as text: %b%n", useCellValue));
             sb.append(indent).append(String.format("Using short names: \"%s\"%n", useShortNames));
             sb.append(indent).append(String.format("Output directory: \"%s\"%n", outputDirectory.toRealPath()));
-            sb.append(indent).append(String.format("Debugging mode: %b", debuggingMode));
+            sb.append(indent).append(String.format("Debugging mode: %b%n", debuggingMode));
+            sb.append(indent).append(String.format("Using rules engine: %b", useRuleEngine));
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -285,6 +303,7 @@ public final class TabbyXL {
      * -useShortNames <true|false>        specify true to use short names (just sheet names) for parsing files (false used by default)
      * -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
      * -help                              print the usage
+     * -useRuleEngine                     path to engine's configuration file (imbedded engine used by default)
      */
     @SuppressWarnings("static-access")
     private static void parseCommandLineParams(String[] args) {
@@ -349,9 +368,11 @@ public final class TabbyXL {
                 .withDescription("print this message")
                 .create("help");
 
-        /*Option engineOpt = OptionBuilder
-                .withDescription("choose engine")
-                .create("engine");*/
+        Option useRuleEngineOpt = OptionBuilder
+                .withArgName("configuration file path")
+                .hasArg()
+                .withDescription("path to engine's configuration file (imbedded engine used by default)")
+                .create("useRulesEngine");
 
         Options options = new Options();
 
@@ -365,6 +386,7 @@ public final class TabbyXL {
         options.addOption(useShortNamesOpt);
         options.addOption(debuggingModeOpt);
         options.addOption(helpOpt);
+        options.addOption(useRuleEngineOpt);
 
         CommandLineParser parser = new BasicParser();
 
@@ -402,6 +424,10 @@ public final class TabbyXL {
 
             String debuggingModeParam = cmd.getOptionValue(debuggingModeOpt.getOpt());
             debuggingMode = parseDebuggingModeParam(debuggingModeParam);
+
+            String useRulesEngineParam = cmd.getOptionValue(useRuleEngineOpt.getOpt());
+            useRuleEngine = parseEngineParam(useRulesEngineParam);
+
         } catch (ParseException e) {
             e.printStackTrace();
             System.exit(0);
@@ -466,10 +492,10 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            if(false)
-                fireWithOurEngine();
-            else
+            if(useRuleEngine)
                 fireUsingRulesEngineAPI();
+            else
+                fireWithOurEngine();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -496,8 +522,8 @@ public final class TabbyXL {
 
     //private static final String RULE_SERVICE_PROVIDER = "http://drools.org/";
     //private static final String RULE_SERVICE_PROVIDER_IMPL = "org.drools.jsr94.rules.RuleServiceProviderImpl";
-    private static final String RULE_SERVICE_PROVIDER = "jess.jsr94";
-    private static final String RULE_SERVICE_PROVIDER_IMPL = RULE_SERVICE_PROVIDER + ".RuleServiceProviderImpl";
+    //private static final String RULE_SERVICE_PROVIDER = "jess.jsr94";
+    //private static final String RULE_SERVICE_PROVIDER_IMPL = RULE_SERVICE_PROVIDER + ".RuleServiceProviderImpl";
 
     private static void fireUsingRulesEngineAPI() throws Exception {
 
@@ -505,19 +531,23 @@ public final class TabbyXL {
 
         time1 = new Date();
 
-        Class.forName(RULE_SERVICE_PROVIDER_IMPL);
-        RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(RULE_SERVICE_PROVIDER);
+        Properties engineConfig = new Properties();
+        engineConfig.load(new FileReader(engineConfigFile));
+
+        Class.forName(engineConfig.getProperty("RULE_SERVICE_PROVIDER_IMPL"));
+        RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(engineConfig.getProperty("RULE_SERVICE_PROVIDER"));
         RuleAdministrator ruleAdministrator = ruleServiceProvider.getRuleAdministrator();
 
         LocalRuleExecutionSetProvider ruleExecutionSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
 
         Reader drlReader = new InputStreamReader(new FileInputStream(drlFile));
-        Reader dslReader = new InputStreamReader(TabbyXL.class.getResourceAsStream(DSL));
 
         Map properties = new HashMap();
-        //properties.put("source", "drl");
-        //properties.put("dsl", dslReader);
-        properties.put("source", "clp");
+        properties.put("source", engineConfig.getProperty("source"));
+
+        if (null != engineConfig.getProperty("DSL")) {
+            properties.put("dsl", new InputStreamReader(new FileInputStream(engineConfig.getProperty("DSL"))));
+        }
 
         RuleExecutionSet ruleExecutionSet = ruleExecutionSetProvider.createRuleExecutionSet(drlReader, properties);
 
@@ -527,7 +557,9 @@ public final class TabbyXL {
         StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(ruleExecutionSet.getName(), null, RuleRuntime.STATEFUL_SESSION_TYPE);
 
         drlReader.close();
-        dslReader.close();
+
+        System.out.println("Engine is ready");
+        //dslReader.close();
 
         time2 = new Date();
 
