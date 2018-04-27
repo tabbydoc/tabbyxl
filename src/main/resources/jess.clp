@@ -21,7 +21,7 @@
 
 ( ?c.OBJECT setText "0" )
 ( update ?c.OBJECT )
-(printout t "RULE 1" crlf)
+;;(printout t "RULE 1" crlf)
 )
 
 
@@ -36,7 +36,7 @@
 
 ( ?c.OBJECT setText nil )
 ( update ?c.OBJECT )
-(printout t "RULE 2" crlf)
+;;(printout t "RULE 2" crlf)
 )
 
 
@@ -52,7 +52,7 @@
 ( bind ?s "-" )
 ( ?c.OBJECT setText ( call ?s concat ( call ?t substring 1 )))
 ( update ?c.OBJECT )
-(printout t "RULE 3" crlf)
+;;(printout t "RULE 3" crlf)
 )
 
 
@@ -71,7 +71,7 @@
 ( ?c.OBJECT setMark "ColumnHeading" )
 ( ?c.OBJECT newLabel )
 ( update ?c.OBJECT )
-( printout t "RULE 4 " ?c.text  " " ((?c.OBJECT getLabel)  isTerminal) crlf)
+;;( printout t "RULE 4 " ?c.text  " " ((?c.OBJECT getLabel)  isTerminal) crlf)
 )
 
 
@@ -91,7 +91,7 @@
 ((?c2.OBJECT getLabel) setParent (?c1.OBJECT getLabel) )
 ( update ?c1.OBJECT )
 ( update ?c2.OBJECT )
-(printout t "RULE 5 " ?c2.text " " ?c1.text crlf)
+;;(printout t "RULE 5 " ?c2.text " " ?c1.text crlf)
 )
 
 
@@ -108,7 +108,7 @@
 ( ?c.OBJECT setMark "RowHeading" )
 ( ?c.OBJECT newLabel )
 ( update ?c.OBJECT )
-(printout t "RULE 6 " ?c.text crlf)
+;;(printout t "RULE 6 " ?c.text crlf)
 )
 
 
@@ -128,7 +128,7 @@
 ( ?c2.OBJECT setMark "RowHeading" )
 ( ?c2.OBJECT newLabel )
 ( update ?c2.OBJECT )
-(printout t "RULE 7 " ?c2.text crlf)
+;;(printout t "RULE 7 " ?c2.text crlf)
 )
 
 
@@ -146,7 +146,7 @@
 ( ?c.OBJECT setMark "DataCell" )
 ( ?c.OBJECT newEntry )
 ( update ?c.OBJECT )
-(printout t "RULE 8 " (?c.OBJECT getText) crlf)
+;;(printout t "RULE 8 " (?c.OBJECT getText) crlf)
 )
 
 
@@ -162,7 +162,7 @@
 
 ( ?c.OBJECT setIndent 2 )
 ( update ?c.OBJECT )
-(printout t "RULE 9 " (?c.OBJECT getCharAt0) crlf)
+;;(printout t "RULE 9 " (?c.OBJECT getCharAt0) crlf)
 )
 
 
@@ -181,7 +181,7 @@
 =>
 
 ((?c2.OBJECT getLabel) setParent (?c1.OBJECT getLabel))
-(printout t "RULE 10" crlf)
+;;(printout t "RULE 10" crlf)
 )
 
 
@@ -198,7 +198,7 @@
 =>
 
 ((?c2.OBJECT getLabel) setParent (?c1.OBJECT getLabel) )
-(printout t "RULE 11 " ?c2.text " " ?c1.text crlf)
+;;(printout t "RULE 11 " ?c2.text " " ?c1.text crlf)
 )
 
 
@@ -214,7 +214,7 @@
 =>
 ((?c.OBJECT getLabel) setCategory "ColumnHeading" )
 ( update ?c.OBJECT )
-(printout t "RULE 12" crlf)
+;;(printout t "RULE 12" crlf)
 )
 
 
@@ -230,7 +230,7 @@
 
 ((?c2.OBJECT getLabel) setCategory (str-cat "RowHeading" ( call ?c1.OBJECT getCl)))
 ( update ?c2.OBJECT )
-(printout t "RULE 13" crlf)
+;;(printout t "RULE 13" crlf)
 )
 
 
@@ -246,7 +246,7 @@
 
 (( ?c2.OBJECT getLabel ) setCategory "RowHeading1" )
 ( update ?c2.OBJECT )
-(printout t "RULE 14" crlf)
+;;(printout t "RULE 14" crlf)
 )
 
 
@@ -264,7 +264,7 @@
 (if (call ?l isTerminal ) then
 ((?c2.OBJECT getEntry) addLabel (?c1.OBJECT getLabel) )
 ( update ?c2.OBJECT )
-(printout t "RULE 15 " (?c2.OBJECT getText) " " (?c1.OBJECT getText) " " ( ?l isTerminal ) crlf)
+;;(printout t "RULE 15 " (?c2.OBJECT getText) " " (?c1.OBJECT getText) " " ( ?l isTerminal ) crlf)
 )
 )
 
@@ -283,5 +283,5 @@
 
 ((?c2.OBJECT getEntry) addLabel (?c1.OBJECT getLabel) )
 ( update ?c2.OBJECT )
-(printout t "RULE 16" crlf)
+;;(printout t "RULE 16" crlf)
 )

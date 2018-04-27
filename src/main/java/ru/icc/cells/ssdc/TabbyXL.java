@@ -69,6 +69,7 @@ public final class TabbyXL {
     private static boolean useShortNames;
     private static boolean useRuleEngine;
     private static File engineConfigFile;
+    private static String engineName;
 
     // TODO DSL initialisation from settings is needed
     private static final String DSL = "/crl2.dsl";
@@ -279,7 +280,7 @@ public final class TabbyXL {
             sb.append(indent).append(String.format("Output directory: \"%s\"%n", outputDirectory.toRealPath()));
             sb.append(indent).append(String.format("Debugging mode: %b%n", debuggingMode));
             sb.append(indent).append(String.format("Using rules engine: %b", useRuleEngine));
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -502,8 +503,9 @@ public final class TabbyXL {
         } finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
+            System.out.printf(String.format("Engine: %s%n%n", engineName));
             System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
-//            System.out.printf("Rules loading time: %s%n%n", time2.getTime() - time1.getTime());
+            System.out.printf("Rules loading time: %s%n%n", time2.getTime() - time1.getTime());
             System.out.printf("General rules firing time: %s%n%n", endTime - beginTime);
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
@@ -520,11 +522,6 @@ public final class TabbyXL {
      * Use Java Rules Engine API
      */
 
-    //private static final String RULE_SERVICE_PROVIDER = "http://drools.org/";
-    //private static final String RULE_SERVICE_PROVIDER_IMPL = "org.drools.jsr94.rules.RuleServiceProviderImpl";
-    //private static final String RULE_SERVICE_PROVIDER = "jess.jsr94";
-    //private static final String RULE_SERVICE_PROVIDER_IMPL = RULE_SERVICE_PROVIDER + ".RuleServiceProviderImpl";
-
     private static void fireUsingRulesEngineAPI() throws Exception {
 
         loadWorkbook();
@@ -536,6 +533,7 @@ public final class TabbyXL {
 
         Class.forName(engineConfig.getProperty("RULE_SERVICE_PROVIDER_IMPL"));
         RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(engineConfig.getProperty("RULE_SERVICE_PROVIDER"));
+        engineName = engineConfig.getProperty("RULE_SERVICE_PROVIDER");
         RuleAdministrator ruleAdministrator = ruleServiceProvider.getRuleAdministrator();
 
         LocalRuleExecutionSetProvider ruleExecutionSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
@@ -718,6 +716,7 @@ public final class TabbyXL {
 
     private static void loadEngine() throws IOException, RecognitionException {
 
+        engineName = "imbedded";
         ANTLRFileStream fileStream1 = new ANTLRFileStream(drlFile.getPath());
         crl_gramLexer lexer = new crl_gramLexer(fileStream1);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
