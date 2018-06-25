@@ -68,7 +68,7 @@ Only two parameters are mandatory
 * `-input <path>`
 * `-ruleset <path>`
 
-*We recommend you to use JRE 9 or more*
+*We recommend you to use JRE 8 or more*
 
 ## Authors
 
