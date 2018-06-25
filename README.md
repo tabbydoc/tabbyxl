@@ -12,7 +12,7 @@ In order to build the executable JAR with dependencies, change to the project di
 ```bash
 mvn clean install
 ```
-*We recommend you to use Apache Maven 3.0.5 or more and JDK 9 or more*
+*We recommend you to use Apache Maven 3.0.5 or more and JDK 8 or more*
 
 You may test the newly compiled and packaged JAR file with the following command:
 ```bash
