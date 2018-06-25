@@ -16,7 +16,7 @@ mvn clean install
 
 You may test the newly compiled and packaged JAR file with the following command:
 ```bash
-java -jar target/TabbyXL2-1.0-jar-with-dependencies.jar -input samples/sampl.xlsx -ruleset samples/sampl.dslr -output samples/results
+java -jar target/TabbyXL2-1.0-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.dslr -output examples/results
 ```
 or run the testing script
 ```bash
@@ -73,7 +73,6 @@ Only two parameters are mandatory
 ## Authors
 
 * Alexey O. Shigarov
-* Andrey A. Mikhailov
 * Vasiliy V. Khristyuk
 
 ## License

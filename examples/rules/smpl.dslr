@@ -3,10 +3,10 @@ import ru.icc.cells.ssdc.model.style.*
 
 rule #1
     when
-        cell $corner: cl == 1, rt == 1, blank, $x: "@RowLabel"
+        cell $corner: cl == 1, rt == 1, blank
         cell $c: rb <= $corner.rb, cl > $corner.cr, ! blank, ! marked
     then
-        set mark $x to $c
+        set mark "@ColLabel" to $c
         new label $c
         update $c
 end
