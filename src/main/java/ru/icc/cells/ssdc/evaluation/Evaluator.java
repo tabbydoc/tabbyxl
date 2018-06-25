@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Created by Alexey Shigarov on 27.06.2016.
  */
+
 public class Evaluator {
     public static void main(String[] args) throws IOException {
         File resultDirectory = new File(args[0]);

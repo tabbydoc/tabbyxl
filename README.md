@@ -12,7 +12,7 @@ In order to build the executable JAR with dependencies, change to the project di
 ```bash
 mvn clean install
 ```
-*We recommend you to use Apache Maven 3.0.5 or more and JDK 1.8.0 or more*
+*We recommend you to use Apache Maven 3.0.5 or more and JDK 9 or more*
 
 You may test the newly compiled and packaged JAR file with the following command:
 ```bash
@@ -50,23 +50,25 @@ In order to run the executable JAR, you may use the following command with param
 java -jar target/TabbyXL-0.1-jar-with-dependencies.jar <params>
 
 Params:
--input <input excel file>          path to an input excel workbook (*.xlsx file)
--sheets <sheet indexes>            sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
--ruleset <drl or dslr file>        path to a ruleset (*.drl or *.dslr file)
--categorySpec <category directory> path to a directory with category specifications in YAML (*.cat files)
--output <output directory>         path to a directory for outputting results
+-input <path>                      specify a path to an input excel workbook (*.xlsx)
+-sheets <sheet indexes>            specify sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
+-ruleset <path>                    specify a path to a ruleset file (*.dslr (CRL), *.drl (Drools), or *.clp (JESS))
+-categorySpec <path>               specify a path to a directory with category specifications in YAML files (*.cat)
+-output <path>                     specify a path to a directory for outputting results
 -ignoreSuperscript <true|false>    specify true to ignore superscript text in cells (false used by default)
 -useCellText <true|false>          specify true to use cell values as text (false used by default)
 -useShortNames <true|false>        specify true to use short names (just sheet names) for output files (false used by default)
 -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
+-ruleEngineConfig <path>           specify optionally a path to a configuration file (*.properties) of a rule engine you prefer to use (e.g. Drools, JESS)
+                                   (CRL-to-Java translation is used by default instead of a rule engine)
 -help                              print this usage
 ```
 
 Only two parameters are mandatory
-* `-input <input excel file>`
-* `-ruleset <drl or dslr file>`
+* `-input <path>`
+* `-ruleset <path>`
 
-*We recommend you to use JRE 8 or more*
+*We recommend you to use JRE 9 or more*
 
 ## Authors
 

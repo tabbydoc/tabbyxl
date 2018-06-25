@@ -67,7 +67,7 @@ public final class TabbyXL {
     private static boolean debuggingMode;
     private static boolean useDSL;
     private static boolean useShortNames;
-    private static boolean useRuleEngine;
+    private static boolean ruleEngineConfigEngine;
     private static File engineConfigFile;
     private static String engineName;
 
@@ -279,7 +279,7 @@ public final class TabbyXL {
             sb.append(indent).append(String.format("Using short names: \"%s\"%n", useShortNames));
             sb.append(indent).append(String.format("Output directory: \"%s\"%n", outputDirectory.toRealPath()));
             sb.append(indent).append(String.format("Debugging mode: %b%n", debuggingMode));
-            sb.append(indent).append(String.format("Using rules engine: %b", useRuleEngine));
+            sb.append(indent).append(String.format("Using rules engine: %b", ruleEngineConfigEngine));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -294,51 +294,51 @@ public final class TabbyXL {
 
     /*
      * Params:
-     * -input <input excel file>          an input excel workbook (*.xlsx file)
-     * -sheets <sheet indexes>            sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
-     * -ruleset <drl or dslr file>        a ruleset (*.drl or *.dslr file)
-     * -categorySpec <category directory> a directory with category specifications in YAML (*.cat files)
-     * -parsing <parsing directory>         a directory for outputting results
-     * -ignoreSuperscript <true|false>    specify true to ignore superscript text in cells (false used by default)
-     * -useCellText <true|false>          specify true to use cell values as text (false used by default)
-     * -useShortNames <true|false>        specify true to use short names (just sheet names) for parsing files (false used by default)
-     * -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
-     * -help                              print the usage
-     * -useRuleEngine                     path to engine's configuration file (imbedded engine used by default)
+       -input <path>                      specify a path to an input excel workbook (*.xlsx)
+       -sheets <sheet indexes>            specify sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
+       -ruleset <path>                    specify a path to a ruleset file (*.dslr (CRL), *.drl (Drools), or *.clp (JESS))
+       -categorySpec <path>               specify a path to a directory with category specifications in YAML files (*.cat)
+       -output <path>                     specify a path to a directory for outputting results
+       -ignoreSuperscript <true|false>    specify true to ignore superscript text in cells (false used by default)
+       -useCellText <true|false>          specify true to use cell values as text (false used by default)
+       -useShortNames <true|false>        specify true to use short names (just sheet names) for output files (false used by default)
+       -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
+       -ruleEngineConfig <path>           specify a path to a rule engine configuration file (*.properties) you prefer to use (e.g. Drools, JESS)
+       -help                              print this usage
      */
     @SuppressWarnings("static-access")
     private static void parseCommandLineParams(String[] args) {
         // Creating command line parameters
         Option inputExcelFileOpt = OptionBuilder
-                .withArgName("input excel file path")
+                .withArgName("path")
                 .hasArg()
-                .withDescription("path to an input excel workbook (*.xlsx file)")
+                .withDescription("specify a path to an input excel workbook (*.xlsx)")
                 //.isRequired()
                 .create("input");
 
         Option sheetIndexesOpt = OptionBuilder
                 .withArgName("sheet indexes")
                 .hasArg()
-                .withDescription("sheet indexes in the input excel workbook (e.g. \"0-2,4,5,7-10\")")
+                .withDescription("specify sheet indexes in the input excel workbook (e.g. \"0-2,4,5,7-10\")")
                 .create("sheets");
 
         Option drlFileOpt = OptionBuilder
-                .withArgName("ruleset path")
+                .withArgName("path")
                 .hasArg()
-                .withDescription("path to a ruleset (*.drl or *.dslr file)")
+                .withDescription("specify a path to a ruleset file (*.dslr (CRL), *.drl (Drools), or *.clp (JESS))")
                 //.isRequired()
                 .create("ruleset");
 
         Option catDirectoryOpt = OptionBuilder
-                .withArgName("category directory path")
+                .withArgName("path")
                 .hasArg()
-                .withDescription("path to a directory with category specifications in YAML (*.cat files)")
+                .withDescription("specify a path to a directory with category specifications in YAML files (*.cat)")
                 .create("categorySpec");
 
         Option outputDirectoryOpt = OptionBuilder
-                .withArgName("output directory path")
+                .withArgName("path")
                 .hasArg()
-                .withDescription("path to a directory for outputting results")
+                .withDescription("specify a path to a directory for outputting results")
                 .create("output");
 
         Option ignoreSuperscriptOpt = OptionBuilder
@@ -365,15 +365,15 @@ public final class TabbyXL {
                 .withDescription("specify true to turn on debugging mode (false used by default)")
                 .create("debuggingMode");
 
+        Option ruleEngineConfigOpt = OptionBuilder
+                .withArgName("path")
+                .hasArg()
+                .withDescription("specify a path to a configuration file (*.properties) of a rule engine you prefer to use (e.g. Drools, JESS)")
+                .create("ruleEngineConfig");
+
         Option helpOpt = OptionBuilder
                 .withDescription("print this message")
                 .create("help");
-
-        Option useRuleEngineOpt = OptionBuilder
-                .withArgName("configuration file path")
-                .hasArg()
-                .withDescription("path to engine's configuration file (imbedded engine used by default)")
-                .create("useRulesEngine");
 
         Options options = new Options();
 
@@ -386,8 +386,8 @@ public final class TabbyXL {
         options.addOption(outputDirectoryOpt);
         options.addOption(useShortNamesOpt);
         options.addOption(debuggingModeOpt);
+        options.addOption(ruleEngineConfigOpt);
         options.addOption(helpOpt);
-        options.addOption(useRuleEngineOpt);
 
         CommandLineParser parser = new BasicParser();
 
@@ -426,8 +426,8 @@ public final class TabbyXL {
             String debuggingModeParam = cmd.getOptionValue(debuggingModeOpt.getOpt());
             debuggingMode = parseDebuggingModeParam(debuggingModeParam);
 
-            String useRulesEngineParam = cmd.getOptionValue(useRuleEngineOpt.getOpt());
-            useRuleEngine = parseEngineParam(useRulesEngineParam);
+            String ruleEngineConfigParam = cmd.getOptionValue(ruleEngineConfigOpt.getOpt());
+            ruleEngineConfigEngine = parseEngineParam(ruleEngineConfigParam);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -493,7 +493,7 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            if(useRuleEngine)
+            if(ruleEngineConfigEngine)
                 fireUsingRulesEngineAPI();
             else
                 fireWithOurEngine();
