@@ -6,7 +6,7 @@
 
     <groupId>ru.icc.cells</groupId>
     <artifactId>TabbyXL</artifactId>
-    <version>0.1</version>
+    <version>2.0</version>
 
     <build>
         <plugins>

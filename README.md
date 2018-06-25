@@ -1,4 +1,4 @@
-# TabbyXL
+# TabbyXL2
 A system for rule-based transformation spreadsheet data from arbitrary to relational tables.
 
 ## Building with Apache Maven
@@ -16,7 +16,7 @@ mvn clean install
 
 You may test the newly compiled and packaged JAR file with the following command:
 ```bash
-java -jar target/TabbyXL-0.1-jar-with-dependencies.jar -input samples/sampl.xlsx -ruleset samples/sampl.dslr -output samples/results
+java -jar target/TabbyXL-2.0-jar-with-dependencies.jar -input samples/sampl.xlsx -ruleset samples/sampl.dslr -output samples/results
 ```
 or run the testing script
 ```bash
