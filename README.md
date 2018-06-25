@@ -5,7 +5,7 @@ A system for rule-based transformation spreadsheet data from arbitrary to relati
 
 First, you need to clone the project into your directory
 ```bash
-git clone https://github.com/cellsrg/tabbyxl.git
+git clone https://github.com/cellsrg/tabbyxl2.git
 ```
 
 In order to build the executable JAR with dependencies, change to the project directory, where is pom.xml, and run the following command
@@ -16,7 +16,7 @@ mvn clean install
 
 You may test the newly compiled and packaged JAR file with the following command:
 ```bash
-java -jar target/TabbyXL-2.0-jar-with-dependencies.jar -input samples/sampl.xlsx -ruleset samples/sampl.dslr -output samples/results
+java -jar target/TabbyXL2-1.0-jar-with-dependencies.jar -input samples/sampl.xlsx -ruleset samples/sampl.dslr -output samples/results
 ```
 or run the testing script
 ```bash
@@ -47,7 +47,7 @@ then it works.
 ## Usage
 In order to run the executable JAR, you may use the following command with parameters  
 ```
-java -jar target/TabbyXL-0.1-jar-with-dependencies.jar <params>
+java -jar target/TabbyXL2-1.0-jar-with-dependencies.jar <params>
 
 Params:
 -input <path>                      specify a path to an input excel workbook (*.xlsx)
