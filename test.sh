@@ -1,1 +1,1 @@
-java -jar target/TabbyXL-0.1-jar-with-dependencies.jar -input samples/sampl.xlsx -ruleset samples/sampl.dslr -output samples/results
+java -jar target/TabbyXL2-1.0-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.dslr -output examples/results
