@@ -51,7 +51,7 @@ tokens
 
 /*@headers
 {	
-	package ru.icc.cells.ssdc.engine.parsing;
+	package ru.icc.cells.ssdc.crl2j.parsing;
 }*/
 
 
