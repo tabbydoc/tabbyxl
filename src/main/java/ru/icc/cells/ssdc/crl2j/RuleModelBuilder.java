@@ -157,17 +157,17 @@ public class RuleModelBuilder {
     private Action buildAction(Tree subTree, int id) {
 
         switch (subTree.getText()) {
-            case "Set_mark":
+            case "SetMarkAction":
                 return buildSetMarkAction(id, subTree);
-            case "Set_text":
+            case "SetTextAction":
                 return buildSetTextAction(id, subTree);
-            case "Set_indent":
+            case "SetIndentAction":
                 return buildSetIndentAction(id, subTree);
-            case "Set_value":
+            case "SetValueAction":
                 return buildSetValueAction(id, subTree);
-            case "Set_category":
+            case "SetCategoryAction":
                 return buildSetCategoryAction(id, subTree);
-            case "Set_parent":
+            case "SetParentAction":
                 return buildSetParentAction(id, subTree);
             case "SplitAction":
                 return buildSplitAction(id, subTree);
@@ -175,11 +175,11 @@ public class RuleModelBuilder {
                 return buildMergeAction(id, subTree);
             case "GroupAction":
                 return buildGroupAction(id, subTree);
-            case "New_entry":
+            case "NewEntryAction":
                 return buildNewEntryAction(id, subTree);
-            case "New_label":
+            case "NewLabelAction":
                 return buildNewLabelAction(id, subTree);
-            case "Add_label":
+            case "AddLabelAction":
                 return buildAddLabelAction(id, subTree);
             case "PrintAction":
                 return buildPrintAction(id, subTree);

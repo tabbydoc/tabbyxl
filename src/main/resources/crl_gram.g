@@ -20,23 +20,24 @@ tokens
 	Action;
 	Actions;
 	J_expr;
+	Package;
 	Imports;
 	Import_item;
 	Assignment;
-	Set_mark;
-	Set_text;
-	Set_indent;
-	Set_value;
-	Set_category;
-	Set_parent;
-	Split;
-	Merge;
-	Group;
-	New_entry;
-	New_label;
-	Add_label;
-	Update;
-	Print;
+	SetMarkAction;
+	SetTextAction;
+	SetIndentAction;
+	SetValueAction;
+	SetCategoryAction;
+	SetParentAction;
+	SplitAction;
+	MergeAction;
+	GroupAction;
+	NewEntryAction;
+	NewLabelAction;
+	AddLabelAction;
+	UpdateAction;
+	PrintAction;
 	IDENT;
 	IDENT1;
 	IDENT2;
@@ -59,7 +60,11 @@ tokens
 
 
 crl
-	:	import_stmt* crl_rule+ -> ^(Imports import_stmt*) ^(RULES crl_rule+)
+	:	package_stmt? import_stmt* crl_rule+ -> ^(Imports import_stmt*) ^(RULES crl_rule+)
+	;
+	
+package_stmt
+	:	'package' import_item
 	;
 	
 	
@@ -143,59 +148,59 @@ action_
 	;
 	
 set_mark
-	:	'set mark' j_expr 'to' Identifier -> ^(Set_mark ^(IDENT Identifier) ^(STRING j_expr))
+	:	'set mark' j_expr 'to' Identifier -> ^(SetMarkAction ^(IDENT Identifier) ^(STRING j_expr))
 	;
 	
 set_text
-	:	'set text' j_expr 'to' Identifier -> ^(Set_text ^(IDENT Identifier) ^(STRING j_expr))
+	:	'set text' j_expr 'to' Identifier -> ^(SetTextAction ^(IDENT Identifier) ^(STRING j_expr))
 	;
 	
 set_indent
-	:	'set indent' J_int_literal 'to' Identifier -> ^(Set_indent ^(IDENT Identifier) ^(INT J_int_literal))
+	:	'set indent' J_int_literal 'to' Identifier -> ^(SetIndentAction ^(IDENT Identifier) ^(INT J_int_literal))
 	;
 	
 split
-	:	'split' Identifier -> ^(Split ^(IDENT Identifier))
+	:	'split' Identifier -> ^(SplitAction ^(IDENT Identifier))
 	;
 	
 merge
-	:	'merge' Identifier 'with' Identifier -> ^(Merge ^(IDENT1 Identifier) ^(IDENT2 Identifier))
+	:	'merge' Identifier 'with' Identifier -> ^(MergeAction ^(IDENT1 Identifier) ^(IDENT2 Identifier))
 	;
 	
 new_entry
-	:	'new entry' Identifier ('as' j_expr)? -> ^(New_entry ^(IDENT Identifier) ^(STRING j_expr)? )
+	:	'new entry' Identifier ('as' j_expr)? -> ^(NewEntryAction ^(IDENT Identifier) ^(STRING j_expr)? )
 	;
 	
 set_value
-	:	'set value' j_expr 'to' advanced_identifier -> ^(Set_value ^(ADV_IDENT advanced_identifier) ^(STRING j_expr))
+	:	'set value' j_expr 'to' advanced_identifier -> ^(SetValueAction ^(ADV_IDENT advanced_identifier) ^(STRING j_expr))
 	;
 	
 set_category
-	:	'set category' j_expr 'to' advanced_identifier -> ^(Set_category ^(ADV_IDENT advanced_identifier) ^(CATEGORY j_expr))
+	:	'set category' j_expr 'to' advanced_identifier -> ^(SetCategoryAction ^(ADV_IDENT advanced_identifier) ^(CATEGORY j_expr))
 	;
 	
 set_parent
-	:	'set parent' advanced_identifier 'to' advanced_identifier -> ^(Set_parent ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
+	:	'set parent' advanced_identifier 'to' advanced_identifier -> ^(SetParentAction ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
 	;
 	
 group
-	:	'group' advanced_identifier 'with' advanced_identifier -> ^(Group ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
+	:	'group' advanced_identifier 'with' advanced_identifier -> ^(GroupAction ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
 	;
 	
 add_label
-	:	'add label' j_expr ('of' j_expr)? 'to' advanced_identifier -> ^(Add_label ^(LABEL j_expr) ^(CATEGORY j_expr)? ^(ADV_IDENT advanced_identifier))
+	:	'add label' j_expr ('of' j_expr)? 'to' advanced_identifier -> ^(AddLabelAction ^(LABEL j_expr) ^(CATEGORY j_expr)? ^(ADV_IDENT advanced_identifier))
 	;
 	
 new_label
-	:	'new label' Identifier ('as' j_expr)? -> ^(New_label ^(IDENT Identifier) ^(STRING j_expr)?)
+	:	'new label' Identifier ('as' j_expr)? -> ^(NewLabelAction ^(IDENT Identifier) ^(STRING j_expr)?)
 	;
 	
 update
-	:	'update' advanced_identifier -> ^(Update ^(ADV_IDENT advanced_identifier))
+	:	'update' advanced_identifier -> ^(UpdateAction ^(ADV_IDENT advanced_identifier))
 	;
 	
 c_print
-	:	('print'|'printf') j_expr -> ^(Print j_expr)
+	:	('print'|'printf') j_expr -> ^(PrintAction j_expr)
 	;
 
 advanced_identifier	

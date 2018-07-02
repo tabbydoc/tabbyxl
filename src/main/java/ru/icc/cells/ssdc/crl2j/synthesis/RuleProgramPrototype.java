@@ -25,12 +25,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
    @Override
    public void eval() {}
 
-    protected class Set_text {
+    protected class SetTextAction {
 
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_text() {
+        public SetTextAction() {
             previousCell = null;
             }
 
@@ -60,12 +60,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Set_indent {
+    protected class SetIndentAction {
 
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_indent() {
+        public SetIndentAction() {
             previousCell = null;
         }
 
@@ -95,12 +95,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Split {
+    protected class SplitAction {
 
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public Split() {
+        public SplitAction() {
             previousCell = null;
         }
 
@@ -134,13 +134,13 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Merge {
+    protected class MergeAction {
 
         private CCell previousCell1;
         private CCell previousCell2;
         private List<Set> setList = new ArrayList<>();
 
-        public Merge() {
+        public MergeAction() {
             previousCell1 = null;
             previousCell2 = null;
         }
@@ -176,12 +176,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Set_mark {
+    protected class SetMarkAction {
 
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_mark() {
+        public SetMarkAction() {
 
             previousCell = null;
         }
@@ -213,12 +213,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class New_entry {
+    protected class NewEntryAction {
 
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public New_entry() {
+        public NewEntryAction() {
             previousCell = null;
         }
 
@@ -273,12 +273,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class New_label {
+    protected class NewLabelAction {
 
         private CCell previousCell;
         private List<Set> setList = new ArrayList<>();
 
-        public New_label() {
+        public NewLabelAction() {
             previousCell = null;
         }
 
@@ -332,12 +332,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Set_value {
+    protected class SetValueAction {
 
         private CValue previousVar;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_value() {
+        public SetValueAction() {
             previousVar = null;
         }
 
@@ -369,12 +369,12 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Set_category {
+    protected class SetCategoryAction {
 
         private CLabel previousLabel;
         private List<Set> setList = new ArrayList<>();
 
-        public Set_category() {
+        public SetCategoryAction() {
             previousLabel = null;
         }
 
@@ -427,13 +427,13 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Set_parent {
+    protected class SetParentAction {
 
         private CLabel previousLabel1;
         private CLabel previousLabel2;
         private List<Set> sets = new ArrayList<>();
 
-        public Set_parent() {
+        public SetParentAction() {
             previousLabel1 = null;
             previousLabel2 = null;
         }
@@ -472,13 +472,13 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Group {
+    protected class GroupAction {
 
         private CLabel previousLabel1;
         private CLabel previousLabel2;
         private List<Set> sets = new ArrayList<>();
 
-        public Group() {
+        public GroupAction() {
             previousLabel1 = null;
             previousLabel2 = null;
         }
@@ -513,13 +513,13 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
     }
 
-    protected class Add_label {
+    protected class AddLabelAction {
 
         private CLabel previousLabel;
         private CEntry previousEntry;
         private List<Set> sets = new ArrayList<>();
 
-        public Add_label() {
+        public AddLabelAction() {
             previousEntry = null;
             previousLabel = null;
         }
