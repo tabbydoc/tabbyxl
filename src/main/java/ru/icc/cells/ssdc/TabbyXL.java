@@ -279,7 +279,7 @@ public final class TabbyXL {
             sb.append(indent).append(String.format("Using short names: \"%s\"%n", useShortNames));
             sb.append(indent).append(String.format("Output directory: \"%s\"%n", outputDirectory.toRealPath()));
             sb.append(indent).append(String.format("Debugging mode: %b%n", debuggingMode));
-            sb.append(indent).append(String.format("Using rules engine: %b", ruleEngineConfigEngine));
+            sb.append(indent).append(String.format("Using a rule engine: %b", ruleEngineConfigEngine));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -494,7 +494,7 @@ public final class TabbyXL {
             System.out.printf("%s%n%n", traceParsedParams());
 
             if(ruleEngineConfigEngine)
-                fireUsingRulesEngineAPI();
+                fireUsingRuleEngineAPI();
             else
                 fireWithOurEngine();
 
@@ -505,8 +505,8 @@ public final class TabbyXL {
             System.out.println(statisticsManager.trace());
             System.out.printf(String.format("Engine: %s%n%n", engineName));
             System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
-            System.out.printf("Rules loading time: %s%n%n", time2.getTime() - time1.getTime());
-            System.out.printf("General rules firing time: %s%n%n", endTime - beginTime);
+            System.out.printf("Rule loading time: %s%n%n", time2.getTime() - time1.getTime());
+            System.out.printf("Total time: %s%n%n", endTime - beginTime);
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
         }
@@ -519,10 +519,10 @@ public final class TabbyXL {
 
 
     /*
-     * Use Java Rules Engine API
+     * Use Java Rule Engine API
      */
 
-    private static void fireUsingRulesEngineAPI() throws Exception {
+    private static void fireUsingRuleEngineAPI() throws Exception {
 
         loadWorkbook();
 
@@ -568,7 +568,6 @@ public final class TabbyXL {
             int count = 0;
 
             for(int sheetNo : sheetIndexes) {
-            //for(int sheetNo : new int[]{88}) {
                 DATA_LOADER.goToSheet(sheetNo);
                 String sheetName = DATA_LOADER.getCurrentSheetName();
 
@@ -617,13 +616,15 @@ public final class TabbyXL {
 
                     String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
 
-                    String outFileName = null;
+                    String outFileName;
                     if (useShortNames) {
-                        outFileName = String.format("%s\\%s.xlsx", outputDirectory, sheetName);
+                        outFileName = String.format("%s.xlsx", sheetName);
+
                     } else {
-                        outFileName = String.format("%s\\%s_%s_%s.xlsx", outputDirectory, fileName, sheetNo, tableNo);
+                        outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                     }
-                    EvaluationExcelWriter writer = new EvaluationExcelWriter(new File(outFileName));
+                    Path outPath = outputDirectory.resolve(outFileName);
+                    EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
                     writer.write(table);
 
                     tableNo++;
@@ -692,13 +693,15 @@ public final class TabbyXL {
 
                 String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
 
-                String outFileName = null;
+                String outFileName;
                 if (useShortNames) {
-                    outFileName = String.format("%s\\%s.xlsx", outputDirectory, sheetName);
+                    outFileName = String.format("%s.xlsx", sheetName);
+
                 } else {
-                    outFileName = String.format("%s\\%s_%s_%s.xlsx", outputDirectory, fileName, sheetNo, tableNo);
+                    outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                 }
-                EvaluationExcelWriter writer = new EvaluationExcelWriter(new File(outFileName));
+                Path outPath = outputDirectory.resolve(outFileName);
+                EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
                 writer.write(table);
 
                 tableNo++;
@@ -801,13 +804,15 @@ public final class TabbyXL {
 
                     String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
 
-                    String outFileName = null;
+                    String outFileName;
                     if (useShortNames) {
-                        outFileName = String.format("%s\\%s.xlsx", outputDirectory, sheetName);
+                        outFileName = String.format("%s.xlsx", sheetName);
+
                     } else {
-                        outFileName = String.format("%s\\%s_%s_%s.xlsx", outputDirectory, fileName, sheetNo, tableNo);
+                        outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                     }
-                    EvaluationExcelWriter writer = new EvaluationExcelWriter(new File(outFileName));
+                    Path outPath = outputDirectory.resolve(outFileName);
+                    EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
                     writer.write(table);
 
                     tableNo++;

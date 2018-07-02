@@ -1,4 +1,4 @@
-# Copyright 2015 Alexey O. Shigarov (shigarov@icc.ru)
+# Copyright 2015-18 Alexey O. Shigarov (shigarov@icc.ru)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,26 +16,26 @@
 [keyword][] rule #{number:\d+} = rule "#{number}" salience -{number}
 
 #Cell querying
-[condition][] cell {cell:\S+}\s*: {constraints} = {cell}: CCell({constraints})
-[condition][] cell {cell:\S+} = {cell} : CCell()
+[condition][] cell {cell:\S+}\s*: {constraints} = {cell}: CCell({constraints});
+[condition][] cell {cell:\S+} = {cell} : CCell();
 
 #Entry querying
-[condition][] entry {entry:\S+}\s*: {constraints} = {entry}: CEntry({constraints})
-[condition][] entry {entry:\S+} = {entry} : CEntry()
+[condition][] entry {entry:\S+}\s*: {constraints} = {entry}: CEntry({constraints});
+[condition][] entry {entry:\S+} = {entry} : CEntry();
 
 #Label querying
-[condition][] label {label:\S+}\s*: {constraints} = {label}: CLabel({constraints})
-[condition][] label {label:\S+} = {label} : CLabel()
+[condition][] label {label:\S+}\s*: {constraints} = {label}: CLabel({constraints});
+[condition][] label {label:\S+} = {label} : CLabel();
 
 #Category querying
-[condition][] category {category:\S+}\s*: {constraints} = {category}: CCategory({constraints})
-[condition][] category {category:\S+} = {category}: CCategory()
+[condition][] category {category:\S+}\s*: {constraints} = {category}: CCategory({constraints});
+[condition][] category {category:\S+} = {category}: CCategory();
 
 #Not exists
-[condition][] no cells\s*: {constraints} = not (exists CCell ({constraints}))
-[condition][] no entries\s*: {constraints} = not (exists CEntry ({constraints}))
-[condition][] no labels\s*: {constraints} = not (exists CLabel ({constraints}))
-[condition][] no categories\s*: {constraints} = not (exists CCategory ({constraints}))
+[condition][] no cells\s*: {constraints} = not (exists CCell ({constraints}));
+[condition][] no entries\s*: {constraints} = not (exists CEntry ({constraints}));
+[condition][] no labels\s*: {constraints} = not (exists CLabel ({constraints}));
+[condition][] no categories\s*: {constraints} = not (exists CCategory ({constraints}));
 
 #Text editing
 [consequence][] set text {string_expression} to {cell:\S+} = {cell}.setText({string_expression});
