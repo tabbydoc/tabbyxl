@@ -3,7 +3,7 @@ package ru.icc.cells.ssdc.crl2j.rulemodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model {
+public class Ruleset {
 
     /*private int id;
     public int getId() {
@@ -13,7 +13,7 @@ public class Model {
     List<String> imports=new ArrayList<>();
     List<Rule> rules=new ArrayList<>();
 
-    public Model(){}
+    public Ruleset(){}
 
     public void addImport(String setting)
     {

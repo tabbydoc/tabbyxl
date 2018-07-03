@@ -18,11 +18,11 @@ public class RuleCodeGen {
 
     private static List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
-    public static void compileAllRules(Model model) {
+    public static void compileAllRules(Ruleset ruleset) {
 
         CharSequenceCompiler compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
         try {
-            classes = compileClasses(model, compiler);
+            classes = compileClasses(ruleset, compiler);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,13 +37,13 @@ public class RuleCodeGen {
 
     }
 
-    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Model model, CharSequenceCompiler compiler) throws CharSequenceCompilerException, Exception {
+    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException, Exception {
         List<Class<? extends RuleProgramPrototype>> ruleClasses = new ArrayList<>();
 
-        for(Rule rule:model.getRules())
+        for(Rule rule: ruleset.getRules())
         {
-            //System.out.println(fetchCodeFromRule(rule, model.getImports()));
-            CharSequence code = fetchCodeFromRule(rule, model.getImports());
+            //System.out.println(fetchCodeFromRule(rule, ruleset.getImports()));
+            CharSequence code = fetchCodeFromRule(rule, ruleset.getImports());
             System.out.println(code);
             Class<? extends RuleProgramPrototype> ruleClass = compiler.compile(getRuleClassName(rule), code, null, new Class<?>[]{ RuleProgramPrototype.class });
             ruleClasses.add(ruleClass);

@@ -7,14 +7,14 @@ import ru.icc.cells.ssdc.crl2j.rulemodel.Condition;
 
 public class RuleModelBuilder {
 
-    private Model model;
+    private Ruleset ruleset;
 
-    public Model getModel() {
-        return model;
+    public Ruleset getRuleset() {
+        return ruleset;
     }
 
     public RuleModelBuilder() {
-        model = new Model();
+        ruleset = new Ruleset();
     }
 
     public void buildModel(Tree ast) {
@@ -31,13 +31,13 @@ public class RuleModelBuilder {
 
     private void buildImports(Tree subTree) {
         for (int i = 0; i < subTree.getChildCount(); i++) {
-            model.addImport(subTree.getChild(i).getText());
+            ruleset.addImport(subTree.getChild(i).getText());
         }
     }
 
     private void buildAllRules(Tree subTree) {
         for (int i = 0; i < subTree.getChildCount(); i++) {
-            model.addRule(buildRule(subTree.getChild(i)));
+            ruleset.addRule(buildRule(subTree.getChild(i)));
         }
     }
 

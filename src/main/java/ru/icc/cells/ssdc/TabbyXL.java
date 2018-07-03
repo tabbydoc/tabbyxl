@@ -22,17 +22,9 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import org.kie.api.event.rule.DebugAgendaEventListener;
-import org.kie.api.io.Resource;
-import org.kie.api.io.ResourceType;
 import org.kie.internal.KnowledgeBase;
 import org.kie.internal.KnowledgeBaseFactory;
-import org.kie.internal.builder.KnowledgeBuilder;
-import org.kie.internal.builder.KnowledgeBuilderFactory;
-import org.kie.internal.definition.KnowledgePackage;
-import org.kie.internal.io.ResourceFactory;
-import org.kie.internal.runtime.StatefulKnowledgeSession;
-import ru.icc.cells.ssdc.crl2j.rulemodel.Model;
+import ru.icc.cells.ssdc.crl2j.rulemodel.Ruleset;
 import ru.icc.cells.ssdc.crl2j.RuleModelBuilder;
 import ru.icc.cells.ssdc.crl2j.RuleCodeGen;
 import ru.icc.cells.ssdc.crl2j.AstPrinter;
@@ -637,11 +629,11 @@ public final class TabbyXL {
 
         RuleModelBuilder ruleModelBuilder = new RuleModelBuilder();
         ruleModelBuilder.buildModel(tree);
-        Model model = ruleModelBuilder.getModel();
-        System.out.println("model ok");
-        //System.out.println(model.toString());
+        Ruleset ruleset = ruleModelBuilder.getRuleset();
+        System.out.println("ruleset ok");
+        //System.out.println(ruleset.toString());
 
-        RuleCodeGen.compileAllRules(model);
+        RuleCodeGen.compileAllRules(ruleset);
         System.out.println("RuleClasses ok");
     }
 
