@@ -320,22 +320,14 @@ public final class DataLoader {
         RichTextString richTextString = excelCell.getRichStringCellValue();
         if (null == richTextString) return false;
 
-        int index = 0;
-        int length = 0;
-        XSSFFont font = null;
-
         XSSFRichTextString rts = (XSSFRichTextString) richTextString;
         XSSFWorkbook wb = (XSSFWorkbook) workbook;
 
         XSSFCellStyle style = ((XSSFCell) excelCell).getCellStyle();
-        font = style.getFont();
+        XSSFFont font = style.getFont();
 
-        String richText = rts.getString();
         if (rts.numFormattingRuns() > 1) {
             for (int i = 0; i < rts.numFormattingRuns(); i++) {
-                index = rts.getIndexOfFormattingRun(i);
-                length = rts.getLengthOfFormattingRun(i);
-
                 try {
                     font = rts.getFontOfFormattingRun(i);
                 } catch (NullPointerException e) {
@@ -343,13 +335,11 @@ public final class DataLoader {
                     font.setTypeOffset(XSSFFont.SS_NONE);
                 }
 
-                String s = richText.substring(index, index + length);
-
-                if (font.getTypeOffset() == XSSFFont.SS_SUPER)
+                if (font != null && font.getTypeOffset() == XSSFFont.SS_SUPER)
                     return true;
             }
         } else {
-            if (font.getTypeOffset() == XSSFFont.SS_SUPER)
+            if (font != null && font.getTypeOffset() == XSSFFont.SS_SUPER)
                 return true;
         }
         return false;
@@ -387,7 +377,7 @@ public final class DataLoader {
 
                 String s = richText.substring(index, index + length);
 
-                if (font.getTypeOffset() == XSSFFont.SS_SUPER) {
+                if (font != null && font.getTypeOffset() == XSSFFont.SS_SUPER) {
                     if (wasNotSuperscriptRun) notSuperscriptRuns.append(" ");
                     wasNotSuperscriptRun = false;
                 } else {
@@ -397,7 +387,7 @@ public final class DataLoader {
             }
             text = notSuperscriptRuns.toString();
         } else {
-            if (font.getTypeOffset() == XSSFFont.SS_SUPER)
+            if (font == null || font.getTypeOffset() == XSSFFont.SS_SUPER)
                 text = null;
             else
                 text = richText;
