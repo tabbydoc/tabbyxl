@@ -22,14 +22,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Alexey Shigarov on 27.06.2016.
- */
 
 public class Evaluator {
     public static void main(String[] args) throws IOException {

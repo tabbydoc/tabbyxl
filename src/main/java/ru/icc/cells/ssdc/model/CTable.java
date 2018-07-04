@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Alexey O. Shigarov (shigarov@icc.ru)
+ * Copyright 2015-18 Alexey O. Shigarov (shigarov@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.*;
-
-/**
- * Created by Alexey Shigarov (shigarov@gmail.com) on 30.01.2015.
- */
 
 public final class CTable
 {

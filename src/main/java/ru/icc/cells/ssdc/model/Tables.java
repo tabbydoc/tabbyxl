@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Alexey O. Shigarov (shigarov@icc.ru)
+ * Copyright 2018 Alexey O. Shigarov (shigarov@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,6 @@ import ru.icc.cells.ssdc.model.style.CBorder;
 import ru.icc.cells.ssdc.model.style.CStyle;
 
 import java.util.Iterator;
-
-/**
- * Created by Alexey Shigarov (shigarov@gmail.com) on 13.02.2015.
- */
 
 public final class Tables
 {

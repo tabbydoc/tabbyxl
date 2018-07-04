@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Alexey O. Shigarov (shigarov@icc.ru)
+ * Copyright 2015-18 Alexey O. Shigarov (shigarov@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,6 @@
 
 package ru.icc.cells.ssdc.model;
 
-/**
- * Created by shig on 03.03.2015.
- */
 public final class NotAllowedParentChangeException extends ParentAssociatingException
 {
     public NotAllowedParentChangeException( CLabel child, CLabel parent, CLabel failedParent )
