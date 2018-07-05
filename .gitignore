@@ -10,7 +10,7 @@
 # Folders
 target
 out
-samples/results/*
+examples/results/*
 
 #OS junk files
 [Tt]humbs.db
