@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-18 Alexey O. Shigarov (shigarov@gmail.com)
+ * Copyright 2015-18 Alexey O. Shigarov (shigarov@gmail.com) and Vasiliy V. Khristyuk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import org.kie.internal.KnowledgeBase;
-import org.kie.internal.KnowledgeBaseFactory;
 import ru.icc.cells.ssdc.crl2j.rulemodel.Ruleset;
 import ru.icc.cells.ssdc.crl2j.RuleModelBuilder;
 import ru.icc.cells.ssdc.crl2j.RuleCodeGen;
@@ -57,7 +55,6 @@ public final class TabbyXL {
     private static boolean useCellValue;
     private static Path outputDirectory;
     private static boolean debuggingMode;
-    private static boolean useDSL;
     private static boolean useShortNames;
     private static boolean useRuleEngine;
     private static File engineConfigFile;
@@ -73,7 +70,6 @@ public final class TabbyXL {
 
     private static final DataLoader DATA_LOADER = DataLoader.getInstance();
     private static final CategoryTemplateManager CATEGORY_TEMPLATE_MANAGER = CategoryTemplateManager.getInstance();
-    private static final KnowledgeBase KNOWLEDGE_BASE = KnowledgeBaseFactory.newKnowledgeBase();
 
     private static File parseInputExcelFileParam(String inputExcelFileParam) {
         File file = new File(inputExcelFileParam);
