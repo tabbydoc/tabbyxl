@@ -16,7 +16,7 @@ mvn clean install
 
 You may test the newly compiled and packaged JAR file with the following command:
 ```bash
-java -jar target/TabbyXL2-1.0-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.dslr -output examples/results
+java -jar target/TabbyXL2-1.0.1-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.dslr -output examples/results
 ```
 or run the testing script
 ```bash
@@ -47,7 +47,7 @@ then it works.
 ## Usage
 In order to run the executable JAR, you may use the following command with parameters  
 ```
-java -jar target/TabbyXL2-1.0-jar-with-dependencies.jar <params>
+java -jar target/TabbyXL2-1.0.1-jar-with-dependencies.jar <params>
 
 Params:
 -input <path>                      specify a path to an input excel workbook (*.xlsx)
