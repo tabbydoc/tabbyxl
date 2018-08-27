@@ -49,7 +49,7 @@ public final class TabbyXL {
     // Params
     private static File inputExcelFile;
     private static List<Integer> sheetIndexes;
-    private static File rulesFile;
+    private static File ruleFile;
     private static Path catDirectory;
     private static boolean ignoreSuperscript;
     private static boolean useCellValue;
@@ -124,25 +124,19 @@ public final class TabbyXL {
         return null;
     }
 
-
-    private static File parseRulesFileParam(String drlFileParam) {
-        File file = new File(drlFileParam);
+    private static File parseRuleFileParam(String ruleFileParam) {
+        File file = new File(ruleFileParam);
         if (file.exists()) {
             if (file.canRead()) {
-
-                //String fileExtension = FilenameUtils.getExtension(file.getName());
-
-                //final String DSLR_EXTENSION = "DSLR";
-                //final String DRL_EXTENSION = "DRL";
-
-                /*if (DSLR_EXTENSION.equalsIgnoreCase(fileExtension)) {
-                    useDSL = true;
-                } else if (DRL_EXTENSION.equalsIgnoreCase(fileExtension)) {
-                    useDSL = false;
-                } else {
-                    System.err.println("The knowledge base file extension must be DSLR_EXTENSION or DRL_EXTENSION");
-                    System.exit(0);
-                }*/
+                if (!useRuleEngine) {
+                    String fileExtension = FilenameUtils.getExtension(file.getName());
+                    if (fileExtension.equalsIgnoreCase("CRL")) {
+                        return file;
+                    } else {
+                        System.err.println("The extension of the specified ruleset file should be CRL (*.crl)");
+                        System.exit(0);
+                    }
+                }
             } else {
                 System.err.println("The knowledge base file cannot be read");
                 System.exit(0);
@@ -151,7 +145,7 @@ public final class TabbyXL {
             System.err.println("The knowledge base file does not exist");
             System.exit(0);
         }
-        return file;
+        return null;
     }
 
     private static Path parseCatDirectoryParam(String catDirectoryParam) {
@@ -256,7 +250,7 @@ public final class TabbyXL {
                 sb.append(indent).append("Sheets in processing: ALL\n");
             }
 
-            //sb.append(indent).append(String.format("DRL file: \"%s\"%n", rulesFile.getCanonicalPath()));
+            //sb.append(indent).append(String.format("DRL file: \"%s\"%n", ruleFile.getCanonicalPath()));
             if (null != catDirectory)
                 sb.append(indent).append(String.format("Category directory: \"%s\"%n", catDirectory.toRealPath()));
 
@@ -282,7 +276,7 @@ public final class TabbyXL {
      * Params:
        -input <path>                      specify a path to an input excel workbook (*.xlsx)
        -sheets <sheet indexes>            specify sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
-       -ruleset <path>                    specify a path to a ruleset file (*.dslr (CRL), *.drl (Drools), or *.clp (JESS))
+       -ruleset <path>                    specify a path to a ruleset file (*.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))
        -categorySpec <path>               specify a path to a directory with category specifications in YAML files (*.cat)
        -output <path>                     specify a path to a directory for outputting results
        -ignoreSuperscript <true|false>    specify true to ignore superscript text in cells (false used by default)
@@ -308,10 +302,10 @@ public final class TabbyXL {
                 .withDescription("specify sheet indexes in the input excel workbook (e.g. \"0-2,4,5,7-10\")")
                 .create("sheets");
 
-        Option rulesFileOpt = OptionBuilder
+        Option ruleFileOpt = OptionBuilder
                 .withArgName("path")
                 .hasArg()
-                .withDescription("specify a path to a ruleset file (*.dslr (CRL), *.drl (Drools), or *.clp (JESS))")
+                .withDescription("specify a path to a ruleset file (*.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))")
                 //.isRequired()
                 .create("ruleset");
 
@@ -365,7 +359,7 @@ public final class TabbyXL {
 
         options.addOption(inputExcelFileOpt);
         options.addOption(sheetIndexesOpt);
-        options.addOption(rulesFileOpt);
+        options.addOption(ruleFileOpt);
         options.addOption(catDirectoryOpt);
         options.addOption(ignoreSuperscriptOpt);
         options.addOption(useCellValueOpt);
@@ -391,8 +385,12 @@ public final class TabbyXL {
             String sheetIndexesParam = cmd.getOptionValue(sheetIndexesOpt.getOpt());
             sheetIndexes = parseSheetIndexesParam(sheetIndexesParam);
 
-            String rulesFileParam = cmd.getOptionValue(rulesFileOpt.getOpt());
-            rulesFile = parseRulesFileParam(rulesFileParam);
+            // Note that to need to set <code>useRuleEngine</code> before parsing rule file param
+            String ruleEngineConfigParam = cmd.getOptionValue(ruleEngineConfigOpt.getOpt());
+            useRuleEngine = parseEngineParam(ruleEngineConfigParam);
+
+            String ruleFileParam = cmd.getOptionValue(ruleFileOpt.getOpt());
+            ruleFile = parseRuleFileParam(ruleFileParam);
 
             String catDirectoryParam = cmd.getOptionValue(catDirectoryOpt.getOpt());
             catDirectory = parseCatDirectoryParam(catDirectoryParam);
@@ -411,9 +409,6 @@ public final class TabbyXL {
 
             String debuggingModeParam = cmd.getOptionValue(debuggingModeOpt.getOpt());
             debuggingMode = parseDebuggingModeParam(debuggingModeParam);
-
-            String ruleEngineConfigParam = cmd.getOptionValue(ruleEngineConfigOpt.getOpt());
-            useRuleEngine = parseEngineParam(ruleEngineConfigParam);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -517,7 +512,7 @@ public final class TabbyXL {
 
         LocalRuleExecutionSetProvider ruleExecutionSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
 
-        Reader rulesFileReader = new InputStreamReader(new FileInputStream(rulesFile));
+        Reader rulesFileReader = new InputStreamReader(new FileInputStream(ruleFile));
 
         Map properties = new HashMap();
         properties.put("source", engineConfig.getProperty("source"));
@@ -611,39 +606,33 @@ public final class TabbyXL {
         }
     }
 
-    private static void loadCRL2J() throws Exception {
+    private static void loadCRL2J() throws IOException, RecognitionException {
 
         engineName = "CRL2J";
 
-        String fileExtension = FilenameUtils.getExtension(rulesFile.getName());
-        if(fileExtension.equalsIgnoreCase("CRL")) {
+        ANTLRFileStream fileStream1 = new ANTLRFileStream(ruleFile.getPath());
+        crl_gramLexer lexer = new crl_gramLexer(fileStream1);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        System.out.println("Token stream ok");
+        crl_gramParser pars = new crl_gramParser(tokenStream);
+        System.out.println("parser ok");
+        AstPrinter astPrinter = new AstPrinter();
+        System.out.println("printer ok");
+        CommonTree tree = pars.crl().getTree();
+        System.out.println("tree ok");
+        //astPrinter.PrintAction(tree);
 
-            ANTLRFileStream fileStream1 = new ANTLRFileStream(rulesFile.getPath());
-            crl_gramLexer lexer = new crl_gramLexer(fileStream1);
-            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-            System.out.println("Token stream ok");
-            crl_gramParser pars = new crl_gramParser(tokenStream);
-            System.out.println("parser ok");
-            AstPrinter astPrinter = new AstPrinter();
-            System.out.println("printer ok");
-            CommonTree tree = pars.crl().getTree();
-            System.out.println("tree ok");
-            //astPrinter.PrintAction(tree);
+        RuleModelBuilder ruleModelBuilder = new RuleModelBuilder();
+        ruleModelBuilder.buildModel(tree);
+        Ruleset ruleset = ruleModelBuilder.getRuleset();
+        System.out.println("ruleset ok");
+        //System.out.println(ruleset.toString());
 
-            RuleModelBuilder ruleModelBuilder = new RuleModelBuilder();
-            ruleModelBuilder.buildModel(tree);
-            Ruleset ruleset = ruleModelBuilder.getRuleset();
-            System.out.println("ruleset ok");
-            //System.out.println(ruleset.toString());
-
-            RuleCodeGen.compileAllRules(ruleset);
-            System.out.println("RuleClasses ok");
-        } else {
-            //System.out.println("Error: ruleset file is not CRL");
-            throw new Exception("Ruleset file is not CRL");
-        }
+        RuleCodeGen.compileAllRules(ruleset);
+        System.out.println("RuleClasses ok");
     }
 
+    // TODO: Specify expected exceptions separately
     private static void fireRulesWithCRL2J() throws Exception {
 
         loadWorkbook();
