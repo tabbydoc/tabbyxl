@@ -49,7 +49,7 @@ public final class TabbyXL {
     // Params
     private static File inputExcelFile;
     private static List<Integer> sheetIndexes;
-    private static File ruleFile;
+    private static File rulesetFile;
     private static Path catDirectory;
     private static boolean ignoreSuperscript;
     private static boolean useCellValue;
@@ -57,8 +57,8 @@ public final class TabbyXL {
     private static boolean debuggingMode;
     private static boolean useShortNames;
     private static boolean useRuleEngine;
-    private static File engineConfigFile;
-    private static String engineName;
+    private static File ruleEngineConfigFile;
+    private static String ruleEngineName;
 
     // Statistics
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
@@ -124,19 +124,18 @@ public final class TabbyXL {
         return null;
     }
 
-    private static File parseRuleFileParam(String ruleFileParam) {
-        File file = new File(ruleFileParam);
+    private static File parseRulesetFileParam(String rulesetFileParam) {
+        File file = new File(rulesetFileParam);
         if (file.exists()) {
             if (file.canRead()) {
+                // Note that to need to set <code>useRuleEngine</code> before parsing rule file param
                 if (!useRuleEngine) {
                     String fileExtension = FilenameUtils.getExtension(file.getName());
-                    if (fileExtension.equalsIgnoreCase("CRL")) {
-                        return file;
-                    } else {
-                        System.err.println("The extension of the specified ruleset file should be CRL (*.crl)");
-                        System.exit(0);
+                    if (!fileExtension.equalsIgnoreCase("crl")) {
+                        System.err.println("The extension of the ruleset file is not .crl");
                     }
                 }
+                return file;
             } else {
                 System.err.println("The knowledge base file cannot be read");
                 System.exit(0);
@@ -215,16 +214,26 @@ public final class TabbyXL {
         return false;
     }
 
-    private static boolean parseEngineParam(String engineParam) {
-        if (null != engineParam) {
-            engineConfigFile = new File(engineParam);
-            return true;
-            /*if (engineConfigFile.exists() && engineConfigFile.canRead()) {
-                return true;
+    private static boolean parseRuleEngineConfigFileParam(String ruleEngineConfigFileParam) {
+        if (null != ruleEngineConfigFileParam) {
+            File file = new File(ruleEngineConfigFileParam);
+
+            if (file.exists()) {
+                if (file.canRead()) {
+                    String fileExtension = FilenameUtils.getExtension(file.getName());
+                    if (!fileExtension.equalsIgnoreCase("properties")) {
+                        System.err.println("The extension of the rule engine config file is not .properties");
+                    }
+                    ruleEngineConfigFile = file;
+                    return true;
+                } else {
+                    System.err.println("The rule engine config file cannot be read");
+                    System.exit(0);
+                }
             } else {
-                System.err.println("Rule engine configuration file does not exist or can not be read");
-                return false;
-            }*/
+                System.err.println("The rule engine config file does not exist");
+                System.exit(0);
+            }
         }
         return false;
     }
@@ -250,7 +259,6 @@ public final class TabbyXL {
                 sb.append(indent).append("Sheets in processing: ALL\n");
             }
 
-            //sb.append(indent).append(String.format("DRL file: \"%s\"%n", ruleFile.getCanonicalPath()));
             if (null != catDirectory)
                 sb.append(indent).append(String.format("Category directory: \"%s\"%n", catDirectory.toRealPath()));
 
@@ -276,7 +284,7 @@ public final class TabbyXL {
      * Params:
        -input <path>                      specify a path to an input excel workbook (*.xlsx)
        -sheets <sheet indexes>            specify sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
-       -ruleset <path>                    specify a path to a ruleset file (*.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))
+       -ruleset <path>                    specify a path to a ruleset file (e.g. *.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))
        -categorySpec <path>               specify a path to a directory with category specifications in YAML files (*.cat)
        -output <path>                     specify a path to a directory for outputting results
        -ignoreSuperscript <true|false>    specify true to ignore superscript text in cells (false used by default)
@@ -302,10 +310,10 @@ public final class TabbyXL {
                 .withDescription("specify sheet indexes in the input excel workbook (e.g. \"0-2,4,5,7-10\")")
                 .create("sheets");
 
-        Option ruleFileOpt = OptionBuilder
+        Option rulesetFileOpt = OptionBuilder
                 .withArgName("path")
                 .hasArg()
-                .withDescription("specify a path to a ruleset file (*.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))")
+                .withDescription("specify a path to a ruleset file (e.g. *.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))")
                 //.isRequired()
                 .create("ruleset");
 
@@ -359,7 +367,7 @@ public final class TabbyXL {
 
         options.addOption(inputExcelFileOpt);
         options.addOption(sheetIndexesOpt);
-        options.addOption(ruleFileOpt);
+        options.addOption(rulesetFileOpt);
         options.addOption(catDirectoryOpt);
         options.addOption(ignoreSuperscriptOpt);
         options.addOption(useCellValueOpt);
@@ -386,11 +394,11 @@ public final class TabbyXL {
             sheetIndexes = parseSheetIndexesParam(sheetIndexesParam);
 
             // Note that to need to set <code>useRuleEngine</code> before parsing rule file param
-            String ruleEngineConfigParam = cmd.getOptionValue(ruleEngineConfigOpt.getOpt());
-            useRuleEngine = parseEngineParam(ruleEngineConfigParam);
+            String ruleEngineConfigFileParam = cmd.getOptionValue(ruleEngineConfigOpt.getOpt());
+            useRuleEngine = parseRuleEngineConfigFileParam(ruleEngineConfigFileParam);
 
-            String ruleFileParam = cmd.getOptionValue(ruleFileOpt.getOpt());
-            ruleFile = parseRuleFileParam(ruleFileParam);
+            String rulesetFileParam = cmd.getOptionValue(rulesetFileOpt.getOpt());
+            rulesetFile = parseRulesetFileParam(rulesetFileParam);
 
             String catDirectoryParam = cmd.getOptionValue(catDirectoryOpt.getOpt());
             catDirectory = parseCatDirectoryParam(catDirectoryParam);
@@ -484,7 +492,7 @@ public final class TabbyXL {
         } finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
-            System.out.printf(String.format("Engine: %s%n%n", engineName));
+            System.out.printf(String.format("Engine: %s%n%n", ruleEngineName));
             System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
             System.out.printf("Rule loading time: %s%n%n", time2.getTime() - time1.getTime());
             System.out.printf("Total time: %s%n%n", endTime - beginTime);
@@ -502,35 +510,35 @@ public final class TabbyXL {
 
         time1 = new Date();
 
-        Properties engineConfig = new Properties();
-        engineConfig.load(new FileReader(engineConfigFile));
+        Properties ruleEngineConfig = new Properties();
+        ruleEngineConfig.load(new FileReader(ruleEngineConfigFile));
 
-        Class.forName(engineConfig.getProperty("RULE_SERVICE_PROVIDER_IMPL"));
-        RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(engineConfig.getProperty("RULE_SERVICE_PROVIDER"));
-        engineName = engineConfig.getProperty("RULE_SERVICE_PROVIDER");
+        Class.forName(ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER_IMPL"));
+        RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER"));
+        ruleEngineName = ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER");
         RuleAdministrator ruleAdministrator = ruleServiceProvider.getRuleAdministrator();
 
         LocalRuleExecutionSetProvider ruleExecutionSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
 
-        Reader rulesFileReader = new InputStreamReader(new FileInputStream(ruleFile));
+        Reader rulesetFileReader = new InputStreamReader(new FileInputStream(rulesetFile));
 
         Map properties = new HashMap();
-        properties.put("source", engineConfig.getProperty("source"));
+        properties.put("source", ruleEngineConfig.getProperty("source"));
 
-        if (null != engineConfig.getProperty("DSL")) {
-            properties.put("dsl", new InputStreamReader(new FileInputStream(engineConfig.getProperty("DSL"))));
+        if (null != ruleEngineConfig.getProperty("DSL")) {
+            properties.put("dsl", new InputStreamReader(new FileInputStream(ruleEngineConfig.getProperty("DSL"))));
         }
 
-        RuleExecutionSet ruleExecutionSet = ruleExecutionSetProvider.createRuleExecutionSet(rulesFileReader, properties);
+        RuleExecutionSet ruleExecutionSet = ruleExecutionSetProvider.createRuleExecutionSet(rulesetFileReader, properties);
 
         RuleRuntime ruleRuntime = ruleServiceProvider.getRuleRuntime();
 
         ruleAdministrator.registerRuleExecutionSet(ruleExecutionSet.getName(), ruleExecutionSet, null);
         StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(ruleExecutionSet.getName(), null, RuleRuntime.STATEFUL_SESSION_TYPE);
 
-        rulesFileReader.close();
+        rulesetFileReader.close();
 
-        System.out.println("Rule engine is ready");
+        System.out.println("The rule engine is ready");
         //dslReader.close();
 
         time2 = new Date();
@@ -559,8 +567,6 @@ public final class TabbyXL {
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
                 Date startDate = new Date();
-
-                //StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(executionSetName, null, RuleRuntime.STATEFUL_SESSION_TYPE);
 
                 session.addObjects(table.getCellsList());
                 session.addObjects(table.getLocalCategoryBox().getCategoriesList());
@@ -608,9 +614,9 @@ public final class TabbyXL {
 
     private static void loadCRL2J() throws IOException, RecognitionException {
 
-        engineName = "CRL2J";
+        ruleEngineName = "CRL2J";
 
-        ANTLRFileStream fileStream1 = new ANTLRFileStream(ruleFile.getPath());
+        ANTLRFileStream fileStream1 = new ANTLRFileStream(rulesetFile.getPath());
         crl_gramLexer lexer = new crl_gramLexer(fileStream1);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         System.out.println("Token stream ok");
@@ -647,13 +653,7 @@ public final class TabbyXL {
 
         int count = 0;
 
-        // for testing
-            /*List<Integer> sheetIndexes2 = new ArrayList<>();
-            sheetIndexes2.add(119);*/
-
-
         for (int sheetNo : sheetIndexes) {
-            //for(int sheetNo : new int[]{0}) {
             DATA_LOADER.goToSheet(sheetNo);
             String sheetName = DATA_LOADER.getCurrentSheetName();
 

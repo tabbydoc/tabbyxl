@@ -52,7 +52,7 @@ java -jar target/TabbyXL2-1.0.1-jar-with-dependencies.jar <params>
 Params:
 -input <path>                      specify a path to an input excel workbook (*.xlsx)
 -sheets <sheet indexes>            specify sheet indexes in the input excel workbook (e.g. "0-2,4,5,7-10")
--ruleset <path>                    specify a path to a ruleset file (*.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))
+-ruleset <path>                    specify a path to a ruleset file (e.g. *.crl (CRL), *.drl or *.dslr (Drools), or *.clp (JESS))
 -categorySpec <path>               specify a path to a directory with category specifications in YAML files (*.cat)
 -output <path>                     specify a path to a directory for outputting results
 -ignoreSuperscript <true|false>    specify true to ignore superscript text in cells (false used by default)
