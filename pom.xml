@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.icc.cells.ssdc.TabbyXL</mainClass>
+                            <mainClass>ru.icc.td.tabbyxl2.TabbyXL</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>

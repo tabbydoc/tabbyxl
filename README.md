@@ -5,7 +5,7 @@ A system for rule-based transformation spreadsheet data from arbitrary to relati
 
 First, you need to clone the project into your directory
 ```bash
-git clone https://github.com/cellsrg/tabbyxl2.git
+git clone https://github.com/tabbydoc/tabbyxl2.git
 ```
 
 In order to build the executable JAR with dependencies, change to the project directory, where is pom.xml, and run the following command

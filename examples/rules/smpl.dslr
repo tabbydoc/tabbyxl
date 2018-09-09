@@ -1,5 +1,5 @@
-import ru.icc.cells.ssdc.model.*
-import ru.icc.cells.ssdc.model.style.*
+import ru.icc.td.tabbyxl2.model.*
+import ru.icc.td.tabbyxl2.model.style.*
 
 rule #1
     when

@@ -52,7 +52,7 @@ tokens
 
 /*@headers
 {	
-	package ru.icc.cells.ssdc.crl2j.parsing;
+	package ru.icc.td.tabbyxl2.crl2j.parsing;
 }*/
 
 
