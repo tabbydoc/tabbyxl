@@ -122,7 +122,7 @@ public class RuleCodeGen {
                 .append("package ").append(PACK).append(";").append(lineSep)
                 .append("import java.util.*;").append(lineSep)
                 .append("import java.lang.*;").append(lineSep)
-                .append("import RuleProgramPrototype;").append(lineSep);
+                .append("import ru.icc.td.tabbyxl2.crl2j.synthesis.RuleProgramPrototype;").append(lineSep);
         for(String item:imports)
         {
             code.append(item).append(lineSep);
