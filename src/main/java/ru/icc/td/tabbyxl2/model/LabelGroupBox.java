@@ -33,13 +33,13 @@ public final class LabelGroupBox extends COwned
 
     private CCategory category;
 
-    void update() throws Exception
+    void update()
     {
         initLabelGroups();
         updateCategory();
     }
 
-    private void updateCategory() throws Exception
+    private void updateCategory() throws CategoryGroupException
     {
         int id = 0;
         for ( LabelGroup group : labelGroups )
@@ -55,9 +55,7 @@ public final class LabelGroupBox extends COwned
                 if ( null != groupCategory && ! labelCategory.equals( groupCategory ) )
                 {
                     // TODO generating an exception or warning
-                    throw new Exception( String.format(
-                            "Labels in the same group are belong more than one categories: \"%s\" and \"%s\"",
-                            groupCategory.getName(), labelCategory.getName() )
+                    throw new CategoryGroupException( groupCategory.getName(), labelCategory.getName()
                     );
                 }
             }

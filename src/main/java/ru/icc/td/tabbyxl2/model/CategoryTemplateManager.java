@@ -40,7 +40,7 @@ public final class CategoryTemplateManager
 
     private final List<CategoryTemplate> templates = new ArrayList<CategoryTemplate>();
 
-    public void load( File categoryDescFile ) throws FileNotFoundException, IOException
+    public void load( File categoryDescFile ) throws IOException
     {
         Reader reader = new FileReader( categoryDescFile );
 
@@ -51,7 +51,7 @@ public final class CategoryTemplateManager
         reader.close();
     }
 
-    public void createCategories( CTable table ) throws Exception
+    public void createCategories( CTable table )
     {
         final LocalCategoryBox localCategoryBox = table.getLocalCategoryBox();
         for ( CategoryTemplate desc : templates)

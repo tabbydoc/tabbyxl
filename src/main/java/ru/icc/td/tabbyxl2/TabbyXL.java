@@ -463,7 +463,7 @@ public final class TabbyXL {
                         }
                     }
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -487,7 +487,7 @@ public final class TabbyXL {
             else
                 fireRulesWithCRL2J();
 
-        } catch (Exception e) {
+        } catch (IOException|ReflectiveOperationException|RecognitionException|RuleException e) {
             e.printStackTrace();
         } finally {
             endTime = new Date().getTime();
@@ -504,7 +504,7 @@ public final class TabbyXL {
     private static Date time1;
     private static Date time2;
 
-    private static void fireRulesWithRuleEngine() throws Exception {
+    private static void fireRulesWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
 
         loadWorkbook();
 
@@ -639,7 +639,7 @@ public final class TabbyXL {
     }
 
     // TODO: Specify expected exceptions separately
-    private static void fireRulesWithCRL2J() throws Exception {
+    private static void fireRulesWithCRL2J() throws IOException, RecognitionException, ReflectiveOperationException{
 
         loadWorkbook();
         loadCatFiles();

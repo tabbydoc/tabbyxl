@@ -24,6 +24,7 @@ import ru.icc.td.tabbyxl2.model.CTable;
 import ru.icc.td.tabbyxl2.crl2j.rulemodel.*;
 import ru.icc.td.tabbyxl2.crl2j.rulemodel.actions.Action;
 
+import javax.management.ReflectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
@@ -45,7 +46,7 @@ public class RuleCodeGen {
         }
     }
 
-    public static void fireAllRules(CTable table) throws Exception, CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public static void fireAllRules(CTable table) throws ReflectiveOperationException {
 
         for(Class<? extends RuleProgramPrototype> ruleClass:classes) {
             RuleProgramPrototype ruleObject = ruleClass.getConstructor(new Class[] { CTable.class }).newInstance(new Object[] { table });
@@ -54,7 +55,7 @@ public class RuleCodeGen {
 
     }
 
-    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException, Exception {
+    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException{
         List<Class<? extends RuleProgramPrototype>> ruleClasses = new ArrayList<>();
 
         for(Rule rule: ruleset.getRules())
@@ -75,7 +76,7 @@ public class RuleCodeGen {
 
     }
 
-    private static List<? extends RuleProgramPrototype> getRuleObjects(List<Class<? extends RuleProgramPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+   /* private static List<? extends RuleProgramPrototype> getRuleObjects(List<Class<? extends RuleProgramPrototype>> ruleClasses, CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<RuleProgramPrototype> ruleObjects = new ArrayList<>();
         for(Class<? extends RuleProgramPrototype> c:ruleClasses)
         {
@@ -83,9 +84,9 @@ public class RuleCodeGen {
             ruleObjects.add(obj);
         }
         return ruleObjects;
-    }
+    }*/
 
-    private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports) throws Exception
+    private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
@@ -130,7 +131,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateVars(List<Variable> vars) throws Exception
+    private static String generateVars(List<Variable> vars)
     {
         StringBuilder code = new StringBuilder();
 
@@ -374,7 +375,7 @@ public class RuleCodeGen {
 
     }
 
-    private static String generateActionsExecute(List<Action> actions) {
+    /*private static String generateActionsExecute(List<Action> actions) {
 
         StringBuilder code = new StringBuilder();
 
@@ -384,6 +385,6 @@ public class RuleCodeGen {
         }
 
         return code.toString();
-    }
+    }*/
 
 }

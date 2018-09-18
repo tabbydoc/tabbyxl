@@ -370,14 +370,14 @@ public final class CTable
     }
 
     // TODO changing exception is needed
-    public void update() throws Exception
+    public void update()
     {
         labelGroupBox.update();
         setDefaultCategory();
     }
 
     // TODO changing exception is needed
-    private void setDefaultCategory() throws Exception
+    private void setDefaultCategory()
     {
         final List<CLabel> uncategorizedLabels = new ArrayList<CLabel>();
 
