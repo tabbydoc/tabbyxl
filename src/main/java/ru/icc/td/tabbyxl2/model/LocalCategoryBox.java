@@ -26,7 +26,7 @@ public final class LocalCategoryBox extends COwned
     {
         return categories.iterator();
     }
-    public List<CCategory> getCategoriesList() {
+    public List<CCategory> getCategoryList() {
         List<CCategory> res = new ArrayList();
         Iterator iterator = categories.iterator();
         while (iterator.hasNext())

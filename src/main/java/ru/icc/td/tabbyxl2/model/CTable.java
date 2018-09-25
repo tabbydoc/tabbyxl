@@ -54,7 +54,7 @@ public final class CTable
     {
         return this.cells.iterator();
     }
-    public List<CCell> getCellsList() { return this.cells; }
+    public List<CCell> getCellList() { return this.cells; }
 
     public void removeCell( CCell cell )
     {
@@ -369,14 +369,12 @@ public final class CTable
         return count;
     }
 
-    // TODO changing exception is needed
     public void update()
     {
         labelGroupBox.update();
         setDefaultCategory();
     }
 
-    // TODO changing exception is needed
     private void setDefaultCategory()
     {
         final List<CLabel> uncategorizedLabels = new ArrayList<CLabel>();

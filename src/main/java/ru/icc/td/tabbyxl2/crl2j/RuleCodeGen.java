@@ -55,12 +55,11 @@ public class RuleCodeGen {
 
     }
 
-    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException{
+    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException {
         List<Class<? extends RuleProgramPrototype>> ruleClasses = new ArrayList<>();
 
         for(Rule rule: ruleset.getRules())
         {
-            //System.out.println(fetchCodeFromRule(rule, ruleset.getImports()));
             CharSequence code = fetchCodeFromRule(rule, ruleset.getImports());
             System.out.println(code);
             Class<? extends RuleProgramPrototype> ruleClass = compiler.compile(getRuleClassName(rule), code, null, new Class<?>[]{ RuleProgramPrototype.class });

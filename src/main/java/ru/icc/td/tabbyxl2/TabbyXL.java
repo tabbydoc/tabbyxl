@@ -450,7 +450,7 @@ public final class TabbyXL {
                     if (file.isFile()) {
                         if (file.exists()) {
                             if (file.canRead()) {
-                                // TODO checking file extension: it must be *.cat
+                                // TODO: Add checking file extension: it must be *.cat
                                 System.out.println(file.getName());
                                 CATEGORY_TEMPLATE_MANAGER.load(file);
                             } else {
@@ -469,7 +469,6 @@ public final class TabbyXL {
         }
     }
 
-    // TODO implement it
     public static void start(String[] args) {
         main(args);
     }
@@ -492,10 +491,11 @@ public final class TabbyXL {
         } finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
-            System.out.printf(String.format("Engine: %s%n%n", ruleEngineName));
-            System.out.printf("Total rule firing time: %s%n%n", totalRuleFiringTime);
-            System.out.printf("Rule loading time: %s%n%n", time2.getTime() - time1.getTime());
-            System.out.printf("Total time: %s%n%n", endTime - beginTime);
+            System.out.printf(String.format("Used option: %s%n", ruleEngineName));
+            System.out.printf("Total running time of the ruleset execution: %s%n", totalRuleFiringTime);
+            System.out.printf("Running time of the ruleset translation: %s%n", time2.getTime() - time1.getTime());
+            System.out.printf("Total time: %s%n", endTime - beginTime);
+            System.out.println();
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
         }
@@ -536,12 +536,11 @@ public final class TabbyXL {
         ruleAdministrator.registerRuleExecutionSet(ruleExecutionSet.getName(), ruleExecutionSet, null);
         StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(ruleExecutionSet.getName(), null, RuleRuntime.STATEFUL_SESSION_TYPE);
 
+        time2 = new Date();
+
         rulesetFileReader.close();
 
         System.out.println("The rule engine is ready");
-        //dslReader.close();
-
-        time2 = new Date();
 
         loadCatFiles();
         DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
@@ -568,18 +567,18 @@ public final class TabbyXL {
 
                 Date startDate = new Date();
 
-                session.addObjects(table.getCellsList());
-                session.addObjects(table.getLocalCategoryBox().getCategoriesList());
+                session.addObjects(table.getCellList());
+                session.addObjects(table.getLocalCategoryBox().getCategoryList());
 
                 session.executeRules();
                 session.reset();
-
-                table.update();
 
                 Date endDate = new Date();
 
                 currentRuleFiringTime = endDate.getTime() - startDate.getTime();
                 totalRuleFiringTime += currentRuleFiringTime;
+
+                table.update();
 
                 System.out.println(table.trace());
                 System.out.println();
@@ -638,8 +637,7 @@ public final class TabbyXL {
         System.out.println("RuleClasses ok");
     }
 
-    // TODO: Specify expected exceptions separately
-    private static void fireRulesWithCRL2J() throws IOException, RecognitionException, ReflectiveOperationException{
+    private static void fireRulesWithCRL2J() throws IOException, RecognitionException, ReflectiveOperationException {
 
         loadWorkbook();
         loadCatFiles();
@@ -671,9 +669,7 @@ public final class TabbyXL {
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
                 Date startDate = new Date();
-
                 RuleCodeGen.fireAllRules(table);
-
                 Date endDate = new Date();
 
                 currentRuleFiringTime = endDate.getTime() - startDate.getTime();
