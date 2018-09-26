@@ -119,12 +119,12 @@ public final class DataLoader {
         for (int i = refRowAdr; i <= endRowAdr; i++) {
             row = sheet.getRow(i);
 
-            // TODO надо внимательнее разобраться со случаем, когда r == null
+            // TODO: Check the case when <code> row == null </code>
             if (null == row)
                 continue;
 
             for (int j = refColAdr; j <= endColAdr; j++) {
-                // TODO надо внимательнее разобраться со случаем, когда excelCell == null
+                // TODO: Check the case when <code> excelCell == null </code>
                 excelCell = row.getCell(j, Row.CREATE_NULL_AS_BLANK);
 
                 int colAdr = excelCell.getColumnIndex() - refColAdr + 1;
@@ -284,7 +284,7 @@ public final class DataLoader {
         switch (excelCell.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
                 if (DateUtil.isCellDateFormatted(excelCell))
-                    value = "DATE"; // TODO Какое-то странное значение
+                    value = "DATE"; // TODO: Check this magic value
                 else
                     value = Double.toString(excelCell.getNumericCellValue());
                 break;
@@ -426,7 +426,6 @@ public final class DataLoader {
         switch (excelCell.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
                 if (DateUtil.isCellDateFormatted(excelCell)) {
-                    //rawTextualContent = "DATE"; // TODO Какое-то странное значение
                     cellType = CellType.DATE;
                 } else {
                     cellType = CellType.NUMERIC;
@@ -477,7 +476,7 @@ public final class DataLoader {
 
     private void fillCellStyle(CStyle cellStyle, CellStyle excelCellStyle) {
         Font excelFont = workbook.getFontAt(excelCellStyle.getFontIndex());
-        // TODO надо переделать на CFont newFont(excelFont)
+        // TODO: Change this to <code> CFont newFont(excelFont) </code>
         //CFont font = new CFont();
         //cellStyle.setFont( font );
         CFont font = cellStyle.getFont();
@@ -536,15 +535,14 @@ public final class DataLoader {
             }
         }
 
-        // TODO Заполнить цвета границ
+        // TODO: Set border colors
     }
 
     private CColor convertBorderColor(short originalExcelBorderColor) {
-        // TODO получить цвет границы
+        // TODO: Find a border color
         return new CColor("#000000");
     }
 
-    // TODO конвертирует тип границы из CellStyle в CCellStyle
     private BorderType convertBorderType(short originalExcelBorderType) {
         if (originalExcelBorderType < 0 || originalExcelBorderType > 13)
             return null;
@@ -628,13 +626,12 @@ public final class DataLoader {
     private void fillFont(CFont font, Font excelFont) {
         font.setName(excelFont.getFontName());
 
-        // TODO Задать цвет шрифта CFont font
+        // TODO: Set a font color <code> CFont font </code>
         //font.setColor( excelFont.getColor() );
 
         font.setHeight(excelFont.getFontHeight());
         font.setHeightInPoints(excelFont.getFontHeightInPoints());
 
-        // TODO Надо проверить значения Boldweight, сейчас все сделано наугад
         short boldWeight = excelFont.getBoldweight();
         if (boldWeight >= 700)
             font.setBold(true);

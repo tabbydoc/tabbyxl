@@ -62,10 +62,10 @@ public final class TabbyXL {
 
     // Statistics
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
-    private static long totalRuleFiringTime;
+    private static long totalRulesetExecutionTime;
     private static long currentRuleFiringTime;
 
-    private static long beginTime;
+    private static long startTime;
     private static long endTime;
 
     private static final DataLoader DATA_LOADER = DataLoader.getInstance();
@@ -474,7 +474,7 @@ public final class TabbyXL {
     }
 
     public static void main(String[] args) {
-        beginTime = new Date().getTime();
+        startTime = new Date().getTime();
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
 
         try {
@@ -491,10 +491,12 @@ public final class TabbyXL {
         } finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
-            System.out.printf(String.format("Used option: %s%n", ruleEngineName));
-            System.out.printf("Total running time of the ruleset execution: %s%n", totalRuleFiringTime);
-            System.out.printf("Running time of the ruleset translation: %s%n", time2.getTime() - time1.getTime());
-            System.out.printf("Total time: %s%n", endTime - beginTime);
+            System.out.println("Statistics on the running time:");
+
+            System.out.printf(String.format("\tUsed option: %s%n", ruleEngineName));
+            System.out.printf("\tRuleset translation time: %s%n", time2.getTime() - time1.getTime());
+            System.out.printf("\tRuleset execution time (total for all tables): %s%n", totalRulesetExecutionTime);
+            System.out.printf("\tTotal time: %s%n", endTime - startTime);
             System.out.println();
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
@@ -576,7 +578,7 @@ public final class TabbyXL {
                 Date endDate = new Date();
 
                 currentRuleFiringTime = endDate.getTime() - startDate.getTime();
-                totalRuleFiringTime += currentRuleFiringTime;
+                totalRulesetExecutionTime += currentRuleFiringTime;
 
                 table.update();
 
@@ -673,7 +675,7 @@ public final class TabbyXL {
                 Date endDate = new Date();
 
                 currentRuleFiringTime = endDate.getTime() - startDate.getTime();
-                totalRuleFiringTime += currentRuleFiringTime;
+                totalRulesetExecutionTime += currentRuleFiringTime;
 
                 table.update();
 
