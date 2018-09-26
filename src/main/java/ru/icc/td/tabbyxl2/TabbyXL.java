@@ -58,12 +58,12 @@ public final class TabbyXL {
     private static boolean useShortNames;
     private static boolean useRuleEngine;
     private static File ruleEngineConfigFile;
-    private static String ruleEngineName;
+    private static String executingOptionName;
 
     // Statistics
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
     private static long totalRulesetExecutionTime;
-    private static long currentRuleFiringTime;
+    private static long currentRulesetExecutionTime;
 
     private static long startTime;
     private static long endTime;
@@ -482,9 +482,9 @@ public final class TabbyXL {
             System.out.printf("%s%n%n", traceParsedParams());
 
             if (useRuleEngine)
-                fireRulesWithRuleEngine();
+                runRulesetWithRuleEngine();
             else
-                fireRulesWithCRL2J();
+                runRulesetWithCRL2J();
 
         } catch (IOException|ReflectiveOperationException|RecognitionException|RuleException e) {
             e.printStackTrace();
@@ -493,31 +493,30 @@ public final class TabbyXL {
             System.out.println(statisticsManager.trace());
             System.out.println("Statistics on the running time:");
 
-            System.out.printf(String.format("\tUsed option: %s%n", ruleEngineName));
-            System.out.printf("\tRuleset translation time: %s%n", time2.getTime() - time1.getTime());
-            System.out.printf("\tRuleset execution time (total for all tables): %s%n", totalRulesetExecutionTime);
-            System.out.printf("\tTotal time: %s%n", endTime - startTime);
+            System.out.printf(String.format("\tUsed option: %s%n", executingOptionName));
+            System.out.printf("\tRuleset translation time: %s ms%n", rulesetTranslationTime);
+            System.out.printf("\tRuleset execution time (total for all tables): %s ms%n", totalRulesetExecutionTime);
+            System.out.printf("\tTotal time: %s ms%n", endTime - startTime);
             System.out.println();
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
             CATEGORY_TEMPLATE_MANAGER.release();
         }
     }
 
-    private static Date time1;
-    private static Date time2;
+    private static long rulesetTranslationTime;
 
-    private static void fireRulesWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
+    private static void runRulesetWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
 
         loadWorkbook();
 
-        time1 = new Date();
+        final Date startTime = new Date();
 
         Properties ruleEngineConfig = new Properties();
         ruleEngineConfig.load(new FileReader(ruleEngineConfigFile));
 
         Class.forName(ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER_IMPL"));
         RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER"));
-        ruleEngineName = ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER");
+        executingOptionName = ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER");
         RuleAdministrator ruleAdministrator = ruleServiceProvider.getRuleAdministrator();
 
         LocalRuleExecutionSetProvider ruleExecutionSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
@@ -538,7 +537,8 @@ public final class TabbyXL {
         ruleAdministrator.registerRuleExecutionSet(ruleExecutionSet.getName(), ruleExecutionSet, null);
         StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(ruleExecutionSet.getName(), null, RuleRuntime.STATEFUL_SESSION_TYPE);
 
-        time2 = new Date();
+        final Date endTime = new Date();
+        rulesetTranslationTime = endTime.getTime() - startTime.getTime();
 
         rulesetFileReader.close();
 
@@ -577,8 +577,8 @@ public final class TabbyXL {
 
                 Date endDate = new Date();
 
-                currentRuleFiringTime = endDate.getTime() - startDate.getTime();
-                totalRulesetExecutionTime += currentRuleFiringTime;
+                currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();
+                totalRulesetExecutionTime += currentRulesetExecutionTime;
 
                 table.update();
 
@@ -593,7 +593,7 @@ public final class TabbyXL {
 
                 StatisticsManager.Statistics statistics = statisticsManager.collect(table);
                 System.out.println(statistics.trace());
-                System.out.printf("Current rule firing time: %s%n%n", currentRuleFiringTime);
+                System.out.printf("Current rule firing time: %s%n%n", currentRulesetExecutionTime);
 
                 String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
 
@@ -615,7 +615,7 @@ public final class TabbyXL {
 
     private static void loadCRL2J() throws IOException, RecognitionException {
 
-        ruleEngineName = "CRL2J";
+        executingOptionName = "CRL2J";
 
         ANTLRFileStream fileStream1 = new ANTLRFileStream(rulesetFile.getPath());
         crl_gramLexer lexer = new crl_gramLexer(fileStream1);
@@ -639,14 +639,15 @@ public final class TabbyXL {
         System.out.println("RuleClasses ok");
     }
 
-    private static void fireRulesWithCRL2J() throws IOException, RecognitionException, ReflectiveOperationException {
+    private static void runRulesetWithCRL2J() throws IOException, RecognitionException, ReflectiveOperationException {
 
         loadWorkbook();
         loadCatFiles();
 
-        time1 = new Date();
+        final Date startTime = new Date();
         loadCRL2J();
-        time2 = new Date();
+        final Date endTime = new Date();
+        rulesetTranslationTime = endTime.getTime() - startTime.getTime();
 
         DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
         DATA_LOADER.setUseCellValue(useCellValue);
@@ -674,8 +675,8 @@ public final class TabbyXL {
                 RuleCodeGen.fireAllRules(table);
                 Date endDate = new Date();
 
-                currentRuleFiringTime = endDate.getTime() - startDate.getTime();
-                totalRulesetExecutionTime += currentRuleFiringTime;
+                currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();
+                totalRulesetExecutionTime += currentRulesetExecutionTime;
 
                 table.update();
 
@@ -689,7 +690,7 @@ public final class TabbyXL {
 
                 StatisticsManager.Statistics statistics = statisticsManager.collect(table);
                 System.out.println(statistics.trace());
-                System.out.printf("Current rule firing time: %s%n%n", currentRuleFiringTime);
+                System.out.printf("Current rule firing time: %s%n%n", currentRulesetExecutionTime);
 
                 String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
 
