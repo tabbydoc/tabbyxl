@@ -1,4 +1,4 @@
-# TabbyXL2
+# TabbyXL<sup>2</sup>
 A system for rule-based transformation spreadsheet data from arbitrary to relational tables.
 
 ## Building with Apache Maven
