@@ -1,5 +1,5 @@
-import ru.icc.td.tabbyxl2.model.*
-import ru.icc.td.tabbyxl2.model.style.*
+import ru.icc.td.tabbyxl.model.*
+import ru.icc.td.tabbyxl.model.style.*
 
 rule #1
     when

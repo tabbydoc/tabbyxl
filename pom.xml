@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.icc.cells</groupId>
-    <artifactId>TabbyXL2</artifactId>
+    <groupId>ru.icc.td.tabbyxl</groupId>
+    <artifactId>TabbyXL</artifactId>
     <version>1.0.1</version>
 
     <build>
@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.icc.td.tabbyxl2.TabbyXL</mainClass>
+                            <mainClass>ru.icc.td.tabbyxl.TabbyXL</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
