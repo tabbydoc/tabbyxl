@@ -44,7 +44,7 @@ public class RuleCodeGen {
         }
     }
 
-    public static void fireAllRules(CTable table) throws Exception, CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public static void fireAllRules(CTable table) throws CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         for(Class<? extends RuleProgramPrototype> ruleClass:classes) {
             RuleProgramPrototype ruleObject = ruleClass.getConstructor(new Class[] { CTable.class }).newInstance(new Object[] { table });
@@ -66,6 +66,10 @@ public class RuleCodeGen {
         }
 
         return ruleClasses;
+    }
+
+    public static String generateRuleCode(Rule rule, List<String> imports) {
+        return fetchCodeFromRule(rule, imports).toString();
     }
 
     private static String getRuleClassName(Rule rule) {
