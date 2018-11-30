@@ -68,10 +68,6 @@ public class RuleCodeGen {
         return ruleClasses;
     }
 
-    public static String generateRuleCode(Rule rule, List<String> imports) {
-        return fetchCodeFromRule(rule, imports).toString();
-    }
-
     private static String getRuleClassName(Rule rule) {
 
         return String.format("%s.Rule%d", PACK, rule.getNum());
