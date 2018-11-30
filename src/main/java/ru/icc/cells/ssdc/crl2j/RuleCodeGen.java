@@ -44,7 +44,7 @@ public class RuleCodeGen {
         }
     }
 
-    public static void fireAllRules(CTable table) throws CharSequenceCompilerException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public static void fireAllRules(CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         for(Class<? extends RuleProgramPrototype> ruleClass:classes) {
             RuleProgramPrototype ruleObject = ruleClass.getConstructor(new Class[] { CTable.class }).newInstance(new Object[] { table });
@@ -53,7 +53,7 @@ public class RuleCodeGen {
 
     }
 
-    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException, Exception {
+    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException {
         List<Class<? extends RuleProgramPrototype>> ruleClasses = new ArrayList<>();
 
         for(Rule rule: ruleset.getRules())
@@ -84,7 +84,7 @@ public class RuleCodeGen {
         return ruleObjects;
     }
 
-    private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports) throws Exception
+    private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
@@ -129,7 +129,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateVars(List<Variable> vars) throws Exception
+    private static String generateVars(List<Variable> vars)
     {
         StringBuilder code = new StringBuilder();
 
