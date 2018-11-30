@@ -1,11 +1,11 @@
-# TabbyXL2
+# TabbyXL
 A system for rule-based transformation spreadsheet data from arbitrary to relational tables.
 
 ## Building with Apache Maven
 
 First, you need to clone the project into your directory
 ```bash
-git clone https://github.com/cellsrg/tabbyxl2.git
+git clone https://github.com/tabbydoc/tabbyxl.git
 ```
 
 In order to build the executable JAR with dependencies, change to the project directory, where is pom.xml, and run the following command
@@ -16,7 +16,7 @@ mvn clean install
 
 You may test the newly compiled and packaged JAR file with the following command:
 ```bash
-java -jar target/TabbyXL2-1.0.1-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.dslr -output examples/results
+java -jar target/TabbyXL-1.0.2-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.dslr -output examples/results
 ```
 or run the testing script
 ```bash
@@ -47,7 +47,7 @@ then it works.
 ## Usage
 In order to run the executable JAR, you may use the following command with parameters  
 ```
-java -jar target/TabbyXL2-1.0.1-jar-with-dependencies.jar <params>
+java -jar target/TabbyXL-1.0.1-jar-with-dependencies.jar <params>
 
 Params:
 -input <path>                      specify a path to an input excel workbook (*.xlsx)
@@ -74,6 +74,7 @@ Only two parameters are mandatory
 
 * Alexey O. Shigarov
 * Vasiliy V. Khristyuk
+* Andrey A. Mikhailov
 
 ## License
 Apache License, Version 2.0
