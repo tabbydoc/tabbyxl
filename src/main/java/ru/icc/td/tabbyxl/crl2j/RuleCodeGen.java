@@ -84,7 +84,7 @@ public class RuleCodeGen {
         return ruleObjects;
     }*/
 
-    private static CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
+    public static CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
@@ -119,6 +119,7 @@ public class RuleCodeGen {
         String lineSep = System.lineSeparator();
         code
                 .append("package ").append(PACK).append(";").append(lineSep)
+                .append(lineSep)
                 .append("import java.util.*;").append(lineSep)
                 .append("import java.lang.*;").append(lineSep)
                 .append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(lineSep);

@@ -1,4 +1,4 @@
-package ru.icc.cells.ssdc.crl2j;
+package ru.icc.td.tabbyxl.crl2j;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -6,16 +6,18 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import ru.icc.cells.ssdc.crl2j.parsing.crl_gramLexer;
-import ru.icc.cells.ssdc.crl2j.parsing.crl_gramParser;
-import ru.icc.cells.ssdc.crl2j.rulemodel.Ruleset;
+import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramLexer;
+import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramParser;
+import ru.icc.td.tabbyxl.crl2j.rulemodel.Rule;
+import ru.icc.td.tabbyxl.crl2j.rulemodel.Ruleset;
+import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class MavenGenerator {
+public class MvnProjectGenerator {
 
     private final String pomSample = "src\\main\\resources\\pom_sample.xml";
 
@@ -26,7 +28,7 @@ public class MavenGenerator {
     private Path pomFile;
     private Path tabbyxlPath = Paths.get("d:/Work/TabbyDOC/tabbyxl2-1/target/TabbyXL2-1.0.1-jar-with-dependencies.jar");
 
-    public MavenGenerator(Path root) {
+    public MvnProjectGenerator(Path root) {
         this.root = root;
         //this.pomFile = root.resolve("pom.xml");
     }
@@ -83,7 +85,7 @@ public class MavenGenerator {
         stringBuilder
                 .append("package ").append(groupID).append(";").append(lineSep)
                 .append(lineSep)
-                .append("import ru.icc.cells.ssdc.model.*;").append(lineSep)
+                .append("import ru.icc.td.tabbyxl.model.*;").append(lineSep)
                 .append(lineSep)
                 .append("public class Program {").append(lineSep)
                 .append(indent).append("public static void main(String[] args) {").append(lineSep)
@@ -108,6 +110,29 @@ public class MavenGenerator {
         RuleModelBuilder modelBuilder = new RuleModelBuilder();
         modelBuilder.buildModel(tree);
         Ruleset ruleset = modelBuilder.getRuleset();
+
+        Path rulesPath = root.resolve("src").resolve("main").resolve("java");
+        for (String path:groupID.split("\\.")) {
+            rulesPath = rulesPath.resolve(path);
+        }
+        rulesPath = rulesPath.resolve("rules");
+
+        Files.createDirectory(rulesPath);
+
+        for (Rule rule:ruleset.getRules()) {
+
+            Path rulePath = rulesPath.resolve(String.format("Rule%d.java", rule.getNum()));
+
+            Files.createFile(rulePath);
+
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(rulePath.toFile()));
+
+            String code = RuleCodeGen.fetchCodeFromRule(rule, ruleset.getImports()).toString();
+            writer.write(code);
+
+            writer.flush();
+            writer.close();
+        }
     }
 
     public String getGroupID() {
@@ -124,5 +149,9 @@ public class MavenGenerator {
 
     public void setArtifactID(String artifactID) {
         this.artifactID = artifactID;
+    }
+
+    public void setRuleSetFile(File ruleSetFile) {
+        this.ruleSetFile = ruleSetFile;
     }
 }

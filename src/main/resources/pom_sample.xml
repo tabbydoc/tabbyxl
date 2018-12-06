@@ -11,8 +11,8 @@
         <mainClass>%s</mainClass>
     </properties>
 
-    <groupId>${grId}}</groupId>
-    <artifactId>${artId}}</artifactId>
+    <groupId>${grId}</groupId>
+    <artifactId>${artId}</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <build>
@@ -32,7 +32,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>${mainClass}}</mainClass>
+                            <mainClass>${mainClass}</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
@@ -62,9 +62,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>ru.icc.cells.ssdc</groupId>
-            <artifactId>TabbyXL2</artifactId>
-            <version>1.0.1</version>
+            <groupId>ru.icc.td.tabbyxl</groupId>
+            <artifactId>TabbyXL</artifactId>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 

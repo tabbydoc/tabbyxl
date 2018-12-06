@@ -1,8 +1,9 @@
-package ru.icc.cells.ssdc;
+package ru.icc.td.tabbyxl;
 
 import org.antlr.runtime.RecognitionException;
-import ru.icc.cells.ssdc.crl2j.MavenGenerator;
+import ru.icc.td.tabbyxl.crl2j.MvnProjectGenerator;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,13 +15,15 @@ public class MvnGenTest {
         Path projectRoot = Paths.get("d:\\Work\\TestMvnGenerator");
         String groupId = "ru.zkln";
         String artifactId = "TestMvnGen";
+        File rulesetFile = Paths.get("D:\\Work\\TabbyDOC\\Tango2018b\\results\\crl2j\\rules.crl").toFile();
 
-        MavenGenerator mavenGenerator = new MavenGenerator(projectRoot);
-        mavenGenerator.setGroupID(groupId);
-        mavenGenerator.setArtifactID(artifactId);
+        MvnProjectGenerator mvnProjectGenerator = new MvnProjectGenerator(projectRoot);
+        mvnProjectGenerator.setGroupID(groupId);
+        mvnProjectGenerator.setArtifactID(artifactId);
+        mvnProjectGenerator.setRuleSetFile(rulesetFile);
 
         try {
-            mavenGenerator.generate();
+            mvnProjectGenerator.generate();
         } catch (IOException|RecognitionException e) {
             e.printStackTrace();
         }
