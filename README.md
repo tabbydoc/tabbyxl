@@ -41,7 +41,7 @@ test.bat
 
 *Note that, with this option, you should run `java` included in JDK, not JRE. Otherwise, you get the following message:*
 
-```java
+```
 Exception in thread "main" java.lang.IllegalStateException
         at ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler.<init>(CharSequenceCompiler.java:44)
         at ru.icc.td.tabbyxl.crl2j.RuleCodeGen.compileAllRules(RuleCodeGen.java:38)
