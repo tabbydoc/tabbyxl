@@ -56,6 +56,7 @@ public class FieldAliases {
         aliases.put("label", "getLabel");
         aliases.put("entry", "getEntry");
         aliases.put("text", "getText");
+        aliases.put("cell", "getCell");
 
         aliases.put("category", "getCategory");
         aliases.put("parent", "getParent");
