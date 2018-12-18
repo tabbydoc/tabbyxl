@@ -1,35 +1,63 @@
 # TabbyXL
+
 A software platform for rule-based transformation spreadsheet data from arbitrary to relational tables.
 
 ## Version
-1.0.3
+1.0.4
 
 ## Building with Apache Maven
 
 First, you need to clone the project into your directory
+
 ```bash
 git clone https://github.com/tabbydoc/tabbyxl.git
 ```
 
 In order to build the executable JAR with dependencies, change to the project directory, where is pom.xml, and run the following command
+
 ```bash
 mvn clean install
 ```
+
 *We recommend you to use Apache Maven 3.0.5 or more and JDK 8 or more*
 
 You may test the newly compiled and packaged JAR file with the following command:
+
 ```bash
-java -jar target/TabbyXL-1.0.3-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.dslr -output examples/results
+java -jar target/TabbyXL-1.0.4-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.crl -output examples/results
 ```
+
 or run the testing script
+
 ```bash
 ./test.sh
 ```
+
 On Windows use the batch file
+
 ```bash
 test.bat
 ```
+
+*Note that, with this option, you should run `java` included in JDK, not JRE. Otherwise, you get the following message:*
+
+```
+Exception in thread "main" java.lang.IllegalStateException
+        at ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler.<init>(CharSequenceCompiler.java:44)
+        at ru.icc.td.tabbyxl.crl2j.RuleCodeGen.compileAllRules(RuleCodeGen.java:38)
+        at ru.icc.td.tabbyxl.TabbyXL.loadCRL2J(TabbyXL.java:638)
+        at ru.icc.td.tabbyxl.TabbyXL.runRulesetWithCRL2J(TabbyXL.java:648)
+        at ru.icc.td.tabbyxl.TabbyXL.main(TabbyXL.java:487)
+```
+
+*If you see this message, then, please, check that you run `java` included in JDK. You also can try to use `"%JAVA_HOME%/bin/java"` instead of `java` as follows.*
+
+```bash
+"%JAVA_HOME%/bin/java" -jar target/TabbyXL-1.0.4-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.crl -output examples/results
+```
+
 If the program prints at the end something like this
+
 ```
 Total number of
 	tables: 4
@@ -42,15 +70,16 @@ Total number of
 	category-label pairs: 50
 	categories: 17
 	label groups: 17
-
-Total rule firing time: 91
 ```
+
 then it works.
 
 ## Usage
+
 In order to run the executable JAR, you may use the following command with parameters  
+
 ```
-java -jar target/TabbyXL-1.0.3-jar-with-dependencies.jar <params>
+java -jar target/TabbyXL-1.0.4-jar-with-dependencies.jar <params>
 
 Params:
 -input <path>                      specify a path to an input excel workbook (*.xlsx)
