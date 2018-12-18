@@ -42,7 +42,7 @@ public final class CTable
     private List<CRow> rows = new ArrayList<CRow>();
     private List<CCol> cols = new ArrayList<CCol>();
 
-    // TODO М.б. переделать на Set<CCell>
+    // TODO maybe to change on Set<CCell>?
     private List<CCell> cells = new ArrayList<CCell>();
 
     public CCell getCell( int index )

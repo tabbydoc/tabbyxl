@@ -75,7 +75,6 @@ public final class CEntry extends CValue
         }
     }
 
-    // TODO testing is needed
     public void addLabel(String labelValue, CCategory category )
     {
         CLabel label  = category.findLabel( labelValue );
@@ -87,7 +86,6 @@ public final class CEntry extends CValue
         addLabel(label);
     }
 
-    // TODO testing is needed
     public void addLabel( String labelValue, String categoryName )
     {
         LocalCategoryBox localCategoryBox = getOwner().getLocalCategoryBox();

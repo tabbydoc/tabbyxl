@@ -169,13 +169,7 @@ public final class CCell extends COwned implements Cloneable
 	//  an amount of spaces in the beginning of the excel cell's text
     private int spaceIndent;
 
-	/*
-	 * Возвращает количество пробелов в начале строки.
-	 * Предназначена для случаев, когда иерархия заголовков
-	 * выстраивается с помощью отступов в виде наборов пробелов.
-	 * Возвращаемый тип данных должен быть int,
-	 * если использовать short, то при исполнении правил возникает исключительная ситуация "Exception jitting"
-	 */
+	// This return type should be int, short type leads to the exception "Exception jitting".
     public int getSpaceIndent()
     {
         return spaceIndent;
@@ -402,7 +396,6 @@ public final class CCell extends COwned implements Cloneable
 
     private boolean canMerge( CCell cell )
     {
-        // TODO testing is needed
         if ( ( rt == cell.rt && rb == cell.rb ) && ( cl == cell.cr + 1 || cr == cell.cl - 1 ) ) return true;
 
         if ( ( cl == cell.cl && cr == cell.cr ) && ( rt == cell.rb + 1 || rb == cell.rt - 1 ) ) return true;
@@ -488,15 +481,6 @@ public final class CCell extends COwned implements Cloneable
         else return hexRGB.equalsIgnoreCase( style.getFgColor() );
     }
 
-    /*
-    public boolean isVertNextTo( CCell cell )
-    {
-        if ( this.rt == cell.rb + 1 )
-            return true;
-        else
-            return false;
-    }
-    */
     public String trace()
     {
         return String.format( "%s%n%s%n", text, style.trace() );
@@ -519,29 +503,18 @@ public final class CCell extends COwned implements Cloneable
         return String.format("L%dT%dR%dB%d", getCl(), getRt(), getCr(), getRb());
     }
 
-    // methods for JassRules
+    private int charAt0;
 
-    private int charAt0; // = null == text ? -1 : (int) text.charAt(0);
     public int getCharAt0()
     {
         return StringUtils.isEmpty(text) ? -1 : (int) text.charAt(0);
     }
 
     private boolean boldFlag = style.getFont().isBold();
+
     public boolean getBoldFlag()
     {
         return boldFlag;
     }
 
-    /*private boolean labelIsTerminalFlag = label.isTerminal();
-    public void setLabelIsTerminalFlag(boolean value)
-    {
-        labelIsTerminalFlag = value;
-    }
-    public boolean getLabelIsTerminalFlag() {
-        return  labelIsTerminalFlag;
-    }*/
-
-
-    // *******************
 }

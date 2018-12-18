@@ -24,7 +24,6 @@ public final class CLabel extends CValue
     // TODO reading SEPARATOR value from settings is needed
     private final static String SEPARATOR = "|";
 
-    // TODO testing for this method is needed
     public String getCompoundValue()
     {
         if ( null == parent )
@@ -74,7 +73,6 @@ public final class CLabel extends CValue
         }
     }
 
-    // TODO testing is needed
     public void setCategory( String categoryName )
     {
         if ( null == categoryName )
@@ -134,7 +132,6 @@ public final class CLabel extends CValue
         return children.size() == 0;
     }
 
-    // TODO testing for this method is needed
     private boolean isDescendant( CLabel label )
     {
         for ( CLabel child : children )
