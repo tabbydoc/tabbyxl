@@ -19,7 +19,7 @@ In order to build the executable JAR with dependencies, change to the project di
 mvn clean install
 ```
 
-*We recommend you to use Apache Maven 3.0.5 or more and JDK 8 or more*
+*We recommend you to use Apache Maven 3.6.0 or more and JDK 8 or more*
 
 You may test the newly compiled and packaged JAR file with the following command:
 
