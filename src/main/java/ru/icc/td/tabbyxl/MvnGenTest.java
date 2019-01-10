@@ -12,17 +12,17 @@ public class MvnGenTest {
 
     public static void main(String[] args) {
 
-        Path projectRoot = Paths.get("d:\\Work\\TestMvnGenerator");
-        String groupId = "ru.zkln";
-        String artifactId = "TestMvnGen";
-        File rulesetFile = Paths.get("D:\\Work\\TabbyDOC\\Tango2018b\\results\\crl2j\\rules.crl").toFile();
-
-        MvnProjectGenerator mvnProjectGenerator = new MvnProjectGenerator(projectRoot);
-        mvnProjectGenerator.setGroupID(groupId);
-        mvnProjectGenerator.setArtifactID(artifactId);
-        mvnProjectGenerator.setRuleSetFile(rulesetFile);
-
         try {
+            Path resultDirectory = Paths.get(args[0]);
+            File rulesetFile = new File(args[1]);
+            String groupId = args[2];
+            String artifactId = args[3];
+
+            MvnProjectGenerator mvnProjectGenerator = new MvnProjectGenerator(resultDirectory);
+            mvnProjectGenerator.setGroupID(groupId);
+            mvnProjectGenerator.setArtifactID(artifactId);
+            mvnProjectGenerator.setRuleSetFile(rulesetFile);
+
             mvnProjectGenerator.generate();
         } catch (IOException|RecognitionException e) {
             e.printStackTrace();

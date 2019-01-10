@@ -30,11 +30,11 @@ import java.util.List;
 
 public class RuleCodeGen {
 
-    private static final String PACK = "ru.icc.td.tabbyxl.crl2j.synthesis";
+    private String packageForRulesFiles;
 
-    private static List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
+    private List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
-    public static void compileAllRules(Ruleset ruleset) {
+    public void compileAllRules(Ruleset ruleset) {
 
         CharSequenceCompiler compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
         try {
@@ -45,7 +45,7 @@ public class RuleCodeGen {
         }
     }
 
-    public static void fireAllRules(CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public void fireAllRules(CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         for(Class<? extends RuleProgramPrototype> ruleClass:classes) {
             RuleProgramPrototype ruleObject = ruleClass.getConstructor(new Class[] { CTable.class }).newInstance(new Object[] { table });
@@ -54,7 +54,7 @@ public class RuleCodeGen {
 
     }
 
-    private static List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException {
+    private List<Class<? extends RuleProgramPrototype>> compileClasses(Ruleset ruleset, CharSequenceCompiler compiler) throws CharSequenceCompilerException {
         List<Class<? extends RuleProgramPrototype>> ruleClasses = new ArrayList<>();
 
         for(Rule rule: ruleset.getRules())
@@ -68,9 +68,9 @@ public class RuleCodeGen {
         return ruleClasses;
     }
 
-    private static String getRuleClassName(Rule rule) {
+    private String getRuleClassName(Rule rule) {
 
-        return String.format("%s.Rule%d", PACK, rule.getNum());
+        return String.format("%s.Rule%d", packageForRulesFiles, rule.getNum());
 
     }
 
@@ -84,7 +84,7 @@ public class RuleCodeGen {
         return ruleObjects;
     }*/
 
-    public static CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
+    public CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
@@ -113,12 +113,12 @@ public class RuleCodeGen {
         return code;
     }
 
-    private static String generateImports(List<String> imports)
+    private String generateImports(List<String> imports)
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
         code
-                .append("package ").append(PACK).append(";").append(lineSep)
+                .append("package ").append(packageForRulesFiles).append(";").append(lineSep)
                 .append(lineSep)
                 .append("import java.util.*;").append(lineSep)
                 .append("import java.lang.*;").append(lineSep)
@@ -130,7 +130,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateVars(List<Variable> vars)
+    private String generateVars(List<Variable> vars)
     {
         StringBuilder code = new StringBuilder();
 
@@ -146,7 +146,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateConstructor(Rule rule)
+    private String generateConstructor(Rule rule)
     {
         StringBuilder code = new StringBuilder();
         code.append("public Rule").append(rule.getNum()).append(" (CTable table) {").append(System.lineSeparator());
@@ -158,7 +158,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String addActionsObjectsToConstructor(List<Action> actions) {
+    private String addActionsObjectsToConstructor(List<Action> actions) {
 
         StringBuilder code = new StringBuilder();
 
@@ -170,7 +170,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateEval(Rule rule)
+    private String generateEval(Rule rule)
     {
         StringBuilder code = new StringBuilder();
 
@@ -187,7 +187,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateCondition(Iterator<Condition> conditions, Iterator<Action> actions, String indent)
+    private String generateCondition(Iterator<Condition> conditions, Iterator<Action> actions, String indent)
     {
         StringBuilder code = new StringBuilder();
 
@@ -283,7 +283,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateAssignment(Assignment assignment, String conditionVarName) {
+    private String generateAssignment(Assignment assignment, String conditionVarName) {
 
         StringBuilder code = new StringBuilder();
 
@@ -333,7 +333,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateConstraints(List<Constraint> constraints, String conditionVarName) {
+    private String generateConstraints(List<Constraint> constraints, String conditionVarName) {
 
         StringBuilder code = new StringBuilder();
 
@@ -346,7 +346,7 @@ public class RuleCodeGen {
 
     }
 
-    private static String generateActionsObjects(List<Action> actions) {
+    private String generateActionsObjects(List<Action> actions) {
 
         StringBuilder code = new StringBuilder();
 
@@ -358,7 +358,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateActionsAddSet(Iterator<Action> actions, String indent) {
+    private String generateActionsAddSet(Iterator<Action> actions, String indent) {
 
         StringBuilder code = new StringBuilder();
         Action currentAction;
@@ -373,6 +373,11 @@ public class RuleCodeGen {
         return code.toString();
 
     }
+
+    public String getPackageForRulesFiles() { return packageForRulesFiles; }
+    public void setPackageForRulesFiles(String value) { packageForRulesFiles = value; }
+
+
 
     /*private static String generateActionsExecute(List<Action> actions) {
 

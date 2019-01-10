@@ -613,6 +613,8 @@ public final class TabbyXL {
         }
     }
 
+    private static RuleCodeGen ruleCodeGenerator;
+
     private static void loadCRL2J() throws IOException, RecognitionException {
 
         executingOptionName = "CRL2J";
@@ -635,7 +637,9 @@ public final class TabbyXL {
         System.out.println("ruleset ok");
         //System.out.println(ruleset.toString());
 
-        RuleCodeGen.compileAllRules(ruleset);
+        ruleCodeGenerator = new RuleCodeGen();
+        ruleCodeGenerator.setPackageForRulesFiles("ru.icc.td.tabbyxl.crl2j.synthesis");
+        ruleCodeGenerator.compileAllRules(ruleset);
         System.out.println("RuleClasses ok");
     }
 
@@ -672,7 +676,7 @@ public final class TabbyXL {
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
                 Date startDate = new Date();
-                RuleCodeGen.fireAllRules(table);
+                ruleCodeGenerator.fireAllRules(table);
                 Date endDate = new Date();
 
                 currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();

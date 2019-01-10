@@ -16,6 +16,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MvnProjectGenerator {
 
@@ -26,11 +28,15 @@ public class MvnProjectGenerator {
     private String groupID;
     private String artifactID;
     private Path pomFile;
-    private Path tabbyxlPath = Paths.get("d:/Work/TabbyDOC/tabbyxl2-1/target/TabbyXL2-1.0.1-jar-with-dependencies.jar");
+    private Path tabbyxlPath;
+
+    private RuleCodeGen ruleCodeGenerator = new RuleCodeGen();
+    private Ruleset ruleset;
 
     public MvnProjectGenerator(Path root) {
         this.root = root;
-        //this.pomFile = root.resolve("pom.xml");
+        String jarPath = ClassLoader.getSystemClassLoader().getResource(".").getPath().replaceFirst("/","").replace("/classes", "");
+        tabbyxlPath = Paths.get(jarPath).resolve("TabbyXL-1.0.2-jar-with-dependencies.jar");
     }
 
     public void generate() throws IOException, RecognitionException {
@@ -43,22 +49,20 @@ public class MvnProjectGenerator {
         }
 
         writePomFile();
-        writeProgramFile();
         writeRuleClasses();
+        writeProgramFile();
 
     }
 
     private void writePomFile () throws IOException {
 
-        pomFile = root.resolve("pomx.xml");
-        //tabbyxlPath = Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-        tabbyxlPath = Paths.get("D:\\Work\\TabbyDOC\\tabbyxl2-1\\target\\TabbyXL2-1.0.1-jar-with-dependencies.jar");
+        pomFile = root.resolve("pom.xml");
 
         FileInputStream inputStream = new FileInputStream(pomSample);
         String pomContent = IOUtils.toString(inputStream);
         inputStream.close();
 
-        pomContent = String.format(pomContent, tabbyxlPath.toAbsolutePath(), groupID, artifactID, String.format("%s.Program", groupID));
+        pomContent = String.format(pomContent, tabbyxlPath.toAbsolutePath(), groupID, artifactID, String.format("%s.%s", groupID, artifactID));
 
         OutputStreamWriter streamWriter = new OutputStreamWriter(new FileOutputStream(pomFile.toFile()));
         streamWriter.write(pomContent);
@@ -76,7 +80,7 @@ public class MvnProjectGenerator {
         }
         Files.createDirectories(packagePath);
 
-        Path filePath = packagePath.resolve("Program.java");
+        Path filePath = packagePath.resolve(String.format("%s.java", artifactID));
         Files.createFile(filePath);
 
         String lineSep = System.lineSeparator();
@@ -85,11 +89,57 @@ public class MvnProjectGenerator {
         stringBuilder
                 .append("package ").append(groupID).append(";").append(lineSep)
                 .append(lineSep)
+                .append("import ru.icc.td.tabbyxl.DataLoader;").append(lineSep)
                 .append("import ru.icc.td.tabbyxl.model.*;").append(lineSep)
+                .append("import ").append(groupID).append(".rules.*;").append(lineSep)
                 .append(lineSep)
-                .append("public class Program {").append(lineSep)
+                .append("import java.io.File;").append(lineSep)
+                .append("import java.io.IOException;").append(lineSep)
+                .append(lineSep)
+                .append("public class ") .append(artifactID).append(" {").append(lineSep)
                 .append(indent).append("public static void main(String[] args) {").append(lineSep)
                 .append(lineSep)
+                .append(indent).append(indent).append("try {").append(lineSep)
+                .append(indent).append(indent).append(indent).append("String inputExcelFilePath = args[0];").append(lineSep)
+                .append(indent).append(indent).append(indent).append("File inputExcelFile = new File(inputExcelFilePath);").append(lineSep)
+                .append(lineSep)
+                .append(indent).append(indent).append(indent).append("DataLoader dataLoader = DataLoader.getInstance();").append(lineSep)
+                .append(indent).append(indent).append(indent).append("dataLoader.loadWorkbook(inputExcelFile);").append(lineSep)
+                .append(lineSep)
+                .append(indent).append(indent).append(indent).append("for (int i = 0; i < dataLoader.numOfSheets(); i++) {").append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append("dataLoader.goToSheet(i);").append(lineSep)
+                .append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append("while (true) {").append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append(indent).append("CTable table = dataLoader.nextTable();").append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append(indent).append("if (null == table) break;").append(lineSep)
+                .append(lineSep);
+
+        for (Rule rule:ruleset.getRules()) {
+            int ruleNum = rule.getNum();
+            stringBuilder
+                    .append(indent).append(indent).append(indent).append(indent).append(indent)
+                    .append("Rule").append(ruleNum).append(" rule").append(ruleNum).append(" = new Rule").append(ruleNum).append("(table);").append(lineSep)
+                    .append(indent).append(indent).append(indent).append(indent).append(indent)
+                    .append("rule").append(ruleNum).append(".eval();").append(lineSep)
+                    .append(lineSep);
+        }
+
+        stringBuilder
+                .append(indent).append(indent).append(indent).append(indent).append(indent)
+                .append("Tables.recoverCellBorders(table);").append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append(indent)
+                .append("table.update();").append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append(indent)
+                .append("System.out.println(table.trace());").append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append(indent)
+                .append("table.toCanonicalForm().print();").append(lineSep)
+                .append(indent).append(indent).append(indent).append(indent).append("}").append(lineSep)
+                .append(indent).append(indent).append(indent).append("}").append(lineSep)
+                .append(indent).append(indent).append("} catch (IOException e) {").append(lineSep)
+                .append(indent).append(indent).append(indent).append("e.printStackTrace();").append(lineSep)
+                .append(indent).append(indent).append("}").append(lineSep);
+
+        stringBuilder
                 .append(indent).append("}").append(lineSep)
                 .append("}");
 
@@ -109,7 +159,9 @@ public class MvnProjectGenerator {
 
         RuleModelBuilder modelBuilder = new RuleModelBuilder();
         modelBuilder.buildModel(tree);
-        Ruleset ruleset = modelBuilder.getRuleset();
+        ruleset = modelBuilder.getRuleset();
+
+        ruleCodeGenerator.setPackageForRulesFiles(groupID + ".rules");
 
         Path rulesPath = root.resolve("src").resolve("main").resolve("java");
         for (String path:groupID.split("\\.")) {
@@ -117,17 +169,16 @@ public class MvnProjectGenerator {
         }
         rulesPath = rulesPath.resolve("rules");
 
-        Files.createDirectory(rulesPath);
+        Files.createDirectories(rulesPath);
 
         for (Rule rule:ruleset.getRules()) {
 
             Path rulePath = rulesPath.resolve(String.format("Rule%d.java", rule.getNum()));
-
             Files.createFile(rulePath);
-
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(rulePath.toFile()));
 
-            String code = RuleCodeGen.fetchCodeFromRule(rule, ruleset.getImports()).toString();
+            String code = ruleCodeGenerator.fetchCodeFromRule(rule, ruleset.getImports()).toString();
+            //ruleClasses.add(code);
             writer.write(code);
 
             writer.flush();
