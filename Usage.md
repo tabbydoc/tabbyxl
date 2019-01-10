@@ -1,8 +1,4 @@
-# TabbyXL
-
-A system for rule-based transformation spreadsheet data from arbitrary to relational tables (https://github.com/cellsrg/tabbyxl)
-
-## Usage
+# Usage
 
 In order to run the executable JAR, you may use the following command with parameters  
 ```

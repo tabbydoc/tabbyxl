@@ -1,5 +1,4 @@
 import ru.icc.td.tabbyxl.model.*
-import ru.icc.td.tabbyxl.model.style.*
 
 rule #1
     when
@@ -8,7 +7,6 @@ rule #1
     then
         set mark "@ColLabel" to $c
         new label $c
-        update $c
 end
 
 rule #2
@@ -18,7 +16,6 @@ rule #2
     then
         set mark "@RowLabel" to $c
         new label $c
-        update $c
 end
 
 rule #3
@@ -28,7 +25,6 @@ rule #3
     then
         set mark "@Entry" to $c
         new entry $c
-        update $c
 end
 
 rule #4

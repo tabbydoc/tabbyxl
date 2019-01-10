@@ -16,6 +16,7 @@
 
 package ru.icc.td.tabbyxl.model;
 
+import java.net.URI;
 import java.util.*;
 
 public final class CCategory extends COwned implements Cloneable
@@ -38,6 +39,17 @@ public final class CCategory extends COwned implements Cloneable
             throw new IllegalArgumentException( "The category name cannot be empty" );
 
         this.name = name; //this.name = name.toUpperCase();
+    }
+
+    private URI reference;
+
+    public URI getReference()
+    {
+        return reference;
+    }
+
+    public void setReference( URI reference ) {
+        this.reference = reference;
     }
 
     private Set<CLabel> labels = new LinkedHashSet<CLabel>();

@@ -37,14 +37,14 @@ public class SetMarkAction extends Action {
         return identifier;
     }
 
-    private List<String> stringExoression = new ArrayList<>();
+    private List<String> stringExpression = new ArrayList<>();
 
-    public void addStringToExpression(String stringExoression) {
-        this.stringExoression.add(stringExoression);
+    public void addStringToExpression(String stringExpression) {
+        this.stringExpression.add(stringExpression);
     }
 
     public List<String> getStringExpression() {
-        return stringExoression;
+        return stringExpression;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SetMarkAction extends Action {
 
         StringBuilder exprBuilder = new StringBuilder();
 
-        for(String part:stringExoression) {
+        for(String part: stringExpression) {
             exprBuilder.append(part);
         }
 
@@ -64,7 +64,7 @@ public class SetMarkAction extends Action {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".add( ").append(identifier).append(", ").append(RuleCodeGen.buildExpression(stringExoression, "")).append(" )");
+        code.append(getName()).append(getId()).append(".add( ").append(identifier).append(", ").append(RuleCodeGen.buildExpression(stringExpression, "")).append(" )");
 
         return code.toString();
     }
@@ -75,7 +75,7 @@ public class SetMarkAction extends Action {
         StringBuilder code = new StringBuilder();
 
         code.append("for ( CCell cell:").append(identifier.toString()).append(" ) {").append(System.lineSeparator());
-        code.append("cell.setMark( ").append(stringExoression).append(" );").append(System.lineSeparator());
+        code.append("cell.setMark( ").append(stringExpression).append(" );").append(System.lineSeparator());
         code.append("}").append(System.lineSeparator());
 
         return code.toString();

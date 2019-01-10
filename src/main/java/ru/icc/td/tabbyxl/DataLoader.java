@@ -39,8 +39,6 @@ public final class DataLoader {
 
     private static final String REF_POINT_VAL = "$START";
     private static final String END_POINT_VAL = "$END";
-    //private static final String TBL_NAME      = "$NAME";
-    //private static final String TBL_MEASURE   = "$MEASURE";
 
     private boolean withoutSuperscript;
 
@@ -167,29 +165,6 @@ public final class DataLoader {
         }
 
         this.rowIndex = endPnt.r + 1;
-
-        // Обработка контекста таблицы
-        /*
-        CPoint namePnt = this.findPreviousPoint( this.sheet, TBL_NAME, refPnt.r - 1 );
-        if ( null != namePnt )
-        {
-            row = sheet.getRow( namePnt.r);
-            //excelCell = r.getCell( namePnt.c + 1 );
-            excelCell = row.getCell( namePnt.c + 1, Row.CREATE_NULL_AS_BLANK );
-            String name = extractCellValue( excelCell );
-            //table.getContext().setName( name );
-        }
-
-        CPoint measurePnt = this.findPreviousPoint( this.sheet, TBL_MEASURE, refPnt.r - 1 );
-        if ( null != measurePnt )
-        {
-            row = sheet.getRow( measurePnt.r);
-            //excelCell = r.getCell( measurePnt.c + 1 );
-            excelCell = row.getCell( measurePnt.c + 1, Row.CREATE_NULL_AS_BLANK );
-            String measure = extractCellValue( excelCell );
-            //table.getContext().setMeasure( measure );
-        }
-        */
 
         table.setSrcWorkbookFile(sourceWorkbookFile);
         table.setSrcSheetName(sheet.getSheetName());
@@ -508,13 +483,11 @@ public final class DataLoader {
         topBorder.setType(tbType);
         bottomBorder.setType(bbType);
 
-        // Этот цвет "Fill Background Color" используется, только в тех случаях,
-        // когда в ячейки используется узор. Тогда это цвет фона.
-        // Без узора цвет фона задает "Fill Foreground Color"
+        // This color "Fill Background Color" is used when the cell has a background pattern.
+        // Otherwise "Fill Foreground Color" is used when the cell does not have a background pattern.
         XSSFColor bgColor = (XSSFColor) excelCellStyle.getFillBackgroundColorColor();
 
-        // Если Index цвета равен 64, то это значит, что ничего хорошего потом из такого цвета не получить,
-        // это по сути тот же null для цвета
+        // When the index of a color is 64, then it means that this color is null
         if (null != bgColor && 64 != bgColor.getIndexed()) {
             String color = bgColor.getARGBHex();
             if (null != color) {
@@ -523,8 +496,7 @@ public final class DataLoader {
             }
         }
 
-        // Этот цвет "Fill Background Color" задает цвет узора в тех случаях,
-        // когда в ячейки используется узор. Без узора он задает цвет фона
+        // This color "Fill Background Color" is either the color of the cell pattern, or the cell background
         XSSFColor fgColor = (XSSFColor) excelCellStyle.getFillForegroundColorColor();
 
         if (null != fgColor && 64 != fgColor.getIndexed()) {
