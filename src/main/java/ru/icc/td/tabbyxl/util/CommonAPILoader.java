@@ -19,16 +19,17 @@ public class CommonAPILoader {
 
     private static void stanfordCore(String[] data) throws IOException, ClassNotFoundException {
         LitTypeDetect ltd = new LitTypeDetect(data);
-        /*
+
         for (String s : data){
 
-            ltd.addData(s);
+            System.out.print(s + "; ");
         }
-        */
+        System.out.println("");
+
 
         List<String> tags = ltd.getNerTags();
         for(String tag : tags){
-            System.out.print(tag + " ");
+            System.out.print(tag + "; ");
         }
 
 
