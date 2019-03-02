@@ -18,10 +18,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class MvnProjectGenerator {
 
-    private final String pomSample = "src\\main\\resources\\pom_sample.xml";
+    private final String pomSample = "pom_sample.xml";
 
     private File ruleSetFile;
     private Path root;
@@ -35,8 +36,7 @@ public class MvnProjectGenerator {
 
     public MvnProjectGenerator(Path root) {
         this.root = root;
-        String jarPath = ClassLoader.getSystemClassLoader().getResource(".").getPath().replaceFirst("/","").replace("/classes", "");
-        tabbyxlPath = Paths.get(jarPath).resolve("TabbyXL-1.0.2-jar-with-dependencies.jar");
+        tabbyxlPath = Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replaceFirst("/", ""));
     }
 
     public void generate() throws IOException, RecognitionException {
@@ -58,11 +58,18 @@ public class MvnProjectGenerator {
 
         pomFile = root.resolve("pom.xml");
 
-        FileInputStream inputStream = new FileInputStream(pomSample);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(pomSample);
         String pomContent = IOUtils.toString(inputStream);
         inputStream.close();
 
-        pomContent = String.format(pomContent, tabbyxlPath.toAbsolutePath(), groupID, artifactID, String.format("%s.%s", groupID, artifactID));
+        Properties tabbyProperties = new Properties();
+        tabbyProperties.load(this.getClass().getClassLoader().getResourceAsStream("tabby.properties"));
+
+        String tabbyGroupId = tabbyProperties.getProperty("groupId");
+        String tabbyArtifactId = tabbyProperties.getProperty("artifactId");
+        String tabbyVersion = tabbyProperties.getProperty("version");
+
+        pomContent = String.format(pomContent, tabbyxlPath.toAbsolutePath(), groupID, artifactID, String.format("%s.%s", groupID, artifactID), tabbyGroupId, tabbyArtifactId, tabbyVersion);
 
         OutputStreamWriter streamWriter = new OutputStreamWriter(new FileOutputStream(pomFile.toFile()));
         streamWriter.write(pomContent);

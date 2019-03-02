@@ -62,9 +62,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>ru.icc.td.tabbyxl</groupId>
-            <artifactId>TabbyXL</artifactId>
-            <version>1.0.2</version>
+            <groupId>%s</groupId>
+            <artifactId>%s</artifactId>
+            <version>%s</version>
         </dependency>
     </dependencies>
 
