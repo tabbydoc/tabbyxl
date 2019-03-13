@@ -10,14 +10,11 @@ import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramParser;
 import ru.icc.td.tabbyxl.crl2j.rulemodel.Rule;
 import ru.icc.td.tabbyxl.crl2j.rulemodel.Ruleset;
-import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 public class MvnProjectGenerator {
@@ -50,7 +47,7 @@ public class MvnProjectGenerator {
 
         writePomFile();
         writeRuleClasses();
-        writeProgramFile();
+        writeMainClassFile();
 
     }
 
@@ -78,7 +75,7 @@ public class MvnProjectGenerator {
 
     }
 
-    private void writeProgramFile() throws IOException {
+    private void writeMainClassFile() throws IOException {
 
         Path packagePath = root.resolve("src").resolve("main").resolve("java");
 
