@@ -57,4 +57,9 @@ public abstract class Action implements ActionInterface {
 
     @Override
     public String generateExecute() { return String.format("%s%d.execute()", name, id); }
+
+    @Override
+    public String getVarName() {
+        return "";
+    }
 }

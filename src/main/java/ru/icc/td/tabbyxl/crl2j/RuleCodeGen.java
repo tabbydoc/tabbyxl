@@ -191,6 +191,8 @@ public class RuleCodeGen {
 
         Condition currentCondition = conditions.next();
 
+        HashMap<String, Integer> iteratorsMap = new HashMap<>();
+
         if(currentCondition.getVariable() != null) {
 
             code.append(indent).append("Iterator<").append(currentCondition.getVariable().getType()).append("> $iterator").append(currentCondition.getId()).append(" = ");
@@ -220,6 +222,9 @@ public class RuleCodeGen {
             code.append(indent).append("while ( $iterator").append(currentCondition.getId()).append(".hasNext() ) {").append(System.lineSeparator());
 
             code.append(indent + "    ").append(currentCondition.getVariable().getIdentifier()).append(" = $iterator").append(currentCondition.getId()).append(".next();").append(System.lineSeparator());
+
+            iteratorsMap.put(currentCondition.getVariable().getIdentifier(), currentCondition.getId());
+
             code.append(indent + "    ").append("if ( ");
 
             if(currentCondition.getConstraints().size()!=0) {
@@ -237,7 +242,7 @@ public class RuleCodeGen {
             if (conditions.hasNext()) {
                 code.append(generateCondition(conditions, actions, indent + "        "));
             } else {
-                code.append(generateActionsAddSet(actions, indent + "       "));
+                code.append(generateActionsAddSet(actions, indent + "       ", iteratorsMap));
             }
 
             code.append(indent + "    ").append("}").append(System.lineSeparator());
@@ -272,7 +277,7 @@ public class RuleCodeGen {
             if(conditions.hasNext()) {
                 code.append(generateCondition(conditions, actions, indent + "        "));
             } else {
-                code.append(generateActionsAddSet(actions, indent + "       "));
+                code.append(generateActionsAddSet(actions, indent + "       ", iteratorsMap));
             }
 
             code.append(indent).append("}").append(System.lineSeparator());
@@ -356,7 +361,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private static String generateActionsAddSet(Iterator<Action> actions, String indent) {
+    private static String generateActionsAddSet(Iterator<Action> actions, String indent, HashMap<String, Integer> iteratorsMap) {
 
         StringBuilder code = new StringBuilder();
         Action currentAction;
@@ -365,6 +370,11 @@ public class RuleCodeGen {
             currentAction = actions.next();
             if(currentAction != null) {
                 code.append(indent).append(currentAction.generateAddSet()).append(";").append(System.lineSeparator());
+
+                // если действие Split, то необходимо обновить итератор
+                if (currentAction.getName().contains("Split")) {
+                    code.append(indent).append("$iterator").append(iteratorsMap.get(currentAction.getVarName())).append(" = getTable().getCells();").append(System.lineSeparator());
+                }
             }
         }
 
