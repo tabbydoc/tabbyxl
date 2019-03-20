@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TagsVerification {
     public static enum EntTags implements Collection<String> {PERCENT, CAUSE_OF_DEATH, CITY, COUNTRY, CRIMINAL_CHARGE, DATE, IDEOLOGY, LOCATION, MISC, MODIFIER,
-        NATIONALITY, NUMBER, ORGANIZATION, PERSON, RELIGION, STATE_OR_PROVINCE, TITLE, URL, DURATION, GPE, N_A;
+        NATIONALITY, NUMBER, ORGANIZATION, PERSON, RELIGION, STATE_OR_PROVINCE, TITLE, URL, DURATION, GPE, UNDEFINED;
 
         @Override
         public int size() {
@@ -79,16 +79,16 @@ public class TagsVerification {
             return EntTags.valueOf(s);
         }
         catch (IllegalArgumentException e){
-            return EntTags.N_A;
+            return EntTags.UNDEFINED;
         }
     }
 
     public static EntTags getTypeForList(List<String> list){
-        EntTags result = EntTags.N_A;
+        EntTags result = EntTags.UNDEFINED;
         if (list.isEmpty() == false){
             result = getTagByStr(list.get(0));
             for(int i=1; i< list.size(); i++){
-                if (getTagByStr(list.get(i)) != result) return EntTags.N_A;
+                if (getTagByStr(list.get(i)) != result) return EntTags.UNDEFINED;
             }
         }
         return result;
