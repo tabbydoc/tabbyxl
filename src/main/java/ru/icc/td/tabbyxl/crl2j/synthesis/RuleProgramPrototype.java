@@ -44,11 +44,13 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
     protected class SetTextAction {
 
         private CCell previousCell;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public SetTextAction() {
             previousCell = null;
-            }
+        }
+
 
         public void add(CCell cell, String string) {
             if(previousCell != cell) {
@@ -58,13 +60,15 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
+        /*
         public void execute() {
             for(Set set:setList) {
                 //if(set.cell != null)
                 set.cell.setText(set.string);
             }
         }
-
+        */
+        /*
         private class Set {
             private CCell cell;
             private String string;
@@ -74,32 +78,37 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.string = string;
             }
         }
+        */
     }
 
     protected class SetIndentAction {
 
         private CCell previousCell;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public SetIndentAction() {
             previousCell = null;
         }
 
+
         public void add(CCell cell, int value) {
-            if(previousCell != cell) {
+            if (previousCell != cell) {
                 cell.setIndent(value);
                 //setList.add(new Set(cell, value));
                 previousCell = cell;
             }
         }
 
+        /*
         public void execute() {
             for(Set set:setList) {
                 //if(set.cell != null)
                 set.cell.setIndent(set.value);
             }
         }
-
+        */
+        /*
         private class Set {
             private CCell cell;
             private int value;
@@ -109,19 +118,22 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.value = value;
             }
         }
+        */
     }
 
     protected class SplitAction {
 
         private CCell previousCell;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public SplitAction() {
             previousCell = null;
         }
 
+
         public void add(CCell cell){
-            if(previousCell != cell) {
+            if (previousCell != cell) {
                 for(CCell c:cell.split()) {
                     table.addCell(c);
                 }
@@ -131,6 +143,7 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
+        /*
         public void execute() {
             for(Set set:setList) {
                 //if(set.cell != null) {
@@ -141,28 +154,32 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 }
                 //}
         }
-
+        */
+        /*
         private class Set {
             private CCell cell;
             public Set(CCell cell) {
                 this.cell = cell;
             }
         }
+        */
     }
 
     protected class MergeAction {
 
         private CCell previousCell1;
         private CCell previousCell2;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public MergeAction() {
             previousCell1 = null;
             previousCell2 = null;
         }
 
+
         public void add (CCell cell1, CCell cell2) {
-            if(previousCell1 != cell1 || previousCell2 != cell2) {
+            if (previousCell1 != cell1 || previousCell2 != cell2) {
                 cell1.merge(cell2);
                 table.removeCell(cell1);
                 //setList.add(new Set(cell1, cell2));
@@ -171,6 +188,7 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
+        /*
         public void execute() {
             for(Set set:setList) {
                     //if(set.cell1 != null && set.cell2 != null) {
@@ -180,7 +198,8 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 }
                 //}
         }
-
+        */
+        /*
         private class Set {
             private CCell cell1;
             private CCell cell2;
@@ -190,26 +209,29 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.cell2 = cell2;
             }
         }
+        */
     }
 
     protected class SetMarkAction {
 
         private CCell previousCell;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public SetMarkAction() {
-
             previousCell = null;
         }
 
+
         public void add(CCell cell, String string) {
-            if(previousCell != cell) {
+            if (previousCell != cell) {
                 cell.setMark(string);
                 //setList.add(new Set(cell, string));
                 previousCell = cell;
             }
         }
 
+        /*
         public void execute() {
             for(Set set:setList) {
                     //if(set.cell!=null) {
@@ -218,7 +240,8 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 //}
             }
         }
-
+        */
+        /*
         private class Set {
             private CCell cell;
             private String string;
@@ -227,19 +250,22 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.string = string;
             }
         }
+        */
     }
 
     protected class NewEntryAction {
 
         private CCell previousCell;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public NewEntryAction() {
             previousCell = null;
         }
 
+
         public void add(CCell cell, String string) {
-            if(previousCell != cell) {
+            if (previousCell != cell) {
                 table.addEntry(cell.newEntry(string));
                 //setList.add(new Set(cell, string));
                 previousCell = cell;
@@ -247,13 +273,14 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         }
 
         public void add(CCell cell) {
-            if(previousCell != cell) {
+            if (previousCell != cell) {
                 table.addEntry(cell.newEntry());
                 //setList.add(new Set(cell));
                 previousCell = cell;
             }
         }
 
+        /*
         public void execute() {
             previousCell = null;
 
@@ -270,7 +297,8 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 //}
             }
         }
-
+        */
+        /*
         private class Set {
             private CCell cell;
             private String string;
@@ -287,19 +315,22 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.string = string;
             }
         }
+        */
     }
 
     protected class NewLabelAction {
 
         private CCell previousCell;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public NewLabelAction() {
             previousCell = null;
         }
 
-        public void add (CCell cell, String string) {
-            if(previousCell != cell) {
+
+        public void add(CCell cell, String string) {
+            if (previousCell != cell) {
                 table.addLabel(cell.newLabel(string));
                 //cell.newLabel(string);
                 //setList.add(new Set(cell, string));
@@ -307,8 +338,8 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
-        public void add (CCell cell) {
-            if(previousCell != cell) {
+        public void add(CCell cell) {
+            if (previousCell != cell) {
                 table.addLabel(cell.newLabel());
                 //cell.newLabel();
                 //setList.add(new Set(cell));
@@ -316,6 +347,7 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
+        /*
         public void execute() {
             previousCell = null;
 
@@ -329,7 +361,8 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 //}
             }
         }
-
+        */
+        /*
         private class Set {
             private CCell cell;
             private String string;
@@ -346,25 +379,29 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.string = string;
             }
         }
+        */
     }
 
     protected class SetValueAction {
 
         private CValue previousVar;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public SetValueAction() {
             previousVar = null;
         }
 
+
         public void add(CValue var, String value) {
-            if(previousVar != var) {
+            if (previousVar != var) {
                 var.setValue(value);
                 //setList.add(new Set(var, value));
                 previousVar = var;
             }
         }
 
+        /*
         public void execute() {
             for(Set set:setList) {
                     //if (set.var != null) {
@@ -373,7 +410,8 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 //}
             }
         }
-
+        */
+        /*
         private class Set {
             private CValue var;
             private String value;
@@ -383,33 +421,37 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.value = value;
             }
         }
+        */
     }
 
     protected class SetCategoryAction {
 
         private CLabel previousLabel;
-        private List<Set> setList = new ArrayList<>();
+        //private List<Set> setList = new ArrayList<>();
+
 
         public SetCategoryAction() {
             previousLabel = null;
         }
 
+
         public void add(CLabel label, CCategory category) {
-            if(previousLabel != label) {
+            if (previousLabel != label) {
                 label.setCategory(category);
                 //setList.add(new Set(label, category));
                 previousLabel = label;
             }
         }
 
-        public void add (CLabel label, String categoryName) {
-            if(previousLabel != label) {
+        public void add(CLabel label, String categoryName) {
+            if (previousLabel != label) {
                 label.setCategory(categoryName);
                 //setList.add(new Set(label, categoryName));
                 previousLabel = label;
             }
         }
 
+        /*
         public void execute() {
             previousLabel = null;
             for(Set set:setList) {
@@ -422,7 +464,9 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 //}
             }
         }
+        */
 
+        /*
         private class Set {
             private CLabel label;
             private CCategory category;
@@ -441,18 +485,21 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.categoryName = categoryName;
             }
         }
+        */
     }
 
     protected class SetParentAction {
 
         private CLabel previousLabel1;
         private CLabel previousLabel2;
-        private List<Set> sets = new ArrayList<>();
+        //private List<Set> sets = new ArrayList<>();
+
 
         public SetParentAction() {
             previousLabel1 = null;
             previousLabel2 = null;
         }
+
 
         public void add (CLabel label1, CLabel label2) {
             if(previousLabel1 != label1 || previousLabel2 != label2) {
@@ -463,6 +510,7 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
+        /*
         public void execute() {
             previousLabel1 = null;
             previousLabel2 = null;
@@ -476,7 +524,9 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 }
             }
         }
+        */
 
+        /*
         private class Set {
             private CLabel label1;
             private CLabel label2;
@@ -486,18 +536,22 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.label2 = label2;
             }
         }
+        */
     }
 
-    protected class GroupAction {
+    public class GroupAction {
 
         private CLabel previousLabel1;
         private CLabel previousLabel2;
-        private List<Set> sets = new ArrayList<>();
+        //private List<Set> sets = new ArrayList<>();
 
+        /*
         public GroupAction() {
-            previousLabel1 = null;
-            previousLabel2 = null;
+            //previousLabel1 = null;
+            //previousLabel2 = null;
         }
+        */
+
 
         public void add(CLabel label1, CLabel label2) {
             if(previousLabel1 != label1 || previousLabel2 != label2) {
@@ -508,6 +562,7 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
+        /*
         public void execute() {
 
             for(Set set:sets) {
@@ -517,7 +572,8 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                   //}
             }
         }
-
+        */
+        /*
         private class Set {
             private CLabel label1;
             private CLabel label2;
@@ -527,18 +583,21 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.label2 = label2;
             }
         }
+        */
     }
 
     protected class AddLabelAction {
 
         private CLabel previousLabel;
         private CEntry previousEntry;
-        private List<Set> sets = new ArrayList<>();
+        //private List<Set> sets = new ArrayList<>();
+
 
         public AddLabelAction() {
             previousEntry = null;
             previousLabel = null;
         }
+
 
         public void add(CLabel label, CEntry entry) {
             if(previousLabel != label || previousEntry != entry) {
@@ -567,6 +626,7 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
             }
         }
 
+        /*
         public void execute() {
             previousLabel = null;
             previousEntry = null;
@@ -587,7 +647,9 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 //}
             }
         }
+        */
 
+        /*
         private class Set {
             private CLabel label;
             private CEntry entry;
@@ -614,7 +676,7 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
                 this.entry = entry;
                 this.categoryName = categoryName;
             }
-
         }
+        */
     }
 }
