@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class MvnGenTest {
+public class MvnGenRunner {
 
     public static void main(String[] args) {
 
