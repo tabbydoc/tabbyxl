@@ -72,4 +72,5 @@ public class NewEntryAction extends Action {
 
         return code.toString();
     }
+
 }
