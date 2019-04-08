@@ -46,4 +46,9 @@ public class SplitAction extends Action {
 
         return code.toString();
     }
+
+    @Override
+    public String getVarName() {
+        return identifier;
+    }
 }

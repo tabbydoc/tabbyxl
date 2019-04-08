@@ -18,6 +18,8 @@ package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
 
 public interface ActionInterface {
 
+    String getVarName();
+
     String getName();
 
     String fetchCode();

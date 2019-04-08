@@ -56,4 +56,5 @@ public class MergeAction extends Action {
 
         return code.toString();
     }
+
 }
