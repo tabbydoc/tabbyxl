@@ -14,21 +14,30 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold;
 
-public interface ActionInterface {
+import java.util.ArrayList;
+import java.util.List;
 
-    String getVarName();
+public class Constraint {
 
-    String getName();
+    private List<String> parts=new ArrayList<>();
 
-    String fetchCode();
+    public Constraint(){}
 
-    String toString();
+    public void addPart(String part) { parts.add(part); }
 
-    //String generateCallingAction();
+    public List<String> getParts() {
+        return parts;
+    }
 
-    String generateAddSet();
-
-    String generateExecute();
+    public String toString()
+    {
+        StringBuilder stringBuilder=new StringBuilder();
+        for(String s:parts)
+        {
+            stringBuilder.append(s);
+        }
+        return stringBuilder.toString();
+    }
 }

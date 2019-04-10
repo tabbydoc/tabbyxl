@@ -17,13 +17,15 @@
 package ru.icc.td.tabbyxl.crl2j;
 
 import org.antlr.runtime.tree.Tree;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Condition;
+
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.actions.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RuleModelBuilder {
 
-    private Ruleset ruleset;
+    /*private Ruleset ruleset;
 
     public Ruleset getRuleset() {
         return ruleset;
@@ -33,7 +35,7 @@ public class RuleModelBuilder {
         ruleset = new Ruleset();
     }
 
-    public void buildModel(Tree ast) {
+    /*public void buildModel(Tree ast) {
         try {
             for (int i = 0; i < ast.getChildCount(); i++) {
                 if (ast.getChild(i).getText() == "Imports") buildImports(ast.getChild(i));
@@ -45,19 +47,19 @@ public class RuleModelBuilder {
         }
     }
 
-    private void buildImports(Tree subTree) {
+    /*private void buildImports(Tree subTree) {
         for (int i = 0; i < subTree.getChildCount(); i++) {
             ruleset.addImport(subTree.getChild(i).getText());
         }
-    }
+    }*/
 
-    private void buildAllRules(Tree subTree) {
+    /*private void buildAllRules(Tree subTree) {
         for (int i = 0; i < subTree.getChildCount(); i++) {
             ruleset.addRule(buildRule(subTree.getChild(i)));
         }
     }
 
-    private Rule buildRule(Tree subTree) {
+    /*private Rule buildRule(Tree subTree) {
         Rule rule = new Rule(Integer.parseInt(subTree.getText()));
 
         for (int i = 0; i < subTree.getChildCount(); i++) {
@@ -133,7 +135,7 @@ public class RuleModelBuilder {
         return condition;
     }
 
-    /*private NoCondition buildNoCondition(int id, Tree subTree) {
+    private NoCondition buildNoCondition(int id, Tree subTree) {
 
         NoCondition noCondition = new NoCondition(id, subTree.getChild(0).getText());
 
@@ -143,7 +145,7 @@ public class RuleModelBuilder {
         }
 
         return noCondition;
-    }*/
+    }
 
     private void addConstraintToCondition(Tree subTree, Condition condition) {
         Constraint constraint = new Constraint();
@@ -372,6 +374,140 @@ public class RuleModelBuilder {
                 action.addPartToExpression(subTree.getChild(i).getText());
             }
         }
+
+        return action;
+    }*/
+
+    ///////////////////////////////////////////////////////////////////////////////
+
+    public static List<String> buildImports(Tree ast) {
+
+        List<String> imports = new ArrayList<>();
+
+        for (int i = 0; i < ast.getChildCount(); i ++) {
+
+            Tree subtree = ast.getChild(i);
+            if (subtree.getText().equals("Imports")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+                    imports.add(subtree.getChild(j).getText());
+                }
+            }
+        }
+
+        return imports;
+    }
+
+    public static List<Rule> buildRules(Tree ast) {
+
+        List<Rule> rules = new ArrayList<>();
+
+        for (int i = 0; i < ast.getChildCount(); i ++) {
+            Tree subtree = ast.getChild(i);
+
+            if (subtree.getText().equals("RULES")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+
+                    rules.add(buildRule(subtree.getChild(j)));
+                }
+            }
+        }
+
+        return rules;
+    }
+
+    private static Rule buildRule(Tree tree) {
+
+        Rule rule = new Rule();
+
+        for (int i = 0; i < tree.getChildCount(); i ++) {
+
+            Tree subtree = tree.getChild(i);
+            if (subtree.getText().equals("Conditions")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+                    rule.addCondition(buildCondition(subtree.getChild(j)));
+                }
+            } else if (subtree.getText().equals("Actions")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+                    rule.addAction(buildAction(subtree.getChild(j)));
+                }
+            }
+        }
+
+        return rule;
+    }
+
+    private static Condition buildCondition(Tree tree) {
+
+        Condition condition = new Condition();
+
+        condition.setDataType(tree.getChild(0).getText());
+
+        if (tree.getText().equals("Condition")) {
+            condition.setIdentifier(tree.getChild(1).getText());
+        } else {
+
+        }
+
+        for (int i = 0; i < tree.getChildCount(); i ++) {
+            Tree subTree = tree.getChild(i);
+            if (subTree.getText().equals("Constraint")) {
+                condition.addConstraint(buildConstraint(subTree));
+            } else if (subTree.getText().equals("Assignment")) {
+                condition.addAssignment(buildAssignment(subTree));
+            }
+        }
+
+        return condition;
+    }
+
+    private static Constraint buildConstraint(Tree tree) {
+
+        Constraint constraint = new Constraint();
+
+        for (int i = 0; i < tree.getChildCount(); i ++) {
+            constraint.addExpression(tree.getChild(i).getText());
+        }
+
+        return constraint;
+    }
+
+    private static Assignment buildAssignment(Tree tree) {
+
+        Assignment assignment = new Assignment();
+
+        assignment.setIdentifier(tree.getChild(0).getChild(0).getText());
+
+        for (int i = 0; i < tree.getChild(1).getChildCount(); i ++) {
+            assignment.addExpression(tree.getChild(1).getChild(i).getText());
+        }
+
+        return assignment;
+    }
+
+    private static Action buildAction(Tree tree) {
+        Action action = new Action();
+
+        action.setType(tree.getText());
+
+        List<Operand> operands = new ArrayList<>();
+
+        for (int i = 0; i < tree.getChildCount(); i ++) {
+            Tree subTree = tree.getChild(i);
+
+            List<String> expressions = new ArrayList<>();
+            for (int j = 0; j < subTree.getChildCount(); j ++) {
+                expressions.add(subTree.getChild(j).getText());
+            }
+            Operand operand = new Operand();
+            operand.setExpressions(expressions);
+            operands.add(operand);
+        }
+
+        action.setOperands(operands);
 
         return action;
     }

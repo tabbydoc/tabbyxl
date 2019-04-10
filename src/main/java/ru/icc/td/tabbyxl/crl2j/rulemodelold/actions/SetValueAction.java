@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold.actions;
 
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Identifier;
+import ru.icc.td.tabbyxl.crl2j.rulemodelold.Identifier;
 import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
 
 import java.util.ArrayList;

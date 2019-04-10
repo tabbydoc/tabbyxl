@@ -1,12 +1,17 @@
-// $ANTLR 3.4 src/main/resources/crl_gram.g 2018-07-02 22:47:14
-package ru.icc.td.tabbyxl.crl2j.parsing;
-import org.antlr.runtime.*;
+// $ANTLR 3.4 D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g 2019-04-09 23:00:28
 
+import org.antlr.runtime.*;
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
+
+import org.antlr.runtime.debug.*;
+import java.io.IOException;
 import org.antlr.runtime.tree.*;
 
 
 @SuppressWarnings({"all", "warnings", "unchecked"})
-public class crl_gramParser extends Parser {
+public class CrlParser extends DebugParser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "ADV_IDENT", "ADV_IDENT1", "ADV_IDENT2", "Action", "Actions", "AddLabelAction", "Assignment", "Breackits", "CATEGORY", "Char_lit", "Condition", "Conditions", "Constraint", "DIGIT", "EOL", "GroupAction", "IDENT", "IDENT1", "IDENT2", "INT", "Identifier", "Import_item", "Imports", "J_expr", "J_int_literal", "LABEL", "LETTER", "MergeAction", "NewEntryAction", "NewLabelAction", "No_condition", "Other_literals", "Package", "PrintAction", "RULES", "STRING", "SetCategoryAction", "SetIndentAction", "SetMarkAction", "SetParentAction", "SetTextAction", "SetValueAction", "SplitAction", "String_lit", "UpdateAction", "WS", "'\"'", "'*'", "','", "'.'", "':'", "';'", "'['", "']'", "'add label'", "'as'", "'category'", "'cell'", "'end'", "'entry'", "'group'", "'import'", "'label'", "'lock-on-active'", "'merge'", "'new entry'", "'new label'", "'no categories'", "'no cells'", "'no entries'", "'no labels'", "'no-loop false'", "'no-loop true'", "'of'", "'package'", "'print'", "'printf'", "'rule #'", "'set category'", "'set indent'", "'set mark'", "'set parent'", "'set text'", "'set value'", "'split'", "'then'", "'to'", "'update'", "'when'", "'with'"
     };
@@ -111,61 +116,134 @@ public class crl_gramParser extends Parser {
     // delegators
 
 
-    public crl_gramParser(TokenStream input) {
-        this(input, new RecognizerSharedState());
+public static final String[] ruleNames = new String[] {
+    "invalidRule", "no_query", "j_expr", "crl", "split", "import_stmt", 
+    "set_text", "set_value", "set_parent", "advanced_identifier", "index", 
+    "merge", "update", "import_unit", "condition", "import_item", "group", 
+    "action", "set_mark", "set_category", "crl_rule", "package_stmt", "new_entry", 
+    "action_", "assignment", "new_label", "query", "condition_unit", "add_label", 
+    "set_indent", "no_condition", "c_print", "constraint", "useless"
+};
+
+public static final boolean[] decisionCanBacktrack = new boolean[] {
+    false, // invalid decision
+    false, false, false, false, false, false, false, false, false, false, 
+        false, false, false, false, false, false, false, false, false, false, 
+        false, false, false, false
+};
+
+ 
+    public int ruleLevel = 0;
+    public int getRuleLevel() { return ruleLevel; }
+    public void incRuleLevel() { ruleLevel++; }
+    public void decRuleLevel() { ruleLevel--; }
+    public CrlParser(TokenStream input) {
+        this(input, DebugEventSocketProxy.DEFAULT_DEBUGGER_PORT, new RecognizerSharedState());
     }
-    public crl_gramParser(TokenStream input, RecognizerSharedState state) {
+    public CrlParser(TokenStream input, int port, RecognizerSharedState state) {
         super(input, state);
+        DebugEventSocketProxy proxy =
+            new DebugEventSocketProxy(this,port,adaptor);
+        setDebugListener(proxy);
+        setTokenStream(new DebugTokenStream(input,proxy));
+        try {
+            proxy.handshake();
+        }
+        catch (IOException ioe) {
+            reportError(ioe);
+        }
+        TreeAdaptor adap = new CommonTreeAdaptor();
+        setTreeAdaptor(adap);
+        proxy.setTreeAdaptor(adap);
     }
 
-protected TreeAdaptor adaptor = new CommonTreeAdaptor();
+public CrlParser(TokenStream input, DebugEventListener dbg) {
+    super(input, dbg);
+     
+    TreeAdaptor adap = new CommonTreeAdaptor();
+    setTreeAdaptor(adap);
 
+
+}
+
+protected boolean evalPredicate(boolean result, String predicate) {
+    dbg.semanticPredicate(result, predicate);
+    return result;
+}
+
+protected DebugTreeAdaptor adaptor;
 public void setTreeAdaptor(TreeAdaptor adaptor) {
-    this.adaptor = adaptor;
+    this.adaptor = new DebugTreeAdaptor(dbg,adaptor);
+
+
 }
 public TreeAdaptor getTreeAdaptor() {
     return adaptor;
 }
-    public String[] getTokenNames() { return crl_gramParser.tokenNames; }
-    public String getGrammarFileName() { return "src/main/resources/crl_gram.g"; }
+
+    public String[] getTokenNames() { return CrlParser.tokenNames; }
+    public String getGrammarFileName() { return "D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g"; }
 
 
     public static class crl_return extends ParserRuleReturnScope {
         CommonTree tree;
-        public CommonTree getTree() { return tree; }
+        public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "crl"
-    // src/main/resources/crl_gram.g:62:1: crl : ( package_stmt )? ( import_stmt )* ( crl_rule )+ -> ^( Imports ( import_stmt )* ) ^( RULES ( crl_rule )+ ) ;
-    public final crl_gramParser.crl_return crl() throws RecognitionException {
-        crl_gramParser.crl_return retval = new crl_gramParser.crl_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:62:1: crl : ( package_stmt )? ( import_stmt )* ( crl_rule )+ -> ^( Imports ( import_stmt )* ) ^( RULES ( crl_rule )+ ) ;
+    public final CrlParser.crl_return crl() throws RecognitionException {
+        CrlParser.crl_return retval = new CrlParser.crl_return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
-        crl_gramParser.package_stmt_return package_stmt1 =null;
+        CrlParser.package_stmt_return package_stmt1 =null;
 
-        crl_gramParser.import_stmt_return import_stmt2 =null;
+        CrlParser.import_stmt_return import_stmt2 =null;
 
-        crl_gramParser.crl_rule_return crl_rule3 =null;
+        CrlParser.crl_rule_return crl_rule3 =null;
 
 
         RewriteRuleSubtreeStream stream_crl_rule=new RewriteRuleSubtreeStream(adaptor,"rule crl_rule");
         RewriteRuleSubtreeStream stream_import_stmt=new RewriteRuleSubtreeStream(adaptor,"rule import_stmt");
         RewriteRuleSubtreeStream stream_package_stmt=new RewriteRuleSubtreeStream(adaptor,"rule package_stmt");
+        try { dbg.enterRule(getGrammarFileName(), "crl");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(62, 0);
+
         try {
-            // src/main/resources/crl_gram.g:63:2: ( ( package_stmt )? ( import_stmt )* ( crl_rule )+ -> ^( Imports ( import_stmt )* ) ^( RULES ( crl_rule )+ ) )
-            // src/main/resources/crl_gram.g:63:4: ( package_stmt )? ( import_stmt )* ( crl_rule )+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:2: ( ( package_stmt )? ( import_stmt )* ( crl_rule )+ -> ^( Imports ( import_stmt )* ) ^( RULES ( crl_rule )+ ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:4: ( package_stmt )? ( import_stmt )* ( crl_rule )+
             {
-            // src/main/resources/crl_gram.g:63:4: ( package_stmt )?
+            dbg.location(63,4);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:4: ( package_stmt )?
             int alt1=2;
-            alt1 = dfa1.predict(input);
+            try { dbg.enterSubRule(1);
+            try { dbg.enterDecision(1, decisionCanBacktrack[1]);
+
+            try {
+                isCyclicDecision = true;
+                alt1 = dfa1.predict(input);
+            }
+            catch (NoViableAltException nvae) {
+                dbg.recognitionException(nvae);
+                throw nvae;
+            }
+            } finally {dbg.exitDecision(1);}
+
             switch (alt1) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:63:4: package_stmt
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:4: package_stmt
                     {
+                    dbg.location(63,4);
                     pushFollow(FOLLOW_package_stmt_in_crl201);
                     package_stmt1=package_stmt();
 
@@ -177,12 +255,17 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(1);}
 
+            dbg.location(63,18);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:18: ( import_stmt )*
+            try { dbg.enterSubRule(2);
 
-            // src/main/resources/crl_gram.g:63:18: ( import_stmt )*
             loop2:
             do {
                 int alt2=2;
+                try { dbg.enterDecision(2, decisionCanBacktrack[2]);
+
                 int LA2_0 = input.LA(1);
 
                 if ( (LA2_0==65||LA2_0==78) ) {
@@ -190,10 +273,15 @@ public TreeAdaptor getTreeAdaptor() {
                 }
 
 
+                } finally {dbg.exitDecision(2);}
+
                 switch (alt2) {
             	case 1 :
-            	    // src/main/resources/crl_gram.g:63:18: import_stmt
+            	    dbg.enterAlt(1);
+
+            	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:18: import_stmt
             	    {
+            	    dbg.location(63,18);
             	    pushFollow(FOLLOW_import_stmt_in_crl204);
             	    import_stmt2=import_stmt();
 
@@ -208,13 +296,18 @@ public TreeAdaptor getTreeAdaptor() {
             	    break loop2;
                 }
             } while (true);
+            } finally {dbg.exitSubRule(2);}
 
-
-            // src/main/resources/crl_gram.g:63:31: ( crl_rule )+
+            dbg.location(63,31);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:31: ( crl_rule )+
             int cnt3=0;
+            try { dbg.enterSubRule(3);
+
             loop3:
             do {
                 int alt3=2;
+                try { dbg.enterDecision(3, decisionCanBacktrack[3]);
+
                 int LA3_0 = input.LA(1);
 
                 if ( (LA3_0==81) ) {
@@ -222,10 +315,15 @@ public TreeAdaptor getTreeAdaptor() {
                 }
 
 
+                } finally {dbg.exitDecision(3);}
+
                 switch (alt3) {
             	case 1 :
-            	    // src/main/resources/crl_gram.g:63:31: crl_rule
+            	    dbg.enterAlt(1);
+
+            	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:31: crl_rule
             	    {
+            	    dbg.location(63,31);
             	    pushFollow(FOLLOW_crl_rule_in_crl207);
             	    crl_rule3=crl_rule();
 
@@ -240,10 +338,13 @@ public TreeAdaptor getTreeAdaptor() {
             	    if ( cnt3 >= 1 ) break loop3;
                         EarlyExitException eee =
                             new EarlyExitException(3, input);
+                        dbg.recognitionException(eee);
+
                         throw eee;
                 }
                 cnt3++;
             } while (true);
+            } finally {dbg.exitSubRule(3);}
 
 
             // AST REWRITE
@@ -259,15 +360,19 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 63:41: -> ^( Imports ( import_stmt )* ) ^( RULES ( crl_rule )+ )
             {
-                // src/main/resources/crl_gram.g:63:44: ^( Imports ( import_stmt )* )
+                dbg.location(63,44);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:44: ^( Imports ( import_stmt )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(63,46);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(Imports, "Imports")
                 , root_1);
 
-                // src/main/resources/crl_gram.g:63:54: ( import_stmt )*
+                dbg.location(63,54);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:54: ( import_stmt )*
                 while ( stream_import_stmt.hasNext() ) {
+                    dbg.location(63,54);
                     adaptor.addChild(root_1, stream_import_stmt.nextTree());
 
                 }
@@ -275,18 +380,21 @@ public TreeAdaptor getTreeAdaptor() {
 
                 adaptor.addChild(root_0, root_1);
                 }
-
-                // src/main/resources/crl_gram.g:63:68: ^( RULES ( crl_rule )+ )
+                dbg.location(63,68);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:63:68: ^( RULES ( crl_rule )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(63,70);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(RULES, "RULES")
                 , root_1);
 
+                dbg.location(63,76);
                 if ( !(stream_crl_rule.hasNext()) ) {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_crl_rule.hasNext() ) {
+                    dbg.location(63,76);
                     adaptor.addChild(root_1, stream_crl_rule.nextTree());
 
                 }
@@ -319,6 +427,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(64, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "crl");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "crl"
@@ -331,34 +448,42 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "package_stmt"
-    // src/main/resources/crl_gram.g:66:1: package_stmt : 'package' import_item ;
-    public final crl_gramParser.package_stmt_return package_stmt() throws RecognitionException {
-        crl_gramParser.package_stmt_return retval = new crl_gramParser.package_stmt_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:66:1: package_stmt : 'package' import_item ;
+    public final CrlParser.package_stmt_return package_stmt() throws RecognitionException {
+        CrlParser.package_stmt_return retval = new CrlParser.package_stmt_return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
         CommonToken string_literal4=null;
-        crl_gramParser.import_item_return import_item5 =null;
+        CrlParser.import_item_return import_item5 =null;
 
 
         CommonTree string_literal4_tree=null;
 
+        try { dbg.enterRule(getGrammarFileName(), "package_stmt");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(66, 0);
+
         try {
-            // src/main/resources/crl_gram.g:67:2: ( 'package' import_item )
-            // src/main/resources/crl_gram.g:67:4: 'package' import_item
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:67:2: ( 'package' import_item )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:67:4: 'package' import_item
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
+            dbg.location(67,4);
             string_literal4=(CommonToken)match(input,78,FOLLOW_78_in_package_stmt236); 
             string_literal4_tree = 
             (CommonTree)adaptor.create(string_literal4)
             ;
             adaptor.addChild(root_0, string_literal4_tree);
 
-
+            dbg.location(67,14);
             pushFollow(FOLLOW_import_item_in_package_stmt238);
             import_item5=import_item();
 
@@ -385,6 +510,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(68, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "package_stmt");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "package_stmt"
@@ -397,22 +531,30 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "import_stmt"
-    // src/main/resources/crl_gram.g:71:1: import_stmt : i= import_unit -> Import_item[$i.value] ;
-    public final crl_gramParser.import_stmt_return import_stmt() throws RecognitionException {
-        crl_gramParser.import_stmt_return retval = new crl_gramParser.import_stmt_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:71:1: import_stmt : i= import_unit -> Import_item[$i.value] ;
+    public final CrlParser.import_stmt_return import_stmt() throws RecognitionException {
+        CrlParser.import_stmt_return retval = new CrlParser.import_stmt_return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
-        crl_gramParser.import_unit_return i =null;
+        CrlParser.import_unit_return i =null;
 
 
         RewriteRuleSubtreeStream stream_import_unit=new RewriteRuleSubtreeStream(adaptor,"rule import_unit");
+        try { dbg.enterRule(getGrammarFileName(), "import_stmt");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(71, 0);
+
         try {
-            // src/main/resources/crl_gram.g:72:2: (i= import_unit -> Import_item[$i.value] )
-            // src/main/resources/crl_gram.g:72:4: i= import_unit
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:72:2: (i= import_unit -> Import_item[$i.value] )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:72:4: i= import_unit
             {
+            dbg.location(72,5);
             pushFollow(FOLLOW_import_unit_in_import_stmt254);
             i=import_unit();
 
@@ -433,6 +575,7 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 72:18: -> Import_item[$i.value]
             {
+                dbg.location(72,21);
                 adaptor.addChild(root_0, 
                 (CommonTree)adaptor.create(Import_item, (i!=null?i.value:null))
                 );
@@ -461,6 +604,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(73, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "import_stmt");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "import_stmt"
@@ -474,9 +626,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "import_unit"
-    // src/main/resources/crl_gram.g:75:1: import_unit returns [String value] : t= ( 'import' | 'package' ) t1= import_item ( ';' )? EOL ;
-    public final crl_gramParser.import_unit_return import_unit() throws RecognitionException {
-        crl_gramParser.import_unit_return retval = new crl_gramParser.import_unit_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:75:1: import_unit returns [String value] : t= ( 'import' | 'package' ) t1= import_item ( ';' )? EOL ;
+    public final CrlParser.import_unit_return import_unit() throws RecognitionException {
+        CrlParser.import_unit_return retval = new CrlParser.import_unit_return();
         retval.start = input.LT(1);
 
 
@@ -485,7 +637,7 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken t=null;
         CommonToken char_literal6=null;
         CommonToken EOL7=null;
-        crl_gramParser.import_item_return t1 =null;
+        CrlParser.import_item_return t1 =null;
 
 
         CommonTree t_tree=null;
@@ -493,13 +645,21 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree EOL7_tree=null;
 
          retval.value =""; 
+        try { dbg.enterRule(getGrammarFileName(), "import_unit");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(75, 0);
+
         try {
-            // src/main/resources/crl_gram.g:78:2: (t= ( 'import' | 'package' ) t1= import_item ( ';' )? EOL )
-            // src/main/resources/crl_gram.g:78:4: t= ( 'import' | 'package' ) t1= import_item ( ';' )? EOL
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:78:2: (t= ( 'import' | 'package' ) t1= import_item ( ';' )? EOL )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:78:4: t= ( 'import' | 'package' ) t1= import_item ( ';' )? EOL
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
+            dbg.location(78,5);
             t=(CommonToken)input.LT(1);
 
             if ( input.LA(1)==65||input.LA(1)==78 ) {
@@ -511,32 +671,41 @@ public TreeAdaptor getTreeAdaptor() {
             }
             else {
                 MismatchedSetException mse = new MismatchedSetException(null,input);
+                dbg.recognitionException(mse);
                 throw mse;
             }
 
-
+            dbg.location(78,27);
              retval.value+=(t!=null?t.getText():null)+" "; 
-
+            dbg.location(78,54);
             pushFollow(FOLLOW_import_item_in_import_unit296);
             t1=import_item();
 
             state._fsp--;
 
             adaptor.addChild(root_0, t1.getTree());
-
+            dbg.location(78,67);
              retval.value+=(t1!=null?t1.value:null); 
-
-            // src/main/resources/crl_gram.g:78:90: ( ';' )?
+            dbg.location(78,90);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:78:90: ( ';' )?
             int alt4=2;
+            try { dbg.enterSubRule(4);
+            try { dbg.enterDecision(4, decisionCanBacktrack[4]);
+
             int LA4_0 = input.LA(1);
 
             if ( (LA4_0==55) ) {
                 alt4=1;
             }
+            } finally {dbg.exitDecision(4);}
+
             switch (alt4) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:78:90: ';'
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:78:90: ';'
                     {
+                    dbg.location(78,90);
                     char_literal6=(CommonToken)match(input,55,FOLLOW_55_in_import_unit300); 
                     char_literal6_tree = 
                     (CommonTree)adaptor.create(char_literal6)
@@ -548,8 +717,9 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(4);}
 
-
+            dbg.location(78,95);
             EOL7=(CommonToken)match(input,EOL,FOLLOW_EOL_in_import_unit303); 
             EOL7_tree = 
             (CommonTree)adaptor.create(EOL7)
@@ -577,6 +747,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(79, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "import_unit");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "import_unit"
@@ -590,9 +769,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "import_item"
-    // src/main/resources/crl_gram.g:81:1: import_item returns [String value] : i1= Identifier ( '.' i2= Identifier )* ( '.' '*' )? ;
-    public final crl_gramParser.import_item_return import_item() throws RecognitionException {
-        crl_gramParser.import_item_return retval = new crl_gramParser.import_item_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:81:1: import_item returns [String value] : i1= Identifier ( '.' i2= Identifier )* ( '.' '*' )? ;
+    public final CrlParser.import_item_return import_item() throws RecognitionException {
+        CrlParser.import_item_return retval = new CrlParser.import_item_return();
         retval.start = input.LT(1);
 
 
@@ -611,26 +790,38 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree char_literal10_tree=null;
 
          retval.value =""; 
+        try { dbg.enterRule(getGrammarFileName(), "import_item");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(81, 0);
+
         try {
-            // src/main/resources/crl_gram.g:83:2: (i1= Identifier ( '.' i2= Identifier )* ( '.' '*' )? )
-            // src/main/resources/crl_gram.g:83:5: i1= Identifier ( '.' i2= Identifier )* ( '.' '*' )?
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:83:2: (i1= Identifier ( '.' i2= Identifier )* ( '.' '*' )? )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:83:5: i1= Identifier ( '.' i2= Identifier )* ( '.' '*' )?
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
+            dbg.location(83,7);
             i1=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_import_item327); 
             i1_tree = 
             (CommonTree)adaptor.create(i1)
             ;
             adaptor.addChild(root_0, i1_tree);
 
-
+            dbg.location(83,19);
              retval.value+=(i1!=null?i1.getText():null); 
+            dbg.location(83,41);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:83:41: ( '.' i2= Identifier )*
+            try { dbg.enterSubRule(5);
 
-            // src/main/resources/crl_gram.g:83:41: ( '.' i2= Identifier )*
             loop5:
             do {
                 int alt5=2;
+                try { dbg.enterDecision(5, decisionCanBacktrack[5]);
+
                 int LA5_0 = input.LA(1);
 
                 if ( (LA5_0==53) ) {
@@ -644,24 +835,29 @@ public TreeAdaptor getTreeAdaptor() {
                 }
 
 
+                } finally {dbg.exitDecision(5);}
+
                 switch (alt5) {
             	case 1 :
-            	    // src/main/resources/crl_gram.g:83:42: '.' i2= Identifier
+            	    dbg.enterAlt(1);
+
+            	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:83:42: '.' i2= Identifier
             	    {
+            	    dbg.location(83,42);
             	    char_literal8=(CommonToken)match(input,53,FOLLOW_53_in_import_item332); 
             	    char_literal8_tree = 
             	    (CommonTree)adaptor.create(char_literal8)
             	    ;
             	    adaptor.addChild(root_0, char_literal8_tree);
 
-
+            	    dbg.location(83,48);
             	    i2=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_import_item336); 
             	    i2_tree = 
             	    (CommonTree)adaptor.create(i2)
             	    ;
             	    adaptor.addChild(root_0, i2_tree);
 
-
+            	    dbg.location(83,60);
             	     retval.value+="."+(i2!=null?i2.getText():null); 
 
             	    }
@@ -671,39 +867,49 @@ public TreeAdaptor getTreeAdaptor() {
             	    break loop5;
                 }
             } while (true);
+            } finally {dbg.exitSubRule(5);}
 
-
-            // src/main/resources/crl_gram.g:83:88: ( '.' '*' )?
+            dbg.location(83,88);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:83:88: ( '.' '*' )?
             int alt6=2;
+            try { dbg.enterSubRule(6);
+            try { dbg.enterDecision(6, decisionCanBacktrack[6]);
+
             int LA6_0 = input.LA(1);
 
             if ( (LA6_0==53) ) {
                 alt6=1;
             }
+            } finally {dbg.exitDecision(6);}
+
             switch (alt6) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:83:89: '.' '*'
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:83:89: '.' '*'
                     {
+                    dbg.location(83,89);
                     char_literal9=(CommonToken)match(input,53,FOLLOW_53_in_import_item343); 
                     char_literal9_tree = 
                     (CommonTree)adaptor.create(char_literal9)
                     ;
                     adaptor.addChild(root_0, char_literal9_tree);
 
-
+                    dbg.location(83,93);
                     char_literal10=(CommonToken)match(input,51,FOLLOW_51_in_import_item345); 
                     char_literal10_tree = 
                     (CommonTree)adaptor.create(char_literal10)
                     ;
                     adaptor.addChild(root_0, char_literal10_tree);
 
-
+                    dbg.location(83,97);
                      retval.value+=".*"; 
 
                     }
                     break;
 
             }
+            } finally {dbg.exitSubRule(6);}
 
 
             }
@@ -725,6 +931,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(84, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "import_item");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "import_item"
@@ -737,9 +952,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "crl_rule"
-    // src/main/resources/crl_gram.g:86:1: crl_rule : 'rule #' J_int_literal ( useless )? EOL 'when' EOL ( condition_unit )+ 'then' EOL ( action )+ 'end' ( EOL )? -> ^( J_int_literal ^( Conditions ( condition_unit )+ ) ^( Actions ( action )+ ) ) ;
-    public final crl_gramParser.crl_rule_return crl_rule() throws RecognitionException {
-        crl_gramParser.crl_rule_return retval = new crl_gramParser.crl_rule_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:86:1: crl_rule : 'rule #' J_int_literal ( useless )? EOL 'when' EOL ( condition_unit )+ 'then' EOL ( action )+ 'end' ( EOL )? -> ^( J_int_literal ^( Conditions ( condition_unit )+ ) ^( Actions ( action )+ ) ) ;
+    public final CrlParser.crl_rule_return crl_rule() throws RecognitionException {
+        CrlParser.crl_rule_return retval = new CrlParser.crl_rule_return();
         retval.start = input.LT(1);
 
 
@@ -754,11 +969,11 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken EOL19=null;
         CommonToken string_literal21=null;
         CommonToken EOL22=null;
-        crl_gramParser.useless_return useless13 =null;
+        CrlParser.useless_return useless13 =null;
 
-        crl_gramParser.condition_unit_return condition_unit17 =null;
+        CrlParser.condition_unit_return condition_unit17 =null;
 
-        crl_gramParser.action_return action20 =null;
+        CrlParser.action_return action20 =null;
 
 
         CommonTree string_literal11_tree=null;
@@ -779,29 +994,45 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleSubtreeStream stream_useless=new RewriteRuleSubtreeStream(adaptor,"rule useless");
         RewriteRuleSubtreeStream stream_action=new RewriteRuleSubtreeStream(adaptor,"rule action");
         RewriteRuleSubtreeStream stream_condition_unit=new RewriteRuleSubtreeStream(adaptor,"rule condition_unit");
+        try { dbg.enterRule(getGrammarFileName(), "crl_rule");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(86, 0);
+
         try {
-            // src/main/resources/crl_gram.g:87:2: ( 'rule #' J_int_literal ( useless )? EOL 'when' EOL ( condition_unit )+ 'then' EOL ( action )+ 'end' ( EOL )? -> ^( J_int_literal ^( Conditions ( condition_unit )+ ) ^( Actions ( action )+ ) ) )
-            // src/main/resources/crl_gram.g:87:4: 'rule #' J_int_literal ( useless )? EOL 'when' EOL ( condition_unit )+ 'then' EOL ( action )+ 'end' ( EOL )?
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:87:2: ( 'rule #' J_int_literal ( useless )? EOL 'when' EOL ( condition_unit )+ 'then' EOL ( action )+ 'end' ( EOL )? -> ^( J_int_literal ^( Conditions ( condition_unit )+ ) ^( Actions ( action )+ ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:87:4: 'rule #' J_int_literal ( useless )? EOL 'when' EOL ( condition_unit )+ 'then' EOL ( action )+ 'end' ( EOL )?
             {
+            dbg.location(87,4);
             string_literal11=(CommonToken)match(input,81,FOLLOW_81_in_crl_rule362);  
             stream_81.add(string_literal11);
 
-
+            dbg.location(87,13);
             J_int_literal12=(CommonToken)match(input,J_int_literal,FOLLOW_J_int_literal_in_crl_rule364);  
             stream_J_int_literal.add(J_int_literal12);
 
-
-            // src/main/resources/crl_gram.g:87:27: ( useless )?
+            dbg.location(87,27);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:87:27: ( useless )?
             int alt7=2;
+            try { dbg.enterSubRule(7);
+            try { dbg.enterDecision(7, decisionCanBacktrack[7]);
+
             int LA7_0 = input.LA(1);
 
             if ( (LA7_0==67||(LA7_0 >= 75 && LA7_0 <= 76)) ) {
                 alt7=1;
             }
+            } finally {dbg.exitDecision(7);}
+
             switch (alt7) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:87:27: useless
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:87:27: useless
                     {
+                    dbg.location(87,27);
                     pushFollow(FOLLOW_useless_in_crl_rule366);
                     useless13=useless();
 
@@ -813,25 +1044,30 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(7);}
 
-
+            dbg.location(87,36);
             EOL14=(CommonToken)match(input,EOL,FOLLOW_EOL_in_crl_rule369);  
             stream_EOL.add(EOL14);
 
-
+            dbg.location(88,3);
             string_literal15=(CommonToken)match(input,92,FOLLOW_92_in_crl_rule373);  
             stream_92.add(string_literal15);
 
-
+            dbg.location(88,10);
             EOL16=(CommonToken)match(input,EOL,FOLLOW_EOL_in_crl_rule375);  
             stream_EOL.add(EOL16);
 
-
-            // src/main/resources/crl_gram.g:89:3: ( condition_unit )+
+            dbg.location(89,3);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:89:3: ( condition_unit )+
             int cnt8=0;
+            try { dbg.enterSubRule(8);
+
             loop8:
             do {
                 int alt8=2;
+                try { dbg.enterDecision(8, decisionCanBacktrack[8]);
+
                 int LA8_0 = input.LA(1);
 
                 if ( ((LA8_0 >= 60 && LA8_0 <= 61)||LA8_0==63||LA8_0==66||(LA8_0 >= 71 && LA8_0 <= 74)) ) {
@@ -839,10 +1075,15 @@ public TreeAdaptor getTreeAdaptor() {
                 }
 
 
+                } finally {dbg.exitDecision(8);}
+
                 switch (alt8) {
             	case 1 :
-            	    // src/main/resources/crl_gram.g:89:3: condition_unit
+            	    dbg.enterAlt(1);
+
+            	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:89:3: condition_unit
             	    {
+            	    dbg.location(89,3);
             	    pushFollow(FOLLOW_condition_unit_in_crl_rule380);
             	    condition_unit17=condition_unit();
 
@@ -857,25 +1098,32 @@ public TreeAdaptor getTreeAdaptor() {
             	    if ( cnt8 >= 1 ) break loop8;
                         EarlyExitException eee =
                             new EarlyExitException(8, input);
+                        dbg.recognitionException(eee);
+
                         throw eee;
                 }
                 cnt8++;
             } while (true);
+            } finally {dbg.exitSubRule(8);}
 
-
+            dbg.location(90,3);
             string_literal18=(CommonToken)match(input,89,FOLLOW_89_in_crl_rule385);  
             stream_89.add(string_literal18);
 
-
+            dbg.location(90,10);
             EOL19=(CommonToken)match(input,EOL,FOLLOW_EOL_in_crl_rule387);  
             stream_EOL.add(EOL19);
 
-
-            // src/main/resources/crl_gram.g:91:3: ( action )+
+            dbg.location(91,3);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:91:3: ( action )+
             int cnt9=0;
+            try { dbg.enterSubRule(9);
+
             loop9:
             do {
                 int alt9=2;
+                try { dbg.enterDecision(9, decisionCanBacktrack[9]);
+
                 int LA9_0 = input.LA(1);
 
                 if ( (LA9_0==58||LA9_0==64||(LA9_0 >= 68 && LA9_0 <= 70)||(LA9_0 >= 79 && LA9_0 <= 80)||(LA9_0 >= 82 && LA9_0 <= 88)||LA9_0==91) ) {
@@ -883,10 +1131,15 @@ public TreeAdaptor getTreeAdaptor() {
                 }
 
 
+                } finally {dbg.exitDecision(9);}
+
                 switch (alt9) {
             	case 1 :
-            	    // src/main/resources/crl_gram.g:91:3: action
+            	    dbg.enterAlt(1);
+
+            	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:91:3: action
             	    {
+            	    dbg.location(91,3);
             	    pushFollow(FOLLOW_action_in_crl_rule391);
             	    action20=action();
 
@@ -901,27 +1154,38 @@ public TreeAdaptor getTreeAdaptor() {
             	    if ( cnt9 >= 1 ) break loop9;
                         EarlyExitException eee =
                             new EarlyExitException(9, input);
+                        dbg.recognitionException(eee);
+
                         throw eee;
                 }
                 cnt9++;
             } while (true);
+            } finally {dbg.exitSubRule(9);}
 
-
+            dbg.location(92,3);
             string_literal21=(CommonToken)match(input,62,FOLLOW_62_in_crl_rule396);  
             stream_62.add(string_literal21);
 
-
-            // src/main/resources/crl_gram.g:92:9: ( EOL )?
+            dbg.location(92,9);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:92:9: ( EOL )?
             int alt10=2;
+            try { dbg.enterSubRule(10);
+            try { dbg.enterDecision(10, decisionCanBacktrack[10]);
+
             int LA10_0 = input.LA(1);
 
             if ( (LA10_0==EOL) ) {
                 alt10=1;
             }
+            } finally {dbg.exitDecision(10);}
+
             switch (alt10) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:92:9: EOL
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:92:9: EOL
                     {
+                    dbg.location(92,9);
                     EOL22=(CommonToken)match(input,EOL,FOLLOW_EOL_in_crl_rule398);  
                     stream_EOL.add(EOL22);
 
@@ -930,10 +1194,11 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(10);}
 
 
             // AST REWRITE
-            // elements: action, J_int_literal, condition_unit
+            // elements: J_int_literal, action, condition_unit
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -945,24 +1210,30 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 92:14: -> ^( J_int_literal ^( Conditions ( condition_unit )+ ) ^( Actions ( action )+ ) )
             {
-                // src/main/resources/crl_gram.g:92:17: ^( J_int_literal ^( Conditions ( condition_unit )+ ) ^( Actions ( action )+ ) )
+                dbg.location(92,17);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:92:17: ^( J_int_literal ^( Conditions ( condition_unit )+ ) ^( Actions ( action )+ ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(92,19);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 stream_J_int_literal.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:92:33: ^( Conditions ( condition_unit )+ )
+                dbg.location(92,33);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:92:33: ^( Conditions ( condition_unit )+ )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(92,35);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(Conditions, "Conditions")
                 , root_2);
 
+                dbg.location(92,46);
                 if ( !(stream_condition_unit.hasNext()) ) {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_condition_unit.hasNext() ) {
+                    dbg.location(92,46);
                     adaptor.addChild(root_2, stream_condition_unit.nextTree());
 
                 }
@@ -970,18 +1241,21 @@ public TreeAdaptor getTreeAdaptor() {
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:92:63: ^( Actions ( action )+ )
+                dbg.location(92,63);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:92:63: ^( Actions ( action )+ )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(92,65);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(Actions, "Actions")
                 , root_2);
 
+                dbg.location(92,73);
                 if ( !(stream_action.hasNext()) ) {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_action.hasNext() ) {
+                    dbg.location(92,73);
                     adaptor.addChild(root_2, stream_action.nextTree());
 
                 }
@@ -1017,6 +1291,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(93, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "crl_rule");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "crl_rule"
@@ -1029,23 +1312,30 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "condition_unit"
-    // src/main/resources/crl_gram.g:95:1: condition_unit : ( condition | no_condition );
-    public final crl_gramParser.condition_unit_return condition_unit() throws RecognitionException {
-        crl_gramParser.condition_unit_return retval = new crl_gramParser.condition_unit_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:95:1: condition_unit : ( condition | no_condition );
+    public final CrlParser.condition_unit_return condition_unit() throws RecognitionException {
+        CrlParser.condition_unit_return retval = new CrlParser.condition_unit_return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
-        crl_gramParser.condition_return condition23 =null;
+        CrlParser.condition_return condition23 =null;
 
-        crl_gramParser.no_condition_return no_condition24 =null;
+        CrlParser.no_condition_return no_condition24 =null;
 
 
+
+        try { dbg.enterRule(getGrammarFileName(), "condition_unit");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(95, 0);
 
         try {
-            // src/main/resources/crl_gram.g:96:2: ( condition | no_condition )
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:96:2: ( condition | no_condition )
             int alt11=2;
+            try { dbg.enterDecision(11, decisionCanBacktrack[11]);
+
             int LA11_0 = input.LA(1);
 
             if ( ((LA11_0 >= 60 && LA11_0 <= 61)||LA11_0==63||LA11_0==66) ) {
@@ -1058,16 +1348,22 @@ public TreeAdaptor getTreeAdaptor() {
                 NoViableAltException nvae =
                     new NoViableAltException("", 11, 0, input);
 
+                dbg.recognitionException(nvae);
                 throw nvae;
 
             }
+            } finally {dbg.exitDecision(11);}
+
             switch (alt11) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:96:4: condition
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:96:4: condition
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(96,4);
                     pushFollow(FOLLOW_condition_in_condition_unit430);
                     condition23=condition();
 
@@ -1078,11 +1374,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 2 :
-                    // src/main/resources/crl_gram.g:96:14: no_condition
+                    dbg.enterAlt(2);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:96:14: no_condition
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(96,14);
                     pushFollow(FOLLOW_no_condition_in_condition_unit432);
                     no_condition24=no_condition();
 
@@ -1111,6 +1410,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(97, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "condition_unit");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "condition_unit"
@@ -1123,9 +1431,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "condition"
-    // src/main/resources/crl_gram.g:99:1: condition : query Identifier ( ':' constraint ( ',' constraint )* ( ',' assignment )* )? EOL -> ^( Condition query Identifier ( constraint )* ( assignment )* ) ;
-    public final crl_gramParser.condition_return condition() throws RecognitionException {
-        crl_gramParser.condition_return retval = new crl_gramParser.condition_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:99:1: condition : query Identifier ( ':' constraint ( ',' constraint )* ( ',' assignment )* )? EOL -> ^( Condition query Identifier ( constraint )* ( assignment )* ) ;
+    public final CrlParser.condition_return condition() throws RecognitionException {
+        CrlParser.condition_return retval = new CrlParser.condition_return();
         retval.start = input.LT(1);
 
 
@@ -1136,13 +1444,13 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken char_literal29=null;
         CommonToken char_literal31=null;
         CommonToken EOL33=null;
-        crl_gramParser.query_return query25 =null;
+        CrlParser.query_return query25 =null;
 
-        crl_gramParser.constraint_return constraint28 =null;
+        CrlParser.constraint_return constraint28 =null;
 
-        crl_gramParser.constraint_return constraint30 =null;
+        CrlParser.constraint_return constraint30 =null;
 
-        crl_gramParser.assignment_return assignment32 =null;
+        CrlParser.assignment_return assignment32 =null;
 
 
         CommonTree Identifier26_tree=null;
@@ -1157,47 +1465,67 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleSubtreeStream stream_assignment=new RewriteRuleSubtreeStream(adaptor,"rule assignment");
         RewriteRuleSubtreeStream stream_query=new RewriteRuleSubtreeStream(adaptor,"rule query");
         RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
+        try { dbg.enterRule(getGrammarFileName(), "condition");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(99, 0);
+
         try {
-            // src/main/resources/crl_gram.g:100:2: ( query Identifier ( ':' constraint ( ',' constraint )* ( ',' assignment )* )? EOL -> ^( Condition query Identifier ( constraint )* ( assignment )* ) )
-            // src/main/resources/crl_gram.g:100:4: query Identifier ( ':' constraint ( ',' constraint )* ( ',' assignment )* )? EOL
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:2: ( query Identifier ( ':' constraint ( ',' constraint )* ( ',' assignment )* )? EOL -> ^( Condition query Identifier ( constraint )* ( assignment )* ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:4: query Identifier ( ':' constraint ( ',' constraint )* ( ',' assignment )* )? EOL
             {
+            dbg.location(100,4);
             pushFollow(FOLLOW_query_in_condition443);
             query25=query();
 
             state._fsp--;
 
             stream_query.add(query25.getTree());
-
+            dbg.location(100,10);
             Identifier26=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_condition445);  
             stream_Identifier.add(Identifier26);
 
-
-            // src/main/resources/crl_gram.g:100:21: ( ':' constraint ( ',' constraint )* ( ',' assignment )* )?
+            dbg.location(100,21);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:21: ( ':' constraint ( ',' constraint )* ( ',' assignment )* )?
             int alt14=2;
+            try { dbg.enterSubRule(14);
+            try { dbg.enterDecision(14, decisionCanBacktrack[14]);
+
             int LA14_0 = input.LA(1);
 
             if ( (LA14_0==54) ) {
                 alt14=1;
             }
+            } finally {dbg.exitDecision(14);}
+
             switch (alt14) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:100:22: ':' constraint ( ',' constraint )* ( ',' assignment )*
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:22: ':' constraint ( ',' constraint )* ( ',' assignment )*
                     {
+                    dbg.location(100,22);
                     char_literal27=(CommonToken)match(input,54,FOLLOW_54_in_condition448);  
                     stream_54.add(char_literal27);
 
-
+                    dbg.location(100,26);
                     pushFollow(FOLLOW_constraint_in_condition450);
                     constraint28=constraint();
 
                     state._fsp--;
 
                     stream_constraint.add(constraint28.getTree());
+                    dbg.location(100,37);
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:37: ( ',' constraint )*
+                    try { dbg.enterSubRule(12);
 
-                    // src/main/resources/crl_gram.g:100:37: ( ',' constraint )*
                     loop12:
                     do {
                         int alt12=2;
+                        try { dbg.enterDecision(12, decisionCanBacktrack[12]);
+
                         int LA12_0 = input.LA(1);
 
                         if ( (LA12_0==52) ) {
@@ -1220,14 +1548,19 @@ public TreeAdaptor getTreeAdaptor() {
                         }
 
 
+                        } finally {dbg.exitDecision(12);}
+
                         switch (alt12) {
                     	case 1 :
-                    	    // src/main/resources/crl_gram.g:100:38: ',' constraint
+                    	    dbg.enterAlt(1);
+
+                    	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:38: ',' constraint
                     	    {
+                    	    dbg.location(100,38);
                     	    char_literal29=(CommonToken)match(input,52,FOLLOW_52_in_condition453);  
                     	    stream_52.add(char_literal29);
 
-
+                    	    dbg.location(100,42);
                     	    pushFollow(FOLLOW_constraint_in_condition455);
                     	    constraint30=constraint();
 
@@ -1242,12 +1575,17 @@ public TreeAdaptor getTreeAdaptor() {
                     	    break loop12;
                         }
                     } while (true);
+                    } finally {dbg.exitSubRule(12);}
 
+                    dbg.location(100,55);
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:55: ( ',' assignment )*
+                    try { dbg.enterSubRule(13);
 
-                    // src/main/resources/crl_gram.g:100:55: ( ',' assignment )*
                     loop13:
                     do {
                         int alt13=2;
+                        try { dbg.enterDecision(13, decisionCanBacktrack[13]);
+
                         int LA13_0 = input.LA(1);
 
                         if ( (LA13_0==52) ) {
@@ -1255,14 +1593,19 @@ public TreeAdaptor getTreeAdaptor() {
                         }
 
 
+                        } finally {dbg.exitDecision(13);}
+
                         switch (alt13) {
                     	case 1 :
-                    	    // src/main/resources/crl_gram.g:100:56: ',' assignment
+                    	    dbg.enterAlt(1);
+
+                    	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:100:56: ',' assignment
                     	    {
+                    	    dbg.location(100,56);
                     	    char_literal31=(CommonToken)match(input,52,FOLLOW_52_in_condition460);  
                     	    stream_52.add(char_literal31);
 
-
+                    	    dbg.location(100,60);
                     	    pushFollow(FOLLOW_assignment_in_condition462);
                     	    assignment32=assignment();
 
@@ -1277,20 +1620,22 @@ public TreeAdaptor getTreeAdaptor() {
                     	    break loop13;
                         }
                     } while (true);
+                    } finally {dbg.exitSubRule(13);}
 
 
                     }
                     break;
 
             }
+            } finally {dbg.exitSubRule(14);}
 
-
+            dbg.location(100,76);
             EOL33=(CommonToken)match(input,EOL,FOLLOW_EOL_in_condition469);  
             stream_EOL.add(EOL33);
 
 
             // AST REWRITE
-            // elements: query, Identifier, assignment, constraint
+            // elements: query, constraint, Identifier, assignment
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1302,28 +1647,33 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 101:3: -> ^( Condition query Identifier ( constraint )* ( assignment )* )
             {
-                // src/main/resources/crl_gram.g:101:6: ^( Condition query Identifier ( constraint )* ( assignment )* )
+                dbg.location(101,6);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:101:6: ^( Condition query Identifier ( constraint )* ( assignment )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(101,8);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(Condition, "Condition")
                 , root_1);
 
+                dbg.location(101,18);
                 adaptor.addChild(root_1, stream_query.nextTree());
-
+                dbg.location(101,24);
                 adaptor.addChild(root_1, 
                 stream_Identifier.nextNode()
                 );
-
-                // src/main/resources/crl_gram.g:101:35: ( constraint )*
+                dbg.location(101,35);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:101:35: ( constraint )*
                 while ( stream_constraint.hasNext() ) {
+                    dbg.location(101,35);
                     adaptor.addChild(root_1, stream_constraint.nextTree());
 
                 }
                 stream_constraint.reset();
-
-                // src/main/resources/crl_gram.g:101:47: ( assignment )*
+                dbg.location(101,47);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:101:47: ( assignment )*
                 while ( stream_assignment.hasNext() ) {
+                    dbg.location(101,47);
                     adaptor.addChild(root_1, stream_assignment.nextTree());
 
                 }
@@ -1356,6 +1706,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(102, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "condition");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "condition"
@@ -1368,9 +1727,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "query"
-    // src/main/resources/crl_gram.g:104:1: query : ( 'cell' | 'entry' | 'label' | 'category' );
-    public final crl_gramParser.query_return query() throws RecognitionException {
-        crl_gramParser.query_return retval = new crl_gramParser.query_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:104:1: query : ( 'cell' | 'entry' | 'label' | 'category' );
+    public final CrlParser.query_return query() throws RecognitionException {
+        CrlParser.query_return retval = new CrlParser.query_return();
         retval.start = input.LT(1);
 
 
@@ -1380,13 +1739,21 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonTree set34_tree=null;
 
+        try { dbg.enterRule(getGrammarFileName(), "query");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(104, 0);
+
         try {
-            // src/main/resources/crl_gram.g:105:2: ( 'cell' | 'entry' | 'label' | 'category' )
-            // src/main/resources/crl_gram.g:
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:105:2: ( 'cell' | 'entry' | 'label' | 'category' )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
+            dbg.location(105,2);
             set34=(CommonToken)input.LT(1);
 
             if ( (input.LA(1) >= 60 && input.LA(1) <= 61)||input.LA(1)==63||input.LA(1)==66 ) {
@@ -1398,6 +1765,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             else {
                 MismatchedSetException mse = new MismatchedSetException(null,input);
+                dbg.recognitionException(mse);
                 throw mse;
             }
 
@@ -1421,6 +1789,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(106, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "query");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "query"
@@ -1433,9 +1810,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "no_condition"
-    // src/main/resources/crl_gram.g:108:1: no_condition : no_query ( ':' constraint ( ',' constraint )* )? EOL -> ^( No_condition no_query ( constraint )* ) ;
-    public final crl_gramParser.no_condition_return no_condition() throws RecognitionException {
-        crl_gramParser.no_condition_return retval = new crl_gramParser.no_condition_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:108:1: no_condition : no_query ( ':' constraint ( ',' constraint )* )? EOL -> ^( No_condition no_query ( constraint )* ) ;
+    public final CrlParser.no_condition_return no_condition() throws RecognitionException {
+        CrlParser.no_condition_return retval = new CrlParser.no_condition_return();
         retval.start = input.LT(1);
 
 
@@ -1444,11 +1821,11 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken char_literal36=null;
         CommonToken char_literal38=null;
         CommonToken EOL40=null;
-        crl_gramParser.no_query_return no_query35 =null;
+        CrlParser.no_query_return no_query35 =null;
 
-        crl_gramParser.constraint_return constraint37 =null;
+        CrlParser.constraint_return constraint37 =null;
 
-        crl_gramParser.constraint_return constraint39 =null;
+        CrlParser.constraint_return constraint39 =null;
 
 
         CommonTree char_literal36_tree=null;
@@ -1459,43 +1836,63 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
         RewriteRuleSubtreeStream stream_no_query=new RewriteRuleSubtreeStream(adaptor,"rule no_query");
         RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
+        try { dbg.enterRule(getGrammarFileName(), "no_condition");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(108, 0);
+
         try {
-            // src/main/resources/crl_gram.g:109:2: ( no_query ( ':' constraint ( ',' constraint )* )? EOL -> ^( No_condition no_query ( constraint )* ) )
-            // src/main/resources/crl_gram.g:109:4: no_query ( ':' constraint ( ',' constraint )* )? EOL
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:2: ( no_query ( ':' constraint ( ',' constraint )* )? EOL -> ^( No_condition no_query ( constraint )* ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:4: no_query ( ':' constraint ( ',' constraint )* )? EOL
             {
+            dbg.location(109,4);
             pushFollow(FOLLOW_no_query_in_no_condition518);
             no_query35=no_query();
 
             state._fsp--;
 
             stream_no_query.add(no_query35.getTree());
-
-            // src/main/resources/crl_gram.g:109:13: ( ':' constraint ( ',' constraint )* )?
+            dbg.location(109,13);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:13: ( ':' constraint ( ',' constraint )* )?
             int alt16=2;
+            try { dbg.enterSubRule(16);
+            try { dbg.enterDecision(16, decisionCanBacktrack[16]);
+
             int LA16_0 = input.LA(1);
 
             if ( (LA16_0==54) ) {
                 alt16=1;
             }
+            } finally {dbg.exitDecision(16);}
+
             switch (alt16) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:109:14: ':' constraint ( ',' constraint )*
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:14: ':' constraint ( ',' constraint )*
                     {
+                    dbg.location(109,14);
                     char_literal36=(CommonToken)match(input,54,FOLLOW_54_in_no_condition521);  
                     stream_54.add(char_literal36);
 
-
+                    dbg.location(109,18);
                     pushFollow(FOLLOW_constraint_in_no_condition523);
                     constraint37=constraint();
 
                     state._fsp--;
 
                     stream_constraint.add(constraint37.getTree());
+                    dbg.location(109,29);
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:29: ( ',' constraint )*
+                    try { dbg.enterSubRule(15);
 
-                    // src/main/resources/crl_gram.g:109:29: ( ',' constraint )*
                     loop15:
                     do {
                         int alt15=2;
+                        try { dbg.enterDecision(15, decisionCanBacktrack[15]);
+
                         int LA15_0 = input.LA(1);
 
                         if ( (LA15_0==52) ) {
@@ -1503,14 +1900,19 @@ public TreeAdaptor getTreeAdaptor() {
                         }
 
 
+                        } finally {dbg.exitDecision(15);}
+
                         switch (alt15) {
                     	case 1 :
-                    	    // src/main/resources/crl_gram.g:109:30: ',' constraint
+                    	    dbg.enterAlt(1);
+
+                    	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:30: ',' constraint
                     	    {
+                    	    dbg.location(109,30);
                     	    char_literal38=(CommonToken)match(input,52,FOLLOW_52_in_no_condition526);  
                     	    stream_52.add(char_literal38);
 
-
+                    	    dbg.location(109,34);
                     	    pushFollow(FOLLOW_constraint_in_no_condition528);
                     	    constraint39=constraint();
 
@@ -1525,14 +1927,16 @@ public TreeAdaptor getTreeAdaptor() {
                     	    break loop15;
                         }
                     } while (true);
+                    } finally {dbg.exitSubRule(15);}
 
 
                     }
                     break;
 
             }
+            } finally {dbg.exitSubRule(16);}
 
-
+            dbg.location(109,50);
             EOL40=(CommonToken)match(input,EOL,FOLLOW_EOL_in_no_condition535);  
             stream_EOL.add(EOL40);
 
@@ -1550,17 +1954,21 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 109:54: -> ^( No_condition no_query ( constraint )* )
             {
-                // src/main/resources/crl_gram.g:109:57: ^( No_condition no_query ( constraint )* )
+                dbg.location(109,57);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:57: ^( No_condition no_query ( constraint )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(109,59);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(No_condition, "No_condition")
                 , root_1);
 
+                dbg.location(109,72);
                 adaptor.addChild(root_1, stream_no_query.nextTree());
-
-                // src/main/resources/crl_gram.g:109:81: ( constraint )*
+                dbg.location(109,81);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:109:81: ( constraint )*
                 while ( stream_constraint.hasNext() ) {
+                    dbg.location(109,81);
                     adaptor.addChild(root_1, stream_constraint.nextTree());
 
                 }
@@ -1593,6 +2001,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(110, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "no_condition");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "no_condition"
@@ -1605,9 +2022,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "no_query"
-    // src/main/resources/crl_gram.g:112:1: no_query : ( 'no cells' | 'no labels' | 'no entries' | 'no categories' );
-    public final crl_gramParser.no_query_return no_query() throws RecognitionException {
-        crl_gramParser.no_query_return retval = new crl_gramParser.no_query_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:112:1: no_query : ( 'no cells' | 'no labels' | 'no entries' | 'no categories' );
+    public final CrlParser.no_query_return no_query() throws RecognitionException {
+        CrlParser.no_query_return retval = new CrlParser.no_query_return();
         retval.start = input.LT(1);
 
 
@@ -1617,13 +2034,21 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonTree set41_tree=null;
 
+        try { dbg.enterRule(getGrammarFileName(), "no_query");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(112, 0);
+
         try {
-            // src/main/resources/crl_gram.g:113:2: ( 'no cells' | 'no labels' | 'no entries' | 'no categories' )
-            // src/main/resources/crl_gram.g:
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:113:2: ( 'no cells' | 'no labels' | 'no entries' | 'no categories' )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
+            dbg.location(113,2);
             set41=(CommonToken)input.LT(1);
 
             if ( (input.LA(1) >= 71 && input.LA(1) <= 74) ) {
@@ -1635,6 +2060,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             else {
                 MismatchedSetException mse = new MismatchedSetException(null,input);
+                dbg.recognitionException(mse);
                 throw mse;
             }
 
@@ -1658,6 +2084,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(114, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "no_query");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "no_query"
@@ -1670,22 +2105,30 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "constraint"
-    // src/main/resources/crl_gram.g:116:1: constraint : j_expr -> ^( Constraint j_expr ) ;
-    public final crl_gramParser.constraint_return constraint() throws RecognitionException {
-        crl_gramParser.constraint_return retval = new crl_gramParser.constraint_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:116:1: constraint : j_expr -> ^( Constraint j_expr ) ;
+    public final CrlParser.constraint_return constraint() throws RecognitionException {
+        CrlParser.constraint_return retval = new CrlParser.constraint_return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
-        crl_gramParser.j_expr_return j_expr42 =null;
+        CrlParser.j_expr_return j_expr42 =null;
 
 
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "constraint");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(116, 0);
+
         try {
-            // src/main/resources/crl_gram.g:117:2: ( j_expr -> ^( Constraint j_expr ) )
-            // src/main/resources/crl_gram.g:117:4: j_expr
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:117:2: ( j_expr -> ^( Constraint j_expr ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:117:4: j_expr
             {
+            dbg.location(117,4);
             pushFollow(FOLLOW_j_expr_in_constraint576);
             j_expr42=j_expr();
 
@@ -1706,13 +2149,16 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 117:11: -> ^( Constraint j_expr )
             {
-                // src/main/resources/crl_gram.g:117:14: ^( Constraint j_expr )
+                dbg.location(117,14);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:117:14: ^( Constraint j_expr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(117,16);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(Constraint, "Constraint")
                 , root_1);
 
+                dbg.location(117,27);
                 adaptor.addChild(root_1, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -1742,6 +2188,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(118, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "constraint");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "constraint"
@@ -1754,9 +2209,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "assignment"
-    // src/main/resources/crl_gram.g:120:1: assignment : Identifier ':' j_expr -> ^( Assignment ^( IDENT Identifier ) ^( STRING j_expr ) ) ;
-    public final crl_gramParser.assignment_return assignment() throws RecognitionException {
-        crl_gramParser.assignment_return retval = new crl_gramParser.assignment_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:120:1: assignment : Identifier ':' j_expr -> ^( Assignment ^( IDENT Identifier ) ^( STRING j_expr ) ) ;
+    public final CrlParser.assignment_return assignment() throws RecognitionException {
+        CrlParser.assignment_return retval = new CrlParser.assignment_return();
         retval.start = input.LT(1);
 
 
@@ -1764,7 +2219,7 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonToken Identifier43=null;
         CommonToken char_literal44=null;
-        crl_gramParser.j_expr_return j_expr45 =null;
+        CrlParser.j_expr_return j_expr45 =null;
 
 
         CommonTree Identifier43_tree=null;
@@ -1772,18 +2227,26 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_Identifier=new RewriteRuleTokenStream(adaptor,"token Identifier");
         RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "assignment");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(120, 0);
+
         try {
-            // src/main/resources/crl_gram.g:121:2: ( Identifier ':' j_expr -> ^( Assignment ^( IDENT Identifier ) ^( STRING j_expr ) ) )
-            // src/main/resources/crl_gram.g:121:4: Identifier ':' j_expr
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:121:2: ( Identifier ':' j_expr -> ^( Assignment ^( IDENT Identifier ) ^( STRING j_expr ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:121:4: Identifier ':' j_expr
             {
+            dbg.location(121,4);
             Identifier43=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_assignment596);  
             stream_Identifier.add(Identifier43);
 
-
+            dbg.location(121,15);
             char_literal44=(CommonToken)match(input,54,FOLLOW_54_in_assignment598);  
             stream_54.add(char_literal44);
 
-
+            dbg.location(121,19);
             pushFollow(FOLLOW_j_expr_in_assignment600);
             j_expr45=j_expr();
 
@@ -1804,34 +2267,41 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 121:26: -> ^( Assignment ^( IDENT Identifier ) ^( STRING j_expr ) )
             {
-                // src/main/resources/crl_gram.g:121:29: ^( Assignment ^( IDENT Identifier ) ^( STRING j_expr ) )
+                dbg.location(121,29);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:121:29: ^( Assignment ^( IDENT Identifier ) ^( STRING j_expr ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(121,31);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(Assignment, "Assignment")
                 , root_1);
 
-                // src/main/resources/crl_gram.g:121:42: ^( IDENT Identifier )
+                dbg.location(121,42);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:121:42: ^( IDENT Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(121,44);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT, "IDENT")
                 , root_2);
 
+                dbg.location(121,50);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:121:62: ^( STRING j_expr )
+                dbg.location(121,62);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:121:62: ^( STRING j_expr )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(121,64);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(STRING, "STRING")
                 , root_2);
 
+                dbg.location(121,71);
                 adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -1864,6 +2334,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(122, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "assignment");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "assignment"
@@ -1877,9 +2356,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "j_expr"
-    // src/main/resources/crl_gram.g:124:1: j_expr returns [String value] : (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+ ;
-    public final crl_gramParser.j_expr_return j_expr() throws RecognitionException {
-        crl_gramParser.j_expr_return retval = new crl_gramParser.j_expr_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:124:1: j_expr returns [String value] : (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+ ;
+    public final CrlParser.j_expr_return j_expr() throws RecognitionException {
+        CrlParser.j_expr_return retval = new CrlParser.j_expr_return();
         retval.start = input.LT(1);
 
 
@@ -1890,18 +2369,30 @@ public TreeAdaptor getTreeAdaptor() {
         CommonTree i_tree=null;
 
          retval.value =""; 
+        try { dbg.enterRule(getGrammarFileName(), "j_expr");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(124, 0);
+
         try {
-            // src/main/resources/crl_gram.g:126:2: ( (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+ )
-            // src/main/resources/crl_gram.g:126:5: (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:126:2: ( (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+ )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:126:5: (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
-            // src/main/resources/crl_gram.g:126:5: (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+
+            dbg.location(126,5);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:126:5: (i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL ) )+
             int cnt17=0;
+            try { dbg.enterSubRule(17);
+
             loop17:
             do {
                 int alt17=2;
+                try { dbg.enterDecision(17, decisionCanBacktrack[17]);
+
                 int LA17_0 = input.LA(1);
 
                 if ( ((LA17_0 >= ADV_IDENT && LA17_0 <= DIGIT)||(LA17_0 >= GroupAction && LA17_0 <= WS)||LA17_0==51||LA17_0==53||(LA17_0 >= 55 && LA17_0 <= 76)||(LA17_0 >= 78 && LA17_0 <= 89)||(LA17_0 >= 91 && LA17_0 <= 93)) ) {
@@ -1909,10 +2400,15 @@ public TreeAdaptor getTreeAdaptor() {
                 }
 
 
+                } finally {dbg.exitDecision(17);}
+
                 switch (alt17) {
             	case 1 :
-            	    // src/main/resources/crl_gram.g:126:7: i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL )
+            	    dbg.enterAlt(1);
+
+            	    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:126:7: i=~ ( ',' | '\"' | ':' | 'to' | 'of' | EOL )
             	    {
+            	    dbg.location(126,8);
             	    i=(CommonToken)input.LT(1);
 
             	    if ( (input.LA(1) >= ADV_IDENT && input.LA(1) <= DIGIT)||(input.LA(1) >= GroupAction && input.LA(1) <= WS)||input.LA(1)==51||input.LA(1)==53||(input.LA(1) >= 55 && input.LA(1) <= 76)||(input.LA(1) >= 78 && input.LA(1) <= 89)||(input.LA(1) >= 91 && input.LA(1) <= 93) ) {
@@ -1924,10 +2420,11 @@ public TreeAdaptor getTreeAdaptor() {
             	    }
             	    else {
             	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        dbg.recognitionException(mse);
             	        throw mse;
             	    }
 
-
+            	    dbg.location(126,39);
             	     retval.value+=(i!=null?i.getText():null); 
 
             	    }
@@ -1937,10 +2434,13 @@ public TreeAdaptor getTreeAdaptor() {
             	    if ( cnt17 >= 1 ) break loop17;
                         EarlyExitException eee =
                             new EarlyExitException(17, input);
+                        dbg.recognitionException(eee);
+
                         throw eee;
                 }
                 cnt17++;
             } while (true);
+            } finally {dbg.exitSubRule(17);}
 
 
             }
@@ -1962,6 +2462,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(127, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "j_expr");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "j_expr"
@@ -1974,32 +2483,40 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "action"
-    // src/main/resources/crl_gram.g:129:1: action : action_ EOL -> action_ ;
-    public final crl_gramParser.action_return action() throws RecognitionException {
-        crl_gramParser.action_return retval = new crl_gramParser.action_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:129:1: action : action_ EOL -> action_ ;
+    public final CrlParser.action_return action() throws RecognitionException {
+        CrlParser.action_return retval = new CrlParser.action_return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
         CommonToken EOL47=null;
-        crl_gramParser.action__return action_46 =null;
+        CrlParser.action__return action_46 =null;
 
 
         CommonTree EOL47_tree=null;
         RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
         RewriteRuleSubtreeStream stream_action_=new RewriteRuleSubtreeStream(adaptor,"rule action_");
+        try { dbg.enterRule(getGrammarFileName(), "action");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(129, 0);
+
         try {
-            // src/main/resources/crl_gram.g:130:2: ( action_ EOL -> action_ )
-            // src/main/resources/crl_gram.g:130:4: action_ EOL
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:130:2: ( action_ EOL -> action_ )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:130:4: action_ EOL
             {
+            dbg.location(130,4);
             pushFollow(FOLLOW_action__in_action673);
             action_46=action_();
 
             state._fsp--;
 
             stream_action_.add(action_46.getTree());
-
+            dbg.location(130,12);
             EOL47=(CommonToken)match(input,EOL,FOLLOW_EOL_in_action675);  
             stream_EOL.add(EOL47);
 
@@ -2017,6 +2534,7 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 130:16: -> action_
             {
+                dbg.location(130,19);
                 adaptor.addChild(root_0, stream_action_.nextTree());
 
             }
@@ -2043,6 +2561,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(131, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "action");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "action"
@@ -2055,47 +2582,54 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "action_"
-    // src/main/resources/crl_gram.g:133:1: action_ : ( set_mark | set_text | set_indent | set_value | split | merge | new_label | add_label | set_category | set_parent | new_entry | group | c_print | update );
-    public final crl_gramParser.action__return action_() throws RecognitionException {
-        crl_gramParser.action__return retval = new crl_gramParser.action__return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:133:1: action_ : ( set_mark | set_text | set_indent | set_value | split | merge | new_label | add_label | set_category | set_parent | new_entry | group | c_print | update );
+    public final CrlParser.action__return action_() throws RecognitionException {
+        CrlParser.action__return retval = new CrlParser.action__return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
-        crl_gramParser.set_mark_return set_mark48 =null;
+        CrlParser.set_mark_return set_mark48 =null;
 
-        crl_gramParser.set_text_return set_text49 =null;
+        CrlParser.set_text_return set_text49 =null;
 
-        crl_gramParser.set_indent_return set_indent50 =null;
+        CrlParser.set_indent_return set_indent50 =null;
 
-        crl_gramParser.set_value_return set_value51 =null;
+        CrlParser.set_value_return set_value51 =null;
 
-        crl_gramParser.split_return split52 =null;
+        CrlParser.split_return split52 =null;
 
-        crl_gramParser.merge_return merge53 =null;
+        CrlParser.merge_return merge53 =null;
 
-        crl_gramParser.new_label_return new_label54 =null;
+        CrlParser.new_label_return new_label54 =null;
 
-        crl_gramParser.add_label_return add_label55 =null;
+        CrlParser.add_label_return add_label55 =null;
 
-        crl_gramParser.set_category_return set_category56 =null;
+        CrlParser.set_category_return set_category56 =null;
 
-        crl_gramParser.set_parent_return set_parent57 =null;
+        CrlParser.set_parent_return set_parent57 =null;
 
-        crl_gramParser.new_entry_return new_entry58 =null;
+        CrlParser.new_entry_return new_entry58 =null;
 
-        crl_gramParser.group_return group59 =null;
+        CrlParser.group_return group59 =null;
 
-        crl_gramParser.c_print_return c_print60 =null;
+        CrlParser.c_print_return c_print60 =null;
 
-        crl_gramParser.update_return update61 =null;
+        CrlParser.update_return update61 =null;
 
 
+
+        try { dbg.enterRule(getGrammarFileName(), "action_");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(133, 0);
 
         try {
-            // src/main/resources/crl_gram.g:134:2: ( set_mark | set_text | set_indent | set_value | split | merge | new_label | add_label | set_category | set_parent | new_entry | group | c_print | update )
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:134:2: ( set_mark | set_text | set_indent | set_value | split | merge | new_label | add_label | set_category | set_parent | new_entry | group | c_print | update )
             int alt18=14;
+            try { dbg.enterDecision(18, decisionCanBacktrack[18]);
+
             switch ( input.LA(1) ) {
             case 84:
                 {
@@ -2172,17 +2706,23 @@ public TreeAdaptor getTreeAdaptor() {
                 NoViableAltException nvae =
                     new NoViableAltException("", 18, 0, input);
 
+                dbg.recognitionException(nvae);
                 throw nvae;
 
             }
 
+            } finally {dbg.exitDecision(18);}
+
             switch (alt18) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:134:4: set_mark
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:134:4: set_mark
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(134,4);
                     pushFollow(FOLLOW_set_mark_in_action_691);
                     set_mark48=set_mark();
 
@@ -2193,11 +2733,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 2 :
-                    // src/main/resources/crl_gram.g:135:4: set_text
+                    dbg.enterAlt(2);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:135:4: set_text
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(135,4);
                     pushFollow(FOLLOW_set_text_in_action_696);
                     set_text49=set_text();
 
@@ -2208,11 +2751,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 3 :
-                    // src/main/resources/crl_gram.g:136:4: set_indent
+                    dbg.enterAlt(3);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:136:4: set_indent
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(136,4);
                     pushFollow(FOLLOW_set_indent_in_action_701);
                     set_indent50=set_indent();
 
@@ -2223,11 +2769,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 4 :
-                    // src/main/resources/crl_gram.g:137:4: set_value
+                    dbg.enterAlt(4);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:137:4: set_value
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(137,4);
                     pushFollow(FOLLOW_set_value_in_action_706);
                     set_value51=set_value();
 
@@ -2238,11 +2787,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 5 :
-                    // src/main/resources/crl_gram.g:138:4: split
+                    dbg.enterAlt(5);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:138:4: split
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(138,4);
                     pushFollow(FOLLOW_split_in_action_711);
                     split52=split();
 
@@ -2253,11 +2805,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 6 :
-                    // src/main/resources/crl_gram.g:139:4: merge
+                    dbg.enterAlt(6);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:139:4: merge
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(139,4);
                     pushFollow(FOLLOW_merge_in_action_716);
                     merge53=merge();
 
@@ -2268,11 +2823,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 7 :
-                    // src/main/resources/crl_gram.g:140:4: new_label
+                    dbg.enterAlt(7);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:140:4: new_label
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(140,4);
                     pushFollow(FOLLOW_new_label_in_action_721);
                     new_label54=new_label();
 
@@ -2283,11 +2841,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 8 :
-                    // src/main/resources/crl_gram.g:141:4: add_label
+                    dbg.enterAlt(8);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:141:4: add_label
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(141,4);
                     pushFollow(FOLLOW_add_label_in_action_726);
                     add_label55=add_label();
 
@@ -2298,11 +2859,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 9 :
-                    // src/main/resources/crl_gram.g:142:4: set_category
+                    dbg.enterAlt(9);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:142:4: set_category
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(142,4);
                     pushFollow(FOLLOW_set_category_in_action_731);
                     set_category56=set_category();
 
@@ -2313,11 +2877,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 10 :
-                    // src/main/resources/crl_gram.g:143:4: set_parent
+                    dbg.enterAlt(10);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:143:4: set_parent
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(143,4);
                     pushFollow(FOLLOW_set_parent_in_action_736);
                     set_parent57=set_parent();
 
@@ -2328,11 +2895,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 11 :
-                    // src/main/resources/crl_gram.g:144:4: new_entry
+                    dbg.enterAlt(11);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:144:4: new_entry
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(144,4);
                     pushFollow(FOLLOW_new_entry_in_action_741);
                     new_entry58=new_entry();
 
@@ -2343,11 +2913,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 12 :
-                    // src/main/resources/crl_gram.g:145:4: group
+                    dbg.enterAlt(12);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:145:4: group
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(145,4);
                     pushFollow(FOLLOW_group_in_action_746);
                     group59=group();
 
@@ -2358,11 +2931,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 13 :
-                    // src/main/resources/crl_gram.g:146:4: c_print
+                    dbg.enterAlt(13);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:146:4: c_print
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(146,4);
                     pushFollow(FOLLOW_c_print_in_action_751);
                     c_print60=c_print();
 
@@ -2373,11 +2949,14 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 14 :
-                    // src/main/resources/crl_gram.g:147:4: update
+                    dbg.enterAlt(14);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:147:4: update
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
+                    dbg.location(147,4);
                     pushFollow(FOLLOW_update_in_action_756);
                     update61=update();
 
@@ -2406,6 +2985,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(148, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "action_");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "action_"
@@ -2418,9 +3006,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "set_mark"
-    // src/main/resources/crl_gram.g:150:1: set_mark : 'set mark' j_expr 'to' Identifier -> ^( SetMarkAction ^( IDENT Identifier ) ^( STRING j_expr ) ) ;
-    public final crl_gramParser.set_mark_return set_mark() throws RecognitionException {
-        crl_gramParser.set_mark_return retval = new crl_gramParser.set_mark_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:150:1: set_mark : 'set mark' j_expr 'to' Identifier -> ^( 'set mark' ^( IDENT Identifier ) ^( STRING j_expr ) ) ;
+    public final CrlParser.set_mark_return set_mark() throws RecognitionException {
+        CrlParser.set_mark_return retval = new CrlParser.set_mark_return();
         retval.start = input.LT(1);
 
 
@@ -2429,7 +3017,7 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken string_literal62=null;
         CommonToken string_literal64=null;
         CommonToken Identifier65=null;
-        crl_gramParser.j_expr_return j_expr63 =null;
+        CrlParser.j_expr_return j_expr63 =null;
 
 
         CommonTree string_literal62_tree=null;
@@ -2439,31 +3027,39 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_90=new RewriteRuleTokenStream(adaptor,"token 90");
         RewriteRuleTokenStream stream_84=new RewriteRuleTokenStream(adaptor,"token 84");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "set_mark");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(150, 0);
+
         try {
-            // src/main/resources/crl_gram.g:151:2: ( 'set mark' j_expr 'to' Identifier -> ^( SetMarkAction ^( IDENT Identifier ) ^( STRING j_expr ) ) )
-            // src/main/resources/crl_gram.g:151:4: 'set mark' j_expr 'to' Identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:151:2: ( 'set mark' j_expr 'to' Identifier -> ^( 'set mark' ^( IDENT Identifier ) ^( STRING j_expr ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:151:4: 'set mark' j_expr 'to' Identifier
             {
+            dbg.location(151,4);
             string_literal62=(CommonToken)match(input,84,FOLLOW_84_in_set_mark768);  
             stream_84.add(string_literal62);
 
-
+            dbg.location(151,15);
             pushFollow(FOLLOW_j_expr_in_set_mark770);
             j_expr63=j_expr();
 
             state._fsp--;
 
             stream_j_expr.add(j_expr63.getTree());
-
+            dbg.location(151,22);
             string_literal64=(CommonToken)match(input,90,FOLLOW_90_in_set_mark772);  
             stream_90.add(string_literal64);
 
-
+            dbg.location(151,27);
             Identifier65=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_set_mark774);  
             stream_Identifier.add(Identifier65);
 
 
             // AST REWRITE
-            // elements: Identifier, j_expr
+            // elements: j_expr, Identifier, 84
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2473,36 +3069,43 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 151:38: -> ^( SetMarkAction ^( IDENT Identifier ) ^( STRING j_expr ) )
+            // 151:38: -> ^( 'set mark' ^( IDENT Identifier ) ^( STRING j_expr ) )
             {
-                // src/main/resources/crl_gram.g:151:41: ^( SetMarkAction ^( IDENT Identifier ) ^( STRING j_expr ) )
+                dbg.location(151,41);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:151:41: ^( 'set mark' ^( IDENT Identifier ) ^( STRING j_expr ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(151,43);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(SetMarkAction, "SetMarkAction")
+                stream_84.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:151:57: ^( IDENT Identifier )
+                dbg.location(151,54);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:151:54: ^( IDENT Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(151,56);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT, "IDENT")
                 , root_2);
 
+                dbg.location(151,62);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:151:77: ^( STRING j_expr )
+                dbg.location(151,74);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:151:74: ^( STRING j_expr )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(151,76);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(STRING, "STRING")
                 , root_2);
 
+                dbg.location(151,83);
                 adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -2535,6 +3138,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(152, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "set_mark");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "set_mark"
@@ -2547,9 +3159,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "set_text"
-    // src/main/resources/crl_gram.g:154:1: set_text : 'set text' j_expr 'to' Identifier -> ^( SetTextAction ^( IDENT Identifier ) ^( STRING j_expr ) ) ;
-    public final crl_gramParser.set_text_return set_text() throws RecognitionException {
-        crl_gramParser.set_text_return retval = new crl_gramParser.set_text_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:154:1: set_text : 'set text' j_expr 'to' Identifier -> ^( 'set text' ^( IDENT Identifier ) ^( STRING j_expr ) ) ;
+    public final CrlParser.set_text_return set_text() throws RecognitionException {
+        CrlParser.set_text_return retval = new CrlParser.set_text_return();
         retval.start = input.LT(1);
 
 
@@ -2558,7 +3170,7 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken string_literal66=null;
         CommonToken string_literal68=null;
         CommonToken Identifier69=null;
-        crl_gramParser.j_expr_return j_expr67 =null;
+        CrlParser.j_expr_return j_expr67 =null;
 
 
         CommonTree string_literal66_tree=null;
@@ -2568,31 +3180,39 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_90=new RewriteRuleTokenStream(adaptor,"token 90");
         RewriteRuleTokenStream stream_86=new RewriteRuleTokenStream(adaptor,"token 86");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "set_text");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(154, 0);
+
         try {
-            // src/main/resources/crl_gram.g:155:2: ( 'set text' j_expr 'to' Identifier -> ^( SetTextAction ^( IDENT Identifier ) ^( STRING j_expr ) ) )
-            // src/main/resources/crl_gram.g:155:4: 'set text' j_expr 'to' Identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:155:2: ( 'set text' j_expr 'to' Identifier -> ^( 'set text' ^( IDENT Identifier ) ^( STRING j_expr ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:155:4: 'set text' j_expr 'to' Identifier
             {
+            dbg.location(155,4);
             string_literal66=(CommonToken)match(input,86,FOLLOW_86_in_set_text804);  
             stream_86.add(string_literal66);
 
-
+            dbg.location(155,15);
             pushFollow(FOLLOW_j_expr_in_set_text806);
             j_expr67=j_expr();
 
             state._fsp--;
 
             stream_j_expr.add(j_expr67.getTree());
-
+            dbg.location(155,22);
             string_literal68=(CommonToken)match(input,90,FOLLOW_90_in_set_text808);  
             stream_90.add(string_literal68);
 
-
+            dbg.location(155,27);
             Identifier69=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_set_text810);  
             stream_Identifier.add(Identifier69);
 
 
             // AST REWRITE
-            // elements: j_expr, Identifier
+            // elements: 86, Identifier, j_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2602,36 +3222,43 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 155:38: -> ^( SetTextAction ^( IDENT Identifier ) ^( STRING j_expr ) )
+            // 155:38: -> ^( 'set text' ^( IDENT Identifier ) ^( STRING j_expr ) )
             {
-                // src/main/resources/crl_gram.g:155:41: ^( SetTextAction ^( IDENT Identifier ) ^( STRING j_expr ) )
+                dbg.location(155,41);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:155:41: ^( 'set text' ^( IDENT Identifier ) ^( STRING j_expr ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(155,43);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(SetTextAction, "SetTextAction")
+                stream_86.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:155:57: ^( IDENT Identifier )
+                dbg.location(155,54);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:155:54: ^( IDENT Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(155,56);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT, "IDENT")
                 , root_2);
 
+                dbg.location(155,62);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:155:77: ^( STRING j_expr )
+                dbg.location(155,74);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:155:74: ^( STRING j_expr )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(155,76);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(STRING, "STRING")
                 , root_2);
 
+                dbg.location(155,83);
                 adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -2664,6 +3291,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(156, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "set_text");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "set_text"
@@ -2676,9 +3312,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "set_indent"
-    // src/main/resources/crl_gram.g:158:1: set_indent : 'set indent' J_int_literal 'to' Identifier -> ^( SetIndentAction ^( IDENT Identifier ) ^( INT J_int_literal ) ) ;
-    public final crl_gramParser.set_indent_return set_indent() throws RecognitionException {
-        crl_gramParser.set_indent_return retval = new crl_gramParser.set_indent_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:158:1: set_indent : 'set indent' J_int_literal 'to' Identifier -> ^( 'set indent' ^( IDENT Identifier ) ^( INT J_int_literal ) ) ;
+    public final CrlParser.set_indent_return set_indent() throws RecognitionException {
+        CrlParser.set_indent_return retval = new CrlParser.set_indent_return();
         retval.start = input.LT(1);
 
 
@@ -2698,28 +3334,36 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_90=new RewriteRuleTokenStream(adaptor,"token 90");
         RewriteRuleTokenStream stream_83=new RewriteRuleTokenStream(adaptor,"token 83");
 
+        try { dbg.enterRule(getGrammarFileName(), "set_indent");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(158, 0);
+
         try {
-            // src/main/resources/crl_gram.g:159:2: ( 'set indent' J_int_literal 'to' Identifier -> ^( SetIndentAction ^( IDENT Identifier ) ^( INT J_int_literal ) ) )
-            // src/main/resources/crl_gram.g:159:4: 'set indent' J_int_literal 'to' Identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:159:2: ( 'set indent' J_int_literal 'to' Identifier -> ^( 'set indent' ^( IDENT Identifier ) ^( INT J_int_literal ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:159:4: 'set indent' J_int_literal 'to' Identifier
             {
+            dbg.location(159,4);
             string_literal70=(CommonToken)match(input,83,FOLLOW_83_in_set_indent840);  
             stream_83.add(string_literal70);
 
-
+            dbg.location(159,17);
             J_int_literal71=(CommonToken)match(input,J_int_literal,FOLLOW_J_int_literal_in_set_indent842);  
             stream_J_int_literal.add(J_int_literal71);
 
-
+            dbg.location(159,31);
             string_literal72=(CommonToken)match(input,90,FOLLOW_90_in_set_indent844);  
             stream_90.add(string_literal72);
 
-
+            dbg.location(159,36);
             Identifier73=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_set_indent846);  
             stream_Identifier.add(Identifier73);
 
 
             // AST REWRITE
-            // elements: Identifier, J_int_literal
+            // elements: J_int_literal, 83, Identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2729,36 +3373,43 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 159:47: -> ^( SetIndentAction ^( IDENT Identifier ) ^( INT J_int_literal ) )
+            // 159:47: -> ^( 'set indent' ^( IDENT Identifier ) ^( INT J_int_literal ) )
             {
-                // src/main/resources/crl_gram.g:159:50: ^( SetIndentAction ^( IDENT Identifier ) ^( INT J_int_literal ) )
+                dbg.location(159,50);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:159:50: ^( 'set indent' ^( IDENT Identifier ) ^( INT J_int_literal ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(159,52);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(SetIndentAction, "SetIndentAction")
+                stream_83.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:159:68: ^( IDENT Identifier )
+                dbg.location(159,65);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:159:65: ^( IDENT Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(159,67);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT, "IDENT")
                 , root_2);
 
+                dbg.location(159,73);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:159:88: ^( INT J_int_literal )
+                dbg.location(159,85);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:159:85: ^( INT J_int_literal )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(159,87);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(INT, "INT")
                 , root_2);
 
+                dbg.location(159,91);
                 adaptor.addChild(root_2, 
                 stream_J_int_literal.nextNode()
                 );
@@ -2793,6 +3444,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(160, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "set_indent");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "set_indent"
@@ -2805,9 +3465,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "split"
-    // src/main/resources/crl_gram.g:162:1: split : 'split' Identifier -> ^( SplitAction ^( IDENT Identifier ) ) ;
-    public final crl_gramParser.split_return split() throws RecognitionException {
-        crl_gramParser.split_return retval = new crl_gramParser.split_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:162:1: split : 'split' Identifier -> ^( 'split' ^( IDENT Identifier ) ) ;
+    public final CrlParser.split_return split() throws RecognitionException {
+        CrlParser.split_return retval = new CrlParser.split_return();
         retval.start = input.LT(1);
 
 
@@ -2821,20 +3481,28 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_88=new RewriteRuleTokenStream(adaptor,"token 88");
         RewriteRuleTokenStream stream_Identifier=new RewriteRuleTokenStream(adaptor,"token Identifier");
 
+        try { dbg.enterRule(getGrammarFileName(), "split");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(162, 0);
+
         try {
-            // src/main/resources/crl_gram.g:163:2: ( 'split' Identifier -> ^( SplitAction ^( IDENT Identifier ) ) )
-            // src/main/resources/crl_gram.g:163:4: 'split' Identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:163:2: ( 'split' Identifier -> ^( 'split' ^( IDENT Identifier ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:163:4: 'split' Identifier
             {
+            dbg.location(163,4);
             string_literal74=(CommonToken)match(input,88,FOLLOW_88_in_split876);  
             stream_88.add(string_literal74);
 
-
+            dbg.location(163,12);
             Identifier75=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_split878);  
             stream_Identifier.add(Identifier75);
 
 
             // AST REWRITE
-            // elements: Identifier
+            // elements: 88, Identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2844,22 +3512,27 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 163:23: -> ^( SplitAction ^( IDENT Identifier ) )
+            // 163:23: -> ^( 'split' ^( IDENT Identifier ) )
             {
-                // src/main/resources/crl_gram.g:163:26: ^( SplitAction ^( IDENT Identifier ) )
+                dbg.location(163,26);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:163:26: ^( 'split' ^( IDENT Identifier ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(163,28);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(SplitAction, "SplitAction")
+                stream_88.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:163:40: ^( IDENT Identifier )
+                dbg.location(163,36);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:163:36: ^( IDENT Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(163,38);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT, "IDENT")
                 , root_2);
 
+                dbg.location(163,44);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
@@ -2894,6 +3567,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(164, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "split");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "split"
@@ -2906,9 +3588,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "merge"
-    // src/main/resources/crl_gram.g:166:1: merge : 'merge' Identifier 'with' Identifier -> ^( MergeAction ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) ) ;
-    public final crl_gramParser.merge_return merge() throws RecognitionException {
-        crl_gramParser.merge_return retval = new crl_gramParser.merge_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:166:1: merge : 'merge' Identifier 'with' Identifier -> ^( 'merge' ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) ) ;
+    public final CrlParser.merge_return merge() throws RecognitionException {
+        CrlParser.merge_return retval = new CrlParser.merge_return();
         retval.start = input.LT(1);
 
 
@@ -2927,28 +3609,36 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_Identifier=new RewriteRuleTokenStream(adaptor,"token Identifier");
         RewriteRuleTokenStream stream_93=new RewriteRuleTokenStream(adaptor,"token 93");
 
+        try { dbg.enterRule(getGrammarFileName(), "merge");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(166, 0);
+
         try {
-            // src/main/resources/crl_gram.g:167:2: ( 'merge' Identifier 'with' Identifier -> ^( MergeAction ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) ) )
-            // src/main/resources/crl_gram.g:167:4: 'merge' Identifier 'with' Identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:167:2: ( 'merge' Identifier 'with' Identifier -> ^( 'merge' ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:167:4: 'merge' Identifier 'with' Identifier
             {
+            dbg.location(167,4);
             string_literal76=(CommonToken)match(input,68,FOLLOW_68_in_merge902);  
             stream_68.add(string_literal76);
 
-
+            dbg.location(167,12);
             Identifier77=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_merge904);  
             stream_Identifier.add(Identifier77);
 
-
+            dbg.location(167,23);
             string_literal78=(CommonToken)match(input,93,FOLLOW_93_in_merge906);  
             stream_93.add(string_literal78);
 
-
+            dbg.location(167,30);
             Identifier79=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_merge908);  
             stream_Identifier.add(Identifier79);
 
 
             // AST REWRITE
-            // elements: Identifier, Identifier
+            // elements: Identifier, 68, Identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2958,36 +3648,43 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 167:41: -> ^( MergeAction ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) )
+            // 167:41: -> ^( 'merge' ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) )
             {
-                // src/main/resources/crl_gram.g:167:44: ^( MergeAction ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) )
+                dbg.location(167,44);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:167:44: ^( 'merge' ^( IDENT1 Identifier ) ^( IDENT2 Identifier ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(167,46);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(MergeAction, "MergeAction")
+                stream_68.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:167:58: ^( IDENT1 Identifier )
+                dbg.location(167,54);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:167:54: ^( IDENT1 Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(167,56);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT1, "IDENT1")
                 , root_2);
 
+                dbg.location(167,63);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:167:79: ^( IDENT2 Identifier )
+                dbg.location(167,75);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:167:75: ^( IDENT2 Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(167,77);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT2, "IDENT2")
                 , root_2);
 
+                dbg.location(167,84);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
@@ -3022,6 +3719,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(168, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "merge");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "merge"
@@ -3034,9 +3740,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "new_entry"
-    // src/main/resources/crl_gram.g:170:1: new_entry : 'new entry' Identifier ( 'as' j_expr )? -> ^( NewEntryAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) ;
-    public final crl_gramParser.new_entry_return new_entry() throws RecognitionException {
-        crl_gramParser.new_entry_return retval = new crl_gramParser.new_entry_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:170:1: new_entry : 'new entry' Identifier ( 'as' j_expr )? -> ^( 'new entry' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) ;
+    public final CrlParser.new_entry_return new_entry() throws RecognitionException {
+        CrlParser.new_entry_return retval = new CrlParser.new_entry_return();
         retval.start = input.LT(1);
 
 
@@ -3045,7 +3751,7 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken string_literal80=null;
         CommonToken Identifier81=null;
         CommonToken string_literal82=null;
-        crl_gramParser.j_expr_return j_expr83 =null;
+        CrlParser.j_expr_return j_expr83 =null;
 
 
         CommonTree string_literal80_tree=null;
@@ -3055,33 +3761,49 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
         RewriteRuleTokenStream stream_59=new RewriteRuleTokenStream(adaptor,"token 59");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "new_entry");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(170, 0);
+
         try {
-            // src/main/resources/crl_gram.g:171:2: ( 'new entry' Identifier ( 'as' j_expr )? -> ^( NewEntryAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) )
-            // src/main/resources/crl_gram.g:171:4: 'new entry' Identifier ( 'as' j_expr )?
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:2: ( 'new entry' Identifier ( 'as' j_expr )? -> ^( 'new entry' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:4: 'new entry' Identifier ( 'as' j_expr )?
             {
+            dbg.location(171,4);
             string_literal80=(CommonToken)match(input,69,FOLLOW_69_in_new_entry938);  
             stream_69.add(string_literal80);
 
-
+            dbg.location(171,16);
             Identifier81=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_new_entry940);  
             stream_Identifier.add(Identifier81);
 
-
-            // src/main/resources/crl_gram.g:171:27: ( 'as' j_expr )?
+            dbg.location(171,27);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:27: ( 'as' j_expr )?
             int alt19=2;
+            try { dbg.enterSubRule(19);
+            try { dbg.enterDecision(19, decisionCanBacktrack[19]);
+
             int LA19_0 = input.LA(1);
 
             if ( (LA19_0==59) ) {
                 alt19=1;
             }
+            } finally {dbg.exitDecision(19);}
+
             switch (alt19) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:171:28: 'as' j_expr
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:28: 'as' j_expr
                     {
+                    dbg.location(171,28);
                     string_literal82=(CommonToken)match(input,59,FOLLOW_59_in_new_entry943);  
                     stream_59.add(string_literal82);
 
-
+                    dbg.location(171,33);
                     pushFollow(FOLLOW_j_expr_in_new_entry945);
                     j_expr83=j_expr();
 
@@ -3093,10 +3815,11 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(19);}
 
 
             // AST REWRITE
-            // elements: Identifier, j_expr
+            // elements: j_expr, Identifier, 69
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3106,38 +3829,46 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 171:42: -> ^( NewEntryAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
+            // 171:42: -> ^( 'new entry' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
             {
-                // src/main/resources/crl_gram.g:171:45: ^( NewEntryAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
+                dbg.location(171,45);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:45: ^( 'new entry' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(171,47);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(NewEntryAction, "NewEntryAction")
+                stream_69.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:171:62: ^( IDENT Identifier )
+                dbg.location(171,59);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:59: ^( IDENT Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(171,61);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT, "IDENT")
                 , root_2);
 
+                dbg.location(171,67);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:171:82: ( ^( STRING j_expr ) )?
+                dbg.location(171,79);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:79: ( ^( STRING j_expr ) )?
                 if ( stream_j_expr.hasNext() ) {
-                    // src/main/resources/crl_gram.g:171:82: ^( STRING j_expr )
+                    dbg.location(171,79);
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:171:79: ^( STRING j_expr )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
+                    dbg.location(171,81);
                     root_2 = (CommonTree)adaptor.becomeRoot(
                     (CommonTree)adaptor.create(STRING, "STRING")
                     , root_2);
 
+                    dbg.location(171,88);
                     adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                     adaptor.addChild(root_1, root_2);
@@ -3173,6 +3904,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(172, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "new_entry");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "new_entry"
@@ -3185,9 +3925,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "set_value"
-    // src/main/resources/crl_gram.g:174:1: set_value : 'set value' j_expr 'to' advanced_identifier -> ^( SetValueAction ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) ) ;
-    public final crl_gramParser.set_value_return set_value() throws RecognitionException {
-        crl_gramParser.set_value_return retval = new crl_gramParser.set_value_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:174:1: set_value : 'set value' j_expr 'to' advanced_identifier -> ^( 'set value' ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) ) ;
+    public final CrlParser.set_value_return set_value() throws RecognitionException {
+        CrlParser.set_value_return retval = new CrlParser.set_value_return();
         retval.start = input.LT(1);
 
 
@@ -3195,9 +3935,9 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonToken string_literal84=null;
         CommonToken string_literal86=null;
-        crl_gramParser.j_expr_return j_expr85 =null;
+        CrlParser.j_expr_return j_expr85 =null;
 
-        crl_gramParser.advanced_identifier_return advanced_identifier87 =null;
+        CrlParser.advanced_identifier_return advanced_identifier87 =null;
 
 
         CommonTree string_literal84_tree=null;
@@ -3206,25 +3946,33 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_87=new RewriteRuleTokenStream(adaptor,"token 87");
         RewriteRuleSubtreeStream stream_advanced_identifier=new RewriteRuleSubtreeStream(adaptor,"rule advanced_identifier");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "set_value");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(174, 0);
+
         try {
-            // src/main/resources/crl_gram.g:175:2: ( 'set value' j_expr 'to' advanced_identifier -> ^( SetValueAction ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) ) )
-            // src/main/resources/crl_gram.g:175:4: 'set value' j_expr 'to' advanced_identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:175:2: ( 'set value' j_expr 'to' advanced_identifier -> ^( 'set value' ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:175:4: 'set value' j_expr 'to' advanced_identifier
             {
+            dbg.location(175,4);
             string_literal84=(CommonToken)match(input,87,FOLLOW_87_in_set_value979);  
             stream_87.add(string_literal84);
 
-
+            dbg.location(175,16);
             pushFollow(FOLLOW_j_expr_in_set_value981);
             j_expr85=j_expr();
 
             state._fsp--;
 
             stream_j_expr.add(j_expr85.getTree());
-
+            dbg.location(175,23);
             string_literal86=(CommonToken)match(input,90,FOLLOW_90_in_set_value983);  
             stream_90.add(string_literal86);
 
-
+            dbg.location(175,28);
             pushFollow(FOLLOW_advanced_identifier_in_set_value985);
             advanced_identifier87=advanced_identifier();
 
@@ -3233,7 +3981,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_advanced_identifier.add(advanced_identifier87.getTree());
 
             // AST REWRITE
-            // elements: advanced_identifier, j_expr
+            // elements: 87, advanced_identifier, j_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3243,34 +3991,41 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 175:48: -> ^( SetValueAction ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) )
+            // 175:48: -> ^( 'set value' ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) )
             {
-                // src/main/resources/crl_gram.g:175:51: ^( SetValueAction ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) )
+                dbg.location(175,51);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:175:51: ^( 'set value' ^( ADV_IDENT advanced_identifier ) ^( STRING j_expr ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(175,53);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(SetValueAction, "SetValueAction")
+                stream_87.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:175:68: ^( ADV_IDENT advanced_identifier )
+                dbg.location(175,65);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:175:65: ^( ADV_IDENT advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(175,67);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT, "ADV_IDENT")
                 , root_2);
 
+                dbg.location(175,77);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:175:101: ^( STRING j_expr )
+                dbg.location(175,98);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:175:98: ^( STRING j_expr )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(175,100);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(STRING, "STRING")
                 , root_2);
 
+                dbg.location(175,107);
                 adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -3303,6 +4058,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(176, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "set_value");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "set_value"
@@ -3315,9 +4079,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "set_category"
-    // src/main/resources/crl_gram.g:178:1: set_category : 'set category' j_expr 'to' advanced_identifier -> ^( SetCategoryAction ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) ) ;
-    public final crl_gramParser.set_category_return set_category() throws RecognitionException {
-        crl_gramParser.set_category_return retval = new crl_gramParser.set_category_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:178:1: set_category : 'set category' j_expr 'to' advanced_identifier -> ^( 'set category' ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) ) ;
+    public final CrlParser.set_category_return set_category() throws RecognitionException {
+        CrlParser.set_category_return retval = new CrlParser.set_category_return();
         retval.start = input.LT(1);
 
 
@@ -3325,9 +4089,9 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonToken string_literal88=null;
         CommonToken string_literal90=null;
-        crl_gramParser.j_expr_return j_expr89 =null;
+        CrlParser.j_expr_return j_expr89 =null;
 
-        crl_gramParser.advanced_identifier_return advanced_identifier91 =null;
+        CrlParser.advanced_identifier_return advanced_identifier91 =null;
 
 
         CommonTree string_literal88_tree=null;
@@ -3336,25 +4100,33 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_82=new RewriteRuleTokenStream(adaptor,"token 82");
         RewriteRuleSubtreeStream stream_advanced_identifier=new RewriteRuleSubtreeStream(adaptor,"rule advanced_identifier");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "set_category");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(178, 0);
+
         try {
-            // src/main/resources/crl_gram.g:179:2: ( 'set category' j_expr 'to' advanced_identifier -> ^( SetCategoryAction ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) ) )
-            // src/main/resources/crl_gram.g:179:4: 'set category' j_expr 'to' advanced_identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:179:2: ( 'set category' j_expr 'to' advanced_identifier -> ^( 'set category' ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:179:4: 'set category' j_expr 'to' advanced_identifier
             {
+            dbg.location(179,4);
             string_literal88=(CommonToken)match(input,82,FOLLOW_82_in_set_category1015);  
             stream_82.add(string_literal88);
 
-
+            dbg.location(179,19);
             pushFollow(FOLLOW_j_expr_in_set_category1017);
             j_expr89=j_expr();
 
             state._fsp--;
 
             stream_j_expr.add(j_expr89.getTree());
-
+            dbg.location(179,26);
             string_literal90=(CommonToken)match(input,90,FOLLOW_90_in_set_category1019);  
             stream_90.add(string_literal90);
 
-
+            dbg.location(179,31);
             pushFollow(FOLLOW_advanced_identifier_in_set_category1021);
             advanced_identifier91=advanced_identifier();
 
@@ -3363,7 +4135,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_advanced_identifier.add(advanced_identifier91.getTree());
 
             // AST REWRITE
-            // elements: j_expr, advanced_identifier
+            // elements: advanced_identifier, j_expr, 82
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3373,34 +4145,41 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 179:51: -> ^( SetCategoryAction ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) )
+            // 179:51: -> ^( 'set category' ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) )
             {
-                // src/main/resources/crl_gram.g:179:54: ^( SetCategoryAction ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) )
+                dbg.location(179,54);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:179:54: ^( 'set category' ^( ADV_IDENT advanced_identifier ) ^( CATEGORY j_expr ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(179,56);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(SetCategoryAction, "SetCategoryAction")
+                stream_82.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:179:74: ^( ADV_IDENT advanced_identifier )
+                dbg.location(179,71);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:179:71: ^( ADV_IDENT advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(179,73);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT, "ADV_IDENT")
                 , root_2);
 
+                dbg.location(179,83);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:179:107: ^( CATEGORY j_expr )
+                dbg.location(179,104);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:179:104: ^( CATEGORY j_expr )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(179,106);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(CATEGORY, "CATEGORY")
                 , root_2);
 
+                dbg.location(179,115);
                 adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -3433,6 +4212,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(180, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "set_category");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "set_category"
@@ -3445,9 +4233,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "set_parent"
-    // src/main/resources/crl_gram.g:182:1: set_parent : 'set parent' advanced_identifier 'to' advanced_identifier -> ^( SetParentAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) ;
-    public final crl_gramParser.set_parent_return set_parent() throws RecognitionException {
-        crl_gramParser.set_parent_return retval = new crl_gramParser.set_parent_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:182:1: set_parent : 'set parent' advanced_identifier 'to' advanced_identifier -> ^( 'set parent' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) ;
+    public final CrlParser.set_parent_return set_parent() throws RecognitionException {
+        CrlParser.set_parent_return retval = new CrlParser.set_parent_return();
         retval.start = input.LT(1);
 
 
@@ -3455,9 +4243,9 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonToken string_literal92=null;
         CommonToken string_literal94=null;
-        crl_gramParser.advanced_identifier_return advanced_identifier93 =null;
+        CrlParser.advanced_identifier_return advanced_identifier93 =null;
 
-        crl_gramParser.advanced_identifier_return advanced_identifier95 =null;
+        CrlParser.advanced_identifier_return advanced_identifier95 =null;
 
 
         CommonTree string_literal92_tree=null;
@@ -3465,25 +4253,33 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_90=new RewriteRuleTokenStream(adaptor,"token 90");
         RewriteRuleTokenStream stream_85=new RewriteRuleTokenStream(adaptor,"token 85");
         RewriteRuleSubtreeStream stream_advanced_identifier=new RewriteRuleSubtreeStream(adaptor,"rule advanced_identifier");
+        try { dbg.enterRule(getGrammarFileName(), "set_parent");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(182, 0);
+
         try {
-            // src/main/resources/crl_gram.g:183:2: ( 'set parent' advanced_identifier 'to' advanced_identifier -> ^( SetParentAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) )
-            // src/main/resources/crl_gram.g:183:4: 'set parent' advanced_identifier 'to' advanced_identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:183:2: ( 'set parent' advanced_identifier 'to' advanced_identifier -> ^( 'set parent' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:183:4: 'set parent' advanced_identifier 'to' advanced_identifier
             {
+            dbg.location(183,4);
             string_literal92=(CommonToken)match(input,85,FOLLOW_85_in_set_parent1051);  
             stream_85.add(string_literal92);
 
-
+            dbg.location(183,17);
             pushFollow(FOLLOW_advanced_identifier_in_set_parent1053);
             advanced_identifier93=advanced_identifier();
 
             state._fsp--;
 
             stream_advanced_identifier.add(advanced_identifier93.getTree());
-
+            dbg.location(183,37);
             string_literal94=(CommonToken)match(input,90,FOLLOW_90_in_set_parent1055);  
             stream_90.add(string_literal94);
 
-
+            dbg.location(183,42);
             pushFollow(FOLLOW_advanced_identifier_in_set_parent1057);
             advanced_identifier95=advanced_identifier();
 
@@ -3492,7 +4288,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_advanced_identifier.add(advanced_identifier95.getTree());
 
             // AST REWRITE
-            // elements: advanced_identifier, advanced_identifier
+            // elements: advanced_identifier, advanced_identifier, 85
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3502,34 +4298,41 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 183:62: -> ^( SetParentAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
+            // 183:62: -> ^( 'set parent' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
             {
-                // src/main/resources/crl_gram.g:183:65: ^( SetParentAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
+                dbg.location(183,65);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:183:65: ^( 'set parent' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(183,67);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(SetParentAction, "SetParentAction")
+                stream_85.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:183:83: ^( ADV_IDENT1 advanced_identifier )
+                dbg.location(183,80);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:183:80: ^( ADV_IDENT1 advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(183,82);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT1, "ADV_IDENT1")
                 , root_2);
 
+                dbg.location(183,93);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:183:117: ^( ADV_IDENT2 advanced_identifier )
+                dbg.location(183,114);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:183:114: ^( ADV_IDENT2 advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(183,116);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT2, "ADV_IDENT2")
                 , root_2);
 
+                dbg.location(183,127);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -3562,6 +4365,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(184, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "set_parent");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "set_parent"
@@ -3574,9 +4386,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "group"
-    // src/main/resources/crl_gram.g:186:1: group : 'group' advanced_identifier 'with' advanced_identifier -> ^( GroupAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) ;
-    public final crl_gramParser.group_return group() throws RecognitionException {
-        crl_gramParser.group_return retval = new crl_gramParser.group_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:186:1: group : 'group' advanced_identifier 'with' advanced_identifier -> ^( 'group' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) ;
+    public final CrlParser.group_return group() throws RecognitionException {
+        CrlParser.group_return retval = new CrlParser.group_return();
         retval.start = input.LT(1);
 
 
@@ -3584,9 +4396,9 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonToken string_literal96=null;
         CommonToken string_literal98=null;
-        crl_gramParser.advanced_identifier_return advanced_identifier97 =null;
+        CrlParser.advanced_identifier_return advanced_identifier97 =null;
 
-        crl_gramParser.advanced_identifier_return advanced_identifier99 =null;
+        CrlParser.advanced_identifier_return advanced_identifier99 =null;
 
 
         CommonTree string_literal96_tree=null;
@@ -3594,25 +4406,33 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_93=new RewriteRuleTokenStream(adaptor,"token 93");
         RewriteRuleTokenStream stream_64=new RewriteRuleTokenStream(adaptor,"token 64");
         RewriteRuleSubtreeStream stream_advanced_identifier=new RewriteRuleSubtreeStream(adaptor,"rule advanced_identifier");
+        try { dbg.enterRule(getGrammarFileName(), "group");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(186, 0);
+
         try {
-            // src/main/resources/crl_gram.g:187:2: ( 'group' advanced_identifier 'with' advanced_identifier -> ^( GroupAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) )
-            // src/main/resources/crl_gram.g:187:4: 'group' advanced_identifier 'with' advanced_identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:187:2: ( 'group' advanced_identifier 'with' advanced_identifier -> ^( 'group' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:187:4: 'group' advanced_identifier 'with' advanced_identifier
             {
+            dbg.location(187,4);
             string_literal96=(CommonToken)match(input,64,FOLLOW_64_in_group1087);  
             stream_64.add(string_literal96);
 
-
+            dbg.location(187,12);
             pushFollow(FOLLOW_advanced_identifier_in_group1089);
             advanced_identifier97=advanced_identifier();
 
             state._fsp--;
 
             stream_advanced_identifier.add(advanced_identifier97.getTree());
-
+            dbg.location(187,32);
             string_literal98=(CommonToken)match(input,93,FOLLOW_93_in_group1091);  
             stream_93.add(string_literal98);
 
-
+            dbg.location(187,39);
             pushFollow(FOLLOW_advanced_identifier_in_group1093);
             advanced_identifier99=advanced_identifier();
 
@@ -3621,7 +4441,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_advanced_identifier.add(advanced_identifier99.getTree());
 
             // AST REWRITE
-            // elements: advanced_identifier, advanced_identifier
+            // elements: 64, advanced_identifier, advanced_identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3631,34 +4451,41 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 187:59: -> ^( GroupAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
+            // 187:59: -> ^( 'group' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
             {
-                // src/main/resources/crl_gram.g:187:62: ^( GroupAction ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
+                dbg.location(187,62);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:187:62: ^( 'group' ^( ADV_IDENT1 advanced_identifier ) ^( ADV_IDENT2 advanced_identifier ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(187,64);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(GroupAction, "GroupAction")
+                stream_64.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:187:76: ^( ADV_IDENT1 advanced_identifier )
+                dbg.location(187,72);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:187:72: ^( ADV_IDENT1 advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(187,74);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT1, "ADV_IDENT1")
                 , root_2);
 
+                dbg.location(187,85);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:187:110: ^( ADV_IDENT2 advanced_identifier )
+                dbg.location(187,106);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:187:106: ^( ADV_IDENT2 advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(187,108);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT2, "ADV_IDENT2")
                 , root_2);
 
+                dbg.location(187,119);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -3691,6 +4518,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(188, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "group");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "group"
@@ -3703,9 +4539,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "add_label"
-    // src/main/resources/crl_gram.g:190:1: add_label : 'add label' j_expr ( 'of' j_expr )? 'to' advanced_identifier -> ^( AddLabelAction ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) ) ;
-    public final crl_gramParser.add_label_return add_label() throws RecognitionException {
-        crl_gramParser.add_label_return retval = new crl_gramParser.add_label_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:190:1: add_label : 'add label' j_expr ( 'of' j_expr )? 'to' advanced_identifier -> ^( 'add label' ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) ) ;
+    public final CrlParser.add_label_return add_label() throws RecognitionException {
+        CrlParser.add_label_return retval = new CrlParser.add_label_return();
         retval.start = input.LT(1);
 
 
@@ -3714,11 +4550,11 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken string_literal100=null;
         CommonToken string_literal102=null;
         CommonToken string_literal104=null;
-        crl_gramParser.j_expr_return j_expr101 =null;
+        CrlParser.j_expr_return j_expr101 =null;
 
-        crl_gramParser.j_expr_return j_expr103 =null;
+        CrlParser.j_expr_return j_expr103 =null;
 
-        crl_gramParser.advanced_identifier_return advanced_identifier105 =null;
+        CrlParser.advanced_identifier_return advanced_identifier105 =null;
 
 
         CommonTree string_literal100_tree=null;
@@ -3729,36 +4565,52 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_90=new RewriteRuleTokenStream(adaptor,"token 90");
         RewriteRuleSubtreeStream stream_advanced_identifier=new RewriteRuleSubtreeStream(adaptor,"rule advanced_identifier");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "add_label");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(190, 0);
+
         try {
-            // src/main/resources/crl_gram.g:191:2: ( 'add label' j_expr ( 'of' j_expr )? 'to' advanced_identifier -> ^( AddLabelAction ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) ) )
-            // src/main/resources/crl_gram.g:191:4: 'add label' j_expr ( 'of' j_expr )? 'to' advanced_identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:2: ( 'add label' j_expr ( 'of' j_expr )? 'to' advanced_identifier -> ^( 'add label' ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:4: 'add label' j_expr ( 'of' j_expr )? 'to' advanced_identifier
             {
+            dbg.location(191,4);
             string_literal100=(CommonToken)match(input,58,FOLLOW_58_in_add_label1123);  
             stream_58.add(string_literal100);
 
-
+            dbg.location(191,16);
             pushFollow(FOLLOW_j_expr_in_add_label1125);
             j_expr101=j_expr();
 
             state._fsp--;
 
             stream_j_expr.add(j_expr101.getTree());
-
-            // src/main/resources/crl_gram.g:191:23: ( 'of' j_expr )?
+            dbg.location(191,23);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:23: ( 'of' j_expr )?
             int alt20=2;
+            try { dbg.enterSubRule(20);
+            try { dbg.enterDecision(20, decisionCanBacktrack[20]);
+
             int LA20_0 = input.LA(1);
 
             if ( (LA20_0==77) ) {
                 alt20=1;
             }
+            } finally {dbg.exitDecision(20);}
+
             switch (alt20) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:191:24: 'of' j_expr
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:24: 'of' j_expr
                     {
+                    dbg.location(191,24);
                     string_literal102=(CommonToken)match(input,77,FOLLOW_77_in_add_label1128);  
                     stream_77.add(string_literal102);
 
-
+                    dbg.location(191,29);
                     pushFollow(FOLLOW_j_expr_in_add_label1130);
                     j_expr103=j_expr();
 
@@ -3770,12 +4622,13 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(20);}
 
-
+            dbg.location(191,38);
             string_literal104=(CommonToken)match(input,90,FOLLOW_90_in_add_label1134);  
             stream_90.add(string_literal104);
 
-
+            dbg.location(191,43);
             pushFollow(FOLLOW_advanced_identifier_in_add_label1136);
             advanced_identifier105=advanced_identifier();
 
@@ -3784,7 +4637,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_advanced_identifier.add(advanced_identifier105.getTree());
 
             // AST REWRITE
-            // elements: advanced_identifier, j_expr, j_expr
+            // elements: 58, j_expr, advanced_identifier, j_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3794,36 +4647,44 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 191:63: -> ^( AddLabelAction ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) )
+            // 191:63: -> ^( 'add label' ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) )
             {
-                // src/main/resources/crl_gram.g:191:66: ^( AddLabelAction ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) )
+                dbg.location(191,66);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:66: ^( 'add label' ^( LABEL j_expr ) ( ^( CATEGORY j_expr ) )? ^( ADV_IDENT advanced_identifier ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(191,68);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(AddLabelAction, "AddLabelAction")
+                stream_58.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:191:83: ^( LABEL j_expr )
+                dbg.location(191,80);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:80: ^( LABEL j_expr )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(191,82);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(LABEL, "LABEL")
                 , root_2);
 
+                dbg.location(191,88);
                 adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:191:99: ( ^( CATEGORY j_expr ) )?
+                dbg.location(191,96);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:96: ( ^( CATEGORY j_expr ) )?
                 if ( stream_j_expr.hasNext() ) {
-                    // src/main/resources/crl_gram.g:191:99: ^( CATEGORY j_expr )
+                    dbg.location(191,96);
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:96: ^( CATEGORY j_expr )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
+                    dbg.location(191,98);
                     root_2 = (CommonTree)adaptor.becomeRoot(
                     (CommonTree)adaptor.create(CATEGORY, "CATEGORY")
                     , root_2);
 
+                    dbg.location(191,107);
                     adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                     adaptor.addChild(root_1, root_2);
@@ -3831,14 +4692,16 @@ public TreeAdaptor getTreeAdaptor() {
 
                 }
                 stream_j_expr.reset();
-
-                // src/main/resources/crl_gram.g:191:119: ^( ADV_IDENT advanced_identifier )
+                dbg.location(191,116);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:191:116: ^( ADV_IDENT advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(191,118);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT, "ADV_IDENT")
                 , root_2);
 
+                dbg.location(191,128);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -3871,6 +4734,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(192, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "add_label");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "add_label"
@@ -3883,9 +4755,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "new_label"
-    // src/main/resources/crl_gram.g:194:1: new_label : 'new label' Identifier ( 'as' j_expr )? -> ^( NewLabelAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) ;
-    public final crl_gramParser.new_label_return new_label() throws RecognitionException {
-        crl_gramParser.new_label_return retval = new crl_gramParser.new_label_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:194:1: new_label : 'new label' Identifier ( 'as' j_expr )? -> ^( 'new label' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) ;
+    public final CrlParser.new_label_return new_label() throws RecognitionException {
+        CrlParser.new_label_return retval = new CrlParser.new_label_return();
         retval.start = input.LT(1);
 
 
@@ -3894,7 +4766,7 @@ public TreeAdaptor getTreeAdaptor() {
         CommonToken string_literal106=null;
         CommonToken Identifier107=null;
         CommonToken string_literal108=null;
-        crl_gramParser.j_expr_return j_expr109 =null;
+        CrlParser.j_expr_return j_expr109 =null;
 
 
         CommonTree string_literal106_tree=null;
@@ -3904,33 +4776,49 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_59=new RewriteRuleTokenStream(adaptor,"token 59");
         RewriteRuleTokenStream stream_70=new RewriteRuleTokenStream(adaptor,"token 70");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "new_label");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(194, 0);
+
         try {
-            // src/main/resources/crl_gram.g:195:2: ( 'new label' Identifier ( 'as' j_expr )? -> ^( NewLabelAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) )
-            // src/main/resources/crl_gram.g:195:4: 'new label' Identifier ( 'as' j_expr )?
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:2: ( 'new label' Identifier ( 'as' j_expr )? -> ^( 'new label' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:4: 'new label' Identifier ( 'as' j_expr )?
             {
+            dbg.location(195,4);
             string_literal106=(CommonToken)match(input,70,FOLLOW_70_in_new_label1173);  
             stream_70.add(string_literal106);
 
-
+            dbg.location(195,16);
             Identifier107=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_new_label1175);  
             stream_Identifier.add(Identifier107);
 
-
-            // src/main/resources/crl_gram.g:195:27: ( 'as' j_expr )?
+            dbg.location(195,27);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:27: ( 'as' j_expr )?
             int alt21=2;
+            try { dbg.enterSubRule(21);
+            try { dbg.enterDecision(21, decisionCanBacktrack[21]);
+
             int LA21_0 = input.LA(1);
 
             if ( (LA21_0==59) ) {
                 alt21=1;
             }
+            } finally {dbg.exitDecision(21);}
+
             switch (alt21) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:195:28: 'as' j_expr
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:28: 'as' j_expr
                     {
+                    dbg.location(195,28);
                     string_literal108=(CommonToken)match(input,59,FOLLOW_59_in_new_label1178);  
                     stream_59.add(string_literal108);
 
-
+                    dbg.location(195,33);
                     pushFollow(FOLLOW_j_expr_in_new_label1180);
                     j_expr109=j_expr();
 
@@ -3942,10 +4830,11 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(21);}
 
 
             // AST REWRITE
-            // elements: Identifier, j_expr
+            // elements: 70, Identifier, j_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3955,38 +4844,46 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 195:42: -> ^( NewLabelAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
+            // 195:42: -> ^( 'new label' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
             {
-                // src/main/resources/crl_gram.g:195:45: ^( NewLabelAction ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
+                dbg.location(195,45);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:45: ^( 'new label' ^( IDENT Identifier ) ( ^( STRING j_expr ) )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(195,47);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(NewLabelAction, "NewLabelAction")
+                stream_70.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:195:62: ^( IDENT Identifier )
+                dbg.location(195,59);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:59: ^( IDENT Identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(195,61);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(IDENT, "IDENT")
                 , root_2);
 
+                dbg.location(195,67);
                 adaptor.addChild(root_2, 
                 stream_Identifier.nextNode()
                 );
 
                 adaptor.addChild(root_1, root_2);
                 }
-
-                // src/main/resources/crl_gram.g:195:82: ( ^( STRING j_expr ) )?
+                dbg.location(195,79);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:79: ( ^( STRING j_expr ) )?
                 if ( stream_j_expr.hasNext() ) {
-                    // src/main/resources/crl_gram.g:195:82: ^( STRING j_expr )
+                    dbg.location(195,79);
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:195:79: ^( STRING j_expr )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
+                    dbg.location(195,81);
                     root_2 = (CommonTree)adaptor.becomeRoot(
                     (CommonTree)adaptor.create(STRING, "STRING")
                     , root_2);
 
+                    dbg.location(195,88);
                     adaptor.addChild(root_2, stream_j_expr.nextTree());
 
                     adaptor.addChild(root_1, root_2);
@@ -4022,6 +4919,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(196, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "new_label");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "new_label"
@@ -4034,29 +4940,37 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "update"
-    // src/main/resources/crl_gram.g:198:1: update : 'update' advanced_identifier -> ^( UpdateAction ^( ADV_IDENT advanced_identifier ) ) ;
-    public final crl_gramParser.update_return update() throws RecognitionException {
-        crl_gramParser.update_return retval = new crl_gramParser.update_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:198:1: update : 'update' advanced_identifier -> ^( 'update' ^( ADV_IDENT advanced_identifier ) ) ;
+    public final CrlParser.update_return update() throws RecognitionException {
+        CrlParser.update_return retval = new CrlParser.update_return();
         retval.start = input.LT(1);
 
 
         CommonTree root_0 = null;
 
         CommonToken string_literal110=null;
-        crl_gramParser.advanced_identifier_return advanced_identifier111 =null;
+        CrlParser.advanced_identifier_return advanced_identifier111 =null;
 
 
         CommonTree string_literal110_tree=null;
         RewriteRuleTokenStream stream_91=new RewriteRuleTokenStream(adaptor,"token 91");
         RewriteRuleSubtreeStream stream_advanced_identifier=new RewriteRuleSubtreeStream(adaptor,"rule advanced_identifier");
+        try { dbg.enterRule(getGrammarFileName(), "update");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(198, 0);
+
         try {
-            // src/main/resources/crl_gram.g:199:2: ( 'update' advanced_identifier -> ^( UpdateAction ^( ADV_IDENT advanced_identifier ) ) )
-            // src/main/resources/crl_gram.g:199:4: 'update' advanced_identifier
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:199:2: ( 'update' advanced_identifier -> ^( 'update' ^( ADV_IDENT advanced_identifier ) ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:199:4: 'update' advanced_identifier
             {
+            dbg.location(199,4);
             string_literal110=(CommonToken)match(input,91,FOLLOW_91_in_update1213);  
             stream_91.add(string_literal110);
 
-
+            dbg.location(199,13);
             pushFollow(FOLLOW_advanced_identifier_in_update1215);
             advanced_identifier111=advanced_identifier();
 
@@ -4065,7 +4979,7 @@ public TreeAdaptor getTreeAdaptor() {
             stream_advanced_identifier.add(advanced_identifier111.getTree());
 
             // AST REWRITE
-            // elements: advanced_identifier
+            // elements: 91, advanced_identifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4075,22 +4989,27 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 199:33: -> ^( UpdateAction ^( ADV_IDENT advanced_identifier ) )
+            // 199:33: -> ^( 'update' ^( ADV_IDENT advanced_identifier ) )
             {
-                // src/main/resources/crl_gram.g:199:36: ^( UpdateAction ^( ADV_IDENT advanced_identifier ) )
+                dbg.location(199,36);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:199:36: ^( 'update' ^( ADV_IDENT advanced_identifier ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(199,38);
                 root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(UpdateAction, "UpdateAction")
+                stream_91.nextNode()
                 , root_1);
 
-                // src/main/resources/crl_gram.g:199:51: ^( ADV_IDENT advanced_identifier )
+                dbg.location(199,47);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:199:47: ^( ADV_IDENT advanced_identifier )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
+                dbg.location(199,49);
                 root_2 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(ADV_IDENT, "ADV_IDENT")
                 , root_2);
 
+                dbg.location(199,59);
                 adaptor.addChild(root_2, stream_advanced_identifier.nextTree());
 
                 adaptor.addChild(root_1, root_2);
@@ -4123,6 +5042,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(200, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "update");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "update"
@@ -4135,9 +5063,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "c_print"
-    // src/main/resources/crl_gram.g:202:1: c_print : ( 'print' | 'printf' ) j_expr -> ^( PrintAction j_expr ) ;
-    public final crl_gramParser.c_print_return c_print() throws RecognitionException {
-        crl_gramParser.c_print_return retval = new crl_gramParser.c_print_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:202:1: c_print : ( 'print' | 'printf' ) j_expr -> ^( PrintAction j_expr ) ;
+    public final CrlParser.c_print_return c_print() throws RecognitionException {
+        CrlParser.c_print_return retval = new CrlParser.c_print_return();
         retval.start = input.LT(1);
 
 
@@ -4145,7 +5073,7 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonToken string_literal112=null;
         CommonToken string_literal113=null;
-        crl_gramParser.j_expr_return j_expr114 =null;
+        CrlParser.j_expr_return j_expr114 =null;
 
 
         CommonTree string_literal112_tree=null;
@@ -4153,12 +5081,23 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_79=new RewriteRuleTokenStream(adaptor,"token 79");
         RewriteRuleTokenStream stream_80=new RewriteRuleTokenStream(adaptor,"token 80");
         RewriteRuleSubtreeStream stream_j_expr=new RewriteRuleSubtreeStream(adaptor,"rule j_expr");
+        try { dbg.enterRule(getGrammarFileName(), "c_print");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(202, 0);
+
         try {
-            // src/main/resources/crl_gram.g:203:2: ( ( 'print' | 'printf' ) j_expr -> ^( PrintAction j_expr ) )
-            // src/main/resources/crl_gram.g:203:4: ( 'print' | 'printf' ) j_expr
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:203:2: ( ( 'print' | 'printf' ) j_expr -> ^( PrintAction j_expr ) )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:203:4: ( 'print' | 'printf' ) j_expr
             {
-            // src/main/resources/crl_gram.g:203:4: ( 'print' | 'printf' )
+            dbg.location(203,4);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:203:4: ( 'print' | 'printf' )
             int alt22=2;
+            try { dbg.enterSubRule(22);
+            try { dbg.enterDecision(22, decisionCanBacktrack[22]);
+
             int LA22_0 = input.LA(1);
 
             if ( (LA22_0==79) ) {
@@ -4171,13 +5110,19 @@ public TreeAdaptor getTreeAdaptor() {
                 NoViableAltException nvae =
                     new NoViableAltException("", 22, 0, input);
 
+                dbg.recognitionException(nvae);
                 throw nvae;
 
             }
+            } finally {dbg.exitDecision(22);}
+
             switch (alt22) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:203:5: 'print'
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:203:5: 'print'
                     {
+                    dbg.location(203,5);
                     string_literal112=(CommonToken)match(input,79,FOLLOW_79_in_c_print1240);  
                     stream_79.add(string_literal112);
 
@@ -4185,8 +5130,11 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 2 :
-                    // src/main/resources/crl_gram.g:203:13: 'printf'
+                    dbg.enterAlt(2);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:203:13: 'printf'
                     {
+                    dbg.location(203,13);
                     string_literal113=(CommonToken)match(input,80,FOLLOW_80_in_c_print1242);  
                     stream_80.add(string_literal113);
 
@@ -4195,8 +5143,9 @@ public TreeAdaptor getTreeAdaptor() {
                     break;
 
             }
+            } finally {dbg.exitSubRule(22);}
 
-
+            dbg.location(203,23);
             pushFollow(FOLLOW_j_expr_in_c_print1245);
             j_expr114=j_expr();
 
@@ -4217,13 +5166,16 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 203:30: -> ^( PrintAction j_expr )
             {
-                // src/main/resources/crl_gram.g:203:33: ^( PrintAction j_expr )
+                dbg.location(203,33);
+                // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:203:33: ^( PrintAction j_expr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
+                dbg.location(203,35);
                 root_1 = (CommonTree)adaptor.becomeRoot(
                 (CommonTree)adaptor.create(PrintAction, "PrintAction")
                 , root_1);
 
+                dbg.location(203,47);
                 adaptor.addChild(root_1, stream_j_expr.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -4253,6 +5205,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(204, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "c_print");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "c_print"
@@ -4265,9 +5226,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "advanced_identifier"
-    // src/main/resources/crl_gram.g:206:1: advanced_identifier : Identifier ( '.' query ( index )? )? ;
-    public final crl_gramParser.advanced_identifier_return advanced_identifier() throws RecognitionException {
-        crl_gramParser.advanced_identifier_return retval = new crl_gramParser.advanced_identifier_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:206:1: advanced_identifier : Identifier ( '.' query ( index )? )? ;
+    public final CrlParser.advanced_identifier_return advanced_identifier() throws RecognitionException {
+        CrlParser.advanced_identifier_return retval = new CrlParser.advanced_identifier_return();
         retval.start = input.LT(1);
 
 
@@ -4275,64 +5236,88 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonToken Identifier115=null;
         CommonToken char_literal116=null;
-        crl_gramParser.query_return query117 =null;
+        CrlParser.query_return query117 =null;
 
-        crl_gramParser.index_return index118 =null;
+        CrlParser.index_return index118 =null;
 
 
         CommonTree Identifier115_tree=null;
         CommonTree char_literal116_tree=null;
 
+        try { dbg.enterRule(getGrammarFileName(), "advanced_identifier");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(206, 0);
+
         try {
-            // src/main/resources/crl_gram.g:207:2: ( Identifier ( '.' query ( index )? )? )
-            // src/main/resources/crl_gram.g:207:4: Identifier ( '.' query ( index )? )?
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:207:2: ( Identifier ( '.' query ( index )? )? )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:207:4: Identifier ( '.' query ( index )? )?
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
+            dbg.location(207,4);
             Identifier115=(CommonToken)match(input,Identifier,FOLLOW_Identifier_in_advanced_identifier1265); 
             Identifier115_tree = 
             (CommonTree)adaptor.create(Identifier115)
             ;
             adaptor.addChild(root_0, Identifier115_tree);
 
-
-            // src/main/resources/crl_gram.g:207:15: ( '.' query ( index )? )?
+            dbg.location(207,15);
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:207:15: ( '.' query ( index )? )?
             int alt24=2;
+            try { dbg.enterSubRule(24);
+            try { dbg.enterDecision(24, decisionCanBacktrack[24]);
+
             int LA24_0 = input.LA(1);
 
             if ( (LA24_0==53) ) {
                 alt24=1;
             }
+            } finally {dbg.exitDecision(24);}
+
             switch (alt24) {
                 case 1 :
-                    // src/main/resources/crl_gram.g:207:16: '.' query ( index )?
+                    dbg.enterAlt(1);
+
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:207:16: '.' query ( index )?
                     {
+                    dbg.location(207,16);
                     char_literal116=(CommonToken)match(input,53,FOLLOW_53_in_advanced_identifier1268); 
                     char_literal116_tree = 
                     (CommonTree)adaptor.create(char_literal116)
                     ;
                     adaptor.addChild(root_0, char_literal116_tree);
 
-
+                    dbg.location(207,20);
                     pushFollow(FOLLOW_query_in_advanced_identifier1270);
                     query117=query();
 
                     state._fsp--;
 
                     adaptor.addChild(root_0, query117.getTree());
-
-                    // src/main/resources/crl_gram.g:207:26: ( index )?
+                    dbg.location(207,26);
+                    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:207:26: ( index )?
                     int alt23=2;
+                    try { dbg.enterSubRule(23);
+                    try { dbg.enterDecision(23, decisionCanBacktrack[23]);
+
                     int LA23_0 = input.LA(1);
 
                     if ( (LA23_0==56) ) {
                         alt23=1;
                     }
+                    } finally {dbg.exitDecision(23);}
+
                     switch (alt23) {
                         case 1 :
-                            // src/main/resources/crl_gram.g:207:26: index
+                            dbg.enterAlt(1);
+
+                            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:207:26: index
                             {
+                            dbg.location(207,26);
                             pushFollow(FOLLOW_index_in_advanced_identifier1272);
                             index118=index();
 
@@ -4344,12 +5329,14 @@ public TreeAdaptor getTreeAdaptor() {
                             break;
 
                     }
+                    } finally {dbg.exitSubRule(23);}
 
 
                     }
                     break;
 
             }
+            } finally {dbg.exitSubRule(24);}
 
 
             }
@@ -4371,6 +5358,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(208, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "advanced_identifier");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "advanced_identifier"
@@ -4383,9 +5379,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "index"
-    // src/main/resources/crl_gram.g:227:1: index : '[' J_int_literal ']' -> J_int_literal ;
-    public final crl_gramParser.index_return index() throws RecognitionException {
-        crl_gramParser.index_return retval = new crl_gramParser.index_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:227:1: index : '[' J_int_literal ']' -> J_int_literal ;
+    public final CrlParser.index_return index() throws RecognitionException {
+        CrlParser.index_return retval = new CrlParser.index_return();
         retval.start = input.LT(1);
 
 
@@ -4402,18 +5398,26 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_56=new RewriteRuleTokenStream(adaptor,"token 56");
         RewriteRuleTokenStream stream_57=new RewriteRuleTokenStream(adaptor,"token 57");
 
+        try { dbg.enterRule(getGrammarFileName(), "index");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(227, 0);
+
         try {
-            // src/main/resources/crl_gram.g:228:2: ( '[' J_int_literal ']' -> J_int_literal )
-            // src/main/resources/crl_gram.g:228:4: '[' J_int_literal ']'
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:228:2: ( '[' J_int_literal ']' -> J_int_literal )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:228:4: '[' J_int_literal ']'
             {
+            dbg.location(228,4);
             char_literal119=(CommonToken)match(input,56,FOLLOW_56_in_index1403);  
             stream_56.add(char_literal119);
 
-
+            dbg.location(228,8);
             J_int_literal120=(CommonToken)match(input,J_int_literal,FOLLOW_J_int_literal_in_index1405);  
             stream_J_int_literal.add(J_int_literal120);
 
-
+            dbg.location(228,22);
             char_literal121=(CommonToken)match(input,57,FOLLOW_57_in_index1407);  
             stream_57.add(char_literal121);
 
@@ -4431,6 +5435,7 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
             // 228:26: -> J_int_literal
             {
+                dbg.location(228,29);
                 adaptor.addChild(root_0, 
                 stream_J_int_literal.nextNode()
                 );
@@ -4459,6 +5464,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(229, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "index");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "index"
@@ -4471,9 +5485,9 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "useless"
-    // src/main/resources/crl_gram.g:245:1: useless : ( 'lock-on-active' | 'no-loop true' | 'no-loop false' );
-    public final crl_gramParser.useless_return useless() throws RecognitionException {
-        crl_gramParser.useless_return retval = new crl_gramParser.useless_return();
+    // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:245:1: useless : ( 'lock-on-active' | 'no-loop true' | 'no-loop false' );
+    public final CrlParser.useless_return useless() throws RecognitionException {
+        CrlParser.useless_return retval = new CrlParser.useless_return();
         retval.start = input.LT(1);
 
 
@@ -4483,13 +5497,21 @@ public TreeAdaptor getTreeAdaptor() {
 
         CommonTree set122_tree=null;
 
+        try { dbg.enterRule(getGrammarFileName(), "useless");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(245, 0);
+
         try {
-            // src/main/resources/crl_gram.g:246:2: ( 'lock-on-active' | 'no-loop true' | 'no-loop false' )
-            // src/main/resources/crl_gram.g:
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:246:2: ( 'lock-on-active' | 'no-loop true' | 'no-loop false' )
+            dbg.enterAlt(1);
+
+            // D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g:
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
+            dbg.location(246,2);
             set122=(CommonToken)input.LT(1);
 
             if ( input.LA(1)==67||(input.LA(1) >= 75 && input.LA(1) <= 76) ) {
@@ -4501,6 +5523,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             else {
                 MismatchedSetException mse = new MismatchedSetException(null,input);
+                dbg.recognitionException(mse);
                 throw mse;
             }
 
@@ -4524,6 +5547,15 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
+        dbg.location(247, 1);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "useless");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "useless"
@@ -4588,6 +5620,9 @@ public TreeAdaptor getTreeAdaptor() {
         }
         public String getDescription() {
             return "63:4: ( package_stmt )?";
+        }
+        public void error(NoViableAltException nvae) {
+            dbg.recognitionException(nvae);
         }
     }
  

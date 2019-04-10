@@ -14,41 +14,36 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold.actions;
 
-public class SplitAction extends Action {
+import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
 
-    public SplitAction(int id, String name) {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PrintAction extends Action {
+
+    public PrintAction(int id, String name) {
         super(id, name);
     }
 
-    private String identifier;
+    private List<String> expression = new ArrayList<>();
 
-    public String getIdentifier() {
-        return identifier;
+    public List<String> getExpression() {
+        return expression;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("[ %d %s ( %s ) ]", getId(), getName(), identifier.toString());
+    public void addPartToExpression(String part) {
+        this.expression.add(part);
     }
 
     @Override
     public String generateAddSet() {
 
-        StringBuilder code= new StringBuilder();
+        StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".add( ").append(identifier).append(" )");
+        code.append("System.out.println( ").append(RuleCodeGen.buildExpression(expression, "")).append(" )");
 
         return code.toString();
-    }
-
-    @Override
-    public String getVarName() {
-        return identifier;
     }
 }

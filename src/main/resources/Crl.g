@@ -1,4 +1,4 @@
-grammar crl_gram;
+grammar Crl;
 
 options {
 

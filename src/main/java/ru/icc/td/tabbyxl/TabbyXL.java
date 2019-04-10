@@ -16,18 +16,10 @@
 
 package ru.icc.td.tabbyxl;
 
-import org.antlr.runtime.ANTLRFileStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Ruleset;
-import ru.icc.td.tabbyxl.crl2j.RuleModelBuilder;
 import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
-import ru.icc.td.tabbyxl.crl2j.AstPrinter;
-import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramLexer;
-import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramParser;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
 
@@ -619,7 +611,10 @@ public final class TabbyXL {
 
         executingOptionName = "CRL2J";
 
-        ANTLRFileStream fileStream1 = new ANTLRFileStream(rulesetFile.getPath());
+        ruleCodeGenerator = new RuleCodeGen();
+        ruleCodeGenerator.loadRuleset(rulesetFile);
+
+       /* ANTLRFileStream fileStream1 = new ANTLRFileStream(rulesetFile.getPath());
         crl_gramLexer lexer = new crl_gramLexer(fileStream1);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         System.out.println("Token stream ok");
@@ -640,7 +635,8 @@ public final class TabbyXL {
         ruleCodeGenerator = new RuleCodeGen();
         ruleCodeGenerator.setPackageForRulesFiles("ru.icc.td.tabbyxl.crl2j.synthesis");
         ruleCodeGenerator.compileAllRules(ruleset);
-        System.out.println("RuleClasses ok");
+        System.out.println("RuleClasses ok");*/
+
     }
 
     private static void runRulesetWithCRL2J() throws IOException, RecognitionException, ReflectiveOperationException {

@@ -14,34 +14,32 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold.actions;
 
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Identifier;
+public class MergeAction extends Action {
 
-public class SetCategoryAction extends Action {
-
-    public SetCategoryAction(int id, String name) {
+    public MergeAction(int id, String name) {
         super(id, name);
     }
 
-    private Identifier identifier1;
+    private String identifier1;
 
-    public void setIdentifier1(Identifier identifier1) {
-        this.identifier1 = identifier1;
-    }
-
-    public Identifier getIdentifier1() {
+    public String getIdentifier1() {
         return identifier1;
     }
 
-    private Identifier identifier2;
-
-    public void setIdentifier2(Identifier identifier2) {
-        this.identifier2 = identifier2;
+    public void setIdentifier1(String identifier1) {
+        this.identifier1 = identifier1;
     }
 
-    public Identifier getIdentifier2() {
+    private String identifier2;
+
+    public String getIdentifier2() {
         return identifier2;
+    }
+
+    public void setIdentifier2(String identifier2) {
+        this.identifier2 = identifier2;
     }
 
     @Override
@@ -54,8 +52,9 @@ public class SetCategoryAction extends Action {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".add( ").append(identifier1.getNormalForm()).append(", ").append(identifier2.getNormalForm()).append(" )");
+        code.append(getName()).append(getId()).append(".add( ").append(identifier1).append(", ").append(identifier2).append(" )");
 
         return code.toString();
     }
+
 }

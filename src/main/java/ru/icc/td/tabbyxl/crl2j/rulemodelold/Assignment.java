@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
-
-import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrintAction extends Action {
+public class Assignment {
+    private String identifier;
 
-    public PrintAction(int id, String name) {
-        super(id, name);
+    public String getIdentifier() {
+        return identifier;
     }
 
     private List<String> expression = new ArrayList<>();
@@ -33,17 +32,17 @@ public class PrintAction extends Action {
         return expression;
     }
 
-    public void addPartToExpression(String part) {
-        this.expression.add(part);
+    public void addExpressionPart(String part) {
+        expression.add(part);
+    }
+
+    public Assignment(String identifier) {
+        this.identifier=identifier;;
     }
 
     @Override
-    public String generateAddSet() {
-
-        StringBuilder code = new StringBuilder();
-
-        code.append("System.out.println( ").append(RuleCodeGen.buildExpression(expression, "")).append(" )");
-
-        return code.toString();
+    public String toString()
+    {
+        return String.format("%s: %s",identifier,expression);
     }
 }

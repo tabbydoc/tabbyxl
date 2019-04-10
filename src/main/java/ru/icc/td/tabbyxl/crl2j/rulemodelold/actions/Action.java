@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold.actions;
 
 public abstract class Action implements ActionInterface {
 

@@ -16,21 +16,118 @@
 
 package ru.icc.td.tabbyxl.crl2j;
 
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Condition;
-import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
-import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
-import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.tree.CommonTree;
+import ru.icc.td.tabbyxl.crl2j.parsing.CrlLexer;
+import ru.icc.td.tabbyxl.crl2j.parsing.CrlParser;
+import ru.icc.td.tabbyxl.crl2j.rulemodel.Rule;
+import ru.icc.td.tabbyxl.crl2j.rulemodel.RuleBase;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.actions.Action;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
 
 public class RuleCodeGen {
 
-    private String packageForRulesFiles;
+    private List<String> imports = new ArrayList<>();
+    private List<Rule> rules = new ArrayList<>();
+    private List<Class> classes = new ArrayList<>();
+
+    private final String PACK = "ru.icc.td.tabbyxl.crl2j.synthesis;";
+    private final String LINE_SEP = System.lineSeparator();
+    private final String INDENT = "    ";
+
+    public void loadRuleset (File ruleset) throws IOException, RecognitionException {
+
+        ANTLRFileStream fileStream = new ANTLRFileStream(ruleset.getPath());
+        CrlLexer lexer = new CrlLexer(fileStream);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        CrlParser parser = new CrlParser(tokenStream);
+        CommonTree ast = (CommonTree) parser.crl().getTree();
+
+        imports = RuleModelBuilder.buildImports(ast);
+        rules = RuleModelBuilder.buildRules(ast);
+
+    }
+
+    public String fetchCodeFromRule(Rule rule, String className) {
+
+        StringBuilder code = new StringBuilder();
+
+        // set package
+        code.append(PACK).append(";").append(LINE_SEP)
+            .append(LINE_SEP);
+
+        // add imports
+        for (String importItem: imports) {
+            code.append(importItem);
+            if (!importItem.endsWith(";")) code.append(";");
+            code.append(LINE_SEP);
+        }
+        code.append(LINE_SEP);
+
+        // begin class
+        code.append("public class ").append(className).append(" {").append(LINE_SEP);
+
+        // append constructor
+        code.append(generateConstructor(className)).append(LINE_SEP);
+
+        // override method eval()
+
+        // finish class
+        code.append("}");
+
+        return code.toString();
+    }
+
+    private String generateConstructor (String className) {
+        StringBuilder code = new StringBuilder();
+
+        code
+                .append(fetchIndent(1)).append("public ").append(className).append(" (CTable table) {").append(LINE_SEP)
+                .append(fetchIndent(2)).append("super(table);").append(LINE_SEP)
+                .append(fetchIndent(1)).append("}").append(LINE_SEP);
+
+        return code.toString();
+    }
+
+    private String generateEval(Rule rule) {
+        StringBuilder code = new StringBuilder();
+
+        code
+                .append(fetchIndent(1)).append("@Override").append(LINE_SEP)
+                .append(fetchIndent(1)).append("public void eval () {").append(LINE_SEP)
+                .append(fetchIndent(2)).append()
+
+        return code.toString();
+    }
+
+    private String fetchIndent(int level) {
+        StringBuilder indent = new StringBuilder();
+        for (int i = 0; i < level; i ++) {
+            indent.append(INDENT);
+        }
+        return indent.toString();
+    }
+
+    private void compileAllRules(CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        for (Class<? extends RuleBase> ruleClass: classes) {
+            RuleBase ruleObject = ruleClass.getConstructor(new Class[] {CTable.class}).newInstance(new Object[] { table });
+            ruleObject.eval();
+        }
+    }
+
+
+
+
+
+    //////////////////////////////////////////////////
+/*    private String packageForRulesFiles;
 
     private List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
@@ -84,7 +181,7 @@ public class RuleCodeGen {
         return ruleObjects;
     }*/
 
-    public CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
+/*    public CharSequence fetchCodeFromRule(Rule rule, List<String> imports)
     {
         StringBuilder code = new StringBuilder();
         String lineSep = System.lineSeparator();
@@ -192,11 +289,11 @@ public class RuleCodeGen {
 /*<<<<<<< HEAD
     private String generateCondition(Iterator<Condition> conditions, Iterator<Action> actions, String indent)
 =======*/
-    private static List<Set> iteratorsList;
+  /*  private static List<Set> iteratorsList;
 
     private static String generateCondition(Iterator<Condition> conditions, Iterator<Action> actions, String indent)
 //>>>>>>> dev*/
-    {
+ /*   {
         StringBuilder code = new StringBuilder();
 
         Condition currentCondition = conditions.next();
@@ -380,7 +477,7 @@ public class RuleCodeGen {
 /*<<<<<<< HEAD
     private String generateActionsAddSet(Iterator<Action> actions, String indent) {
 =======*/
-    private static String generateActionsAddSet(Iterator<Action> actions, String indent, List<Set> iteratorsList) {
+ /*   private static String generateActionsAddSet(Iterator<Action> actions, String indent, List<Set> iteratorsList) {
 //>>>>>>> dev
 
         StringBuilder code = new StringBuilder();
@@ -421,7 +518,7 @@ public class RuleCodeGen {
         return code.toString();
     }*/
 
-    private static class Set {
+  /*  private static class Set {
 
         public String key;
         public Integer value;
@@ -430,6 +527,6 @@ public class RuleCodeGen {
             this.key = key;
             this.value = value;
         }
-    }
+    }*/
 
 }

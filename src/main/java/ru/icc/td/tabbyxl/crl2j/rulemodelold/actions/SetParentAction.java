@@ -14,39 +14,39 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold.actions;
 
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Identifier;
+import ru.icc.td.tabbyxl.crl2j.rulemodelold.Identifier;
 
-public class GroupAction extends Action {
+public class SetParentAction extends Action {
 
-    public GroupAction(int id, String name) {
+    public SetParentAction(int id, String name) {
         super(id, name);
     }
 
-    private Identifier identifier1;
+    private Identifier parent;
 
-    public Identifier getIdentifier1() {
-        return identifier1;
+    public void setParent(Identifier parent) {
+        this.parent = parent;
     }
 
-    public void setIdentifier1(Identifier identifier1) {
-        this.identifier1 = identifier1;
+    public Identifier getParent() {
+        return parent;
     }
 
-    private Identifier identifier2;
+    private Identifier child;
 
-    public Identifier getIdentifier2() {
-        return identifier2;
+    public void setChild(Identifier child) {
+        this.child = child;
     }
 
-    public void setIdentifier2(Identifier identifier2) {
-        this.identifier2 = identifier2;
+    public Identifier getChild() {
+        return child;
     }
 
     @Override
     public String toString() {
-        return String.format("[ %d %s ( %s, %s ) ]", getId(), getName(), identifier1.toString(), identifier2.toString());
+        return String.format("[ %d %s ( %s, %s) ]", getId(), getName(), parent.toString(), child.toString());
     }
 
     @Override
@@ -54,9 +54,8 @@ public class GroupAction extends Action {
 
         StringBuilder code = new StringBuilder();
 
-        code.append(getName()).append(getId()).append(".add( ").append(identifier1.getNormalForm()).append(", ").append(identifier2.getNormalForm()).append(" )");
+        code.append(getName()).append(getId()).append(".add( ").append(parent.getNormalForm()).append(", ").append(child.getNormalForm()).append(" )");
 
         return code.toString();
     }
-
 }

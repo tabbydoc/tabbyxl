@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold;
 
 import ru.icc.td.tabbyxl.crl2j.FieldAliases;
 

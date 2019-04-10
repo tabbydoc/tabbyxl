@@ -1,15 +1,10 @@
 package ru.icc.td.tabbyxl.crl2j;
 
-import org.antlr.runtime.ANTLRFileStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramLexer;
-import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramParser;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Rule;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Ruleset;
+import ru.icc.td.tabbyxl.crl2j.rulemodelold.Rule;
+import ru.icc.td.tabbyxl.crl2j.rulemodelold.Ruleset;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -155,7 +150,7 @@ public class MvnProjectGenerator {
 
     private void writeRuleClasses() throws IOException, RecognitionException {
 
-        ANTLRFileStream fileStream = new ANTLRFileStream(ruleSetFile.getPath());
+       /* ANTLRFileStream fileStream = new ANTLRFileStream(ruleSetFile.getPath());
         crl_gramLexer lexer = new crl_gramLexer(fileStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         crl_gramParser parser = new crl_gramParser(tokenStream);
@@ -187,7 +182,7 @@ public class MvnProjectGenerator {
 
             writer.flush();
             writer.close();
-        }
+        }*/
     }
 
     public String getGroupID() {

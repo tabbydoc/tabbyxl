@@ -14,48 +14,45 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.rulemodel.actions;
+package ru.icc.td.tabbyxl.crl2j.rulemodelold.actions;
 
 import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetMarkAction extends Action {
+public class SetTextAction extends Action {
 
-    public SetMarkAction(int id, String name) {
+    public SetTextAction(int id, String name) {
         super(id, name);
     }
 
     private String identifier;
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
     public String getIdentifier() {
         return identifier;
     }
 
-    private List<String> stringExpression = new ArrayList<>();
-
-    public void addStringToExpression(String stringExpression) {
-        this.stringExpression.add(stringExpression);
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
+
+    private List<String> stringExpression = new ArrayList<>();
 
     public List<String> getStringExpression() {
         return stringExpression;
     }
 
+    public void addStringToExpression(String stringExpression) {
+        this.stringExpression.add(stringExpression);
+    }
+
     @Override
     public String toString() {
-
         StringBuilder exprBuilder = new StringBuilder();
-
-        for(String part: stringExpression) {
+        for(String part:stringExpression) {
             exprBuilder.append(part);
         }
-
         return String.format("[ %d %s ( %s, %s ) ]", getId(), getName(), identifier.toString(), exprBuilder.toString());
     }
 
@@ -68,16 +65,4 @@ public class SetMarkAction extends Action {
 
         return code.toString();
     }
-
-    /*@Override
-    public String fetchCode() {
-
-        StringBuilder code = new StringBuilder();
-
-        code.append("for ( CCell cell:").append(identifier.toString()).append(" ) {").append(System.lineSeparator());
-        code.append("cell.setMark( ").append(stringExpression).append(" );").append(System.lineSeparator());
-        code.append("}").append(System.lineSeparator());
-
-        return code.toString();
-    }*/
 }
