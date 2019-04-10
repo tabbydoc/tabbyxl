@@ -20,10 +20,29 @@ public class CellsDataPreproc {
             initData = initStr.split(Pattern.quote(delim));
         else
             initData = new String[]{initStr};
+        strModif(initData);
         for (String s: initData){
             LitType litType = new LitType(s);
             Object[] res = {litType.getEntry(), litType.getTag(), litType.subType ,litType.getLemmas()};
             data.add(res);
+        }
+    }
+    private void strModif(String[] initData){
+        int l = initData.length;
+        int il;
+        String item;
+        String[] itemComp;
+        for (int i= 0; i< l; i++){
+            item = initData[i];
+            itemComp = item.split(Pattern.quote(" "));
+            for (int j = 0; j < itemComp.length; j ++){
+                il = itemComp[j].length();
+                if (il == 2)
+                    itemComp[j] = itemComp[j].toUpperCase();
+                else if(il > 2)
+                    itemComp[j] = itemComp[j].substring(0,1).toUpperCase() + itemComp[j].substring(1);
+            }
+            initData[i] = String.join(" ", itemComp);
         }
     }
 

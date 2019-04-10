@@ -13,9 +13,10 @@ public class CommonAPILoader {
             String delim = "\\s*,\\s*";
             //String[] initData = params[1].split(delim);
             //stanfordCore(params[1]);
-            CellsDataPreproc preproc = new CellsDataPreproc(params[1], " ");
+            CellsDataPreproc preproc = new CellsDataPreproc(params[1], "|");
+            System.out.println(preproc.getNerList(0));
             System.out.println(preproc.getNerList(1));
-            System.out.println(preproc.getNerList(2));
+            System.out.println(preproc.getNerList(3));
 
         }
 
