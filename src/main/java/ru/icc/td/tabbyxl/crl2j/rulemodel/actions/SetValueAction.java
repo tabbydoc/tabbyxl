@@ -69,4 +69,9 @@ public class SetValueAction extends Action {
 
         return code.toString();
     }
+
+    @Override
+    public String getVarName() {
+        return "";
+    }
 }
