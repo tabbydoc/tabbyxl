@@ -5,8 +5,17 @@ import java.util.List;
 
 public class Rule {
 
+    private int id;
     private List<Condition> conditions = new ArrayList<>();
     private List<Action> actions = new ArrayList<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public List<Condition> getConditions() {
         return conditions;

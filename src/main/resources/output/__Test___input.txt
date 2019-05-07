@@ -1,7 +1,0 @@
-rule #1
-  when
-    cell $c: cr == 1, rt > 1
-  then
-    set mark "stub" to $c
-    new label $c
-end

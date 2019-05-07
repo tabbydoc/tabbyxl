@@ -204,7 +204,7 @@ c_print
 	;
 
 advanced_identifier	
-	:	Identifier ('.' query index?)?
+	:	Identifier ('.' query id?)?
 	;
 //lexer
 WS
@@ -224,7 +224,7 @@ Identifier
 	:	('$'|'_'|LETTER|DIGIT)('$'|'_'|LETTER|DIGIT)*
 
 	;
-index
+id
 	:	'[' J_int_literal ']' -> J_int_literal
 	;
 String_lit

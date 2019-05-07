@@ -3,8 +3,7 @@ package ru.icc.td.tabbyxl.crl2j;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import ru.icc.td.tabbyxl.crl2j.rulemodelold.Rule;
-import ru.icc.td.tabbyxl.crl2j.rulemodelold.Ruleset;
+import ru.icc.td.tabbyxl.crl2j.rulemodel.Rule;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -24,7 +23,7 @@ public class MvnProjectGenerator {
     private Path tabbyxlPath;
 
     private RuleCodeGen ruleCodeGenerator = new RuleCodeGen();
-    private Ruleset ruleset;
+    //private Ruleset ruleset;
 
     public MvnProjectGenerator(Path root) {
         this.root = root;
@@ -113,7 +112,7 @@ public class MvnProjectGenerator {
                 .append(indent).append(indent).append(indent).append(indent).append(indent).append("if (null == table) break;").append(lineSep)
                 .append(lineSep);
 
-        for (Rule rule:ruleset.getRules()) {
+        /*for (Rule rule:ruleset.getRules()) {
             int ruleNum = rule.getNum();
             stringBuilder
                     .append(indent).append(indent).append(indent).append(indent).append(indent)
@@ -121,7 +120,7 @@ public class MvnProjectGenerator {
                     .append(indent).append(indent).append(indent).append(indent).append(indent)
                     .append("rule").append(ruleNum).append(".eval();").append(lineSep)
                     .append(lineSep);
-        }
+        }*/
 
         stringBuilder
                 .append(indent).append(indent).append(indent).append(indent).append(indent)

@@ -10,4 +10,8 @@ public class Constraint {
     public void addExpression(String expression) {
         this.expressions.add(expression);
     }
+
+    public List<String> getExpressions() {
+        return expressions;
+    }
 }

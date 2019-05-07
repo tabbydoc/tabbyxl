@@ -672,7 +672,7 @@ public final class TabbyXL {
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
                 Date startDate = new Date();
-                ruleCodeGenerator.fireAllRules(table);
+                //ruleCodeGenerator.fireAllRules(table);
                 Date endDate = new Date();
 
                 currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();

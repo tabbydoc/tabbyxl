@@ -12,7 +12,15 @@ public class Assignment {
         this.identifier = identifier;
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
     public void addExpression (String expression) {
         this.expressions.add(expression);
+    }
+
+    public List<String> getExpressions() {
+        return expressions;
     }
 }
