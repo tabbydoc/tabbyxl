@@ -127,6 +127,8 @@ public final class CLabel extends CValue
     }
 
     // return true if the label nas no child label
+    private boolean terminal;
+
     public boolean isTerminal()
     {
         return children.size() == 0;

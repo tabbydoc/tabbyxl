@@ -27,7 +27,6 @@ import ru.icc.td.tabbyxl.model.CTable;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
 
@@ -35,11 +34,17 @@ public class RuleCodeGen {
 
     private List<String> imports = new ArrayList<>();
     private List<Rule> rules = new ArrayList<>();
-    private List<Class> classes = new ArrayList<>();
+    //private List<Class> classes = new ArrayList<>();
 
-    private final String PACK = "ru.icc.td.tabbyxl.crl2j.synthesis;";
+    private final String PACK = "ru.icc.td.tabbyxl.crl2j.synthesis";
     private final String LINE_SEP = System.lineSeparator();
     private final String INDENT = "    ";
+
+    private Translator translator;
+
+    public String getPACK() {
+        return PACK;
+    }
 
     public void loadRuleset (File ruleset) throws IOException, RecognitionException {
 
@@ -60,28 +65,23 @@ public class RuleCodeGen {
 
     }
 
-    private void fireAllRules(CTable table) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public List<String> generateCodeFromAllRules() {
 
-        /*for(Rule rule: rules)
-        {
-            CharSequence code = fetchCodeFromRule(rule, "Rule" + rule.getId());
-            System.out.println(code);
-            Class<? extends RuleProgramPrototype> ruleClass = compiler.compile(getRuleClassName(rule), code, null, new Class<?>[]{ RuleProgramPrototype.class });
-            classes.add(ruleClass);
+        List<String> result = new ArrayList<>();
+        for (Rule rule: rules) {
+            result.add(fetchCodeFromRule(rule));
         }
 
-        for (Class<? extends RuleBase> ruleClass: classes) {
-            RuleBase ruleObject = ruleClass.getConstructor(new Class[] {CTable.class}).newInstance(new Object[] { table });
-            ruleObject.eval();
-        }*/
+        return result;
     }
 
-    public String fetchCodeFromRule(Rule rule) {
+    private String fetchCodeFromRule(Rule rule) {
 
         StringBuilder code = new StringBuilder();
+        translator = new Translator(rule.getConditions(), imports);
 
         // set package
-        code.append(PACK).append(";").append(LINE_SEP)
+        code.append("package ").append(PACK).append(";").append(LINE_SEP)
             .append(LINE_SEP);
 
         // add imports
@@ -90,10 +90,11 @@ public class RuleCodeGen {
             if (!importItem.endsWith(";")) code.append(";");
             code.append(LINE_SEP);
         }
+        code.append("import java.util.*;").append(LINE_SEP);
         code.append(LINE_SEP);
 
         // begin class
-        code.append("public class Rule").append(rule.getId()).append(" {").append(LINE_SEP);
+        code.append("public class Rule").append(rule.getId()).append(" extends RuleProgramPrototype {").append(LINE_SEP);
 
         // append constructor
         code.append(generateConstructor(rule.getId())).append(LINE_SEP);
@@ -135,20 +136,20 @@ public class RuleCodeGen {
 
         Condition currentCondition = conditions.next();
 
-        code.append(fetchIndent(level)).append("Iterator<").append(currentCondition.getDataType()).append("> $iterator").append(currentCondition.getId()).append(" = ");
+        code.append(fetchIndent(level)).append("Iterator<").append(currentCondition.getDataType()).append("> ").append(currentCondition.getIdentifier()).append("Iterator = ");
 
         switch (currentCondition.getDataType()) {
 
-            case "CCell":
+            case CCell:
                 code.append("getTable().getCells();");
                 break;
-            case "CLabel":
+            case CLabel:
                 code.append("getTable().getLabels();");
                 break;
-            case "CEntry":
+            case CEntry:
                 code.append("getTable().getEntries();");
                 break;
-            case "CCategory":
+            case CCategory:
                 code.append("getTable().getLocalCategoryBox().getCategories();");
                 break;
             default:
@@ -159,13 +160,8 @@ public class RuleCodeGen {
 
         if (!currentCondition.isNotExistsCondition()) {
             code
-                    .append(fetchIndent(level)).append("while ( $iterator").append(currentCondition.getId()).append(".hasNext() ) {").append(LINE_SEP)
-                    .append(fetchIndent(level + 1)).append(currentCondition.getIdentifier()).append(" = $iterator").append(currentCondition.getId()).append(".next();").append(LINE_SEP);
-
-           /* if (currentCondition.getDataType().equals("CCell")) {
-                //iteratorsMap.put(currentCondition.getVariable().getIdentifier(), currentCondition.getId());
-                iteratorsList.add(new Set(currentCondition.getVariable().getIdentifier(), currentCondition.getId()));
-            }*/
+                    .append(fetchIndent(level)).append("while ( ").append(currentCondition.getIdentifier()).append("Iterator.hasNext() ) {").append(LINE_SEP)
+                    .append(fetchIndent(level + 1)).append(currentCondition.getDataType()).append(" ").append(currentCondition.getIdentifier()).append(" = ").append(currentCondition.getIdentifier()).append("Iterator.next();").append(LINE_SEP);
 
             code.append(fetchIndent(level + 1)).append("if ( ");
 
@@ -193,13 +189,9 @@ public class RuleCodeGen {
         else {
 
             code.append(fetchIndent(level)).append("boolean $flag").append(currentCondition.getId()).append(" = true;").append(LINE_SEP);
-            code.append(fetchIndent(level)).append("while ( $iterator").append(currentCondition.getId()).append(".hasNext() ) {").append(LINE_SEP);
+            code.append(fetchIndent(level)).append("while ( ").append(currentCondition.getIdentifier()).append("Iterator.hasNext() ) {").append(LINE_SEP);
 
-            code.append(fetchIndent(level + 1)).append(currentCondition.getIdentifier()).append(" = $iterator").append(currentCondition.getId()).append(".next();").append(System.lineSeparator());
-
-           /* if (currentCondition.getDataType().equals("CCell")) {
-                iteratorsList.add(new Set(currentCondition.getVariable().getIdentifier(), currentCondition.getId()));
-            }*/
+            code.append(fetchIndent(level + 1)).append(currentCondition.getDataType()).append(" ").append(currentCondition.getIdentifier()).append(" = ").append(currentCondition.getIdentifier()).append("Iterator.next();").append(System.lineSeparator());
 
             code.append(fetchIndent(level + 1)).append("if ( ");
 
@@ -222,9 +214,9 @@ public class RuleCodeGen {
             code.append(fetchIndent(level)).append("if ( $flag").append(currentCondition.getId()).append(" ) {").append(System.lineSeparator());
 
             if(conditions.hasNext()) {
-                code.append(generateCondition(conditions, actions, level + 2));
+                code.append(generateCondition(conditions, actions, level + 1));
             } else {
-                code.append(generateActions(actions, level + 2));
+                code.append(generateActions(actions, level + 1));
             }
 
             code.append(fetchIndent(level)).append("}").append(System.lineSeparator());
@@ -238,7 +230,9 @@ public class RuleCodeGen {
         StringBuilder code = new StringBuilder();
 
         for( int i=0; i<constraints.size(); i++ ) {
-            code.append("( ").append(buildExpression(constraints.get(i).getExpressions(), conditionVarName)).append(" )");
+
+            code.append("( ").append(translator.translateExpressions(constraints.get(i).getExpressions(), conditionVarName)).append(" )");
+
             if(i<constraints.size()-1) code.append(" && ");
         }
 
@@ -250,13 +244,219 @@ public class RuleCodeGen {
 
         StringBuilder code = new StringBuilder();
 
-        code.append("String ").append(assignment.getIdentifier()).append(" = String.valueOf( ").append(buildExpression(assignment.getExpressions(), conditionVarName)).append(" );").append(LINE_SEP);
+        code.append("String ").append(assignment.getIdentifier()).append(" = String.valueOf( ").append(translator.translateExpressions(assignment.getExpressions(), conditionVarName)).append(" );").append(LINE_SEP);
 
         return code.toString();
     }
 
     private String generateActions(Iterator<Action> actions, int level) {
-        return "";
+
+        StringBuilder code = new StringBuilder();
+
+        while (actions.hasNext()) {
+            Action action = actions.next();
+
+            switch (action.getType()) {
+                case SetMark:
+                    code.append(fetchIndent(level)).append(generateSetMark(action.getOperands())).append(LINE_SEP);
+                    break;
+                case SetText:
+                    code.append(fetchIndent(level)).append(generateSetText(action.getOperands())).append(LINE_SEP);
+                    break;
+                case SetIndent:
+                    code.append(fetchIndent(level)).append(generateSetIndent(action.getOperands())).append(LINE_SEP);
+                    break;
+                case Split:
+                    code
+                            .append(fetchIndent(level)).append(generateSplit(action.getOperands())).append(LINE_SEP)
+                            .append(updateIterators("CCell", level));
+                    break;
+                case Merge:
+                    code
+                            .append(fetchIndent(level)).append(generateMerge(action.getOperands())).append(LINE_SEP)
+                            .append(updateIterators("CCell", level));
+                    break;
+                case NewEntry:
+                    code.append(fetchIndent(level)).append(generateNewEntry(action.getOperands())).append(LINE_SEP);
+                    break;
+                case NewLabel:
+                    code.append(fetchIndent(level)).append(generateNewLabel(action.getOperands())).append(LINE_SEP);
+                    break;
+                case SetValue:
+                    code.append(fetchIndent(level)).append(generateSetValue(action.getOperands())).append(LINE_SEP);
+                    break;
+                case SetCategory:
+                    code.append(fetchIndent(level)).append(generateSetCategory(action.getOperands())).append(LINE_SEP);
+                    break;
+                case SetParent:
+                    code.append(fetchIndent(level)).append(generateSetParent(action.getOperands())).append(LINE_SEP);
+                    break;
+                case Group:
+                    code.append(fetchIndent(level)).append(generateGroup(action.getOperands())).append(LINE_SEP);
+                    break;
+                case AddLabel:
+                    code.append(fetchIndent(level)).append(generateAddLabel(action.getOperands())).append(LINE_SEP);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        return code.toString();
+    }
+
+    private String generateSetMark(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand1).append(".setMark(").append(operand2).append(");");
+
+        return code.toString();
+    }
+
+    private String generateSetText(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand1).append(".setText(").append(operand2).append(");");
+
+        return code.toString();
+    }
+
+    private String generateSetIndent(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand1).append(".setIndent(").append(operand2).append(");");
+
+        return code.toString();
+    }
+
+    private String generateSplit(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand = translator.translateExpressions(operands.get(0).getExpressions(), "");
+
+        code.append(operand).append(".split();");
+
+        return code.toString();
+    }
+
+    private String generateMerge(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand1).append(".merge(").append(operand2).append(");");
+
+        return code.toString();
+    }
+
+    private String generateNewEntry(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+
+        code.append(operand1).append(".newEntry(");
+
+        if (operands.size() > 1) {
+            code.append(translator.translateExpressions(operands.get(1).getExpressions(), ""));
+        }
+
+        code.append(");");
+
+        return code.toString();
+    }
+
+    private String generateNewLabel(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+
+        code.append(operand1).append(".newLabel(");
+
+        if (operands.size() > 1) {
+            code.append(translator.translateExpressions(operands.get(1).getExpressions(), ""));
+        }
+
+        code.append(");");
+
+        return code.toString();
+    }
+
+    private String generateSetValue(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand1).append(".setValue(").append(operand2).append(");");
+
+        return code.toString();
+    }
+
+    private String generateSetCategory(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand1).append(".setCategory(").append(operand2).append(");");
+
+        return code.toString();
+    }
+
+    private String generateSetParent(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand2).append(".setParent(").append(operand1).append(");");
+
+        return code.toString();
+    }
+
+    private String generateGroup(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand1).append(".group(").append(operand2).append(");");
+
+        return code.toString();
+    }
+
+    private String generateAddLabel(List<Operand> operands) {
+
+        StringBuilder code = new StringBuilder();
+
+        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
+        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
+
+        code.append(operand2).append(".addLabel(").append(operand1).append(");");
+
+        return code.toString();
     }
 
     private String fetchIndent(int level) {
@@ -267,45 +467,39 @@ public class RuleCodeGen {
         return indent.toString();
     }
 
-    public String buildExpression (List<String> expression, String variableName) {
+    public String updateIterators(String className, int level) {
 
         StringBuilder code = new StringBuilder();
-        FieldAliases aliases = new FieldAliases();
 
-        for ( int i=0; i<expression.size(); i++ ) {
-            if(aliases.getAliases().containsKey(expression.get(i))) {
+        Iterator<String> keys = translator.getVariables().keySet().iterator();
 
-                if (i<2) {
-                    code.append(variableName).append(".").append(aliases.getAliases().get(expression.get(i)));
+        while (keys.hasNext()) {
+            String key = keys.next();
+            if (translator.getVariables().get(key).equals(className)) {
+                code.append(fetchIndent(level)).append(key).append("Iterator = getTable().");
+
+                switch (className) {
+                    case "CCell":
+                        code.append("getCells();");
+                        break;
+                    case "CLabel":
+                        code.append("getLabels();");
+                        break;
+                    case "CEntry":
+                        code.append("getEntries();");
+                        break;
+                    case "CCategory":
+                        code.append("getLocalCategoryBox().getCategories();");
+                        break;
+                    default:
+                        break;
                 }
-                else {
-                    if( !expression.get(i-1).equals(".") ) {
-                        code.append(variableName).append(".").append(aliases.getAliases().get(expression.get(i)));
-                    }
-                    else
-                    {
-                        code.append(aliases.getAliases().get(expression.get(i)));
-                    }
-                }
-                if( i > expression.size()-3) {
-                    code.append("()");
-                }
-                else
-                {
-                    if(expression.get(i+1).equals("[") && expression.get(i+3).equals("]")) {
-                        code.append("(").append(expression.get(i + 2)).append(")");
-                        i=i+3;
-                    }
-                    else
-                        code.append("()");
-                }
-            }
-            else {
-                code.append(expression.get(i));
+
+                code.append(System.lineSeparator());
             }
         }
 
         return code.toString();
-    }
 
+    }
 }

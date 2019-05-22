@@ -1,5 +1,4 @@
-// $ANTLR 3.4 D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g 2019-04-09 22:57:09
-
+// $ANTLR 3.4 D:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\Crl.g 2019-05-20 19:47:23
 package ru.icc.td.tabbyxl.crl2j.parsing;
 
 import org.antlr.runtime.*;
@@ -59,7 +58,7 @@ public class CrlLexer extends Lexer {
     public static final int ADV_IDENT2=6;
     public static final int Action=7;
     public static final int Actions=8;
-    public static final int AddLabelAction=9;
+    public static final int AddLabel=9;
     public static final int Assignment=10;
     public static final int Breackits=11;
     public static final int CATEGORY=12;
@@ -69,7 +68,7 @@ public class CrlLexer extends Lexer {
     public static final int Constraint=16;
     public static final int DIGIT=17;
     public static final int EOL=18;
-    public static final int GroupAction=19;
+    public static final int Group=19;
     public static final int IDENT=20;
     public static final int IDENT1=21;
     public static final int IDENT2=22;
@@ -81,24 +80,24 @@ public class CrlLexer extends Lexer {
     public static final int J_int_literal=28;
     public static final int LABEL=29;
     public static final int LETTER=30;
-    public static final int MergeAction=31;
-    public static final int NewEntryAction=32;
-    public static final int NewLabelAction=33;
+    public static final int Merge=31;
+    public static final int NewEntry=32;
+    public static final int NewLabel=33;
     public static final int No_condition=34;
     public static final int Other_literals=35;
     public static final int Package=36;
-    public static final int PrintAction=37;
+    public static final int Print=37;
     public static final int RULES=38;
     public static final int STRING=39;
-    public static final int SetCategoryAction=40;
-    public static final int SetIndentAction=41;
-    public static final int SetMarkAction=42;
-    public static final int SetParentAction=43;
-    public static final int SetTextAction=44;
-    public static final int SetValueAction=45;
-    public static final int SplitAction=46;
+    public static final int SetCategory=40;
+    public static final int SetIndent=41;
+    public static final int SetMark=42;
+    public static final int SetParent=43;
+    public static final int SetText=44;
+    public static final int SetValue=45;
+    public static final int Split=46;
     public static final int String_lit=47;
-    public static final int UpdateAction=48;
+    public static final int Update=48;
     public static final int WS=49;
 
     // delegates

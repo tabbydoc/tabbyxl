@@ -5,14 +5,18 @@ import java.util.List;
 
 public class Action {
 
-    private String type;
+    public enum Type {
+        Split, SetText, SetIndent, SetMark, SetValue, NewEntry, NewLabel, Merge, AddLabel, SetCategory, SetParent, Group, Update
+    }
+
+    private Type type;
     private List<Operand> operands = new ArrayList<>();
 
-    public String getType() {
+    public Type  getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

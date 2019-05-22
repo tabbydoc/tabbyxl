@@ -20,6 +20,7 @@ import org.antlr.runtime.tree.Tree;
 
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,31 +96,31 @@ public class RuleModelBuilder {
 
         switch (tree.getChild(0).getText()) {
             case("cell"):
-                condition.setDataType("CCell");
+                condition.setDataType(Condition.DataType.CCell);
                 break;
             case("no cells"):
-                condition.setDataType("CCell");
+                condition.setDataType(Condition.DataType.CCell);
                 condition.setNotExistsCondition(true);
                 break;
             case("label"):
-                condition.setDataType("CLabel");
+                condition.setDataType(Condition.DataType.CLabel);
                 break;
             case("no labels"):
-                condition.setDataType("CLabel");
+                condition.setDataType(Condition.DataType.CLabel);
                 condition.setNotExistsCondition(true);
                 break;
             case("entry"):
-                condition.setDataType("CEntry");
+                condition.setDataType(Condition.DataType.CEntry);
                 break;
             case("no entries"):
-                condition.setDataType("CEntry");
+                condition.setDataType(Condition.DataType.CEntry);
                 condition.setNotExistsCondition(true);
                 break;
             case("category"):
-                condition.setDataType("CCell");
+                condition.setDataType(Condition.DataType.CCategory);
                 break;
             case("no categories"):
-                condition.setDataType("CCell");
+                condition.setDataType(Condition.DataType.CCategory);
                 condition.setNotExistsCondition(true);
                 break;
             default: break;
@@ -128,7 +129,7 @@ public class RuleModelBuilder {
         if (tree.getText().equals("Condition")) {
             condition.setIdentifier(tree.getChild(1).getText());
         } else {
-
+            condition.setIdentifier(String.format("ident%s", id));
         }
 
         for (int i = 0; i < tree.getChildCount(); i ++) {
@@ -168,9 +169,9 @@ public class RuleModelBuilder {
     }
 
     private static Action buildAction(Tree tree) {
-        Action action = new Action();
 
-        action.setType(tree.getText());
+        Action action = new Action();
+        action.setType(Action.Type.valueOf(tree.getText()));
 
         List<Operand> operands = new ArrayList<>();
 

@@ -5,8 +5,12 @@ import java.util.List;
 
 public class Condition {
 
+    public enum DataType {
+        CCell, CLabel, CEntry, CCategory
+    }
+
     private int id;
-    private String dataType;
+    private DataType dataType;
     private String identifier;
     private List<Constraint> constraints = new ArrayList<>();
     private List<Assignment> assignments = new ArrayList<>();
@@ -20,11 +24,11 @@ public class Condition {
         this.id = id;
     }
 
-    public void setDataType(String dataType) {
+    public void setDataType(DataType dataType) {
         this.dataType = dataType;
     }
 
-    public String getDataType() {
+    public DataType getDataType() {
         return dataType;
     }
 

@@ -112,16 +112,6 @@ public class MvnProjectGenerator {
                 .append(indent).append(indent).append(indent).append(indent).append(indent).append("if (null == table) break;").append(lineSep)
                 .append(lineSep);
 
-        /*for (Rule rule:ruleset.getRules()) {
-            int ruleNum = rule.getNum();
-            stringBuilder
-                    .append(indent).append(indent).append(indent).append(indent).append(indent)
-                    .append("Rule").append(ruleNum).append(" rule").append(ruleNum).append(" = new Rule").append(ruleNum).append("(table);").append(lineSep)
-                    .append(indent).append(indent).append(indent).append(indent).append(indent)
-                    .append("rule").append(ruleNum).append(".eval();").append(lineSep)
-                    .append(lineSep);
-        }*/
-
         stringBuilder
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
                 .append("Tables.recoverCellBorders(table);").append(lineSep)
