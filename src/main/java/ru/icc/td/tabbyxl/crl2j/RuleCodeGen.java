@@ -86,9 +86,7 @@ public class RuleCodeGen {
 
         // add imports
         for (String importItem: imports) {
-            code.append(importItem);
-            if (!importItem.endsWith(";")) code.append(";");
-            code.append(LINE_SEP);
+            code.append(importItem).append(";").append(LINE_SEP);
         }
         code.append("import java.util.*;").append(LINE_SEP);
         code.append(LINE_SEP);
@@ -257,44 +255,44 @@ public class RuleCodeGen {
             Action action = actions.next();
 
             switch (action.getType()) {
-                case SetMark:
+                case setMark:
                     code.append(fetchIndent(level)).append(generateSetMark(action.getOperands())).append(LINE_SEP);
                     break;
-                case SetText:
+                case setText:
                     code.append(fetchIndent(level)).append(generateSetText(action.getOperands())).append(LINE_SEP);
                     break;
-                case SetIndent:
+                case setIndent:
                     code.append(fetchIndent(level)).append(generateSetIndent(action.getOperands())).append(LINE_SEP);
                     break;
-                case Split:
+                case split:
                     code
                             .append(fetchIndent(level)).append(generateSplit(action.getOperands())).append(LINE_SEP)
                             .append(updateIterators("CCell", level));
                     break;
-                case Merge:
+                case merge:
                     code
                             .append(fetchIndent(level)).append(generateMerge(action.getOperands())).append(LINE_SEP)
                             .append(updateIterators("CCell", level));
                     break;
-                case NewEntry:
+                case newEntry:
                     code.append(fetchIndent(level)).append(generateNewEntry(action.getOperands())).append(LINE_SEP);
                     break;
-                case NewLabel:
+                case newLabel:
                     code.append(fetchIndent(level)).append(generateNewLabel(action.getOperands())).append(LINE_SEP);
                     break;
-                case SetValue:
+                case setValue:
                     code.append(fetchIndent(level)).append(generateSetValue(action.getOperands())).append(LINE_SEP);
                     break;
-                case SetCategory:
+                case setCategory:
                     code.append(fetchIndent(level)).append(generateSetCategory(action.getOperands())).append(LINE_SEP);
                     break;
-                case SetParent:
+                case setParent:
                     code.append(fetchIndent(level)).append(generateSetParent(action.getOperands())).append(LINE_SEP);
                     break;
-                case Group:
+                case group:
                     code.append(fetchIndent(level)).append(generateGroup(action.getOperands())).append(LINE_SEP);
                     break;
-                case AddLabel:
+                case addLabel:
                     code.append(fetchIndent(level)).append(generateAddLabel(action.getOperands())).append(LINE_SEP);
                     break;
                 default:
@@ -430,7 +428,7 @@ public class RuleCodeGen {
         String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
         String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
 
-        code.append(operand2).append(".setParent(").append(operand1).append(");");
+        code.append(operand1).append(".setParent(").append(operand2).append(");");
 
         return code.toString();
     }
@@ -454,7 +452,13 @@ public class RuleCodeGen {
         String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
         String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
 
-        code.append(operand2).append(".addLabel(").append(operand1).append(");");
+        code.append(operand1).append(".addLabel(").append(operand2);
+
+        if (operands.size() > 2) {
+            code.append(", ").append(translator.translateExpressions(operands.get(2).getExpressions(), ""));
+        }
+
+        code.append(");");
 
         return code.toString();
     }

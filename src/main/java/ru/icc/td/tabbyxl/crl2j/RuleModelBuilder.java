@@ -33,7 +33,7 @@ public class RuleModelBuilder {
         for (int i = 0; i < ast.getChildCount(); i ++) {
 
             Tree subtree = ast.getChild(i);
-            if (subtree.getText().equals("Imports")) {
+            if (subtree.getText().equals("IMPORTS")) {
 
                 for (int j = 0; j < subtree.getChildCount(); j ++) {
                     imports.add(subtree.getChild(j).getText());
@@ -72,12 +72,12 @@ public class RuleModelBuilder {
         for (int i = 0; i < tree.getChildCount(); i ++) {
 
             Tree subtree = tree.getChild(i);
-            if (subtree.getText().equals("Conditions")) {
+            if (subtree.getText().equals("CONDITIONS")) {
 
                 for (int j = 0; j < subtree.getChildCount(); j ++) {
                     rule.addCondition(buildCondition(subtree.getChild(j), j + 1));
                 }
-            } else if (subtree.getText().equals("Actions")) {
+            } else if (subtree.getText().equals("ACTIONS")) {
 
                 for (int j = 0; j < subtree.getChildCount(); j ++) {
                     rule.addAction(buildAction(subtree.getChild(j)));
@@ -93,53 +93,24 @@ public class RuleModelBuilder {
         Condition condition = new Condition();
 
         condition.setId(id);
+        condition.setConditionType(Condition.ConditionType.valueOf(tree.getChild(0).getText()));
+        condition.setDataType(Condition.DataType.valueOf(tree.getChild(1).getText()));
 
-        switch (tree.getChild(0).getText()) {
-            case("cell"):
-                condition.setDataType(Condition.DataType.CCell);
-                break;
-            case("no cells"):
-                condition.setDataType(Condition.DataType.CCell);
-                condition.setNotExistsCondition(true);
-                break;
-            case("label"):
-                condition.setDataType(Condition.DataType.CLabel);
-                break;
-            case("no labels"):
-                condition.setDataType(Condition.DataType.CLabel);
-                condition.setNotExistsCondition(true);
-                break;
-            case("entry"):
-                condition.setDataType(Condition.DataType.CEntry);
-                break;
-            case("no entries"):
-                condition.setDataType(Condition.DataType.CEntry);
-                condition.setNotExistsCondition(true);
-                break;
-            case("category"):
-                condition.setDataType(Condition.DataType.CCategory);
-                break;
-            case("no categories"):
-                condition.setDataType(Condition.DataType.CCategory);
-                condition.setNotExistsCondition(true);
-                break;
-            default: break;
-        }
-
-        if (tree.getText().equals("Condition")) {
-            condition.setIdentifier(tree.getChild(1).getText());
-        } else {
+        if (tree.getChild(2).getText().equals("null")) {
             condition.setIdentifier(String.format("ident%s", id));
+        } else {
+            condition.setIdentifier(tree.getChild(2).getText());
         }
 
-        for (int i = 0; i < tree.getChildCount(); i ++) {
-            Tree subTree = tree.getChild(i);
-            if (subTree.getText().equals("Constraint")) {
-                condition.addConstraint(buildConstraint(subTree));
-            } else if (subTree.getText().equals("Assignment")) {
-                condition.addAssignment(buildAssignment(subTree));
-            }
+        Tree constraintsTree = tree.getChild(3);
+        for (int i = 0; i < constraintsTree.getChildCount(); i ++) {
+            Tree subTree = constraintsTree.getChild(i);
+            condition.addConstraint(buildConstraint(subTree));
         }
+
+        Tree assignmentTree = tree.getChild(4);
+        if (assignmentTree.getChildCount()>0)
+            condition.addAssignment(buildAssignment(assignmentTree));
 
         return condition;
     }
@@ -159,7 +130,7 @@ public class RuleModelBuilder {
 
         Assignment assignment = new Assignment();
 
-        assignment.setIdentifier(tree.getChild(0).getChild(0).getText());
+        assignment.setIdentifier(tree.getChild(0).getText());
 
         for (int i = 0; i < tree.getChild(1).getChildCount(); i ++) {
             assignment.addExpression(tree.getChild(1).getChild(i).getText());

@@ -6,7 +6,7 @@ import java.util.List;
 public class Action {
 
     public enum Type {
-        Split, SetText, SetIndent, SetMark, SetValue, NewEntry, NewLabel, Merge, AddLabel, SetCategory, SetParent, Group, Update
+        split, setText, setIndent, setMark, setValue, newEntry, newLabel, merge, addLabel, setCategory, setParent, group, update
     }
 
     private Type type;

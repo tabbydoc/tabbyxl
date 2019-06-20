@@ -5,16 +5,20 @@ import java.util.List;
 
 public class Condition {
 
+    public enum ConditionType {
+        ForAll, NotExists
+    }
+
     public enum DataType {
         CCell, CLabel, CEntry, CCategory
     }
 
     private int id;
+    private ConditionType conditionType;
     private DataType dataType;
     private String identifier;
     private List<Constraint> constraints = new ArrayList<>();
     private List<Assignment> assignments = new ArrayList<>();
-    private boolean notExistsCondition = false;
 
     public int getId() {
         return id;
@@ -22,6 +26,10 @@ public class Condition {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setConditionType(ConditionType conditionType) {
+        this.conditionType = conditionType;
     }
 
     public void setDataType(DataType dataType) {
@@ -56,11 +64,7 @@ public class Condition {
         return assignments;
     }
 
-    public void setNotExistsCondition(boolean notExistsCondition) {
-        this.notExistsCondition = notExistsCondition;
-    }
-
     public boolean isNotExistsCondition() {
-        return notExistsCondition;
+        return (conditionType == ConditionType.NotExists ? true : false);
     }
 }

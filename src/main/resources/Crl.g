@@ -6,249 +6,258 @@ options {
 	TokenLabelType=CommonToken;
 	output=AST;
 	ASTLabelType=CommonTree;
-	//backtrack=true;
+	backtrack = true;
 }
 
-
-tokens
-{	
+tokens {
+	IMPORTS;
+	IMPORT;
 	RULES;
-	Constraint;
-	Condition;
-	No_condition;
-	Conditions;
-	Action;
-	Actions;
-	J_expr;
-	Package;
-	Imports;
-	Import_item;
-	Assignment;
-	SetMark;
-	SetText;
-	SetIndent;
-	SetValue;
-	SetCategory;
-	SetParent;
-	Split;
-	Merge;
-	Group;
-	NewEntry;
-	NewLabel;
-	AddLabel;
-	Update;
-	Print;
-	IDENT;
-	IDENT1;
-	IDENT2;
-	ADV_IDENT;
-	ADV_IDENT1;
-	ADV_IDENT2;
-	STRING;
-	INT;
-	CATEGORY;
-	LABEL;
+	RULE;
+	CONDITIONS;
+	CONDITION;
+	TYPE;
+	QUERY;
+	IDENTIFIER;
+	CONSTRAINTS;
+	CONSTRAINT;
+	ASSIGNMENT;
+	EXPRESSION;
+	ACTIONS;
+	ACTION;
+	OPERAND;
 }
 
-/*@headers
-{	
-	package ru.icc.td.tabbyxl.crl2j.parsing;
-}*/
+@header {
+package ru.icc.td.tabbyxl.crl2j.parsing;
+}
 
+@lexer::header {
+package ru.icc.td.tabbyxl.crl2j.parsing;
+}
 
-//parser
-
+// parser
 
 crl
-	:	package_stmt? import_stmt* crl_rule+ -> ^(Imports import_stmt*) ^(RULES crl_rule+)
+	:	importing*
+		rule*
+		-> ^(IMPORTS importing*) ^(RULES rule*)
+	;
+
+importing
+scope {
+	String value;
+}
+@init { $importing::value = "import "; }
+	:	'import' id = ID { $importing::value+=$id.text; } ('.' id = ID { $importing::value+="."+$id.text; } )* ('.*' { $importing::value+=".*"; })? ';'? EOL
+		-> IMPORT [$importing::value]
 	;
 	
-package_stmt
-	:	'package' import_item
-	;
-	
-	
-import_stmt
-	:	i=import_unit -> Import_item [$i.value]
-	;
-	
-import_unit returns [String value]
-@init{ $value=""; }
-@after{ $value+=";"; }
-	:	t=('import'|'package') { $value+=$t.text+" "; } t1=import_item { $value+=$t1.value; } ';'? EOL
-	;
-	
-import_item returns [String value]
-@init { $value=""; }
-	: 	i1=Identifier { $value+=$i1.text; } ('.' i2=Identifier { $value+="."+$i2.text; })* ('.' '*' { $value+=".*"; })? //-> ^(IDENT Identifier1 Identifier2)
-	;
-	
-crl_rule
-	:	'rule #' J_int_literal useless? EOL
-		'when' EOL 
-		condition_unit+
+rule 	
+	:	'rule #' num=INT EOL
+		'when' EOL
+			condition*
 		'then' EOL
-		action+
-		'end' EOL? -> ^(J_int_literal ^(Conditions condition_unit+) ^(Actions action+))
+			action*
+		'end' EOL?
+		-> ^(RULE[$num] ^(CONDITIONS condition*) ^(ACTIONS action*))
 	;
-
-condition_unit
-	:	condition|no_condition
-	;
-
-condition
-	:	query Identifier (':' constraint (',' constraint)* (',' assignment)* )? EOL 
-		-> ^(Condition query Identifier constraint* assignment*)
+	
+condition 
+scope { 
+	String type;
+	String id; 
+}
+@init { 
+	$condition::type = "ForAll"; 
+	$condition::id = null;
+}
+	:	('no' { $condition::type = "NotExists"; })? 
+		query 
+		( ident = ID { $condition::id = $ident.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
+		(
+		':' 
+		( (constraint (',' constraint)* (',' assignment)? ) | assignment )
+		)? EOL
+		-> ^( CONDITION TYPE[$condition::type] query IDENTIFIER[$condition::id] ^(CONSTRAINTS ^(CONSTRAINT constraint)*) ^(ASSIGNMENT assignment?) )
 	;
 	
 query
-	:	'cell'|'entry'|'label'|'category'
-	;
-	
-no_condition
-	:	no_query (':' constraint (',' constraint)* )? EOL -> ^(No_condition no_query constraint*)
-	;
-	
-no_query
-	:	'no cells'|'no labels'|'no entries'|'no categories'
+	:	('cell'|'cells') -> QUERY["CCell"]
+		|('label'|'labels') -> QUERY["CLabel"]
+		|('entry'|'entries') -> QUERY["CEntry"]
+		|('category'|'categories') -> QUERY["CCAtegory"]
 	;
 	
 constraint
-	:	j_expr -> ^(Constraint j_expr)
+	:	(~(','|EOL|':'))+
 	;
 	
 assignment
-	:	Identifier ':' j_expr -> ^(Assignment ^(IDENT Identifier) ^(STRING j_expr))
+	:	id = ID ':' expression
+		-> IDENTIFIER[$id] ^(EXPRESSION expression)
 	;
 	
-j_expr returns [String value]
-@init{ $value=""; }
-	:	 ( i= ~(','|'"'|':'|'to'|'of'|EOL) { $value+=$i.text; } )+
+expression
+	:	( ESC_SEQ| ~(EOL))+
 	;
 
-action
-	:	action_ EOL -> action_
-	;
-	
-action_
+action 	
 	:	set_mark
 		|set_text
 		|set_indent
-		|set_value
 		|split
 		|merge
-		|new_label
-		|add_label
+		|new_entry
+		|set_value
 		|set_category
 		|set_parent
-		|new_entry
 		|group
-		|c_print
+		|add_label
+		|new_label
 		|update
+		|print
 	;
 	
+operand
+	:	( STRING | ESC_SEQ | ~('to'|'with'|'as'|'of'|EOL))+
+	;
+
 set_mark
-	:	'set mark' j_expr 'to' Identifier -> ^(SetMark ^(IDENT Identifier) ^(STRING j_expr))
+	:	'set mark' op1 = operand 'to' op2 = operand EOL
+		-> ^(ACTION["setMark"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 set_text
-	:	'set text' j_expr 'to' Identifier -> ^(SetText ^(IDENT Identifier) ^(STRING j_expr))
+	:	'set text' op1 = operand 'to' op2 = operand EOL
+		-> ^(ACTION["setText"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 set_indent
-	:	'set indent' J_int_literal 'to' Identifier -> ^(SetIndent ^(IDENT Identifier) ^(INT J_int_literal))
+	:	'set indent' op1 = operand 'to' op2 = operand EOL
+		-> ^(ACTION["setIndent"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 split
-	:	'split' Identifier -> ^(Split ^(IDENT Identifier))
+	:	'split' operand EOL
+		-> ^( ACTION["split"] ^(OPERAND operand))
 	;
 	
 merge
-	:	'merge' Identifier 'with' Identifier -> ^(Merge ^(IDENT1 Identifier) ^(IDENT2 Identifier))
+	:	'merge' op1 = operand 'with' op2 = operand EOL
+		-> ^(ACTION["merge"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 new_entry
-	:	'new entry' Identifier ('as' j_expr)? -> ^(NewEntry ^(IDENT Identifier) ^(STRING j_expr)? )
+	:	'new entry' op1 = operand ('as' op2 = operand)? EOL
+		-> ^(ACTION["newEntry"] ^(OPERAND $op1) ^(OPERAND $op2)?)
 	;
 	
 set_value
-	:	'set value' j_expr 'to' advanced_identifier -> ^(SetValue ^(ADV_IDENT advanced_identifier) ^(STRING j_expr))
+	:	'set value' op1 = operand 'to' op2 = operand EOL
+		-> ^(ACTION["setValue"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 set_category
-	:	'set category' j_expr 'to' advanced_identifier -> ^(SetCategory ^(ADV_IDENT advanced_identifier) ^(CATEGORY j_expr))
+	:	'set category' op1 = operand 'to' op2 = operand EOL
+		-> ^(ACTION["setCategory"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 set_parent
-	:	'set parent' advanced_identifier 'to' advanced_identifier -> ^(SetParent ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
+	:	'set parent' op1 = operand 'to' op2 = operand EOL
+		-> ^(ACTION["setParent"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 group
-	:	'group' advanced_identifier 'with' advanced_identifier -> ^(Group ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
+	:	'group' op1 = operand 'with' op2 = operand EOL
+		-> ^(ACTION["group"] ^(OPERAND $op1) ^(OPERAND $op2))
 	;
 	
 add_label
-	:	'add label' j_expr ('of' j_expr)? 'to' advanced_identifier -> ^(AddLabel ^(LABEL j_expr) ^(CATEGORY j_expr)? ^(ADV_IDENT advanced_identifier))
+	:	'add label' op1 = operand ('of' op2 = operand)? 'to' op3 = operand EOL
+		-> ^(ACTION["addLabel"] ^(OPERAND $op3) ^(OPERAND $op1) ^(OPERAND $op2)?)
 	;
 	
 new_label
-	:	'new label' Identifier ('as' j_expr)? -> ^(NewLabel ^(IDENT Identifier) ^(STRING j_expr)?)
+	:	'new label' op1 = operand ('as' op2 = operand)? EOL
+		-> ^(ACTION["newLabel"] ^(OPERAND $op1) ^(OPERAND $op2)?)
 	;
 	
 update
-	:	'update' advanced_identifier -> ^(Update ^(ADV_IDENT advanced_identifier))
+	:	'update' operand EOL
+		-> ^(ACTION["update"] ^(OPERAND operand))
 	;
 	
-c_print
-	:	('print'|'printf') j_expr -> ^(Print j_expr)
+print
+	:	name = ('print'|'printf') operand EOL
+		-> ^(ACTION[$name] ^(OPERAND operand))
 	;
 
-advanced_identifier	
-	:	Identifier ('.' query id?)?
-	;
 //lexer
-WS
-	:	 (' '|'\t')+ { $channel=HIDDEN; } 
-	;
-//S	:	' '	;
-EOL
-	:	('\n'|'\r')+
-	;
-J_int_literal
-	:	DIGIT+
-	;
-Other_literals
-	:	'='|'!'|'?'|'|'|'>'|'<'|'=='|'>='|'<='|'!='|'+'|'-'|'*'|'/'|'%'|'^'|'&'
-	;
-Identifier
-	:	('$'|'_'|LETTER|DIGIT)('$'|'_'|LETTER|DIGIT)*
 
-	;
-id
-	:	'[' J_int_literal ']' -> J_int_literal
-	;
-String_lit
-	:	'"' (.)* '"'
-	;
+ID  :	('a'..'z'|'A'..'Z'|'_'|'$') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'$')*
+    ;
 
-Char_lit
-	:	'\'' (.) '\''
+INT :	'0'..'9'+
+    ;
+
+FLOAT
+    :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+    |   '.' ('0'..'9')+ EXPONENT?
+    |   ('0'..'9')+ EXPONENT
+    ;
+
+COMMENT
+    :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
+    ;
+
+WS  :   ( ' '
+        | '\t'
+        ) {$channel=HIDDEN;}
+    ;
+
+STRING
+    :  '"' ( ESC_SEQ | ~('\\'|'"') )* '"'
+    ;
+
+CHAR:  '\'' ( ESC_SEQ | ~('\''|'\\') ) '\''
+    ;
+
+OPERATOR 
+	:	('='|'>'|'<'|'&'|'|'|'+'|'-'|'*'|'/'|'%'|'!')+	
 	;
-Breackits
-	:	'('|')'
-	;
-/*lockonactive
-	:	'lockonactive'
 	
-	;*/
+BRACKET
+	:	'('|')'|'['|']'|'{'|'}'
+	;
 	
-useless
-	:	'lock-on-active'|'no-loop true'|'no-loop false'
-	;
+EOL 
+    	:	(('\r')? '\n')+
+    	;
+	
+fragment
+EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
 
-fragment DIGIT
-	:	'0'..'9'
-	;
-fragment LETTER
-	:	'A'..'Z'|'a'..'z'
-	;
+fragment
+HEX_DIGIT : ('0'..'9'|'a'..'f'|'A'..'F') ;
+
+fragment
+ESC_SEQ
+    :   '\\' ('b'|'f'|'t'|'\"'|'\''|'\\')
+    |   UNICODE_ESC
+    |   OCTAL_ESC
+    ;
+
+fragment
+OCTAL_ESC
+    :   '\\' ('0'..'3') ('0'..'7') ('0'..'7')
+    |   '\\' ('0'..'7') ('0'..'7')
+    |   '\\' ('0'..'7')
+    ;
+
+fragment
+UNICODE_ESC
+    :   '\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+    ;
+  

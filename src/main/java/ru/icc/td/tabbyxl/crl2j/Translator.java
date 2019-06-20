@@ -80,7 +80,7 @@ public class Translator {
                 assert !file.getName().contains(".");
                 classes.addAll(findClasses(file, packageName + "." + file.getName()));
             } else if (file.getName().endsWith(".class")) {
-                classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
+                classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length()  - 6)));
             }
         }
         return classes;
@@ -97,6 +97,7 @@ public class Translator {
             String methodName = "";
 
             for (Field field: fields) {
+
                 if (field.getName().equals(expression)) {
 
                     fieldFounded = true;
