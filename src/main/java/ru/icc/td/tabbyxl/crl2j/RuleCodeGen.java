@@ -254,211 +254,25 @@ public class RuleCodeGen {
         while (actions.hasNext()) {
             Action action = actions.next();
 
-            switch (action.getType()) {
-                case setMark:
-                    code.append(fetchIndent(level)).append(generateSetMark(action.getOperands())).append(LINE_SEP);
-                    break;
-                case setText:
-                    code.append(fetchIndent(level)).append(generateSetText(action.getOperands())).append(LINE_SEP);
-                    break;
-                case setIndent:
-                    code.append(fetchIndent(level)).append(generateSetIndent(action.getOperands())).append(LINE_SEP);
-                    break;
-                case split:
-                    code
-                            .append(fetchIndent(level)).append(generateSplit(action.getOperands())).append(LINE_SEP)
-                            .append(updateIterators("CCell", level));
-                    break;
-                case merge:
-                    code
-                            .append(fetchIndent(level)).append(generateMerge(action.getOperands())).append(LINE_SEP)
-                            .append(updateIterators("CCell", level));
-                    break;
-                case newEntry:
-                    code.append(fetchIndent(level)).append(generateNewEntry(action.getOperands())).append(LINE_SEP);
-                    break;
-                case newLabel:
-                    code.append(fetchIndent(level)).append(generateNewLabel(action.getOperands())).append(LINE_SEP);
-                    break;
-                case setValue:
-                    code.append(fetchIndent(level)).append(generateSetValue(action.getOperands())).append(LINE_SEP);
-                    break;
-                case setCategory:
-                    code.append(fetchIndent(level)).append(generateSetCategory(action.getOperands())).append(LINE_SEP);
-                    break;
-                case setParent:
-                    code.append(fetchIndent(level)).append(generateSetParent(action.getOperands())).append(LINE_SEP);
-                    break;
-                case group:
-                    code.append(fetchIndent(level)).append(generateGroup(action.getOperands())).append(LINE_SEP);
-                    break;
-                case addLabel:
-                    code.append(fetchIndent(level)).append(generateAddLabel(action.getOperands())).append(LINE_SEP);
-                    break;
-                default:
-                    break;
+            if (action.getType().equals(Action.Type.update)) continue;
+
+            List<Operand> operands = action.getOperands();
+
+            code
+                    .append(fetchIndent(level))
+                    .append(translator.translateExpressions(operands.get(0).getExpressions(), ""))
+                    .append(".").append(action.getType()).append("(");
+            if (operands.size()>1) {
+                for (int i = 1; i < operands.size(); i ++) {
+                    code.append(translator.translateExpressions(operands.get(i).getExpressions(), ""));
+                    if (i < operands.size() - 1) code.append(", ");
+                }
             }
+            code.append(");").append(LINE_SEP);
 
+            if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge))
+                code.append(fetchIndent(level)).append(updateIterators("CCell", level));
         }
-
-        return code.toString();
-    }
-
-    private String generateSetMark(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".setMark(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateSetText(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".setText(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateSetIndent(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".setIndent(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateSplit(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand = translator.translateExpressions(operands.get(0).getExpressions(), "");
-
-        code.append(operand).append(".split();");
-
-        return code.toString();
-    }
-
-    private String generateMerge(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".merge(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateNewEntry(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-
-        code.append(operand1).append(".newEntry(");
-
-        if (operands.size() > 1) {
-            code.append(translator.translateExpressions(operands.get(1).getExpressions(), ""));
-        }
-
-        code.append(");");
-
-        return code.toString();
-    }
-
-    private String generateNewLabel(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-
-        code.append(operand1).append(".newLabel(");
-
-        if (operands.size() > 1) {
-            code.append(translator.translateExpressions(operands.get(1).getExpressions(), ""));
-        }
-
-        code.append(");");
-
-        return code.toString();
-    }
-
-    private String generateSetValue(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".setValue(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateSetCategory(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".setCategory(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateSetParent(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".setParent(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateGroup(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".group(").append(operand2).append(");");
-
-        return code.toString();
-    }
-
-    private String generateAddLabel(List<Operand> operands) {
-
-        StringBuilder code = new StringBuilder();
-
-        String operand1 = translator.translateExpressions(operands.get(0).getExpressions(), "");
-        String operand2 = translator.translateExpressions(operands.get(1).getExpressions(), "");
-
-        code.append(operand1).append(".addLabel(").append(operand2);
-
-        if (operands.size() > 2) {
-            code.append(", ").append(translator.translateExpressions(operands.get(2).getExpressions(), ""));
-        }
-
-        code.append(");");
 
         return code.toString();
     }
