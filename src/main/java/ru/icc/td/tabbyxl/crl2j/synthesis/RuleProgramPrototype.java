@@ -33,5 +33,4 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
 
    @Override
    public void eval() {}
-
 }
