@@ -17,361 +17,148 @@
 package ru.icc.td.tabbyxl.crl2j;
 
 import org.antlr.runtime.tree.Tree;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Condition;
+
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.actions.*;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RuleModelBuilder {
 
-    private Ruleset ruleset;
+    public static List<String> buildImports(Tree ast) {
 
-    public Ruleset getRuleset() {
-        return ruleset;
-    }
+        List<String> imports = new ArrayList<>();
 
-    public RuleModelBuilder() {
-        ruleset = new Ruleset();
-    }
+        for (int i = 0; i < ast.getChildCount(); i ++) {
 
-    public void buildModel(Tree ast) {
-        try {
-            for (int i = 0; i < ast.getChildCount(); i++) {
-                if (ast.getChild(i).getText() == "Imports") buildImports(ast.getChild(i));
-                else if (ast.getChild(i).getText() == "RULES")
-                    buildAllRules(ast.getChild(i));
+            Tree subtree = ast.getChild(i);
+            if (subtree.getText().equals("IMPORTS")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+                    imports.add(subtree.getChild(j).getText());
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+        return imports;
     }
 
-    private void buildImports(Tree subTree) {
-        for (int i = 0; i < subTree.getChildCount(); i++) {
-            ruleset.addImport(subTree.getChild(i).getText());
+    public static List<Rule> buildRules(Tree ast) {
+
+        List<Rule> rules = new ArrayList<>();
+
+        for (int i = 0; i < ast.getChildCount(); i ++) {
+            Tree subtree = ast.getChild(i);
+
+            if (subtree.getText().equals("RULES")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+
+                    rules.add(buildRule(subtree.getChild(j)));
+                }
+            }
         }
+
+        return rules;
     }
 
-    private void buildAllRules(Tree subTree) {
-        for (int i = 0; i < subTree.getChildCount(); i++) {
-            ruleset.addRule(buildRule(subTree.getChild(i)));
-        }
-    }
+    private static Rule buildRule(Tree tree) {
 
-    private Rule buildRule(Tree subTree) {
-        Rule rule = new Rule(Integer.parseInt(subTree.getText()));
+        Rule rule = new Rule();
 
-        for (int i = 0; i < subTree.getChildCount(); i++) {
-            if (subTree.getChild(i).getText() == "Conditions") {
-                addConditionsToRule(subTree.getChild(i), rule);
-            } else if (subTree.getChild(i).getText() == "Actions") {
-                addActionsToRule(subTree.getChild(i), rule);
+        rule.setId(Integer.parseInt(tree.getText()));
+
+        for (int i = 0; i < tree.getChildCount(); i ++) {
+
+            Tree subtree = tree.getChild(i);
+            if (subtree.getText().equals("CONDITIONS")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+                    rule.addCondition(buildCondition(subtree.getChild(j), j + 1));
+                }
+            } else if (subtree.getText().equals("ACTIONS")) {
+
+                for (int j = 0; j < subtree.getChildCount(); j ++) {
+                    rule.addAction(buildAction(subtree.getChild(j)));
+                }
             }
         }
 
         return rule;
     }
 
-    private void addConditionsToRule(Tree subTree, Rule rule) {
-        for (int i = 0; i < subTree.getChildCount(); i++) {
-            if (subTree.getChild(i).getText() == "Condition" || subTree.getChild(i).getText() == "No_condition") {
-                Condition condition = buildCondition(i + 1, subTree.getChild(i));
-                rule.addCondition(condition);
-                if (condition.getVariable() != null)
-                    rule.addVariable(condition.getVariable());
-            }
-        }
-    }
+    private static Condition buildCondition(Tree tree, int id) {
 
-    private Condition buildCondition(int id, Tree subTree) {
-        Condition condition = new Condition(id);
+        Condition condition = new Condition();
 
-        switch (subTree.getChild(0).getText()) {
-            case "cell":
-                condition.setType("condition");
-                condition.setVariable(new Variable("CCell", subTree.getChild(1).getText()));
-                break;
-            case "label":
-                condition.setType("condition");
-                condition.setVariable(new Variable("CLabel", subTree.getChild(1).getText()));
-                break;
-            case "entry":
-                condition.setType("condition");
-                condition.setVariable(new Variable("CEntry", subTree.getChild(1).getText()));
-                break;
-            case "category":
-                condition.setType("condition");
-                condition.setVariable(new Variable("Category", subTree.getChild(1).getText()));
-                break;
-            case "no cells":
-                condition.setType("no_condition");
-                condition.setVariable(new Variable("CCell", "$id" + condition.getId()));
-                break;
-            case "no labels":
-                condition.setType("no_condition");
-                condition.setVariable(new Variable("CLabel", "$id" + condition.getId()));
-                break;
-            case "no entries":
-                condition.setType("no_condition");
-                condition.setVariable(new Variable("CEntry", "$id" + condition.getId()));
-                break;
-            case "no categories":
-                condition.setType("no_condition");
-                condition.setVariable(new Variable("CCategory", "$id" + condition.getId()));
-                break;
-            default:
-                condition.setType(subTree.getChild(0).getText());
+        condition.setId(id);
+        condition.setConditionType(Condition.ConditionType.valueOf(tree.getChild(0).getText()));
+        condition.setDataType(Condition.DataType.valueOf(tree.getChild(1).getText()));
+
+        if (tree.getChild(2).getText().equals("null")) {
+            condition.setIdentifier(String.format("ident%s", id));
+        } else {
+            condition.setIdentifier(tree.getChild(2).getText());
         }
 
-        for (int i = 0; i < subTree.getChildCount(); i++) {
-            if (subTree.getChild(i).getText() == "Constraint") {
-                addConstraintToCondition(subTree.getChild(i), condition);
-            } else if (subTree.getChild(i).getText() == "Assignment") {
-                addAssignmentToCondition(subTree.getChild(i), condition);
-            }
+        Tree constraintsTree = tree.getChild(3);
+        for (int i = 0; i < constraintsTree.getChildCount(); i ++) {
+            Tree subTree = constraintsTree.getChild(i);
+            condition.addConstraint(buildConstraint(subTree));
         }
+
+        Tree assignmentTree = tree.getChild(4);
+        if (assignmentTree.getChildCount()>0)
+            condition.addAssignment(buildAssignment(assignmentTree));
 
         return condition;
     }
 
-    /*private NoCondition buildNoCondition(int id, Tree subTree) {
+    private static Constraint buildConstraint(Tree tree) {
 
-        NoCondition noCondition = new NoCondition(id, subTree.getChild(0).getText());
-
-        for(int i=1; i<subTree.getChildCount(); i++) {
-            if(subTree.getChild(i).getText()=="Constraint") addConstraintToCondition(subTree.getChild(i), noCondition);
-            else if(subTree.getChild(i).getText()=="Assignment") addAssignmentToCondition(subTree.getChild(i), noCondition);
-        }
-
-        return noCondition;
-    }*/
-
-    private void addConstraintToCondition(Tree subTree, Condition condition) {
         Constraint constraint = new Constraint();
-        for (int i = 0; i < subTree.getChildCount(); i++)
-            constraint.addPart(subTree.getChild(i).getText());
-        condition.addConstraint(constraint);
-    }
 
-    private void addAssignmentToCondition(Tree subTree, Condition condition) {
-        Assignment assignment = new Assignment(subTree.getChild(0).getChild(0).getText());
-
-        for (int i = 0; i < subTree.getChild(1).getChildCount(); i++)
-            assignment.addExpressionPart(subTree.getChild(1).getChild(i).getText());
-
-        condition.addAssignment(assignment);
-    }
-
-
-    private void addActionsToRule(Tree subTree, Rule rule) {
-
-        for (int i = 0; i < subTree.getChildCount(); i++) {
-            rule.addAction(buildAction(subTree.getChild(i), i + 1));
+        for (int i = 0; i < tree.getChildCount(); i ++) {
+            constraint.addExpression(tree.getChild(i).getText());
         }
 
+        return constraint;
     }
 
-    private Action buildAction(Tree subTree, int id) {
+    private static Assignment buildAssignment(Tree tree) {
 
-        switch (subTree.getText()) {
-            case "SetMarkAction":
-                return buildSetMarkAction(id, subTree);
-            case "SetTextAction":
-                return buildSetTextAction(id, subTree);
-            case "SetIndentAction":
-                return buildSetIndentAction(id, subTree);
-            case "SetValueAction":
-                return buildSetValueAction(id, subTree);
-            case "SetCategoryAction":
-                return buildSetCategoryAction(id, subTree);
-            case "SetParentAction":
-                return buildSetParentAction(id, subTree);
-            case "SplitAction":
-                return buildSplitAction(id, subTree);
-            case "MergeAction":
-                return buildMergeAction(id, subTree);
-            case "GroupAction":
-                return buildGroupAction(id, subTree);
-            case "NewEntryAction":
-                return buildNewEntryAction(id, subTree);
-            case "NewLabelAction":
-                return buildNewLabelAction(id, subTree);
-            case "AddLabelAction":
-                return buildAddLabelAction(id, subTree);
-            case "PrintAction":
-                return buildPrintAction(id, subTree);
-            default:
-                return null;
-        }
-    }
+        Assignment assignment = new Assignment();
 
-    private Identifier buildIdentifier(Tree subTree) {
+        assignment.setIdentifier(tree.getChild(0).getText());
 
-        Identifier identifier = new Identifier();
-
-        for (int i = 0; i < subTree.getChildCount(); i++) {
-            identifier.addPart(subTree.getChild(i).getText());
+        for (int i = 0; i < tree.getChild(1).getChildCount(); i ++) {
+            assignment.addExpression(tree.getChild(1).getChild(i).getText());
         }
 
-        return identifier;
+        return assignment;
     }
 
-    private SetMarkAction buildSetMarkAction(int id, Tree subTree) {
+    private static Action buildAction(Tree tree) {
 
-        SetMarkAction action = new SetMarkAction(id, subTree.getText());
+        Action action = new Action();
+        action.setType(Action.Type.valueOf(tree.getText()));
 
-        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
+        List<Operand> operands = new ArrayList<>();
 
-        for (int i = 0; i < subTree.getChild(1).getChildCount(); i++)
-            action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
+        for (int i = 0; i < tree.getChildCount(); i ++) {
+            Tree subTree = tree.getChild(i);
 
-        return action;
-    }
-
-    private SetTextAction buildSetTextAction(int id, Tree subTree) {
-
-        SetTextAction action = new SetTextAction(id, subTree.getText());
-
-        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
-
-        for (int i = 0; i < subTree.getChild(1).getChildCount(); i++) {
-            action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
-        }
-
-        return action;
-    }
-
-    private SetIndentAction buildSetIndentAction(int id, Tree subTree) {
-
-        SetIndentAction action = new SetIndentAction(id, subTree.getText());
-
-        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
-
-        for (int i = 0; i < subTree.getChild(1).getChildCount(); i++)
-            action.addIndentPart(subTree.getChild(1).getChild(i).getText());
-
-        return action;
-    }
-
-    private SplitAction buildSplitAction(int id, Tree subTree) {
-
-        SplitAction action = new SplitAction(id, subTree.getText());
-
-        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
-
-        return action;
-    }
-
-    private MergeAction buildMergeAction(int id, Tree subTree) {
-
-        MergeAction action = new MergeAction(id, subTree.getText());
-
-        action.setIdentifier1(subTree.getChild(0).getChild(0).getText());
-        action.setIdentifier2(subTree.getChild(1).getChild(0).getText());
-
-        return action;
-    }
-
-    private NewEntryAction buildNewEntryAction(int id, Tree subTree) {
-
-        NewEntryAction action = new NewEntryAction(id, subTree.getText());
-
-        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
-
-        if (subTree.getChildCount() > 1) {
-
-            for (int i = 0; i < subTree.getChild(1).getChildCount(); i++) {
-                action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
+            List<String> expressions = new ArrayList<>();
+            for (int j = 0; j < subTree.getChildCount(); j ++) {
+                expressions.add(subTree.getChild(j).getText());
             }
+            Operand operand = new Operand();
+            operand.setExpressions(expressions);
+            operands.add(operand);
         }
 
-        return action;
-    }
-
-    private NewLabelAction buildNewLabelAction(int id, Tree subTree) {
-
-        NewLabelAction action = new NewLabelAction(id, subTree.getText());
-
-        action.setIdentifier(subTree.getChild(0).getChild(0).getText());
-
-        if (subTree.getChildCount() > 1) {
-            for (int i = 0; i < subTree.getChild(1).getChildCount(); i++) {
-                action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
-            }
-        }
-
-        return action;
-    }
-
-    private SetValueAction buildSetValueAction(int id, Tree subTree) {
-
-        SetValueAction action = new SetValueAction(id, subTree.getText());
-
-        action.setIdentifier(buildIdentifier(subTree.getChild(0)));
-
-        if (subTree.getChildCount() > 1) {
-            for (int i = 0; i < subTree.getChild(1).getChildCount(); i++) {
-                action.addStringToExpression(subTree.getChild(1).getChild(i).getText());
-            }
-        }
-
-        return action;
-    }
-
-    private SetCategoryAction buildSetCategoryAction(int id, Tree subTree) {
-
-        SetCategoryAction action = new SetCategoryAction(id, subTree.getText());
-
-        action.setIdentifier1(buildIdentifier(subTree.getChild(0)));
-        action.setIdentifier2(buildIdentifier(subTree.getChild(1)));
-
-        return action;
-    }
-
-    private SetParentAction buildSetParentAction(int id, Tree subTree) {
-
-        SetParentAction action = new SetParentAction(id, subTree.getText());
-
-        action.setParent(buildIdentifier(subTree.getChild(0)));
-        action.setChild(buildIdentifier(subTree.getChild(1)));
-
-        return action;
-    }
-
-    private GroupAction buildGroupAction(int id, Tree subTree) {
-
-        GroupAction action = new GroupAction(id, subTree.getText());
-
-        action.setIdentifier1(buildIdentifier(subTree.getChild(0)));
-        action.setIdentifier2(buildIdentifier(subTree.getChild(1)));
-
-        return action;
-    }
-
-    private AddLabelAction buildAddLabelAction(int id, Tree subTree) {
-
-        AddLabelAction action = new AddLabelAction(id, subTree.getText());
-
-        if (subTree.getChildCount() > 2) {
-            action.setLabelIdentifier(buildIdentifier(subTree.getChild(0)));
-            action.setCategoryIdentifier(buildIdentifier(subTree.getChild(1)));
-            action.setDestinationIdentifier(buildIdentifier(subTree.getChild(2)));
-        } else {
-            action.setLabelIdentifier(buildIdentifier(subTree.getChild(0)));
-            action.setDestinationIdentifier(buildIdentifier(subTree.getChild(1)));
-        }
-
-        return action;
-    }
-
-    private PrintAction buildPrintAction(int id, Tree subTree) {
-
-        PrintAction action = new PrintAction(id, subTree.getText());
-
-        if (subTree.getChildCount() > 0) {
-            for (int i = 0; i < subTree.getChildCount(); i++) {
-                action.addPartToExpression(subTree.getChild(i).getText());
-            }
-        }
+        action.setOperands(operands);
 
         return action;
     }

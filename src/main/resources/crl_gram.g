@@ -148,55 +148,55 @@ action_
 	;
 	
 set_mark
-	:	'set mark' j_expr 'to' Identifier -> ^(SetMarkAction ^(IDENT Identifier) ^(STRING j_expr))
+	:	'set mark' j_expr 'to' Identifier -> ^('set mark' ^(IDENT Identifier) ^(STRING j_expr))
 	;
 	
 set_text
-	:	'set text' j_expr 'to' Identifier -> ^(SetTextAction ^(IDENT Identifier) ^(STRING j_expr))
+	:	'set text' j_expr 'to' Identifier -> ^('set text' ^(IDENT Identifier) ^(STRING j_expr))
 	;
 	
 set_indent
-	:	'set indent' J_int_literal 'to' Identifier -> ^(SetIndentAction ^(IDENT Identifier) ^(INT J_int_literal))
+	:	'set indent' J_int_literal 'to' Identifier -> ^('set indent' ^(IDENT Identifier) ^(INT J_int_literal))
 	;
 	
 split
-	:	'split' Identifier -> ^(SplitAction ^(IDENT Identifier))
+	:	'split' Identifier -> ^('split' ^(IDENT Identifier))
 	;
 	
 merge
-	:	'merge' Identifier 'with' Identifier -> ^(MergeAction ^(IDENT1 Identifier) ^(IDENT2 Identifier))
+	:	'merge' Identifier 'with' Identifier -> ^('merge' ^(IDENT1 Identifier) ^(IDENT2 Identifier))
 	;
 	
 new_entry
-	:	'new entry' Identifier ('as' j_expr)? -> ^(NewEntryAction ^(IDENT Identifier) ^(STRING j_expr)? )
+	:	'new entry' Identifier ('as' j_expr)? -> ^('new entry' ^(IDENT Identifier) ^(STRING j_expr)? )
 	;
 	
 set_value
-	:	'set value' j_expr 'to' advanced_identifier -> ^(SetValueAction ^(ADV_IDENT advanced_identifier) ^(STRING j_expr))
+	:	'set value' j_expr 'to' advanced_identifier -> ^('set value' ^(ADV_IDENT advanced_identifier) ^(STRING j_expr))
 	;
 	
 set_category
-	:	'set category' j_expr 'to' advanced_identifier -> ^(SetCategoryAction ^(ADV_IDENT advanced_identifier) ^(CATEGORY j_expr))
+	:	'set category' j_expr 'to' advanced_identifier -> ^('set category' ^(ADV_IDENT advanced_identifier) ^(CATEGORY j_expr))
 	;
 	
 set_parent
-	:	'set parent' advanced_identifier 'to' advanced_identifier -> ^(SetParentAction ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
+	:	'set parent' advanced_identifier 'to' advanced_identifier -> ^('set parent' ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
 	;
 	
 group
-	:	'group' advanced_identifier 'with' advanced_identifier -> ^(GroupAction ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
+	:	'group' advanced_identifier 'with' advanced_identifier -> ^('group' ^(ADV_IDENT1 advanced_identifier) ^(ADV_IDENT2 advanced_identifier))
 	;
 	
 add_label
-	:	'add label' j_expr ('of' j_expr)? 'to' advanced_identifier -> ^(AddLabelAction ^(LABEL j_expr) ^(CATEGORY j_expr)? ^(ADV_IDENT advanced_identifier))
+	:	'add label' j_expr ('of' j_expr)? 'to' advanced_identifier -> ^('add label' ^(LABEL j_expr) ^(CATEGORY j_expr)? ^(ADV_IDENT advanced_identifier))
 	;
 	
 new_label
-	:	'new label' Identifier ('as' j_expr)? -> ^(NewLabelAction ^(IDENT Identifier) ^(STRING j_expr)?)
+	:	'new label' Identifier ('as' j_expr)? -> ^('new label' ^(IDENT Identifier) ^(STRING j_expr)?)
 	;
 	
 update
-	:	'update' advanced_identifier -> ^(UpdateAction ^(ADV_IDENT advanced_identifier))
+	:	'update' advanced_identifier -> ^('update' ^(ADV_IDENT advanced_identifier))
 	;
 	
 c_print
@@ -204,7 +204,7 @@ c_print
 	;
 
 advanced_identifier	
-	:	Identifier ('.' query index?)?
+	:	Identifier ('.' query id?)?
 	;
 //lexer
 WS
@@ -224,7 +224,7 @@ Identifier
 	:	('$'|'_'|LETTER|DIGIT)('$'|'_'|LETTER|DIGIT)*
 
 	;
-index
+id
 	:	'[' J_int_literal ']' -> J_int_literal
 	;
 String_lit

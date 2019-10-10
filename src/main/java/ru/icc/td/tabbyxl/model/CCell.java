@@ -348,9 +348,12 @@ public final class CCell extends COwned implements Cloneable
         return null != entry;
     }
 
+    private boolean blank;
+
     public boolean isBlank()
     {
-        return null == text ? true : text.isEmpty();
+        blank = null == text ? true : text.isEmpty();
+        return blank;
     }
 
     private void setPosition( int c, int r )

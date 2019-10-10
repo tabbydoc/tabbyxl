@@ -3,12 +3,12 @@ package ru.icc.td.tabbyxl.crl2j.rulemodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Constraint {
+public class Operand {
 
     private List<String> expressions = new ArrayList<>();
 
-    public void addExpression(String expression) {
-        this.expressions.add(expression);
+    public void setExpressions(List<String> expressions) {
+        this.expressions = expressions;
     }
 
     public List<String> getExpressions() {

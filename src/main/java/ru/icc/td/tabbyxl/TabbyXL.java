@@ -16,18 +16,12 @@
 
 package ru.icc.td.tabbyxl;
 
-import org.antlr.runtime.ANTLRFileStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.CommonTree;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Ruleset;
-import ru.icc.td.tabbyxl.crl2j.RuleModelBuilder;
+import ru.icc.td.tabbyxl.crl2j.CrlRunner;
 import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
-import ru.icc.td.tabbyxl.crl2j.AstPrinter;
-import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramLexer;
-import ru.icc.td.tabbyxl.crl2j.parsing.crl_gramParser;
+import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
 
@@ -36,6 +30,7 @@ import javax.rules.admin.LocalRuleExecutionSetProvider;
 import javax.rules.admin.RuleAdministrator;
 import javax.rules.admin.RuleExecutionSet;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -486,9 +481,9 @@ public final class TabbyXL {
             else
                 runRulesetWithCRL2J();
 
-        } catch (IOException|ReflectiveOperationException|RecognitionException|RuleException e) {
+        } catch (IOException|ReflectiveOperationException|RuleException|CharSequenceCompilerException|RecognitionException e) {
             e.printStackTrace();
-        } finally {
+        }  finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
             System.out.println("Statistics on the running time:");
@@ -613,33 +608,19 @@ public final class TabbyXL {
         }
     }
 
-    private static void loadCRL2J() throws IOException, RecognitionException {
+    private static RuleCodeGen ruleCodeGenerator;
+    private static CrlRunner crlRunner;
+
+    private static void loadCRL2J() throws IOException, RecognitionException, CharSequenceCompilerException {
 
         executingOptionName = "CRL2J";
 
-        ANTLRFileStream fileStream1 = new ANTLRFileStream(rulesetFile.getPath());
-        crl_gramLexer lexer = new crl_gramLexer(fileStream1);
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        System.out.println("Token stream ok");
-        crl_gramParser pars = new crl_gramParser(tokenStream);
-        System.out.println("parser ok");
-        AstPrinter astPrinter = new AstPrinter();
-        System.out.println("printer ok");
-        CommonTree tree = pars.crl().getTree();
-        System.out.println("tree ok");
-        //astPrinter.PrintAction(tree);
+        crlRunner = new CrlRunner();
+        crlRunner.loadCrl2j(rulesetFile);
 
-        RuleModelBuilder ruleModelBuilder = new RuleModelBuilder();
-        ruleModelBuilder.buildModel(tree);
-        Ruleset ruleset = ruleModelBuilder.getRuleset();
-        System.out.println("ruleset ok");
-        //System.out.println(ruleset.toString());
-
-        RuleCodeGen.compileAllRules(ruleset);
-        System.out.println("RuleClasses ok");
     }
 
-    private static void runRulesetWithCRL2J() throws IOException, RecognitionException, ReflectiveOperationException {
+    private static void runRulesetWithCRL2J() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException, CharSequenceCompilerException, RecognitionException {
 
         loadWorkbook();
         loadCatFiles();
@@ -672,7 +653,7 @@ public final class TabbyXL {
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
                 Date startDate = new Date();
-                RuleCodeGen.fireAllRules(table);
+                crlRunner.fireAllRules(table);
                 Date endDate = new Date();
 
                 currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();

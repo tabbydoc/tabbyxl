@@ -69,6 +69,8 @@ public class CFont
         this.heightInPoints = heightInPoints;
     }
 
+    private boolean normal;
+
     public boolean isNormal()
     {
         return ! ( this.bold || this.italic || this.underline || this.doubleUnderline || this.strikeout );
