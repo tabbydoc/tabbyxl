@@ -519,7 +519,7 @@ public final class TabbyXL {
         Reader rulesetFileReader = new InputStreamReader(new FileInputStream(rulesetFile));
 
         Map properties = new HashMap();
-        properties.put("source", ruleEngineConfig.getProperty("source"));
+        properties.put("source", ruleEngineConfig.getProperty("SOURCE"));
 
         if (null != ruleEngineConfig.getProperty("DSL")) {
             properties.put("dsl", new InputStreamReader(new FileInputStream(ruleEngineConfig.getProperty("DSL"))));

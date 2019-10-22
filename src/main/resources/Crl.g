@@ -72,7 +72,7 @@ scope {
 	$condition::type = "ForAll"; 
 	$condition::id = null;
 }
-	:	('no' { $condition::type = "NotExists"; })? 
+	:	('no' { $condition::type = "NotExist"; })?
 		query 
 		( ident = ID { $condition::id = $ident.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
 		(
@@ -86,7 +86,7 @@ query
 	:	('cell'|'cells') -> QUERY["CCell"]
 		|('label'|'labels') -> QUERY["CLabel"]
 		|('entry'|'entries') -> QUERY["CEntry"]
-		|('category'|'categories') -> QUERY["CCAtegory"]
+		|('category'|'categories') -> QUERY["CCategory"]
 	;
 	
 constraint
