@@ -23,7 +23,6 @@ import org.antlr.runtime.tree.CommonTree;
 import ru.icc.td.tabbyxl.crl2j.parsing.CrlLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.CrlParser;
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
-import ru.icc.td.tabbyxl.model.CTable;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,17 +33,19 @@ public class RuleCodeGen {
 
     private List<String> imports = new ArrayList<>();
     private List<Rule> rules = new ArrayList<>();
-    //private List<Class> classes = new ArrayList<>();
+    private String pack = "ru.icc.td.tabbyxl.crl2j.synthesis";
 
-    private final String PACK = "ru.icc.td.tabbyxl.crl2j.synthesis";
     private final String LINE_SEP = System.lineSeparator();
     private final String INDENT = "    ";
 
     private Translator translator;
 
-    public String getPACK() {
-        return PACK;
+    public String getPack() {
+        return pack;
     }
+    public void setPack(String pack) { this.pack = pack; }
+
+    public int getRulesCount() { return rules.size(); }
 
     public void loadRuleset (File ruleset) throws IOException, RecognitionException {
 
@@ -81,10 +82,11 @@ public class RuleCodeGen {
         translator = new Translator(rule.getConditions(), imports);
 
         // set package
-        code.append("package ").append(PACK).append(";").append(LINE_SEP)
+        code.append("package ").append(pack).append(";").append(LINE_SEP)
             .append(LINE_SEP);
 
         // add imports
+        code.append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(LINE_SEP);
         for (String importItem: imports) {
             code.append(importItem).append(";").append(LINE_SEP);
         }
