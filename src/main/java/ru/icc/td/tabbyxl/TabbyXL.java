@@ -24,6 +24,7 @@ import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
+import ru.icc.td.tabbyxl.writers.NerLayerWriter;
 
 import javax.rules.*;
 import javax.rules.admin.LocalRuleExecutionSetProvider;
@@ -600,7 +601,8 @@ public final class TabbyXL {
                     outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                 }
                 Path outPath = outputDirectory.resolve(outFileName);
-                EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
+                //EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
+                NerLayerWriter writer = new NerLayerWriter(outPath.toFile());
                 writer.write(table);
 
                 tableNo++;
@@ -683,8 +685,10 @@ public final class TabbyXL {
                     outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                 }
                 Path outPath = outputDirectory.resolve(outFileName);
-                EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
+                //EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
+                NerLayerWriter writer = new NerLayerWriter(outPath.toFile());
                 writer.write(table);
+                //System.exit(0);
 
                 tableNo++;
 
