@@ -6,7 +6,7 @@ import java.util.List;
 public class Condition {
 
     public enum ConditionType {
-        ForAll, NotExists
+        ForAll, NotExist
     }
 
     public enum DataType {
@@ -65,6 +65,6 @@ public class Condition {
     }
 
     public boolean isNotExistsCondition() {
-        return (conditionType == ConditionType.NotExists ? true : false);
+        return (conditionType == ConditionType.NotExist ? true : false);
     }
 }

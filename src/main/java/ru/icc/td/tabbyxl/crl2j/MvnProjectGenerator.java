@@ -9,6 +9,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class MvnProjectGenerator {
@@ -21,12 +23,15 @@ public class MvnProjectGenerator {
     private String artifactID;
     private Path pomFile;
     private Path tabbyxlPath;
+    private Path packagePath;
 
-    private RuleCodeGen ruleCodeGenerator = new RuleCodeGen();
-    //private Ruleset ruleset;
+    private RuleCodeGen ruleCodeGen;
+
+    private int rulesCount;
 
     public MvnProjectGenerator(Path root) {
         this.root = root;
+        packagePath = root.resolve("src").resolve("main").resolve("java");
         tabbyxlPath = Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replaceFirst("/", ""));
     }
 
@@ -42,7 +47,6 @@ public class MvnProjectGenerator {
         writePomFile();
         writeRuleClasses();
         writeMainClassFile();
-
     }
 
     private void writePomFile () throws IOException {
@@ -71,14 +75,10 @@ public class MvnProjectGenerator {
 
     private void writeMainClassFile() throws IOException {
 
-        Path packagePath = root.resolve("src").resolve("main").resolve("java");
+        Path outPath = packagePath.resolve(groupID.replace(".", File.separator));
+        Files.createDirectories(outPath);
 
-        for (String part:groupID.split("\\.")) {
-            packagePath = packagePath.resolve(part);
-        }
-        Files.createDirectories(packagePath);
-
-        Path filePath = packagePath.resolve(String.format("%s.java", artifactID));
+        Path filePath = outPath.resolve(String.format("%s.java", artifactID));
         Files.createFile(filePath);
 
         String lineSep = System.lineSeparator();
@@ -112,6 +112,15 @@ public class MvnProjectGenerator {
                 .append(indent).append(indent).append(indent).append(indent).append(indent).append("if (null == table) break;").append(lineSep)
                 .append(lineSep);
 
+        for (int i = 1; i < rulesCount + 1; i ++) {
+            stringBuilder
+                    .append(indent).append(indent).append(indent).append(indent).append(indent)
+                    .append("Rule").append(i).append(" rule").append(i).append(" = new Rule").append(i).append("(table);").append(lineSep)
+                    .append(indent).append(indent).append(indent).append(indent).append(indent)
+                    .append("rule").append(i).append(".eval();").append(lineSep)
+                    .append(lineSep);
+        }
+
         stringBuilder
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
                 .append("Tables.recoverCellBorders(table);").append(lineSep)
@@ -139,39 +148,29 @@ public class MvnProjectGenerator {
 
     private void writeRuleClasses() throws IOException, RecognitionException {
 
-       /* ANTLRFileStream fileStream = new ANTLRFileStream(ruleSetFile.getPath());
-        crl_gramLexer lexer = new crl_gramLexer(fileStream);
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        crl_gramParser parser = new crl_gramParser(tokenStream);
-        CommonTree tree = parser.crl().getTree();
+        ruleCodeGen = new RuleCodeGen();
+        ruleCodeGen.loadRuleset(ruleSetFile);
+        ruleCodeGen.setPack(String.format("%s.rules", groupID));
 
-        RuleModelBuilder modelBuilder = new RuleModelBuilder();
-        modelBuilder.buildModel(tree);
-        ruleset = modelBuilder.getRuleset();
-
-        ruleCodeGenerator.setPackageForRulesFiles(groupID + ".rules");
-
-        Path rulesPath = root.resolve("src").resolve("main").resolve("java");
-        for (String path:groupID.split("\\.")) {
-            rulesPath = rulesPath.resolve(path);
+        Path outputDir = packagePath.resolve(groupID.replace(".", File.separator)).resolve("rules");
+        if (!Files.exists(outputDir)) {
+            Files.createDirectories(outputDir);
+        } else {
+            FileUtils.cleanDirectory(outputDir.toFile());
         }
-        rulesPath = rulesPath.resolve("rules");
 
-        Files.createDirectories(rulesPath);
+        List<String> rules = ruleCodeGen.generateCodeFromAllRules();
+        rulesCount = rules.size();
 
-        for (Rule rule:ruleset.getRules()) {
-
-            Path rulePath = rulesPath.resolve(String.format("Rule%d.java", rule.getNum()));
-            Files.createFile(rulePath);
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(rulePath.toFile()));
-
-            String code = ruleCodeGenerator.fetchCodeFromRule(rule, ruleset.getImports()).toString();
-            //ruleClasses.add(code);
-            writer.write(code);
-
+        int index = 0;
+        for (String rule: rules) {
+            index ++;
+            File outputFile = outputDir.resolve(String.format("Rule%d.java", index)).toFile();
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile));
+            writer.write(rule);
             writer.flush();
             writer.close();
-        }*/
+        }
     }
 
     public String getGroupID() {

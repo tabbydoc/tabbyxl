@@ -19,11 +19,13 @@ package ru.icc.td.tabbyxl;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
+import ru.icc.td.tabbyxl.commons.CellsDataPreproc;
 import ru.icc.td.tabbyxl.crl2j.CrlRunner;
 import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
+import ru.icc.td.tabbyxl.writers.NerLayerWriter;
 
 import javax.rules.*;
 import javax.rules.admin.LocalRuleExecutionSetProvider;
@@ -54,6 +56,7 @@ public final class TabbyXL {
     private static boolean useRuleEngine;
     private static File ruleEngineConfigFile;
     private static String executingOptionName;
+    private static boolean useNerLayer;
 
     // Statistics
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
@@ -233,6 +236,13 @@ public final class TabbyXL {
         return false;
     }
 
+    private static boolean parseUseNerLayerParam(String useNerLayerpParam) {
+        if (null != useNerLayerpParam) {
+            return Boolean.valueOf(useNerLayerpParam);
+        }
+        return false;
+    }
+
     private static String traceParsedParams() {
         StringBuilder sb = new StringBuilder();
         sb.append("Command line parameters:\r\n");
@@ -354,6 +364,12 @@ public final class TabbyXL {
                 .withDescription("specify a path to a configuration file (*.properties) of a rule crl2j you prefer to use (e.g. Drools, JESS)")
                 .create("ruleEngineConfig");
 
+        Option useNerLayerOpt = OptionBuilder
+                .withArgName("true|false")
+                .hasArg()
+                .withDescription("specify true to use NER layer")
+                .create("useNerLayer");
+
         Option helpOpt = OptionBuilder
                 .withDescription("print this message")
                 .create("help");
@@ -370,6 +386,7 @@ public final class TabbyXL {
         options.addOption(useShortNamesOpt);
         options.addOption(debuggingModeOpt);
         options.addOption(ruleEngineConfigOpt);
+        options.addOption(useNerLayerOpt);
         options.addOption(helpOpt);
 
         CommandLineParser parser = new BasicParser();
@@ -412,6 +429,9 @@ public final class TabbyXL {
 
             String debuggingModeParam = cmd.getOptionValue(debuggingModeOpt.getOpt());
             debuggingMode = parseDebuggingModeParam(debuggingModeParam);
+
+            String useNerLayerParam = cmd.getOptionValue(useNerLayerOpt.getOpt());
+            useNerLayer = parseUseNerLayerParam(useNerLayerParam);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -519,7 +539,7 @@ public final class TabbyXL {
         Reader rulesetFileReader = new InputStreamReader(new FileInputStream(rulesetFile));
 
         Map properties = new HashMap();
-        properties.put("source", ruleEngineConfig.getProperty("source"));
+        properties.put("source", ruleEngineConfig.getProperty("SOURCE"));
 
         if (null != ruleEngineConfig.getProperty("DSL")) {
             properties.put("dsl", new InputStreamReader(new FileInputStream(ruleEngineConfig.getProperty("DSL"))));
@@ -562,6 +582,10 @@ public final class TabbyXL {
                 if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
+                if (useNerLayer) {
+                    createNerLayer(table);
+                }
+
                 Date startDate = new Date();
 
                 session.addObjects(table.getCellList());
@@ -600,15 +624,15 @@ public final class TabbyXL {
                     outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                 }
                 Path outPath = outputDirectory.resolve(outFileName);
-                EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
-                writer.write(table);
+                //EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
+                //NerLayerWriter writer = new NerLayerWriter(outPath.toFile());
+                //writer.write(table);
 
                 tableNo++;
             }
         }
     }
 
-    private static RuleCodeGen ruleCodeGenerator;
     private static CrlRunner crlRunner;
 
     private static void loadCRL2J() throws IOException, RecognitionException, CharSequenceCompilerException {
@@ -652,6 +676,10 @@ public final class TabbyXL {
                 if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
+                if (useNerLayer) {
+                    createNerLayer(table);
+                }
+
                 Date startDate = new Date();
                 crlRunner.fireAllRules(table);
                 Date endDate = new Date();
@@ -683,8 +711,10 @@ public final class TabbyXL {
                     outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                 }
                 Path outPath = outputDirectory.resolve(outFileName);
-                EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
-                writer.write(table);
+                //EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
+                //NerLayerWriter writer = new NerLayerWriter(outPath.toFile());
+                //writer.write(table);
+                //System.exit(0);
 
                 tableNo++;
 
@@ -693,6 +723,17 @@ public final class TabbyXL {
 
         if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
 
+    }
+
+    private static void createNerLayer(CTable table) {
+
+        for (Iterator<CCell> cells = table.getCells(); cells.hasNext();) {
+            CCell cell = cells.next();
+            if (cell.isBlank()) continue;
+
+            CellsDataPreproc nerData = new CellsDataPreproc(cell.getText(), System.lineSeparator());
+            cell.setNerData(nerData.getNerList(1));
+        }
     }
 
     private TabbyXL() {

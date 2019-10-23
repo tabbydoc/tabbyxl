@@ -32,7 +32,7 @@ public class CrlRunner {
             int i = 0;
             for (String rule : rules) {
                 i++;
-                Class<? extends RuleProgramPrototype> ruleClass = compiler.compile(String.format("%s.Rule%d", ruleCodeGen.getPACK(), i), rule, null, new Class<?>[]{RuleProgramPrototype.class});
+                Class<? extends RuleProgramPrototype> ruleClass = compiler.compile(String.format("%s.Rule%d", ruleCodeGen.getPack(), i), rule, null, new Class<?>[]{RuleProgramPrototype.class});
                 classes.add(ruleClass);
             }
         } catch (IOException|RecognitionException|CharSequenceCompilerException e) {
