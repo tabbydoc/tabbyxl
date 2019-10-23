@@ -42,6 +42,7 @@ public final class CanonicalForm
     }
 
     private List<String[]> records = new ArrayList<String[]>();
+    private List<String[]> nerLayerRecords = new ArrayList<>();
 
     public void addRecord( String[] record )
     {
@@ -51,6 +52,14 @@ public final class CanonicalForm
     public List<String[]> getRecords()
     {
         return records;
+    }
+
+    public void addNerLayerRecord( String[] nerLayerRecord) {
+        this.nerLayerRecords.add(nerLayerRecord);
+    }
+
+    public List<String[]> getNerLayerRecords() {
+        return nerLayerRecords;
     }
 
     public void print()

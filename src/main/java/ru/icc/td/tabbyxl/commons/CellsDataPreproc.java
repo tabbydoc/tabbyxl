@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import ru.icc.td.tabbyxl.commons.LitType;
 
 public class CellsDataPreproc {
-    String delim;
+    String delim = "";
     List<Object[]> data = new ArrayList<Object[]>();
 
     public CellsDataPreproc(String initStr){

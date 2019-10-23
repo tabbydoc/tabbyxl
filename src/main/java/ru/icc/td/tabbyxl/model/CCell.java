@@ -520,4 +520,13 @@ public final class CCell extends COwned implements Cloneable
         return boldFlag;
     }
 
+    private String nerData;
+
+    public void setNerData(String nerData) {
+        this.nerData = nerData;
+    }
+
+    public String getNerData() {
+        return nerData;
+    }
 }
