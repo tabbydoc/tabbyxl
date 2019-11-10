@@ -1,12 +1,10 @@
 package ru.icc.td.tabbyxl.commons;
 
-
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 import static edu.stanford.nlp.ie.NumberNormalizer.wordToNumber;
 
@@ -14,8 +12,6 @@ import static edu.stanford.nlp.ie.NumberNormalizer.wordToNumber;
 Class for clarification numerical type
  */
 public class TypeClarification {
-
-
 
     public static String getNumberType(String s){
         String result = "";
@@ -31,10 +27,7 @@ public class TypeClarification {
         else
             result = "Number";
         return result;
-
-
     }
-
 
     private static Number getNumType(String value){
         Pattern isWord = Pattern.compile("[a-zA-Z]+");
@@ -58,6 +51,4 @@ public class TypeClarification {
             }
         }
     }
-
-
 }
