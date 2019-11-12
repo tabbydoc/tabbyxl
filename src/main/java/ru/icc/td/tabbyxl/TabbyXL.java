@@ -19,13 +19,10 @@ package ru.icc.td.tabbyxl;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import ru.icc.td.tabbyxl.commons.CellsDataPreproc;
 import ru.icc.td.tabbyxl.crl2j.CrlRunner;
-import ru.icc.td.tabbyxl.crl2j.RuleCodeGen;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
-import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
-import ru.icc.td.tabbyxl.writers.NerLayerWriter;
+import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
 
 import javax.rules.*;
 import javax.rules.admin.LocalRuleExecutionSetProvider;
@@ -726,14 +723,7 @@ public final class TabbyXL {
     }
 
     private static void createNerLayer(CTable table) {
-
-        for (Iterator<CCell> cells = table.getCells(); cells.hasNext();) {
-            CCell cell = cells.next();
-            if (cell.isBlank()) continue;
-
-            CellsDataPreproc nerData = new CellsDataPreproc(cell.getText(), System.lineSeparator());
-            cell.setNerData(nerData.getNerList(1));
-        }
+        new NerPreprocessor().process(table);
     }
 
     private TabbyXL() {

@@ -16,12 +16,48 @@
 
 package ru.icc.td.tabbyxl.preprocessing.ner;
 
+import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
+import ru.icc.td.tabbyxl.model.NerTag;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
+
+import edu.stanford.nlp.simple.Document;
+import edu.stanford.nlp.simple.Sentence;
+
+import java.util.List;
 
 public class NerPreprocessor implements Preprocessor {
     @Override
     public void process(CTable table) {
-        // TODO extracting named entity for each cell
+        // Extracting named entity from each cell
+        for (CCell cell : table.getCellList()) {
+            String text = cell.getText();
+            NerTag nerTag = recognizeNamedEntity(text);
+            cell.setNerTag(nerTag);
+        }
+    }
+
+    private NerTag recognizeNamedEntity(String text) {
+        if (null == text || text.isEmpty()) return null;
+
+        Document doc = new Document(text);
+
+        int count = 0;
+
+        for (Sentence sent : doc.sentences()) {
+            List<String> tags = sent.nerTags();
+
+            if (null == tags) continue;
+            else count += tags.size();
+
+            if (count > 1) return NerTag.NONE;
+
+            try {
+                return NerTag.valueOf(tags.get(0));
+            } catch (IllegalArgumentException e) {
+                return NerTag.NONE;
+            }
+        }
+        return null;
     }
 }
