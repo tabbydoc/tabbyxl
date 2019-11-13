@@ -25,8 +25,6 @@ import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class NerPreprocessor implements Preprocessor {
     @Override
@@ -35,31 +33,19 @@ public class NerPreprocessor implements Preprocessor {
 
         // We use NER-preprocessor based on "Stanford CoreNLP" library.
         // Have patience in run-time, it can take a long time to load the required NER-models
-        // (up to several minutes) before table processing starts.
-        System.out.println("NER is in progress, it can take a long time (up to 1-2 minutes)");
+        // (up to several minutes) before table processing starts for the first time.
+        System.out.println("NER is in progress, it can take a long time (up to 1-2 minutes) for the first time");
 
         System.out.println();
 
         // It is needed for setting up log4j properly
         org.apache.log4j.BasicConfigurator.configure();
 
-        /*
-        Timer timer = new Timer(true);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.print(".");
-            }
-        }, 1000, 1000);
-        */
-
         for (CCell cell : table.getCellList()) {
             String text = cell.getText();
             NerTag nerTag = recognizeNamedEntity(text);
             cell.setNerTag(nerTag);
         }
-
-        //timer.cancel();
 
         System.out.println();
         System.out.println("NER is completed successfully");
