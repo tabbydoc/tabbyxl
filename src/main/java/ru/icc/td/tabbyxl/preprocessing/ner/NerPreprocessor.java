@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Alexey O. Shigarov (shigarov@gmail.com) and Vasiliy V. Khristyuk
+ * Copyright 2019 Alexey O. Shigarov (shigarov@gmail.com), Viacheslav V. Paramonov, and Vasiliy V. Khristyuk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,16 +25,45 @@ import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NerPreprocessor implements Preprocessor {
     @Override
     public void process(CTable table) {
         // Extracting named entity from each cell
+
+        // We use NER-preprocessor based on "Stanford CoreNLP" library.
+        // Have patience in run-time, it can take a long time to load the required NER-models
+        // (up to several minutes) before table processing starts.
+        System.out.println("NER is in progress, it can take a long time (up to 1-2 minutes)");
+
+        System.out.println();
+
+        // It is needed for setting up log4j properly
+        org.apache.log4j.BasicConfigurator.configure();
+
+        /*
+        Timer timer = new Timer(true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.print(".");
+            }
+        }, 1000, 1000);
+        */
+
         for (CCell cell : table.getCellList()) {
             String text = cell.getText();
             NerTag nerTag = recognizeNamedEntity(text);
             cell.setNerTag(nerTag);
         }
+
+        //timer.cancel();
+
+        System.out.println();
+        System.out.println("NER is completed successfully");
+        System.out.println();
     }
 
     private NerTag recognizeNamedEntity(String text) {

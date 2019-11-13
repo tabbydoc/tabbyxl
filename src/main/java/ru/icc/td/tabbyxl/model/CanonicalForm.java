@@ -42,11 +42,10 @@ public final class CanonicalForm
     }
 
     private List<String[]> records = new ArrayList<String[]>();
-    private List<String[]> nerLayerRecords = new ArrayList<>();
 
     public void addRecord( String[] record )
     {
-        this.records.add( record );
+        records.add( record );
     }
 
     public List<String[]> getRecords()
@@ -54,24 +53,9 @@ public final class CanonicalForm
         return records;
     }
 
-    public void addNerLayerRecord( String[] nerLayerRecord) {
-        this.nerLayerRecords.add(nerLayerRecord);
-    }
-
-    public List<String[]> getNerLayerRecords() {
-        return nerLayerRecords;
-    }
-
     public void print()
     {
         String[] columnNames = header;
-
-        /*
-        for ( int i = 0; i < columnNames.length; i++ )
-        {
-            columnNames[i] = columnNames[i].toUpperCase();
-        }
-        */
 
         Object[][] data = null;
         if ( records.size() > 0 )

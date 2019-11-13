@@ -1,6 +1,7 @@
 package ru.icc.td.tabbyxl.crl2j;
 
 import ru.icc.td.tabbyxl.crl2j.rulemodel.Condition;
+import ru.icc.td.tabbyxl.model.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +11,9 @@ import java.util.*;
 
 public class Translator {
 
-    private HashMap<String, String> variables = new HashMap<>();
-    private List<Class> classes = new ArrayList<>();
-    private List<Field> fields = new ArrayList<>();
+    private final HashMap<String, String> variables = new HashMap<>();
+    private final List<Class> classes = new ArrayList<>();
+    private final List<Field> fields = new ArrayList<>();
 
     public Translator(List<Condition> conditions, List<String> imports) {
 
@@ -20,6 +21,7 @@ public class Translator {
             variables.put(condition.getIdentifier(), condition.getDataType().toString());
         }
 
+        /*
         for (String importItem: imports){
 
             String pack = importItem
@@ -29,6 +31,13 @@ public class Translator {
 
             classes.addAll(getClasses(pack));
         }
+        */
+
+        // TODO надо обсудить, какие классы необходимо добавить в список classes
+        classes.add(CCell.class);
+        classes.add(CEntry.class);
+        classes.add(CLabel.class);
+        classes.add(CCategory.class);
 
         for (Class cClass: classes) {
             fields.addAll(Arrays.asList(cClass.getDeclaredFields()));

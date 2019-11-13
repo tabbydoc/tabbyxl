@@ -19,7 +19,7 @@ public class CrlRunner {
     private List<String> rules = new ArrayList<>();
     private List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
-    public void loadCrl2j(File rulesetFile) {
+    public void loadCRL2J(File rulesetFile) {
 
         ruleCodeGen = new RuleCodeGen();
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);

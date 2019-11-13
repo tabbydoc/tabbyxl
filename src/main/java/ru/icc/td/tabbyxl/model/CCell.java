@@ -486,7 +486,9 @@ public final class CCell extends COwned implements Cloneable
 
     public String trace()
     {
-        return String.format( "%s%n%s%n", text, style.trace() );
+        String tags = String.format("{%s, \"%s\", %s}", type, mark, nerTag);
+        return String.format( "cell=\"%s\"; address=\"%s\"; tags=%s", text, address(), tags);
+        //return String.format( "%s%n%s%n%s%n", text, tags, style.trace() );
     }
 
     private String provenance;

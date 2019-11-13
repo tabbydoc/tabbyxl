@@ -250,7 +250,7 @@ public final class CTable
                     CCategory category = orderedCategorySet[i];
                     if ( label.getCategory().equals( category ) )
                     {
-                        entryRecord[i + 1] = label.getCompoundValue();//label.getValue();
+                        entryRecord[i + 1] = label.getCompoundValue();
                     }
                 }
             }
@@ -264,6 +264,12 @@ public final class CTable
         final StringBuilder sb = new StringBuilder();
         final String eol = "\r\n";
         final String tab = "\t";
+
+        sb.append( "Cells:" ).append( eol );
+        for ( CCell cell : cells )
+        {
+            sb.append( tab ).append( cell.trace() ).append(eol);
+        }
 
         sb.append( "Entries:" ).append( eol );
         for ( CEntry entry : entries )

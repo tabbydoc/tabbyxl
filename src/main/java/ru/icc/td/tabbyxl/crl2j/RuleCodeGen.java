@@ -59,6 +59,8 @@ public class RuleCodeGen {
         rules = RuleModelBuilder.buildRules(ast);
 
         // print rules
+        System.out.println("This Java source code was generated from the ruleset");
+        System.out.println();
         for (Rule rule: rules) {
             System.out.println(fetchCodeFromRule(rule));
         }

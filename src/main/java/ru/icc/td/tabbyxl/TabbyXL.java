@@ -486,6 +486,7 @@ public final class TabbyXL {
     }
 
     public static void main(String[] args) {
+
         startTime = new Date().getTime();
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
 
@@ -637,8 +638,7 @@ public final class TabbyXL {
         executingOptionName = "CRL2J";
 
         crlRunner = new CrlRunner();
-        crlRunner.loadCrl2j(rulesetFile);
-
+        crlRunner.loadCRL2J(rulesetFile);
     }
 
     private static void runRulesetWithCRL2J() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException, CharSequenceCompilerException, RecognitionException {
@@ -647,7 +647,14 @@ public final class TabbyXL {
         loadCatFiles();
 
         final Date startTime = new Date();
+
+        System.out.println("CRL2J is in progress");
+        System.out.println();
         loadCRL2J();
+        System.out.println();
+        System.out.println("CRL2J is completed successfully");
+        System.out.println();
+
         final Date endTime = new Date();
         rulesetTranslationTime = endTime.getTime() - startTime.getTime();
 
@@ -668,6 +675,8 @@ public final class TabbyXL {
                 count++;
 
                 System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
+
+                //TODO Кто писал этот метод и зачем?
                 Tables.recoverCellBorders(table);
 
                 if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
