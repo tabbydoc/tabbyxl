@@ -98,6 +98,8 @@ public class Translator {
 
             for (Field field: fields) {
 
+                if (field.isEnumConstant()) continue;
+
                 if (field.getName().equals(expression)) {
 
                     fieldFounded = true;
