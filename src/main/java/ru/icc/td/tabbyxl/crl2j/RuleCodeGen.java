@@ -36,7 +36,7 @@ public class RuleCodeGen {
     private List<Rule> rules = new ArrayList<>();
     private String pack = "ru.icc.td.tabbyxl.crl2j.synthesis";
 
-    private final String LINE_SEP = System.lineSeparator();
+    private final String newLine = System.lineSeparator();
     private final String INDENT = "    ";
 
     private Translator translator;
@@ -88,36 +88,41 @@ public class RuleCodeGen {
         StringBuilder code = new StringBuilder();
         translator = new Translator(rule.getConditions(), imports);
 
-        // set package
-        code.append("package ").append(pack).append(";").append(LINE_SEP)
-            .append(LINE_SEP);
+        // Add a package
+        code
+                .append("package ")
+                .append(pack)
+                .append(";").append(newLine).append(newLine);
 
-        // add imports
-        code.append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(LINE_SEP);
-
-        code.append("import ru.icc.td.tabbyxl.model.*;").append(LINE_SEP);
-        code.append("import static ru.icc.td.tabbyxl.model.NerTag.*;").append(LINE_SEP);
-        code.append("import static ru.icc.td.tabbyxl.model.TypeTag.*;").append(LINE_SEP);
-        code.append("import ru.icc.td.tabbyxl.model.style.*;").append(LINE_SEP);
-        code.append("import java.util.*;").append(LINE_SEP);
+        // Add imports
+        code
+                .append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(newLine)
+                .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
+                .append("import static ru.icc.td.tabbyxl.model.NerTag.*;").append(newLine)
+                .append("import static ru.icc.td.tabbyxl.model.TypeTag.*;").append(newLine)
+                .append("import ru.icc.td.tabbyxl.model.style.*;").append(newLine)
+                .append("import java.util.*;").append(newLine);
 
         for (String importItem: imports) {
-            code.append(importItem).append(";").append(LINE_SEP);
+            code.append(importItem).append(";").append(newLine);
         }
 
-        code.append(LINE_SEP);
+        code.append(newLine);
 
-        // begin class
-        code.append("public class Rule").append(rule.getId()).append(" extends RuleProgramPrototype {").append(LINE_SEP);
+        // Add a class declaration
+        code
+                .append("public class Rule")
+                .append(rule.getId())
+                .append(" extends RuleProgramPrototype {").append(newLine);
 
-        // append constructor
-        code.append(generateConstructor(rule.getId())).append(LINE_SEP);
+        // Add a constructor
+        code.append(generateConstructor(rule.getId())).append(newLine);
 
-        // override method eval()
+        // Add "eval()" method
         code.append(generateEval(rule));
 
-        // finish class
-        code.append("}").append(LINE_SEP);
+        // Finish class
+        code.append("}").append(newLine);
 
         return code.toString();
     }
@@ -126,9 +131,14 @@ public class RuleCodeGen {
         StringBuilder code = new StringBuilder();
 
         code
-                .append(fetchIndent(1)).append("public Rule").append(id).append(" (CTable table) {").append(LINE_SEP)
-                .append(fetchIndent(2)).append("super(table);").append(LINE_SEP)
-                .append(fetchIndent(1)).append("}").append(LINE_SEP);
+                .append(fetchIndent(1))
+                .append("public Rule")
+                .append(id)
+                .append(" (CTable table) {").append(newLine)
+                .append(fetchIndent(2))
+                .append("super(table);").append(newLine)
+                .append(fetchIndent(1))
+                .append("}").append(newLine);
 
         return code.toString();
     }
@@ -137,10 +147,13 @@ public class RuleCodeGen {
         StringBuilder code = new StringBuilder();
 
         code
-                .append(fetchIndent(1)).append("@Override").append(LINE_SEP)
-                .append(fetchIndent(1)).append("public void eval () {").append(LINE_SEP)
+                .append(fetchIndent(1))
+                .append("@Override").append(newLine)
+                .append(fetchIndent(1))
+                .append("public void eval () {").append(newLine)
                 .append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), 2))
-                .append(fetchIndent(1)).append("}").append(LINE_SEP);
+                .append(fetchIndent(1))
+                .append("}").append(newLine);
 
         return code.toString();
     }
@@ -150,7 +163,13 @@ public class RuleCodeGen {
 
         Condition currentCondition = conditions.next();
 
-        code.append(fetchIndent(level)).append("Iterator<").append(currentCondition.getDataType()).append("> ").append(currentCondition.getIdentifier()).append("Iterator = ");
+        code
+                .append(fetchIndent(level))
+                .append("Iterator<")
+                .append(currentCondition.getDataType())
+                .append("> ")
+                .append(currentCondition.getIdentifier())
+                .append("Iterator = ");
 
         switch (currentCondition.getDataType()) {
 
@@ -170,12 +189,21 @@ public class RuleCodeGen {
                 break;
         }
 
-        code.append(LINE_SEP);
+        code.append(newLine);
 
         if (!currentCondition.isNotExistsCondition()) {
             code
-                    .append(fetchIndent(level)).append("while ( ").append(currentCondition.getIdentifier()).append("Iterator.hasNext() ) {").append(LINE_SEP)
-                    .append(fetchIndent(level + 1)).append(currentCondition.getDataType()).append(" ").append(currentCondition.getIdentifier()).append(" = ").append(currentCondition.getIdentifier()).append("Iterator.next();").append(LINE_SEP);
+                    .append(fetchIndent(level))
+                    .append("while ( ")
+                    .append(currentCondition.getIdentifier())
+                    .append("Iterator.hasNext() ) {").append(newLine)
+                    .append(fetchIndent(level + 1))
+                    .append(currentCondition.getDataType())
+                    .append(" ")
+                    .append(currentCondition.getIdentifier())
+                    .append(" = ")
+                    .append(currentCondition.getIdentifier())
+                    .append("Iterator.next();").append(newLine);
 
             code.append(fetchIndent(level + 1)).append("if ( ");
 
@@ -185,7 +213,7 @@ public class RuleCodeGen {
                 code.append("true");
             }
 
-            code.append(" ) {").append(LINE_SEP);
+            code.append(" ) {").append(newLine);
 
             for(Assignment assignment:currentCondition.getAssignments()) {
                 code.append(fetchIndent(level + 2)).append(generateAssignment(assignment, currentCondition.getIdentifier()));
@@ -197,15 +225,31 @@ public class RuleCodeGen {
                 code.append(generateActions(actions, level + 2));
             }
 
-            code.append(fetchIndent(level + 1)).append("}").append(LINE_SEP);
-            code.append(fetchIndent(level)).append("}").append(LINE_SEP);
+            code.append(fetchIndent(level + 1)).append("}").append(newLine);
+            code.append(fetchIndent(level)).append("}").append(newLine);
         }
         else {
 
-            code.append(fetchIndent(level)).append("boolean $flag").append(currentCondition.getId()).append(" = true;").append(LINE_SEP);
-            code.append(fetchIndent(level)).append("while ( ").append(currentCondition.getIdentifier()).append("Iterator.hasNext() ) {").append(LINE_SEP);
+            code
+                    .append(fetchIndent(level))
+                    .append("boolean $flag")
+                    .append(currentCondition.getId())
+                    .append(" = true;").append(newLine);
 
-            code.append(fetchIndent(level + 1)).append(currentCondition.getDataType()).append(" ").append(currentCondition.getIdentifier()).append(" = ").append(currentCondition.getIdentifier()).append("Iterator.next();").append(System.lineSeparator());
+            code
+                    .append(fetchIndent(level))
+                    .append("while ( ")
+                    .append(currentCondition.getIdentifier())
+                    .append("Iterator.hasNext() ) {").append(newLine);
+
+            code
+                    .append(fetchIndent(level + 1))
+                    .append(currentCondition.getDataType())
+                    .append(" ")
+                    .append(currentCondition.getIdentifier())
+                    .append(" = ")
+                    .append(currentCondition.getIdentifier())
+                    .append("Iterator.next();").append(newLine);
 
             code.append(fetchIndent(level + 1)).append("if ( ");
 
@@ -215,17 +259,32 @@ public class RuleCodeGen {
                 code.append("false");
             }
 
-            code.append(" ) {").append(System.lineSeparator());
+            code.append(" ) {").append(newLine);
 
+            code
+                    .append(fetchIndent(level + 2))
+                    .append("$flag")
+                    .append(currentCondition.getId())
+                    .append(" = false;").append(newLine);
 
-            code.append(fetchIndent(level + 2)).append("$flag").append(currentCondition.getId()).append(" = false;").append(System.lineSeparator());
-            code.append(fetchIndent(level + 2)).append("break;").append(System.lineSeparator());
+            code
+                    .append(fetchIndent(level + 2))
+                    .append("break;")
+                    .append(System.lineSeparator());
 
-            code.append(fetchIndent(level + 1)).append("}").append(System.lineSeparator());
+            code
+                    .append(fetchIndent(level + 1))
+                    .append("}").append(newLine);
 
-            code.append(fetchIndent(level)).append("}").append(System.lineSeparator());
+            code
+                    .append(fetchIndent(level))
+                    .append("}").append(newLine);
 
-            code.append(fetchIndent(level)).append("if ( $flag").append(currentCondition.getId()).append(" ) {").append(System.lineSeparator());
+            code
+                    .append(fetchIndent(level))
+                    .append("if ( $flag")
+                    .append(currentCondition.getId())
+                    .append(" ) {").append(newLine);
 
             if(conditions.hasNext()) {
                 code.append(generateCondition(conditions, actions, level + 1));
@@ -233,7 +292,7 @@ public class RuleCodeGen {
                 code.append(generateActions(actions, level + 1));
             }
 
-            code.append(fetchIndent(level)).append("}").append(System.lineSeparator());
+            code.append(fetchIndent(level)).append("}").append(newLine);
         }
 
         return code.toString();
@@ -243,11 +302,14 @@ public class RuleCodeGen {
 
         StringBuilder code = new StringBuilder();
 
-        for( int i=0; i<constraints.size(); i++ ) {
+        for( int i = 0; i < constraints.size(); i ++ ) {
 
-            code.append("( ").append(translator.translateExpressions(constraints.get(i).getExpressions(), conditionVarName)).append(" )");
+            code
+                    .append("( ")
+                    .append(translator.translateExpressions(constraints.get(i).getExpressions(), conditionVarName))
+                    .append(" )");
 
-            if(i<constraints.size()-1) code.append(" && ");
+            if (i < constraints.size() - 1) code.append(" && ");
         }
 
         return code.toString();
@@ -258,7 +320,12 @@ public class RuleCodeGen {
 
         StringBuilder code = new StringBuilder();
 
-        code.append("String ").append(assignment.getIdentifier()).append(" = String.valueOf( ").append(translator.translateExpressions(assignment.getExpressions(), conditionVarName)).append(" );").append(LINE_SEP);
+        code
+                .append("String ")
+                .append(assignment.getIdentifier())
+                .append(" = String.valueOf( ")
+                .append(translator.translateExpressions(assignment.getExpressions(), conditionVarName))
+                .append(" );").append(newLine);
 
         return code.toString();
     }
@@ -284,7 +351,7 @@ public class RuleCodeGen {
                     if (i < operands.size() - 1) code.append(", ");
                 }
             }
-            code.append(");").append(LINE_SEP);
+            code.append(");").append(newLine);
 
             if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge))
                 code.append(fetchIndent(level)).append(updateIterators("CCell", level));
