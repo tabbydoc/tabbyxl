@@ -20,8 +20,8 @@ import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
-import ru.icc.td.tabbyxl.crl2j.parsing.CrlLexer;
-import ru.icc.td.tabbyxl.crl2j.parsing.CrlParser;
+import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
+import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
 
 import java.io.File;
@@ -50,9 +50,9 @@ public class RuleCodeGen {
     public void loadRuleset (File ruleset) throws IOException, RecognitionException {
 
         ANTLRFileStream fileStream = new ANTLRFileStream(ruleset.getPath());
-        CrlLexer lexer = new CrlLexer(fileStream);
+        CRLLexer lexer = new CRLLexer(fileStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        CrlParser parser = new CrlParser(tokenStream);
+        CRLParser parser = new CRLParser(tokenStream);
         CommonTree ast = (CommonTree) parser.crl().getTree();
 
         imports = RuleModelBuilder.buildImports(ast);

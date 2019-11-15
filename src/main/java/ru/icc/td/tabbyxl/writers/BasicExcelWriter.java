@@ -16,11 +16,14 @@
 
 package ru.icc.td.tabbyxl.writers;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
+import ru.icc.td.tabbyxl.model.CValue;
 import ru.icc.td.tabbyxl.model.CanonicalForm;
 import ru.icc.td.tabbyxl.model.CanonicalForm.Record;
 
@@ -28,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class BasicExcelWriter extends Writer {
 
@@ -35,26 +39,47 @@ public class BasicExcelWriter extends Writer {
         Workbook workbook = new XSSFWorkbook();
 
         // Writing the canonical form of a table
-        CanonicalForm canonicalForm = table.toCanonicalForm();
-        String[] header = canonicalForm.getHeaderStrings();
+        CanonicalForm cf = table.toCanonicalForm();
 
-        Sheet sheet = workbook.createSheet("CANONICAL TABLE");
+        Sheet sheet = workbook.createSheet("CANONICAL FORM");
+        BiConsumer<CValue, Cell> fillCellByValue = (value, excelCell) -> {
+            excelCell.setCellValue(value.getValue());
+        };
 
+        writeCanonicalFormToSheet(sheet, cf, fillCellByValue);
+
+        return workbook;
+    }
+
+    protected void writeCanonicalFormToSheet(Sheet sheet, CanonicalForm cf, BiConsumer<CValue, Cell> consumer) {
+
+        // Write header
+
+        String[] header = cf.getHeaderStrings();
         Row excelRow = sheet.createRow(0);
 
         for (int i = 0; i < header.length; i++) {
             excelRow.createCell(i).setCellValue(header[i]);
+            excelRow.createCell(i).setCellValue(header[i]);
         }
 
-        List<Record> records = canonicalForm.getRecords();
+        // Write rows
+
+        List<Record> records = cf.getRecords();
 
         int i = 1;
 
         for (Record record : records) {
             excelRow = sheet.createRow(i);
-            String[] recordString = record.getStrings();
-            for (int j = 0; j < recordString.length; j++) {
-                excelRow.createCell(j).setCellValue(recordString[j]);
+
+            CValue[] values = record.getValues();
+
+            for (int j = 0; j < values.length; j++) {
+                CValue value = values[j];
+                if (null != value) {
+                    Cell excelCell = excelRow.createCell(j);
+                    consumer.accept(value, excelCell);
+                }
             }
             i++;
         }
@@ -62,7 +87,6 @@ public class BasicExcelWriter extends Writer {
         for (i = 0; i < header.length; i++) {
             sheet.autoSizeColumn(i);
         }
-        return workbook;
     }
 
     public void write(CTable table) throws IOException {

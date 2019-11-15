@@ -58,7 +58,7 @@ public class MvnProjectGenerator {
         inputStream.close();
 
         Properties tabbyProperties = new Properties();
-        tabbyProperties.load(this.getClass().getClassLoader().getResourceAsStream("tabby.properties"));
+        tabbyProperties.load(this.getClass().getClassLoader().getResourceAsStream("tabbyxl.properties"));
 
         String tabbyGroupId = tabbyProperties.getProperty("groupId");
         String tabbyArtifactId = tabbyProperties.getProperty("artifactId");

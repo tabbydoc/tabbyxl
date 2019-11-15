@@ -440,7 +440,6 @@ public final class TabbyXL {
     }
 
     private static void loadWorkbook() {
-        //final DataLoader DATA_LOADER = new DataLoader( inputExcelFile );
         try {
             DATA_LOADER.loadWorkbook(inputExcelFile);
         } catch (IOException e) {
@@ -718,11 +717,11 @@ public final class TabbyXL {
                 Path outPath = outputDirectory.resolve(outFileName);
 
                 // Write output to Excel
-                final boolean useDebugWriting = true;
+                final boolean useDebug = true;
                 Writer writer;
                 File outFile = outPath.toFile();
 
-                if (useDebugWriting)
+                if (useDebug)
                     writer = new DebugWriter(outFile);
                 else
                     writer = new EvaluationExcelWriter(outFile);
