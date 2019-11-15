@@ -19,5 +19,5 @@ package ru.icc.td.tabbyxl.preprocessing;
 import ru.icc.td.tabbyxl.model.CTable;
 
 public interface Preprocessor {
-    void process(CTable table);
+    void run(CTable table);
 }

@@ -28,7 +28,7 @@ import java.util.List;
 
 public class NerPreprocessor implements Preprocessor {
     @Override
-    public void process(CTable table) {
+    public void run(CTable table) {
         // Extracting named entity from each cell
 
         // We use NER-preprocessor based on "Stanford CoreNLP" library.
