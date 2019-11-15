@@ -145,9 +145,6 @@ public class EvaluationExcelWriter extends BasicExcelWriter
         //Sheet sheetTo = workbook.createSheet("SOURCE TABLE");
         //copyArea(sheetFrom, start, end, sheetTo);
 
-
-
-
         return workbook;
     }
 
@@ -155,70 +152,4 @@ public class EvaluationExcelWriter extends BasicExcelWriter
         super(outputFile);
     }
 
-    /*
-    private void copyArea(Sheet sheetFrom, CellReference start, CellReference end, Sheet sheetTo)
-    {
-        Row sourceRow = null;
-        Row copyRow = null;
-        Cell sourceCell = null;
-        Cell copyCell = null;
-
-        final int shift = start.getRow();
-
-        for (int i = start.getRow(); i <= end.getRow(); i++) {
-            sourceRow = sheetFrom.getRow(i);
-            if (null == sourceRow) continue;
-
-            copyRow = sheetTo.createRow(i - shift);
-
-            // Copying cells in the row
-            for (int j = start.getCol(); j <= end.getCol(); j++) {
-                sourceCell = sourceRow.getCell(j);
-                if (null == sourceCell) continue;
-
-                copyCell = copyRow.createCell(j);
-
-                // Copying style
-                CellStyle copyCellStyle = sheetTo.getWorkbook().createCellStyle();
-                copyCellStyle.cloneStyleFrom(sourceCell.getCellStyle());
-                copyCell.setCellStyle(copyCellStyle);
-
-                // Copying comment
-                if (null != sourceCell.getCellComment()) {
-                    copyCell.setCellComment(sourceCell.getCellComment());
-                }
-
-                // Copying hyperlink
-                if (null != sourceCell.getHyperlink()) {
-                    copyCell.setHyperlink(sourceCell.getHyperlink());
-                }
-
-                // Copying data type
-                copyCell.setType(sourceCell.getType());
-
-                // Copying value
-                switch (sourceCell.getType()) {
-                    case Cell.CELL_TYPE_BLANK:
-                        copyCell.setCellValue(sourceCell.getStringCellValue());
-                        break;
-                    case Cell.CELL_TYPE_BOOLEAN:
-                        copyCell.setCellValue(sourceCell.getBooleanCellValue());
-                        break;
-                    case Cell.CELL_TYPE_ERROR:
-                        copyCell.setCellErrorValue(sourceCell.getErrorCellValue());
-                        break;
-                    case Cell.CELL_TYPE_FORMULA:
-                        copyCell.setCellFormula(sourceCell.getCellFormula());
-                        break;
-                    case Cell.CELL_TYPE_NUMERIC:
-                        copyCell.setCellValue(sourceCell.getNumericCellValue());
-                        break;
-                    case Cell.CELL_TYPE_STRING:
-                        copyCell.setCellValue(sourceCell.getRichStringCellValue());
-                        break;
-                }
-            }
-        }
-    }
-    */
 }

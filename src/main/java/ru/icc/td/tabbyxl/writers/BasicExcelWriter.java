@@ -22,52 +22,61 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.CanonicalForm;
+import ru.icc.td.tabbyxl.model.CanonicalForm.Record;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class BasicExcelWriter extends Writer
-{
-    protected Workbook writeToWorkbook(CTable table)
-    {
+public class BasicExcelWriter extends Writer {
+
+    protected Workbook writeToWorkbook(CTable table) {
         Workbook workbook = new XSSFWorkbook();
 
         // Writing the canonical form of a table
         CanonicalForm canonicalForm = table.toCanonicalForm();
-        String[] header = canonicalForm.getHeader();
+        String[] header = canonicalForm.getHeaderStrings();
 
-        Sheet sheetOfCanonicalForm = workbook.createSheet("CANONICAL TABLE");
+        Sheet sheet = workbook.createSheet("CANONICAL TABLE");
 
-        Row excelRow = sheetOfCanonicalForm.createRow(0);
+        Row excelRow = sheet.createRow(0);
 
-        for ( int i = 0; i < header.length; i++ )
-        {
-            excelRow.createCell( i ).setCellValue( header[i] );
+        for (int i = 0; i < header.length; i++) {
+            excelRow.createCell(i).setCellValue(header[i]);
         }
 
-        List<String[]> records = canonicalForm.getRecords();
+        //List<String[]> records = canonicalForm.getRecords();
+        List<Record> records = canonicalForm.getRecords();
+
         int i = 1;
-        for ( String[] record : records )
-        {
-            excelRow = sheetOfCanonicalForm.createRow(i);
-            for ( int j = 0; j < record.length; j++ )
-            {
+
+        /*
+        for (String[] record : records) {
+            excelRow = sheet.createRow(i);
+            for (int j = 0; j < record.length; j++) {
                 excelRow.createCell(j).setCellValue(record[j]);
             }
             i++;
         }
+        */
 
-        for ( i = 0; i < header.length; i++ )
-        {
-            sheetOfCanonicalForm.autoSizeColumn(i);
+        for (Record record : records) {
+            excelRow = sheet.createRow(i);
+            String[] recordString = record.getStrings();
+            for (int j = 0; j < recordString.length; j++) {
+                excelRow.createCell(j).setCellValue(recordString[j]);
+            }
+            i++;
+        }
+
+        for (i = 0; i < header.length; i++) {
+            sheet.autoSizeColumn(i);
         }
         return workbook;
     }
 
-    public void write(CTable table) throws IOException
-    {
+    public void write(CTable table) throws IOException {
         Workbook workbook = writeToWorkbook(table);
         FileOutputStream fileOut = new FileOutputStream(outputFile);
         workbook.write(fileOut);

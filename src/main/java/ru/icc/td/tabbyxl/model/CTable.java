@@ -160,55 +160,11 @@ public final class CTable
     }
 
     /*
-     * Writing the CTable instance to Excel 2007-2010 (*.xlsx) file
-     */
-    public void writeToExcel(String outputFile) {
-        this.writeToExcel(new File(outputFile));
-    }
-
-    /*
-     * Writing the CTable instance to Excel 2007-2010 (*.xlsx) file
-     */
-    public void writeToExcel(File outputFile) {
-        try {
-            Workbook wb = new XSSFWorkbook();
-            Sheet sheet = wb.createSheet();
-
-            Iterator<CRow> rows = this.rows.iterator();
-            int i = 0;
-            while (rows.hasNext()) {
-                Row excelRow = sheet.createRow(i);
-                CRow row = rows.next();
-
-                Iterator<CCell> rcells = row.getCells();
-                while (rcells.hasNext()) {
-                    CCell cll = rcells.next();
-                    excelRow.createCell(cll.getCl() - 1).setCellValue(cll.getRawText());
-                }
-                i++;
-            }
-
-            Iterator<CCell> cells = this.getCells();
-            while (cells.hasNext()) {
-                CCell c = cells.next();
-                if (c.getRt() != c.getRb() || c.getCl() != c.getCr()) {
-                    CellRangeAddress rngAdr = new CellRangeAddress(c.getRt() - 1, c.getRb() - 1, c.getCl() - 1, c.getCr() - 1);
-                    sheet.addMergedRegion(rngAdr);
-                }
-            }
-            FileOutputStream fileOut = new FileOutputStream(outputFile);
-            wb.write(fileOut);
-            fileOut.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public CanonicalForm toCanonicalForm()
     {
         if ( this.cells.size() < 2 ) return null;
 
-        CanonicalForm form = new CanonicalForm();
+        CanonicalForm cf = new CanonicalForm();
 
         int size = getLocalCategoryBox().numOfCategories();
         CCategory[] orderedCategorySet = new CCategory[size];
@@ -231,16 +187,17 @@ public final class CTable
             headerRecord[i + 1] = orderedCategorySet[i].getName();
         }
 
-        form.setHeader( headerRecord );
+        cf.setHeader( headerRecord );
         String padding = "";
 
         for ( CEntry entry : entries )
         {
-            String[] entryRecord = new String[size + 1];
-            Arrays.fill( entryRecord, padding );
-            entryRecord[0] = entry.getValue();
-            Iterator<CLabel> labels = entry.getLabels();
+            String[] record = new String[size + 1];
+            Arrays.fill( record, padding );
 
+            record[0] = entry.getValue();
+
+            Iterator<CLabel> labels = entry.getLabels();
             while ( labels.hasNext() )
             {
                 CLabel label = labels.next();
@@ -250,13 +207,72 @@ public final class CTable
                     CCategory category = orderedCategorySet[i];
                     if ( label.getCategory().equals( category ) )
                     {
-                        entryRecord[i + 1] = label.getCompoundValue();
+                        record[i + 1] = label.getCompoundValue();
                     }
                 }
             }
-            form.addRecord(entryRecord);
+            cf.addRecord(record);
         }
-        return form;
+        return cf;
+    }
+    */
+
+    public CanonicalForm toCanonicalForm() {
+        if (cells.size() < 2) return null;
+
+        return new CanonicalForm(this);
+        /*
+        CanonicalForm cf = new CanonicalForm();
+
+        int size = getLocalCategoryBox().numOfCategories();
+        CCategory[] orderedCategorySet = new CCategory[size];
+
+        int c = 0;
+        Iterator<CCategory> categories = getLocalCategoryBox().getCategories();
+
+        while ( categories.hasNext() )
+        {
+            orderedCategorySet[c]  = categories.next();
+            c ++;
+        }
+
+        String[] headerRecord = new String[orderedCategorySet.length + 1];
+
+        headerRecord[0] = DATA_FIELD_NAME;
+
+        for ( int i = 0; i < orderedCategorySet.length; i ++ )
+        {
+            headerRecord[i + 1] = orderedCategorySet[i].getName();
+        }
+
+        cf.setHeader( headerRecord );
+        String padding = "";
+
+        for ( CEntry entry : entries )
+        {
+            String[] record = new String[size + 1];
+            Arrays.fill( record, padding );
+
+            record[0] = entry.getValue();
+
+            Iterator<CLabel> labels = entry.getLabels();
+            while ( labels.hasNext() )
+            {
+                CLabel label = labels.next();
+
+                for ( int i = 0; i < orderedCategorySet.length; i ++ )
+                {
+                    CCategory category = orderedCategorySet[i];
+                    if ( label.getCategory().equals( category ) )
+                    {
+                        record[i + 1] = label.getCompoundValue();
+                    }
+                }
+            }
+            cf.addRecord(record);
+        }
+        return cf;
+        */
     }
 
     public String trace()

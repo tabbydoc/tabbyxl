@@ -23,6 +23,8 @@ import ru.icc.td.tabbyxl.crl2j.CrlRunner;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
+import ru.icc.td.tabbyxl.writers.Writer;
+import ru.icc.td.tabbyxl.writers.DebugWriter;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
 
 import javax.rules.*;
@@ -624,7 +626,7 @@ public final class TabbyXL {
                 }
                 Path outPath = outputDirectory.resolve(outFileName);
                 //EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
-                //NerLayerWriter writer = new NerLayerWriter(outPath.toFile());
+                //DebugWriter writer = new DebugWriter(outPath.toFile());
                 //writer.write(table);
 
                 tableNo++;
@@ -718,9 +720,19 @@ public final class TabbyXL {
                     outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
                 }
                 Path outPath = outputDirectory.resolve(outFileName);
-                EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
-                //NerLayerWriter writer = new NerLayerWriter(outPath.toFile());
+
+                // Write output to Excel
+                final boolean useDebugWriting = true;
+                Writer writer;
+                File outFile = outPath.toFile();
+
+                if (useDebugWriting)
+                    writer = new DebugWriter(outFile);
+                else
+                    writer = new EvaluationExcelWriter(outFile);
+
                 writer.write(table);
+
                 //System.exit(0);
 
                 tableNo++;

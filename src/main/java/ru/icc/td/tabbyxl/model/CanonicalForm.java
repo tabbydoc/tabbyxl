@@ -17,31 +17,53 @@
 package ru.icc.td.tabbyxl.model;
 
 import dnl.utils.text.table.TextTable;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public final class CanonicalForm
-{
-    String[] header;
+public final class CanonicalForm {
+    private List<String> header = new ArrayList<>();
+    private List<Record> records = new ArrayList<>();
+    private List<CCategory> categories = new ArrayList<>();
 
-    public void setHeader( String[] header )
-    {
-        this.header = header;
+    private static final String defaultDataColumnName = "DATA";
+
+    CanonicalForm(CTable table) {
+
+        categories = table.getLocalCategoryBox().getCategoryList();
+
+        // Fill header by using categories
+        header.add(defaultDataColumnName);
+        for (CCategory category : categories)
+            header.add(category.getName());
+
+        // Fill rows by using entries
+        Iterator<CEntry> entries = table.getEntries();
+        while (entries.hasNext()) {
+            CEntry entry = entries.next();
+            Record record = new Record(entry);
+            records.add(record);
+        }
     }
 
-    public String[] getHeader()
-    {
+    /*
+    public void setHeader(String[] header) {
+        this.header = header;
+    }
+    */
+
+    public List<String> getHeader() {
         return header;
     }
 
-    private List<String[]> records = new ArrayList<String[]>();
+    public String[] getHeaderStrings() {
+        String[] strings = new String[header.size()];
+        strings = header.toArray(strings);
+
+        return strings;
+    }
+
+    /*
+    private List<String[]> records = new ArrayList();
 
     public void addRecord( String[] record )
     {
@@ -52,7 +74,23 @@ public final class CanonicalForm
     {
         return records;
     }
+    */
 
+
+    /*
+    public void addRecord(Record record) {
+        records.add(record);
+    }
+    */
+
+    public List<Record> getRecords() {
+        return records;
+    }
+
+
+
+
+    /*
     public void print()
     {
         String[] columnNames = header;
@@ -76,7 +114,33 @@ public final class CanonicalForm
 
         tt.printTable();
     }
+    */
 
+    public void print() {
+        String[] columnNames = getHeaderStrings();
+
+        final int numOfCols = header.size();
+        final int numOfRows = records.size();
+
+        Object[][] data = null;
+        if (records.size() > 0) {
+            data = new Object[numOfRows][numOfCols];
+
+            for (int i = 0; i < records.size(); i++) {
+                data[i] = records.get(i).getStrings();
+            }
+        }
+        TextTable tt = new TextTable(columnNames, data);
+
+        // this adds the numbering on the left
+        // tt.setAddRowNumbering(true);
+        // sort by the first column
+        // tt.setSort(0);
+
+        tt.printTable();
+    }
+
+    /*
     public String trace()
     {
         StringBuilder sb = new StringBuilder();
@@ -100,39 +164,77 @@ public final class CanonicalForm
 
         return sb.toString();
     }
+    */
 
-    public void writeToExcel( File outputFile )
-    {
-        try
-        {
-            Workbook wb = new XSSFWorkbook();
-            Sheet sheet = wb.createSheet();
+    public String trace() {
+        StringBuilder sb = new StringBuilder();
+        final String EOL = "\r\n";
 
-            Row excelRow = sheet.createRow(0);
-
-            for ( int i = 0; i < header.length; i++ )
-            {
-                excelRow.createCell( i ).setCellValue( header[i] );
-            }
-
-            int i = 1;
-            for ( String[] record : records )
-            {
-                excelRow = sheet.createRow(i);
-                for ( int j = 0; j < record.length; j++ )
-                {
-                    excelRow.createCell(j).setCellValue(record[j]);
-                }
-                i++;
-            }
-
-            FileOutputStream fileOut = new FileOutputStream(outputFile);
-            wb.write(fileOut);
-            fileOut.close();
+        for (String s : header) {
+            sb.append(s.toUpperCase()).append('\t');
         }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
+
+        sb.append(EOL);
+
+        for (Record record : records) {
+            for (String s : record.getStrings()) {
+                sb.append(s).append('\t');
+            }
+            sb.append(EOL);
+        }
+
+        return sb.toString();
+    }
+
+    public class Record {
+        private static final String padding = "";
+        private CValue[] values;
+
+        private Record(CEntry entry) {
+            final int numOfCols = categories.size() + 1;
+            values = new CValue[numOfCols];
+
+            values[0] = entry;
+
+            Iterator<CLabel> labels = entry.getLabels();
+            while (labels.hasNext()) {
+                CLabel label = labels.next();
+                for (int i = 0; i < categories.size(); i++) {
+                    CCategory category = categories.get(i);
+                    if (label.getCategory().equals(category)) {
+                        values[i + 1] = label;
+                    }
+                }
+            }
+        }
+
+        public CValue[] getValues() {
+            return values;
+        }
+
+        public String[] getStrings() {
+
+            String[] strings = new String[values.length];
+            Arrays.fill(strings, padding);
+
+            CValue val;
+
+            // Fill strings by using an entry
+            val = values[0];
+            if (null != val)
+                strings[0] = val.getValue();
+
+            // Fill strings by using labels
+            for (int i = 1; i < values.length; i++) {
+                val = values[i];
+                if (null != val) {
+                    CLabel label = (CLabel) val;
+                    strings[i] = label.getCompoundValue();
+                }
+            }
+
+            return strings;
         }
     }
+
 }
