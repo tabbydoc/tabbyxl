@@ -20,6 +20,7 @@ import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
+import org.apache.commons.lang.StringUtils;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
@@ -61,11 +62,15 @@ public class RuleCodeGen {
         // print rules
         System.out.println("This Java source code was generated from the ruleset");
         System.out.println();
-        for (Rule rule: rules) {
-            System.out.println(fetchCodeFromRule(rule));
-        }
-        System.out.println();
 
+        final String separator = StringUtils.leftPad("", 100, "=");
+        System.out.println(separator);
+
+        for (Rule rule: rules) {
+            String javaCodeString = fetchCodeFromRule(rule);
+            System.out.println(javaCodeString);
+            System.out.println(separator);
+        }
     }
 
     public List<String> generateCodeFromAllRules() {
@@ -89,10 +94,17 @@ public class RuleCodeGen {
 
         // add imports
         code.append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(LINE_SEP);
+
+        code.append("import ru.icc.td.tabbyxl.model.*;").append(LINE_SEP);
+        code.append("import static ru.icc.td.tabbyxl.model.NerTag.*;").append(LINE_SEP);
+        code.append("import static ru.icc.td.tabbyxl.model.TypeTag.*;").append(LINE_SEP);
+        code.append("import ru.icc.td.tabbyxl.model.style.*;").append(LINE_SEP);
+        code.append("import java.util.*;").append(LINE_SEP);
+
         for (String importItem: imports) {
             code.append(importItem).append(";").append(LINE_SEP);
         }
-        code.append("import java.util.*;").append(LINE_SEP);
+
         code.append(LINE_SEP);
 
         // begin class
@@ -102,10 +114,10 @@ public class RuleCodeGen {
         code.append(generateConstructor(rule.getId())).append(LINE_SEP);
 
         // override method eval()
-        code.append(generateEval(rule)).append(LINE_SEP);
+        code.append(generateEval(rule));
 
         // finish class
-        code.append("}");
+        code.append("}").append(LINE_SEP);
 
         return code.toString();
     }
@@ -127,7 +139,7 @@ public class RuleCodeGen {
         code
                 .append(fetchIndent(1)).append("@Override").append(LINE_SEP)
                 .append(fetchIndent(1)).append("public void eval () {").append(LINE_SEP)
-                .append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), 2)).append(LINE_SEP)
+                .append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), 2))
                 .append(fetchIndent(1)).append("}").append(LINE_SEP);
 
         return code.toString();

@@ -204,7 +204,7 @@ public final class CCell extends COwned implements Cloneable
         return this.indent;
     }
 
-    // a data typeTag from excel cell: числовой, текстовый, дата, денежный, формула
+    // a data type tag provided by a spreadsheet cell (e.g. NUMERIC, STRING, DATE, FORMULA)
     private TypeTag typeTag;
 
     public TypeTag getTypeTag()
@@ -231,9 +231,6 @@ public final class CCell extends COwned implements Cloneable
 
         if ( mark.isEmpty() )
             throw new IllegalArgumentException( "The mark cannot be empty" );
-
-        //if ( ! mark.matches( "@\\w+" ) )
-            //throw new IllegalArgumentException( "The mark is not matched with \"@\\w+\"" );
 
         this.mark = mark;
     }
