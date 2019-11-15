@@ -46,8 +46,6 @@ public class RuleCodeGen {
     }
     public void setPack(String pack) { this.pack = pack; }
 
-    public int getRulesCount() { return rules.size(); }
-
     public void loadRuleset (File ruleset) throws IOException, RecognitionException {
 
         ANTLRFileStream fileStream = new ANTLRFileStream(ruleset.getPath());
@@ -86,7 +84,7 @@ public class RuleCodeGen {
     private String fetchCodeFromRule(Rule rule) {
 
         StringBuilder code = new StringBuilder();
-        translator = new Translator(rule.getConditions(), imports);
+        translator = new Translator(rule.getConditions());
 
         // Add a package
         code
@@ -401,6 +399,5 @@ public class RuleCodeGen {
         }
 
         return code.toString();
-
     }
 }
