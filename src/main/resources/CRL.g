@@ -65,21 +65,21 @@ rule
 	
 condition 
 scope { 
-	String type;
+	String typeTag;
 	String id; 
 }
 @init { 
-	$condition::type = "ForAll"; 
+	$condition::typeTag = "ForAll";
 	$condition::id = null;
 }
-	:	('no' { $condition::type = "NotExist"; })?
+	:	('no' { $condition::typeTag = "NotExist"; })?
 		query 
 		( ident = ID { $condition::id = $ident.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
 		(
 		':' 
 		( (constraint (',' constraint)* (',' assignment)? ) | assignment )
 		)? EOL
-		-> ^( CONDITION TYPE[$condition::type] query IDENTIFIER[$condition::id] ^(CONSTRAINTS ^(CONSTRAINT constraint)*) ^(ASSIGNMENT assignment?) )
+		-> ^( CONDITION TYPE[$condition::typeTag] query IDENTIFIER[$condition::id] ^(CONSTRAINTS ^(CONSTRAINT constraint)*) ^(ASSIGNMENT assignment?) )
 	;
 	
 query

@@ -16,7 +16,7 @@
 
 package ru.icc.td.tabbyxl.model;
 
-public enum CellType
+public enum TypeTag
 {
     NUMERIC,
     DATE,

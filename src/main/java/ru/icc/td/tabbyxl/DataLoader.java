@@ -22,7 +22,7 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.*;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.model.CellType;
+import ru.icc.td.tabbyxl.model.TypeTag;
 import ru.icc.td.tabbyxl.model.style.*;
 
 import java.io.File;
@@ -381,7 +381,7 @@ public final class DataLoader {
 
     private void fillCell(CCell cell, Cell excelCell) {
         String rawTextualContent = null;
-        CellType cellType = null;
+        TypeTag typeTag = null;
 
         String text = null;
         if (withoutSuperscript) {
@@ -401,36 +401,36 @@ public final class DataLoader {
         switch (excelCell.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
                 if (DateUtil.isCellDateFormatted(excelCell)) {
-                    cellType = CellType.DATE;
+                    typeTag = TypeTag.DATE;
                 } else {
-                    cellType = CellType.NUMERIC;
+                    typeTag = TypeTag.NUMERIC;
                 }
                 break;
 
             case Cell.CELL_TYPE_STRING:
-                cellType = CellType.STRING;
+                typeTag = TypeTag.STRING;
                 break;
 
             case Cell.CELL_TYPE_BOOLEAN:
-                cellType = CellType.BOOLEAN;
+                typeTag = TypeTag.BOOLEAN;
                 break;
 
             case Cell.CELL_TYPE_FORMULA:
-                cellType = CellType.FORMULA;
+                typeTag = TypeTag.FORMULA;
                 break;
 
             case Cell.CELL_TYPE_BLANK:
-                cellType = CellType.BLANK;
+                typeTag = TypeTag.BLANK;
                 break;
 
             case Cell.CELL_TYPE_ERROR:
-                cellType = CellType.ERROR;
+                typeTag = TypeTag.ERROR;
                 break;
         }
 
         cell.setId(this.cellCount);
 
-        cell.setType(cellType);
+        cell.setTypeTag(typeTag);
 
         int height = excelCell.getRow().getHeight();
         cell.setHeight(height);

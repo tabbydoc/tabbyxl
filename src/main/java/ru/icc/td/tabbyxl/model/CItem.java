@@ -16,7 +16,7 @@
 
 package ru.icc.td.tabbyxl.model;
 
-public abstract class CValue extends COwned
+public abstract class CItem extends COwned
 {
     private CCell cell;
 
@@ -45,7 +45,7 @@ public abstract class CValue extends COwned
             this.value = value.trim().toLowerCase();
     }
 
-    protected CValue( CTable owner, CCell cell, String value )
+    protected CItem(CTable owner, CCell cell, String value )
     {
         super( owner );
         setCell( cell );

@@ -18,7 +18,7 @@ package ru.icc.td.tabbyxl.model;
 
 import java.util.*;
 
-public final class CEntry extends CValue
+public final class CEntry extends CItem
 {
     private Map<CCategory, CLabel> labels = new HashMap<CCategory, CLabel>();
 

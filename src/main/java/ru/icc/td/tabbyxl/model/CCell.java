@@ -169,7 +169,7 @@ public final class CCell extends COwned implements Cloneable
 	//  an amount of spaces in the beginning of the excel cell's text
     private int spaceIndent;
 
-	// This return type should be int, short type leads to the exception "Exception jitting".
+	// This return typeTag should be int, short typeTag leads to the exception "Exception jitting".
     public int getSpaceIndent()
     {
         return spaceIndent;
@@ -204,17 +204,17 @@ public final class CCell extends COwned implements Cloneable
         return this.indent;
     }
 
-    // a data type from excel cell: числовой, текстовый, дата, денежный, формула
-    private CellType type;
+    // a data typeTag from excel cell: числовой, текстовый, дата, денежный, формула
+    private TypeTag typeTag;
 
-    public CellType getType()
+    public TypeTag getTypeTag()
     {
-        return this.type;
+        return this.typeTag;
     }
 
-    public void setType(CellType type)
+    public void setTypeTag(TypeTag typeTag)
     {
-        this.type = type;
+        this.typeTag = typeTag;
     }
 
     private String mark;
@@ -486,7 +486,7 @@ public final class CCell extends COwned implements Cloneable
 
     public String trace()
     {
-        String tags = String.format("{%s, \"%s\", %s}", type, mark, nerTag);
+        String tags = String.format("{%s, \"%s\", %s}", typeTag, mark, nerTag);
         return String.format( "cell=\"%s\"; address=\"%s\"; tags=%s", text, address(), tags);
         //return String.format( "%s%n%s%n%s%n", text, tags, style.trace() );
     }

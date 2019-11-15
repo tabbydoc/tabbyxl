@@ -1,19 +1,16 @@
 package ru.icc.td.tabbyxl.writers;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.model.CValue;
+import ru.icc.td.tabbyxl.model.CItem;
 import ru.icc.td.tabbyxl.model.CanonicalForm;
-import ru.icc.td.tabbyxl.model.CanonicalForm.Record;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.function.BiConsumer;
 
 public class DebugWriter extends BasicExcelWriter {
@@ -23,14 +20,35 @@ public class DebugWriter extends BasicExcelWriter {
 
         CanonicalForm cf = table.toCanonicalForm();
 
-        Sheet sheet = workbook.createSheet("NER TAG LAYER");
-        BiConsumer<CValue, Cell> fillCellByNerTag = (value, excelCell) -> {
-                CCell cell = value.getCell();
-                String nerTagString = cell.getNerTag().toString();
-                excelCell.setCellValue(nerTagString);
-        };
+        // Write Ner Tag Sheet
 
-        writeCanonicalFormToSheet(sheet, cf, fillCellByNerTag);
+        Sheet sheet1 = workbook.createSheet("NER TAGS");
+        BiConsumer<CItem, Cell> setCellValByNerTag = (item, excelCell) -> {
+                CCell cell = item.getCell();
+                String s = cell.getNerTag().toString();
+                excelCell.setCellValue(s);
+        };
+        writeCanonicalForm(sheet1, cf, setCellValByNerTag);
+
+        // Write Type Tag Sheet
+
+        Sheet sheet2 = workbook.createSheet("TYPE TAGS");
+        BiConsumer<CItem, Cell> setCellValByTypeTag = (item, excelCell) -> {
+            CCell cell = item.getCell();
+            String s = cell.getTypeTag().toString();
+            excelCell.setCellValue(s);
+        };
+        writeCanonicalForm(sheet2, cf, setCellValByTypeTag);
+
+        // Write Type Tag Sheet
+
+        Sheet sheet3 = workbook.createSheet("USER-DEFINED TAGS");
+        BiConsumer<CItem, Cell> setCellValByTag = (item, excelCell) -> {
+            CCell cell = item.getCell();
+            String s = cell.getMark();
+            excelCell.setCellValue(s);
+        };
+        writeCanonicalForm(sheet3, cf, setCellValByTag);
 
         return workbook;
     }

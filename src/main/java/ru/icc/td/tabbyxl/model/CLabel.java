@@ -19,7 +19,7 @@ package ru.icc.td.tabbyxl.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CLabel extends CValue
+public final class CLabel extends CItem
 {
     // TODO reading SEPARATOR value from settings is needed
     private final static String SEPARATOR = "|";

@@ -21,9 +21,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.model.CValue;
+import ru.icc.td.tabbyxl.model.CItem;
 import ru.icc.td.tabbyxl.model.CanonicalForm;
 import ru.icc.td.tabbyxl.model.CanonicalForm.Record;
 
@@ -42,16 +41,16 @@ public class BasicExcelWriter extends Writer {
         CanonicalForm cf = table.toCanonicalForm();
 
         Sheet sheet = workbook.createSheet("CANONICAL FORM");
-        BiConsumer<CValue, Cell> fillCellByValue = (value, excelCell) -> {
-            excelCell.setCellValue(value.getValue());
+        BiConsumer<CItem, Cell> setCellVal = (item, excelCell) -> {
+            excelCell.setCellValue(item.getValue());
         };
 
-        writeCanonicalFormToSheet(sheet, cf, fillCellByValue);
+        writeCanonicalForm(sheet, cf, setCellVal);
 
         return workbook;
     }
 
-    protected void writeCanonicalFormToSheet(Sheet sheet, CanonicalForm cf, BiConsumer<CValue, Cell> consumer) {
+    protected void writeCanonicalForm(Sheet sheet, CanonicalForm cf, BiConsumer<CItem, Cell> consumer) {
 
         // Write header
 
@@ -72,13 +71,13 @@ public class BasicExcelWriter extends Writer {
         for (Record record : records) {
             excelRow = sheet.createRow(i);
 
-            CValue[] values = record.getValues();
+            CItem[] items = record.getItems();
 
-            for (int j = 0; j < values.length; j++) {
-                CValue value = values[j];
-                if (null != value) {
+            for (int j = 0; j < items.length; j++) {
+                CItem item = items[j];
+                if (null != item) {
                     Cell excelCell = excelRow.createCell(j);
-                    consumer.accept(value, excelCell);
+                    consumer.accept(item, excelCell);
                 }
             }
             i++;

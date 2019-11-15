@@ -106,13 +106,13 @@ public final class CanonicalForm {
 
     public class Record {
         private static final String padding = "";
-        private CValue[] values;
+        private CItem[] items;
 
         private Record(CEntry entry) {
             final int numOfCols = categories.size() + 1;
-            values = new CValue[numOfCols];
+            items = new CItem[numOfCols];
 
-            values[0] = entry;
+            items[0] = entry;
 
             Iterator<CLabel> labels = entry.getLabels();
             while (labels.hasNext()) {
@@ -120,33 +120,33 @@ public final class CanonicalForm {
                 for (int i = 0; i < categories.size(); i++) {
                     CCategory category = categories.get(i);
                     if (label.getCategory().equals(category)) {
-                        values[i + 1] = label;
+                        items[i + 1] = label;
                     }
                 }
             }
         }
 
-        public CValue[] getValues() {
-            return values;
+        public CItem[] getItems() {
+            return items;
         }
 
         public String[] getStrings() {
 
-            String[] strings = new String[values.length];
+            String[] strings = new String[items.length];
             Arrays.fill(strings, padding);
 
-            CValue val;
+            CItem item;
 
             // Fill strings by using an entry
-            val = values[0];
-            if (null != val)
-                strings[0] = val.getValue();
+            item = items[0];
+            if (null != item)
+                strings[0] = item.getValue();
 
             // Fill strings by using labels
-            for (int i = 1; i < values.length; i++) {
-                val = values[i];
-                if (null != val) {
-                    CLabel label = (CLabel) val;
+            for (int i = 1; i < items.length; i++) {
+                item = items[i];
+                if (null != item) {
+                    CLabel label = (CLabel) item;
                     strings[i] = label.getCompoundValue();
                 }
             }
