@@ -46,20 +46,9 @@ public class BasicExcelWriter extends Writer {
             excelRow.createCell(i).setCellValue(header[i]);
         }
 
-        //List<String[]> records = canonicalForm.getRecords();
         List<Record> records = canonicalForm.getRecords();
 
         int i = 1;
-
-        /*
-        for (String[] record : records) {
-            excelRow = sheet.createRow(i);
-            for (int j = 0; j < record.length; j++) {
-                excelRow.createCell(j).setCellValue(record[j]);
-            }
-            i++;
-        }
-        */
 
         for (Record record : records) {
             excelRow = sheet.createRow(i);

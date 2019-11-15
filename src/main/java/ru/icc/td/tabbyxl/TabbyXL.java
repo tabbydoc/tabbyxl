@@ -56,7 +56,7 @@ public final class TabbyXL {
     private static boolean useRuleEngine;
     private static File ruleEngineConfigFile;
     private static String executingOptionName;
-    private static boolean useNerLayer;
+    private static boolean useNer;
 
     // Statistics
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
@@ -236,9 +236,9 @@ public final class TabbyXL {
         return false;
     }
 
-    private static boolean parseUseNerLayerParam(String useNerLayerpParam) {
-        if (null != useNerLayerpParam) {
-            return Boolean.valueOf(useNerLayerpParam);
+    private static boolean parseUseNerParam(String useNerParam) {
+        if (null != useNerParam) {
+            return Boolean.valueOf(useNerParam);
         }
         return false;
     }
@@ -364,11 +364,11 @@ public final class TabbyXL {
                 .withDescription("specify a path to a configuration file (*.properties) of a rule crl2j you prefer to use (e.g. Drools, JESS)")
                 .create("ruleEngineConfig");
 
-        Option useNerLayerOpt = OptionBuilder
+        Option useNerOpt = OptionBuilder
                 .withArgName("true|false")
                 .hasArg()
-                .withDescription("specify true to use NER layer")
-                .create("useNerLayer");
+                .withDescription("specify true to use NER in pre-processing")
+                .create("useNer");
 
         Option helpOpt = OptionBuilder
                 .withDescription("print this message")
@@ -386,7 +386,7 @@ public final class TabbyXL {
         options.addOption(useShortNamesOpt);
         options.addOption(debuggingModeOpt);
         options.addOption(ruleEngineConfigOpt);
-        options.addOption(useNerLayerOpt);
+        options.addOption(useNerOpt);
         options.addOption(helpOpt);
 
         CommandLineParser parser = new BasicParser();
@@ -430,8 +430,8 @@ public final class TabbyXL {
             String debuggingModeParam = cmd.getOptionValue(debuggingModeOpt.getOpt());
             debuggingMode = parseDebuggingModeParam(debuggingModeParam);
 
-            String useNerLayerParam = cmd.getOptionValue(useNerLayerOpt.getOpt());
-            useNerLayer = parseUseNerLayerParam(useNerLayerParam);
+            String useNerParam = cmd.getOptionValue(useNerOpt.getOpt());
+            useNer = parseUseNerParam(useNerParam);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -583,9 +583,7 @@ public final class TabbyXL {
                 if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
-                if (useNerLayer) {
-                    createNerLayer(table);
-                }
+                preprocessTable(table);
 
                 Date startDate = new Date();
 
@@ -685,9 +683,7 @@ public final class TabbyXL {
                 if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
                     CATEGORY_TEMPLATE_MANAGER.createCategories(table);
 
-                if (useNerLayer) {
-                    createNerLayer(table);
-                }
+                preprocessTable(table);
 
                 Date startDate = new Date();
                 crlRunner.fireAllRules(table);
@@ -744,8 +740,10 @@ public final class TabbyXL {
 
     }
 
-    private static void createNerLayer(CTable table) {
-        new NerPreprocessor().process(table);
+    private static void preprocessTable(CTable table) {
+        //TODO add here the use of HeadrecogPreprocessor
+        if (useNer)
+            new NerPreprocessor().process(table);
     }
 
     private TabbyXL() {

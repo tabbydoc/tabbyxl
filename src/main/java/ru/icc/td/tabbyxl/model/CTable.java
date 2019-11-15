@@ -16,21 +16,12 @@
 
 package ru.icc.td.tabbyxl.model;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.Serializable;
 import java.util.*;
 
 public final class CTable
 {
-    private static String DATA_FIELD_NAME = "DATA";
-    private static String LABEL_FIELD_NAME = "LABELS";
+    private static final String defaultCategoryName = "LABELS";
 
     private int id;
     private static int numberOfAllTables; // Number of all tables
@@ -159,120 +150,10 @@ public final class CTable
         id = numberOfAllTables;
     }
 
-    /*
-    public CanonicalForm toCanonicalForm()
-    {
-        if ( this.cells.size() < 2 ) return null;
-
-        CanonicalForm cf = new CanonicalForm();
-
-        int size = getLocalCategoryBox().numOfCategories();
-        CCategory[] orderedCategorySet = new CCategory[size];
-
-        int c = 0;
-        Iterator<CCategory> categories = getLocalCategoryBox().getCategories();
-
-        while ( categories.hasNext() )
-        {
-            orderedCategorySet[c]  = categories.next();
-            c ++;
-        }
-
-        String[] headerRecord = new String[orderedCategorySet.length + 1];
-        // TODO getting the data field name (headerRecord[0]) from file settings
-        headerRecord[0] = DATA_FIELD_NAME;
-
-        for ( int i = 0; i < orderedCategorySet.length; i ++ )
-        {
-            headerRecord[i + 1] = orderedCategorySet[i].getName();
-        }
-
-        cf.setHeader( headerRecord );
-        String padding = "";
-
-        for ( CEntry entry : entries )
-        {
-            String[] record = new String[size + 1];
-            Arrays.fill( record, padding );
-
-            record[0] = entry.getValue();
-
-            Iterator<CLabel> labels = entry.getLabels();
-            while ( labels.hasNext() )
-            {
-                CLabel label = labels.next();
-
-                for ( int i = 0; i < orderedCategorySet.length; i ++ )
-                {
-                    CCategory category = orderedCategorySet[i];
-                    if ( label.getCategory().equals( category ) )
-                    {
-                        record[i + 1] = label.getCompoundValue();
-                    }
-                }
-            }
-            cf.addRecord(record);
-        }
-        return cf;
-    }
-    */
-
     public CanonicalForm toCanonicalForm() {
         if (cells.size() < 2) return null;
 
         return new CanonicalForm(this);
-        /*
-        CanonicalForm cf = new CanonicalForm();
-
-        int size = getLocalCategoryBox().numOfCategories();
-        CCategory[] orderedCategorySet = new CCategory[size];
-
-        int c = 0;
-        Iterator<CCategory> categories = getLocalCategoryBox().getCategories();
-
-        while ( categories.hasNext() )
-        {
-            orderedCategorySet[c]  = categories.next();
-            c ++;
-        }
-
-        String[] headerRecord = new String[orderedCategorySet.length + 1];
-
-        headerRecord[0] = DATA_FIELD_NAME;
-
-        for ( int i = 0; i < orderedCategorySet.length; i ++ )
-        {
-            headerRecord[i + 1] = orderedCategorySet[i].getName();
-        }
-
-        cf.setHeader( headerRecord );
-        String padding = "";
-
-        for ( CEntry entry : entries )
-        {
-            String[] record = new String[size + 1];
-            Arrays.fill( record, padding );
-
-            record[0] = entry.getValue();
-
-            Iterator<CLabel> labels = entry.getLabels();
-            while ( labels.hasNext() )
-            {
-                CLabel label = labels.next();
-
-                for ( int i = 0; i < orderedCategorySet.length; i ++ )
-                {
-                    CCategory category = orderedCategorySet[i];
-                    if ( label.getCategory().equals( category ) )
-                    {
-                        record[i + 1] = label.getCompoundValue();
-                    }
-                }
-            }
-            cf.addRecord(record);
-        }
-        return cf;
-        */
     }
 
     public String trace()
@@ -413,7 +294,7 @@ public final class CTable
         if ( uncategorizedLabels.size() > 0 )
         {
             // TODO reading the default category name from settings
-            final CCategory category = localCategoryBox.newCategory( LABEL_FIELD_NAME );
+            final CCategory category = localCategoryBox.newCategory(defaultCategoryName);
 
             for ( CLabel label : uncategorizedLabels )
             {

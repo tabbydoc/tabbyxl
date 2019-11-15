@@ -45,12 +45,6 @@ public final class CanonicalForm {
         }
     }
 
-    /*
-    public void setHeader(String[] header) {
-        this.header = header;
-    }
-    */
-
     public List<String> getHeader() {
         return header;
     }
@@ -62,59 +56,9 @@ public final class CanonicalForm {
         return strings;
     }
 
-    /*
-    private List<String[]> records = new ArrayList();
-
-    public void addRecord( String[] record )
-    {
-        records.add( record );
-    }
-
-    public List<String[]> getRecords()
-    {
-        return records;
-    }
-    */
-
-
-    /*
-    public void addRecord(Record record) {
-        records.add(record);
-    }
-    */
-
     public List<Record> getRecords() {
         return records;
     }
-
-
-
-
-    /*
-    public void print()
-    {
-        String[] columnNames = header;
-
-        Object[][] data = null;
-        if ( records.size() > 0 )
-        {
-            data = new Object[records.size()][records.get(0).length];
-
-            for ( int i = 0; i < records.size(); i ++ )
-            {
-                data[i] = records.get( i );
-            }
-        }
-        TextTable tt = new TextTable( columnNames, data );
-
-        // this adds the numbering on the left
-        // tt.setAddRowNumbering(true);
-        // sort by the first column
-        // tt.setSort(0);
-
-        tt.printTable();
-    }
-    */
 
     public void print() {
         String[] columnNames = getHeaderStrings();
@@ -139,32 +83,6 @@ public final class CanonicalForm {
 
         tt.printTable();
     }
-
-    /*
-    public String trace()
-    {
-        StringBuilder sb = new StringBuilder();
-        final String EOL = "\r\n";
-
-        for ( String s : header )
-        {
-            sb.append( s.toUpperCase() ).append( '\t' );
-        }
-
-        sb.append( EOL );
-
-        for ( String[] record : records)
-        {
-            for (String s : record)
-            {
-                sb.append( s ).append( '\t' );
-            }
-            sb.append( EOL );
-        }
-
-        return sb.toString();
-    }
-    */
 
     public String trace() {
         StringBuilder sb = new StringBuilder();
