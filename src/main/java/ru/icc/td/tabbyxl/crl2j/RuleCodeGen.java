@@ -36,8 +36,9 @@ public class RuleCodeGen {
     private List<Rule> rules = new ArrayList<>();
     private String pack = "ru.icc.td.tabbyxl.crl2j.synthesis";
 
-    private final String newLine = System.lineSeparator();
-    private final String INDENT = "    ";
+    private static final String newLine = System.lineSeparator();
+    private static final String filler = StringUtils.repeat("=", 100);
+    private static final String indent = StringUtils.repeat(" ", 4);
 
     private Translator translator;
 
@@ -57,17 +58,16 @@ public class RuleCodeGen {
         imports = RuleModelBuilder.buildImports(ast);
         rules = RuleModelBuilder.buildRules(ast);
 
-        // print rules
+        // Print the source code generated from a ruleset
         System.out.println("This Java source code was generated from the ruleset");
         System.out.println();
 
-        final String separator = StringUtils.leftPad("", 100, "=");
-        System.out.println(separator);
+        System.out.println(filler);
 
         for (Rule rule: rules) {
             String javaCodeString = fetchCodeFromRule(rule);
             System.out.println(javaCodeString);
-            System.out.println(separator);
+            System.out.println(filler);
         }
     }
 
@@ -361,7 +361,7 @@ public class RuleCodeGen {
     private String fetchIndent(int level) {
         StringBuilder indent = new StringBuilder();
         for (int i = 0; i < level; i ++) {
-            indent.append(INDENT);
+            indent.append(RuleCodeGen.indent);
         }
         return indent.toString();
     }
