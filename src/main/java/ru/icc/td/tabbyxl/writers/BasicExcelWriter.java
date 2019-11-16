@@ -37,7 +37,7 @@ public class BasicExcelWriter extends Writer {
     protected Workbook writeToWorkbook(CTable table) {
         Workbook workbook = new XSSFWorkbook();
 
-        // Writing the canonical form of a table
+        // Write the canonical form of a table
         CanonicalForm cf = table.toCanonicalForm();
 
         Sheet sheet = workbook.createSheet("CANONICAL FORM");
@@ -88,6 +88,7 @@ public class BasicExcelWriter extends Writer {
         }
     }
 
+    @Override
     public void write(CTable table) throws IOException {
         Workbook workbook = writeToWorkbook(table);
         FileOutputStream fileOut = new FileOutputStream(outputFile);

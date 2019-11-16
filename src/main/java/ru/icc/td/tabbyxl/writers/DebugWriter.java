@@ -9,12 +9,11 @@ import ru.icc.td.tabbyxl.model.CItem;
 import ru.icc.td.tabbyxl.model.CanonicalForm;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.function.BiConsumer;
 
-public class DebugWriter extends BasicExcelWriter {
+public final class DebugWriter extends BasicExcelWriter {
 
+    @Override
     protected Workbook writeToWorkbook(CTable table) {
         Workbook workbook = super.writeToWorkbook(table);
 
@@ -51,13 +50,6 @@ public class DebugWriter extends BasicExcelWriter {
         writeCanonicalForm(sheet3, cf, setCellValByTag);
 
         return workbook;
-    }
-
-    public void write(CTable table) throws IOException {
-        Workbook workbook = writeToWorkbook(table);
-        FileOutputStream fileOut = new FileOutputStream(outputFile);
-        workbook.write(fileOut);
-        fileOut.close();
     }
 
     public DebugWriter(File outputFile) {

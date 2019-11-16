@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class RuleCodeGen {
+public final class RuleCodeGen {
 
     private List<String> imports = new ArrayList<>();
     private List<Rule> rules = new ArrayList<>();
@@ -45,9 +45,12 @@ public class RuleCodeGen {
     public String getPack() {
         return pack;
     }
-    public void setPack(String pack) { this.pack = pack; }
 
-    public void loadRuleset (File ruleset) throws IOException, RecognitionException {
+    public void setPack(String pack) {
+        this.pack = pack;
+    }
+
+    public void loadRuleset(File ruleset) throws IOException, RecognitionException {
 
         ANTLRFileStream fileStream = new ANTLRFileStream(ruleset.getPath());
         CRLLexer lexer = new CRLLexer(fileStream);
@@ -64,7 +67,7 @@ public class RuleCodeGen {
 
         System.out.println(filler);
 
-        for (Rule rule: rules) {
+        for (Rule rule : rules) {
             String javaCodeString = fetchCodeFromRule(rule);
             System.out.println(javaCodeString);
             System.out.println(filler);
@@ -74,7 +77,7 @@ public class RuleCodeGen {
     public List<String> generateCodeFromAllRules() {
 
         List<String> result = new ArrayList<>();
-        for (Rule rule: rules) {
+        for (Rule rule : rules) {
             result.add(fetchCodeFromRule(rule));
         }
 
@@ -101,7 +104,7 @@ public class RuleCodeGen {
                 .append("import ru.icc.td.tabbyxl.model.style.*;").append(newLine)
                 .append("import java.util.*;").append(newLine);
 
-        for (String importItem: imports) {
+        for (String importItem : imports) {
             code.append(importItem).append(";").append(newLine);
         }
 
@@ -125,7 +128,7 @@ public class RuleCodeGen {
         return code.toString();
     }
 
-    private String generateConstructor (int id) {
+    private String generateConstructor(int id) {
         StringBuilder code = new StringBuilder();
 
         code
@@ -205,7 +208,7 @@ public class RuleCodeGen {
 
             code.append(fetchIndent(level + 1)).append("if ( ");
 
-            if(currentCondition.getConstraints().size()!=0) {
+            if (currentCondition.getConstraints().size() != 0) {
                 code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getIdentifier()));
             } else {
                 code.append("true");
@@ -213,7 +216,7 @@ public class RuleCodeGen {
 
             code.append(" ) {").append(newLine);
 
-            for(Assignment assignment:currentCondition.getAssignments()) {
+            for (Assignment assignment : currentCondition.getAssignments()) {
                 code.append(fetchIndent(level + 2)).append(generateAssignment(assignment, currentCondition.getIdentifier()));
             }
 
@@ -225,8 +228,7 @@ public class RuleCodeGen {
 
             code.append(fetchIndent(level + 1)).append("}").append(newLine);
             code.append(fetchIndent(level)).append("}").append(newLine);
-        }
-        else {
+        } else {
 
             code
                     .append(fetchIndent(level))
@@ -249,15 +251,18 @@ public class RuleCodeGen {
                     .append(currentCondition.getIdentifier())
                     .append("Iterator.next();").append(newLine);
 
-            code.append(fetchIndent(level + 1)).append("if ( ");
+            code
+                    .append(fetchIndent(level + 1))
+                    .append("if ( ");
 
-            if(currentCondition.getConstraints().size()!=0) {
+            if (currentCondition.getConstraints().size() != 0) {
                 code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getIdentifier()));
             } else {
                 code.append("false");
             }
 
-            code.append(" ) {").append(newLine);
+            code
+                    .append(" ) {").append(newLine);
 
             code
                     .append(fetchIndent(level + 2))
@@ -268,7 +273,7 @@ public class RuleCodeGen {
             code
                     .append(fetchIndent(level + 2))
                     .append("break;")
-                    .append(System.lineSeparator());
+                    .append(newLine);
 
             code
                     .append(fetchIndent(level + 1))
@@ -284,7 +289,7 @@ public class RuleCodeGen {
                     .append(currentCondition.getId())
                     .append(" ) {").append(newLine);
 
-            if(conditions.hasNext()) {
+            if (conditions.hasNext()) {
                 code.append(generateCondition(conditions, actions, level + 1));
             } else {
                 code.append(generateActions(actions, level + 1));
@@ -300,7 +305,7 @@ public class RuleCodeGen {
 
         StringBuilder code = new StringBuilder();
 
-        for( int i = 0; i < constraints.size(); i ++ ) {
+        for (int i = 0; i < constraints.size(); i++) {
 
             code
                     .append("( ")
@@ -342,13 +347,17 @@ public class RuleCodeGen {
             code
                     .append(fetchIndent(level))
                     .append(translator.translateExpressions(operands.get(0).getExpressions(), ""))
-                    .append(".").append(action.getType()).append("(");
-            if (operands.size()>1) {
-                for (int i = 1; i < operands.size(); i ++) {
+                    .append(".")
+                    .append(action.getType())
+                    .append("(");
+
+            if (operands.size() > 1) {
+                for (int i = 1; i < operands.size(); i++) {
                     code.append(translator.translateExpressions(operands.get(i).getExpressions(), ""));
                     if (i < operands.size() - 1) code.append(", ");
                 }
             }
+
             code.append(");").append(newLine);
 
             if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge))
@@ -360,7 +369,7 @@ public class RuleCodeGen {
 
     private String fetchIndent(int level) {
         StringBuilder indent = new StringBuilder();
-        for (int i = 0; i < level; i ++) {
+        for (int i = 0; i < level; i++) {
             indent.append(RuleCodeGen.indent);
         }
         return indent.toString();
@@ -375,7 +384,11 @@ public class RuleCodeGen {
         while (keys.hasNext()) {
             String key = keys.next();
             if (translator.getVariables().get(key).equals(className)) {
-                code.append(fetchIndent(level)).append(key).append("Iterator = getTable().");
+
+                code
+                        .append(fetchIndent(level))
+                        .append(key)
+                        .append("Iterator = getTable().");
 
                 switch (className) {
                     case "CCell":
@@ -394,7 +407,7 @@ public class RuleCodeGen {
                         break;
                 }
 
-                code.append(System.lineSeparator());
+                code.append(newLine);
             }
         }
 

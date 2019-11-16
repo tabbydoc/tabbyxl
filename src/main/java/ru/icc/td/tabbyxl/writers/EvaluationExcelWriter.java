@@ -29,8 +29,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
-public class EvaluationExcelWriter extends BasicExcelWriter
+public final class EvaluationExcelWriter extends BasicExcelWriter
 {
+    @Override
     protected Workbook writeToWorkbook(CTable table)
     {
         Workbook workbook = super.writeToWorkbook(table);
@@ -139,11 +140,11 @@ public class EvaluationExcelWriter extends BasicExcelWriter
         excelCell.setCellFormula(formula);
 
         // Copying the area of the source table from the source workbook to result one
-        //Sheet sheetFrom = table.getSourceSheet();
-        //CellReference start = new CellReference(table.getSrcStartCellRef());
-        //CellReference end = new CellReference(table.getSrcEndCellRef());
-        //Sheet sheetTo = workbook.createSheet("SOURCE TABLE");
-        //copyArea(sheetFrom, start, end, sheetTo);
+        // Sheet sheetFrom = table.getSourceSheet();
+        // CellReference start = new CellReference(table.getSrcStartCellRef());
+        // CellReference end = new CellReference(table.getSrcEndCellRef());
+        // Sheet sheetTo = workbook.createSheet("SOURCE TABLE");
+        // copyArea(sheetFrom, start, end, sheetTo);
 
         return workbook;
     }

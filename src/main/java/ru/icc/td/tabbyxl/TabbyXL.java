@@ -22,6 +22,7 @@ import org.apache.commons.io.FilenameUtils;
 import ru.icc.td.tabbyxl.crl2j.CrlRunner;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
+import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
 import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
 import ru.icc.td.tabbyxl.writers.Writer;
@@ -740,12 +741,15 @@ public final class TabbyXL {
 
     }
 
+    private static final Preprocessor headrecog = new HeadrecogPreprocessor();
+    private static final Preprocessor ner = new NerPreprocessor();
+
     private static void preprocessTable(CTable table) {
         //TODO add here the use of HeadrecogPreprocessor
         if (false)
-            new HeadrecogPreprocessor().run(table);
+            headrecog.run(table);
         if (useNer)
-            new NerPreprocessor().run(table);
+            ner.run(table);
     }
 
     private TabbyXL() {
