@@ -68,8 +68,8 @@ public final class TabbyXL {
     private static long startTime;
     private static long endTime;
 
-    private static final DataLoader DATA_LOADER = DataLoader.getInstance();
-    private static final CategoryTemplateManager CATEGORY_TEMPLATE_MANAGER = CategoryTemplateManager.getInstance();
+    private static final DataLoader dataLoader = DataLoader.getInstance();
+    private static final CategoryTemplateManager categoryTemplateManager = CategoryTemplateManager.getInstance();
 
     private static File parseInputExcelFileParam(String inputExcelFileParam) {
         File file = new File(inputExcelFileParam);
@@ -443,7 +443,7 @@ public final class TabbyXL {
 
     private static void loadWorkbook() {
         try {
-            DATA_LOADER.loadWorkbook(inputExcelFile);
+            dataLoader.loadWorkbook(inputExcelFile);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
@@ -453,7 +453,7 @@ public final class TabbyXL {
         // Generating indexes for all sheets in the input excel workbook
         if (null == sheetIndexes) {
             sheetIndexes = new ArrayList<Integer>();
-            for (int i = 0; i < DATA_LOADER.numOfSheets(); i++)
+            for (int i = 0; i < dataLoader.numOfSheets(); i++)
                 sheetIndexes.add(i);
         }
     }
@@ -468,7 +468,7 @@ public final class TabbyXL {
                             if (file.canRead()) {
                                 // TODO: Add checking file extension: it must be *.cat
                                 System.out.println(file.getName());
-                                CATEGORY_TEMPLATE_MANAGER.load(file);
+                                categoryTemplateManager.load(file);
                             } else {
                                 System.out.printf("The file cannot be read: \"%s\"%n", file);
                                 System.exit(0);
@@ -516,7 +516,7 @@ public final class TabbyXL {
             System.out.printf("\tTotal time: %s ms%n", endTime - startTime);
             System.out.println();
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
-            CATEGORY_TEMPLATE_MANAGER.release();
+            categoryTemplateManager.release();
         }
     }
 
@@ -562,18 +562,18 @@ public final class TabbyXL {
         System.out.println("The rule engine is ready");
 
         loadCatFiles();
-        DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
-        DATA_LOADER.setUseCellValue(useCellValue);
+        dataLoader.setWithoutSuperscript(ignoreSuperscript);
+        dataLoader.setUseCellValue(useCellValue);
 
         int count = 0;
 
         for (int sheetNo : sheetIndexes) {
-            DATA_LOADER.goToSheet(sheetNo);
-            String sheetName = DATA_LOADER.getCurrentSheetName();
+            dataLoader.goToSheet(sheetNo);
+            String sheetName = dataLoader.getCurrentSheetName();
 
             int tableNo = 0;
             while (true) {
-                CTable table = DATA_LOADER.nextTable();
+                CTable table = dataLoader.nextTable();
                 if (null == table) break;
 
                 count++;
@@ -581,8 +581,8 @@ public final class TabbyXL {
                 System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
                 Tables.recoverCellBorders(table);
 
-                if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
-                    CATEGORY_TEMPLATE_MANAGER.createCategories(table);
+                if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
+                    categoryTemplateManager.createCategories(table);
 
                 preprocessTable(table);
 
@@ -660,18 +660,18 @@ public final class TabbyXL {
         final Date endTime = new Date();
         rulesetTranslationTime = endTime.getTime() - startTime.getTime();
 
-        DATA_LOADER.setWithoutSuperscript(ignoreSuperscript);
-        DATA_LOADER.setUseCellValue(useCellValue);
+        dataLoader.setWithoutSuperscript(ignoreSuperscript);
+        dataLoader.setUseCellValue(useCellValue);
 
         int count = 0;
 
         for (int sheetNo : sheetIndexes) {
-            DATA_LOADER.goToSheet(sheetNo);
-            String sheetName = DATA_LOADER.getCurrentSheetName();
+            dataLoader.goToSheet(sheetNo);
+            String sheetName = dataLoader.getCurrentSheetName();
 
             int tableNo = 0;
             while (true) {
-                CTable table = DATA_LOADER.nextTable();
+                CTable table = dataLoader.nextTable();
                 if (null == table) break;
 
                 count++;
@@ -681,8 +681,8 @@ public final class TabbyXL {
                 //TODO Кто писал этот метод и зачем?
                 Tables.recoverCellBorders(table);
 
-                if (CATEGORY_TEMPLATE_MANAGER.hasAtLeastOneCategoryTemplate())
-                    CATEGORY_TEMPLATE_MANAGER.createCategories(table);
+                if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
+                    categoryTemplateManager.createCategories(table);
 
                 preprocessTable(table);
 
