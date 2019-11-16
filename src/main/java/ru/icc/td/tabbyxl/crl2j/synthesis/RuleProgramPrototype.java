@@ -18,9 +18,6 @@ package ru.icc.td.tabbyxl.crl2j.synthesis;
 
 import ru.icc.td.tabbyxl.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class RuleProgramPrototype implements RuleProgramInterface {
 
     private CTable table;
@@ -29,7 +26,9 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
         return table;
     }
 
-    public RuleProgramPrototype(CTable table) { this.table = table; }
+    public RuleProgramPrototype(CTable table) {
+        this.table = table;
+    }
 
    @Override
    public void eval() {}

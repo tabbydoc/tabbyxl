@@ -67,7 +67,7 @@ public class CharSequenceCompiler<T> {
                                          Class<?>... types) throws CharSequenceCompilerException, ClassCastException
     {
         if(diagnosticList != null) diagnostics = diagnosticList;
-        else diagnostics = new DiagnosticCollector<JavaFileObject>();
+        else diagnostics = new DiagnosticCollector<>();
 
         Map<String, CharSequence> classes = new HashMap<>(1);
         classes.put(qualifiedClassName, source);

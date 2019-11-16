@@ -3,13 +3,11 @@ package ru.icc.td.tabbyxl.crl2j;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Rule;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,7 +23,7 @@ public class MvnProjectGenerator {
     private Path tabbyxlPath;
     private Path packagePath;
 
-    private RuleCodeGen ruleCodeGen;
+    private CodeGenerator codeGenerator;
 
     private int rulesCount;
 
@@ -148,9 +146,9 @@ public class MvnProjectGenerator {
 
     private void writeRuleClasses() throws IOException, RecognitionException {
 
-        ruleCodeGen = new RuleCodeGen();
-        ruleCodeGen.loadRuleset(ruleSetFile);
-        ruleCodeGen.setPack(String.format("%s.rules", groupID));
+        codeGenerator = new CodeGenerator();
+        codeGenerator.loadRuleset(ruleSetFile);
+        codeGenerator.setPack(String.format("%s.rules", groupID));
 
         Path outputDir = packagePath.resolve(groupID.replace(".", File.separator)).resolve("rules");
         if (!Files.exists(outputDir)) {
@@ -159,7 +157,7 @@ public class MvnProjectGenerator {
             FileUtils.cleanDirectory(outputDir.toFile());
         }
 
-        List<String> rules = ruleCodeGen.generateCodeFromAllRules();
+        List<String> rules = codeGenerator.generateCodeFromAllRules();
         rulesCount = rules.size();
 
         int index = 0;

@@ -20,7 +20,6 @@ import org.antlr.runtime.tree.Tree;
 
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 

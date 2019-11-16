@@ -17,7 +17,5 @@
 package ru.icc.td.tabbyxl.crl2j.synthesis;
 
 public interface RuleProgramInterface {
-
    void eval();
-
 }

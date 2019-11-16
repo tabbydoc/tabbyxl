@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public final class RuleCodeGen {
+public final class CodeGenerator {
 
     private List<String> imports = new ArrayList<>();
     private List<Rule> rules = new ArrayList<>();
@@ -370,7 +370,7 @@ public final class RuleCodeGen {
     private String fetchIndent(int level) {
         StringBuilder indent = new StringBuilder();
         for (int i = 0; i < level; i++) {
-            indent.append(RuleCodeGen.indent);
+            indent.append(CodeGenerator.indent);
         }
         return indent.toString();
     }

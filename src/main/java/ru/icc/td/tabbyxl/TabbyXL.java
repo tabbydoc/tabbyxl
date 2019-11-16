@@ -19,7 +19,7 @@ package ru.icc.td.tabbyxl;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import ru.icc.td.tabbyxl.crl2j.CrlRunner;
+import ru.icc.td.tabbyxl.crl2j.CRL2J;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
@@ -633,14 +633,14 @@ public final class TabbyXL {
         }
     }
 
-    private static CrlRunner crlRunner;
+    private static CRL2J crl2j;
 
     private static void loadCRL2J() throws IOException, RecognitionException, CharSequenceCompilerException {
 
         executingOptionName = "CRL2J";
 
-        crlRunner = new CrlRunner();
-        crlRunner.loadCRL2J(rulesetFile);
+        crl2j = new CRL2J();
+        crl2j.translateRules(rulesetFile);
     }
 
     private static void runRulesetWithCRL2J() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException, CharSequenceCompilerException, RecognitionException {
@@ -687,7 +687,7 @@ public final class TabbyXL {
                 preprocessTable(table);
 
                 Date startDate = new Date();
-                crlRunner.fireAllRules(table);
+                crl2j.runRules(table);
                 Date endDate = new Date();
 
                 currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();

@@ -24,7 +24,7 @@ public class MvnGenRunner {
             mvnProjectGenerator.setRuleSetFile(rulesetFile);
 
             mvnProjectGenerator.generate();
-        } catch (IOException|RecognitionException e) {
+        } catch (IOException | RecognitionException e) {
             e.printStackTrace();
         }
     }
