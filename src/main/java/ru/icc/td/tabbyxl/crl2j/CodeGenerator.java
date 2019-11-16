@@ -37,8 +37,8 @@ public final class CodeGenerator {
     private String pack = "ru.icc.td.tabbyxl.crl2j.synthesis";
 
     private static final String newLine = System.lineSeparator();
-    private static final String filler = StringUtils.repeat("=", 100);
     private static final String indent = StringUtils.repeat(" ", 4);
+    private static final String filler = StringUtils.repeat("=", 100);
 
     private Translator translator;
 
@@ -61,7 +61,7 @@ public final class CodeGenerator {
         imports = RuleModelBuilder.buildImports(ast);
         rules = RuleModelBuilder.buildRules(ast);
 
-        // Print the source code generated from a ruleset
+        // print the source code generated from a ruleset
         System.out.println("This Java source code was generated from the ruleset");
         System.out.println();
 

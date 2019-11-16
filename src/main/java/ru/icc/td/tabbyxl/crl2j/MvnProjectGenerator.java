@@ -3,6 +3,7 @@ package ru.icc.td.tabbyxl.crl2j;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,7 +14,10 @@ import java.util.Properties;
 
 public class MvnProjectGenerator {
 
-    private final String pomSample = "pom_sample.xml";
+    private static final String pomSample = "pom_sample.xml";
+
+    private static final String newLine = System.lineSeparator();
+    private static final String indent = StringUtils.repeat(" ", 4);
 
     private File ruleSetFile;
     private Path root;
@@ -79,63 +83,61 @@ public class MvnProjectGenerator {
         Path filePath = outPath.resolve(String.format("%s.java", artifactID));
         Files.createFile(filePath);
 
-        String lineSep = System.lineSeparator();
-        String indent = "   ";
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-                .append("package ").append(groupID).append(";").append(lineSep)
-                .append(lineSep)
-                .append("import ru.icc.td.tabbyxl.DataLoader;").append(lineSep)
-                .append("import ru.icc.td.tabbyxl.model.*;").append(lineSep)
-                .append("import ").append(groupID).append(".rules.*;").append(lineSep)
-                .append(lineSep)
-                .append("import java.io.File;").append(lineSep)
-                .append("import java.io.IOException;").append(lineSep)
-                .append(lineSep)
-                .append("public class ") .append(artifactID).append(" {").append(lineSep)
-                .append(indent).append("public static void main(String[] args) {").append(lineSep)
-                .append(lineSep)
-                .append(indent).append(indent).append("try {").append(lineSep)
-                .append(indent).append(indent).append(indent).append("String inputExcelFilePath = args[0];").append(lineSep)
-                .append(indent).append(indent).append(indent).append("File inputExcelFile = new File(inputExcelFilePath);").append(lineSep)
-                .append(lineSep)
-                .append(indent).append(indent).append(indent).append("DataLoader dataLoader = DataLoader.getInstance();").append(lineSep)
-                .append(indent).append(indent).append(indent).append("dataLoader.loadWorkbook(inputExcelFile);").append(lineSep)
-                .append(lineSep)
-                .append(indent).append(indent).append(indent).append("for (int i = 0; i < dataLoader.numOfSheets(); i++) {").append(lineSep)
-                .append(indent).append(indent).append(indent).append(indent).append("dataLoader.goToSheet(i);").append(lineSep)
-                .append(lineSep)
-                .append(indent).append(indent).append(indent).append(indent).append("while (true) {").append(lineSep)
-                .append(indent).append(indent).append(indent).append(indent).append(indent).append("CTable table = dataLoader.nextTable();").append(lineSep)
-                .append(indent).append(indent).append(indent).append(indent).append(indent).append("if (null == table) break;").append(lineSep)
-                .append(lineSep);
+                .append("package ").append(groupID).append(";").append(newLine)
+                .append(newLine)
+                .append("import ru.icc.td.tabbyxl.DataLoader;").append(newLine)
+                .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
+                .append("import ").append(groupID).append(".rules.*;").append(newLine)
+                .append(newLine)
+                .append("import java.io.File;").append(newLine)
+                .append("import java.io.IOException;").append(newLine)
+                .append(newLine)
+                .append("public class ") .append(artifactID).append(" {").append(newLine)
+                .append(indent).append("public static void main(String[] args) {").append(newLine)
+                .append(newLine)
+                .append(indent).append(indent).append("try {").append(newLine)
+                .append(indent).append(indent).append(indent).append("String inputExcelFilePath = args[0];").append(newLine)
+                .append(indent).append(indent).append(indent).append("File inputExcelFile = new File(inputExcelFilePath);").append(newLine)
+                .append(newLine)
+                .append(indent).append(indent).append(indent).append("DataLoader dataLoader = DataLoader.getInstance();").append(newLine)
+                .append(indent).append(indent).append(indent).append("dataLoader.loadWorkbook(inputExcelFile);").append(newLine)
+                .append(newLine)
+                .append(indent).append(indent).append(indent).append("for (int i = 0; i < dataLoader.numOfSheets(); i++) {").append(newLine)
+                .append(indent).append(indent).append(indent).append(indent).append("dataLoader.goToSheet(i);").append(newLine)
+                .append(newLine)
+                .append(indent).append(indent).append(indent).append(indent).append("while (true) {").append(newLine)
+                .append(indent).append(indent).append(indent).append(indent).append(indent).append("CTable table = dataLoader.nextTable();").append(newLine)
+                .append(indent).append(indent).append(indent).append(indent).append(indent).append("if (null == table) break;").append(newLine)
+                .append(newLine);
 
         for (int i = 1; i < rulesCount + 1; i ++) {
             stringBuilder
                     .append(indent).append(indent).append(indent).append(indent).append(indent)
-                    .append("Rule").append(i).append(" rule").append(i).append(" = new Rule").append(i).append("(table);").append(lineSep)
+                    .append("Rule").append(i).append(" rule").append(i).append(" = new Rule").append(i).append("(table);").append(newLine)
                     .append(indent).append(indent).append(indent).append(indent).append(indent)
-                    .append("rule").append(i).append(".eval();").append(lineSep)
-                    .append(lineSep);
+                    .append("rule").append(i).append(".eval();").append(newLine)
+                    .append(newLine);
         }
 
         stringBuilder
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("Tables.recoverCellBorders(table);").append(lineSep)
+                .append("Tables.recoverCellBorders(table);").append(newLine)
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("table.update();").append(lineSep)
+                .append("table.update();").append(newLine)
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("System.out.println(table.trace());").append(lineSep)
+                .append("System.out.println(table.trace());").append(newLine)
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("table.toCanonicalForm().print();").append(lineSep)
-                .append(indent).append(indent).append(indent).append(indent).append("}").append(lineSep)
-                .append(indent).append(indent).append(indent).append("}").append(lineSep)
-                .append(indent).append(indent).append("} catch (IOException e) {").append(lineSep)
-                .append(indent).append(indent).append(indent).append("e.printStackTrace();").append(lineSep)
-                .append(indent).append(indent).append("}").append(lineSep);
+                .append("table.toCanonicalForm().print();").append(newLine)
+                .append(indent).append(indent).append(indent).append(indent).append("}").append(newLine)
+                .append(indent).append(indent).append(indent).append("}").append(newLine)
+                .append(indent).append(indent).append("} catch (IOException e) {").append(newLine)
+                .append(indent).append(indent).append(indent).append("e.printStackTrace();").append(newLine)
+                .append(indent).append(indent).append("}").append(newLine);
 
         stringBuilder
-                .append(indent).append("}").append(lineSep)
+                .append(indent).append("}").append(newLine)
                 .append("}");
 
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filePath.toFile()));
