@@ -21,7 +21,7 @@ import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
 public class HeadrecogPreprocessor implements Preprocessor {
     @Override
-    public void run(CTable table) {
+    public void process(CTable table) {
         // TODO recovering the physical structure of a header by some visual features
     }
 }

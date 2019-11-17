@@ -20,7 +20,7 @@ public final class CRL2J {
     private List<String> rules = new ArrayList<>();
     private List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
-    public void translateRules(File rulesetFile) {
+    public void compile(File rulesetFile) {
 
         codeGenerator = new CodeGenerator();
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
@@ -43,7 +43,7 @@ public final class CRL2J {
         }
     }
 
-    public void runRules(CTable table)
+    public void execute(CTable table)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         for (Class<? extends RuleProgramPrototype> ruleClass: classes) {

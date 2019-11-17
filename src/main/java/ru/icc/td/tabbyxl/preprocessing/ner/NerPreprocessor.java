@@ -28,11 +28,11 @@ import java.util.List;
 
 public class NerPreprocessor implements Preprocessor {
     @Override
-    public void run(CTable table) {
+    public void process(CTable table) {
         // Extracting named entity from each cell
 
         // We use NER-preprocessor based on "Stanford CoreNLP" library.
-        // Have patience in run-time, it can take a long time to load the required NER-models
+        // Have patience in process-time, it can take a long time to load the required NER-models
         // (up to several minutes) before table processing starts for the first time.
         System.out.println("NER is in progress, it can take a long time (up to 1-2 minutes) for the first time");
 

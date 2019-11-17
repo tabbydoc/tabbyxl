@@ -499,13 +499,13 @@ public final class TabbyXL {
             System.out.printf("%s%n%n", traceParsedParams());
 
             if (useRuleEngine)
-                runRulesetWithRuleEngine();
+                runWithRuleEngine();
             else
-                runRulesetWithCRL2J();
+                runWithCRL2J();
 
-        } catch (IOException|ReflectiveOperationException|RuleException|CharSequenceCompilerException|RecognitionException e) {
+        } catch (IOException | ReflectiveOperationException | RuleException | CharSequenceCompilerException | RecognitionException e) {
             e.printStackTrace();
-        }  finally {
+        } finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
             System.out.println("Statistics on the running time:");
@@ -522,7 +522,7 @@ public final class TabbyXL {
 
     private static long rulesetTranslationTime;
 
-    private static void runRulesetWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
+    private static void runWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
 
         loadWorkbook();
 
@@ -633,29 +633,26 @@ public final class TabbyXL {
         }
     }
 
-    private static CRL2J crl2j;
-
-    private static void loadCRL2J() throws IOException, RecognitionException, CharSequenceCompilerException {
+    private static void runWithCRL2J() throws InvocationTargetException, NoSuchMethodException,
+            InstantiationException, IllegalAccessException, IOException, CharSequenceCompilerException,
+            RecognitionException {
 
         executingOptionName = "CRL2J";
-
-        crl2j = new CRL2J();
-        crl2j.translateRules(rulesetFile);
-    }
-
-    private static void runRulesetWithCRL2J() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException, CharSequenceCompilerException, RecognitionException {
 
         loadWorkbook();
         loadCatFiles();
 
-        final Date startTime = new Date();
-
         System.out.println("CRL2J is in progress");
         System.out.println();
-        loadCRL2J();
+
+        final CRL2J crl2j = new CRL2J();
+
         System.out.println();
         System.out.println("CRL2J is completed successfully");
         System.out.println();
+
+        final Date startTime = new Date();
+        crl2j.compile(rulesetFile);
 
         final Date endTime = new Date();
         rulesetTranslationTime = endTime.getTime() - startTime.getTime();
@@ -687,7 +684,7 @@ public final class TabbyXL {
                 preprocessTable(table);
 
                 Date startDate = new Date();
-                crl2j.runRules(table);
+                crl2j.execute(table);
                 Date endDate = new Date();
 
                 currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();
@@ -733,7 +730,6 @@ public final class TabbyXL {
                 //System.exit(0);
 
                 tableNo++;
-
             }
         }
 
@@ -747,9 +743,9 @@ public final class TabbyXL {
     private static void preprocessTable(CTable table) {
         //TODO add here the use of HeadrecogPreprocessor
         if (false)
-            headrecog.run(table);
+            headrecog.process(table);
         if (useNer)
-            ner.run(table);
+            ner.process(table);
     }
 
     private TabbyXL() {
