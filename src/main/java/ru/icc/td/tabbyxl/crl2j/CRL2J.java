@@ -15,25 +15,34 @@ import java.util.List;
 
 public final class CRL2J {
 
-    private CodeGenerator codeGenerator;
-    private CharSequenceCompiler compiler;
+    private static final Translator translator;
+    private static final CharSequenceCompiler compiler;
     private List<String> rules = new ArrayList<>();
     private List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
-    public void compile(File rulesetFile) {
-
-        codeGenerator = new CodeGenerator();
+    static {
+        translator = new Translator();
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
+    }
+
+    private void translate(File rulesetFile) {
+        rules = translator.translateRuleset();
+    }
+
+    public void compile(File crlFile) {
+
+        //translator = new Translator();
+        //compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
 
         try {
-            codeGenerator.loadRuleset(rulesetFile);
+            translator.loadRuleset(crlFile);
 
-            rules = codeGenerator.generateCodeFromAllRules();
+            rules = translator.translateRuleset();
 
             int i = 0;
             for (String rule : rules) {
                 i++;
-                String s = String.format("%s.Rule%d", codeGenerator.getPack(), i);
+                String s = String.format("%s.Rule%d", translator.getPack(), i);
                 Class<?>[] c = new Class<?>[]{RuleProgramPrototype.class};
                 Class<? extends RuleProgramPrototype> ruleClass = compiler.compile(s, rule, null, c);
                 classes.add(ruleClass);

@@ -27,7 +27,7 @@ public class MvnProjectGenerator {
     private Path tabbyxlPath;
     private Path packagePath;
 
-    private CodeGenerator codeGenerator;
+    private Translator translator;
 
     private int rulesCount;
 
@@ -148,9 +148,9 @@ public class MvnProjectGenerator {
 
     private void writeRuleClasses() throws IOException, RecognitionException {
 
-        codeGenerator = new CodeGenerator();
-        codeGenerator.loadRuleset(ruleSetFile);
-        codeGenerator.setPack(String.format("%s.rules", groupID));
+        translator = new Translator();
+        translator.loadRuleset(ruleSetFile);
+        translator.setPack(String.format("%s.rules", groupID));
 
         Path outputDir = packagePath.resolve(groupID.replace(".", File.separator)).resolve("rules");
         if (!Files.exists(outputDir)) {
@@ -159,7 +159,7 @@ public class MvnProjectGenerator {
             FileUtils.cleanDirectory(outputDir.toFile());
         }
 
-        List<String> rules = codeGenerator.generateCodeFromAllRules();
+        List<String> rules = translator.translateRuleset();
         rulesCount = rules.size();
 
         int index = 0;

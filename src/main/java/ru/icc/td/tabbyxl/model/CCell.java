@@ -233,11 +233,14 @@ public final class CCell extends COwned implements Cloneable
             throw new IllegalArgumentException( "The mark cannot be empty" );
 
         this.mark = mark;
+        marked = true;
     }
+
+    private boolean marked;
 
     public boolean isMarked()
     {
-        return null != mark;
+        return marked;
     }
 
     private boolean ignored;

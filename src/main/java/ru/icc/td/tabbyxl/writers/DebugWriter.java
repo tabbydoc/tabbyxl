@@ -3,10 +3,7 @@ package ru.icc.td.tabbyxl.writers;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import ru.icc.td.tabbyxl.model.CCell;
-import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.model.CItem;
-import ru.icc.td.tabbyxl.model.CanonicalForm;
+import ru.icc.td.tabbyxl.model.*;
 
 import java.io.File;
 import java.util.function.BiConsumer;
@@ -23,9 +20,10 @@ public final class DebugWriter extends BasicExcelWriter {
 
         Sheet sheet1 = workbook.createSheet("NER TAGS");
         BiConsumer<CItem, Cell> setCellValByNerTag = (item, excelCell) -> {
-                CCell cell = item.getCell();
-                String s = cell.getNerTag().toString();
-                excelCell.setCellValue(s);
+            CCell cell = item.getCell();
+            NerTag tag = cell.getNerTag();
+            String s = null == tag ? null : tag.toString();
+            excelCell.setCellValue(s);
         };
         writeCanonicalForm(sheet1, cf, setCellValByNerTag);
 
@@ -34,7 +32,8 @@ public final class DebugWriter extends BasicExcelWriter {
         Sheet sheet2 = workbook.createSheet("TYPE TAGS");
         BiConsumer<CItem, Cell> setCellValByTypeTag = (item, excelCell) -> {
             CCell cell = item.getCell();
-            String s = cell.getTypeTag().toString();
+            TypeTag tag = cell.getTypeTag();
+            String s = null == tag ? null : tag.toString();
             excelCell.setCellValue(s);
         };
         writeCanonicalForm(sheet2, cf, setCellValByTypeTag);
@@ -44,8 +43,8 @@ public final class DebugWriter extends BasicExcelWriter {
         Sheet sheet3 = workbook.createSheet("USER-DEFINED TAGS");
         BiConsumer<CItem, Cell> setCellValByTag = (item, excelCell) -> {
             CCell cell = item.getCell();
-            String s = cell.getMark();
-            excelCell.setCellValue(s);
+            String tag = cell.getMark();
+            excelCell.setCellValue(tag);
         };
         writeCanonicalForm(sheet3, cf, setCellValByTag);
 
