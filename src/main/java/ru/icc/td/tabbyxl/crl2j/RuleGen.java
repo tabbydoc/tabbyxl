@@ -23,7 +23,7 @@ import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RuleGen {
+public final class RuleGen {
 
     public static List<String> createImports(Tree ast) {
 

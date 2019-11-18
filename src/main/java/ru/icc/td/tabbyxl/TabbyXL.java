@@ -39,8 +39,10 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 
@@ -491,6 +493,9 @@ public final class TabbyXL {
 
     public static void main(String[] args) {
 
+        // This is needed for setting up log4j properly
+        org.apache.log4j.BasicConfigurator.configure();
+
         startTime = new Date().getTime();
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));
 
@@ -498,12 +503,20 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
+            dataLoader.setWithoutSuperscript(ignoreSuperscript);
+            dataLoader.setUseCellValue(useCellValue);
+
+            loadWorkbook();
+            loadCatFiles();
+
+            if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
+
             if (useRuleEngine)
                 runWithRuleEngine();
             else
                 runWithCRL2J();
 
-        } catch (IOException | ReflectiveOperationException | RuleException | CharSequenceCompilerException | RecognitionException e) {
+        } catch (IOException | ReflectiveOperationException | RuleException | RecognitionException e) {
             e.printStackTrace();
         } finally {
             endTime = new Date().getTime();
@@ -523,8 +536,6 @@ public final class TabbyXL {
     private static long rulesetTranslationTime;
 
     private static void runWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
-
-        loadWorkbook();
 
         final Date startTime = new Date();
 
@@ -561,86 +572,23 @@ public final class TabbyXL {
 
         System.out.println("The rule engine is ready");
 
-        loadCatFiles();
-        dataLoader.setWithoutSuperscript(ignoreSuperscript);
-        dataLoader.setUseCellValue(useCellValue);
-
-        int count = 0;
-
-        for (int sheetNo : sheetIndexes) {
-            dataLoader.goToSheet(sheetNo);
-            String sheetName = dataLoader.getCurrentSheetName();
-
-            int tableNo = 0;
-            while (true) {
-                CTable table = dataLoader.nextTable();
-                if (null == table) break;
-
-                count++;
-
-                System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
-                Tables.recoverCellBorders(table);
-
-                if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
-                    categoryTemplateManager.createCategories(table);
-
-                preprocessTable(table);
-
-                Date startDate = new Date();
-
+        Consumer<CTable> ruleEngineOption = (table) -> {
+            try {
                 session.addObjects(table.getCellList());
                 session.addObjects(table.getLocalCategoryBox().getCategoryList());
-
                 session.executeRules();
                 session.reset();
-
-                Date endDate = new Date();
-
-                currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();
-                totalRulesetExecutionTime += currentRulesetExecutionTime;
-
-                table.update();
-
-                System.out.println(table.trace());
-                System.out.println();
-
-                CanonicalForm canonicalForm = table.toCanonicalForm();
-                //System.out.println( canonicalForm.trace() );
-                System.out.println("Canonical form:");
-                canonicalForm.print();
-                System.out.println();
-
-                StatisticsManager.Statistics statistics = statisticsManager.collect(table);
-                System.out.println(statistics.trace());
-                System.out.printf("Current rule firing time: %s%n%n", currentRulesetExecutionTime);
-
-                String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
-
-                String outFileName;
-                if (useShortNames) {
-                    outFileName = String.format("%s.xlsx", sheetName);
-
-                } else {
-                    outFileName = String.format("%s_%s_%s.xlsx", fileName, sheetNo, tableNo);
-                }
-                Path outPath = outputDirectory.resolve(outFileName);
-                //EvaluationExcelWriter writer = new EvaluationExcelWriter(outPath.toFile());
-                //DebugWriter writer = new DebugWriter(outPath.toFile());
-                //writer.write(table);
-
-                tableNo++;
+            } catch (RemoteException | InvalidRuleSessionException e) {
+                e.printStackTrace();
             }
-        }
+        };
+
+        processTables(ruleEngineOption);
     }
 
-    private static void runWithCRL2J() throws InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException, IOException, CharSequenceCompilerException,
-            RecognitionException {
+    private static void runWithCRL2J() throws IOException, RecognitionException {
 
         executingOptionName = "CRL2J";
-
-        loadWorkbook();
-        loadCatFiles();
 
         System.out.println("CRL2J is in progress");
         System.out.println();
@@ -657,9 +605,18 @@ public final class TabbyXL {
         final Date endTime = new Date();
         rulesetTranslationTime = endTime.getTime() - startTime.getTime();
 
-        dataLoader.setWithoutSuperscript(ignoreSuperscript);
-        dataLoader.setUseCellValue(useCellValue);
+        Consumer<CTable> crl2jOption = (table) -> {
+            try {
+                crl2j.processTable(table);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+                e.printStackTrace();
+            }
+        };
 
+        processTables(crl2jOption);
+    }
+
+    private static void processTables(Consumer<CTable> executionOption) throws IOException {
         int count = 0;
 
         for (int sheetNo : sheetIndexes) {
@@ -675,7 +632,6 @@ public final class TabbyXL {
 
                 System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
 
-                //TODO Кто писал этот метод и зачем?
                 Tables.recoverCellBorders(table);
 
                 if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
@@ -684,7 +640,7 @@ public final class TabbyXL {
                 preprocessTable(table);
 
                 Date startDate = new Date();
-                crl2j.processTable(table);
+                executionOption.accept(table);
                 Date endDate = new Date();
 
                 currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();
@@ -719,23 +675,17 @@ public final class TabbyXL {
                 final boolean useDebug = true;
                 Writer writer;
                 File outFile = outPath.toFile();
-
                 if (useDebug)
                     writer = new DebugWriter(outFile);
                 else
                     writer = new EvaluationExcelWriter(outFile);
-
                 writer.write(table);
-
-                //System.exit(0);
 
                 tableNo++;
             }
         }
-
-        if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
-
     }
+
 
     private static final Preprocessor headrecog = new HeadrecogPreprocessor();
     private static final Preprocessor ner = new NerPreprocessor();

@@ -24,6 +24,7 @@ import java.util.Iterator;
 
 public final class Tables
 {
+    //TODO Кто писал этот метод и зачем?
     // Восстановление границ ячеек.
     // Этот метод восстанавливает физ. границы ячеек в соответствии с ее видимыми границами
     public static CTable recoverCellBorders( CTable table )

@@ -27,8 +27,6 @@ public class MvnProjectGenerator {
     private Path tabbyxlPath;
     private Path packagePath;
 
-    //private Translator translator;
-
     private int rulesCount;
 
     public MvnProjectGenerator(Path root) {

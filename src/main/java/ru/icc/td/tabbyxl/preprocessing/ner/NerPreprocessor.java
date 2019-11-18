@@ -38,9 +38,6 @@ public class NerPreprocessor implements Preprocessor {
 
         System.out.println();
 
-        // It is needed for setting up log4j properly
-        org.apache.log4j.BasicConfigurator.configure();
-
         for (CCell cell : table.getCellList()) {
             String text = cell.getText();
             NerTag nerTag = recognizeNamedEntity(text);
