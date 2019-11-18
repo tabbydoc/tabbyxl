@@ -86,7 +86,7 @@ public final class CRL2J {
         compileRuleset();
     }
 
-    public List<String> getSourceCode() {
+    public List<String> getClassSourceCodes() {
         return classSourceCodes;
     }
 

@@ -148,7 +148,6 @@ public class MvnProjectGenerator {
 
     private void writeRuleClasses() throws IOException, RecognitionException {
 
-
         Translator.setPackageStatement(String.format("%s.rules", groupID));
 
         Path outputDir = packagePath.resolve(groupID.replace(".", File.separator)).resolve("rules");
@@ -160,11 +159,11 @@ public class MvnProjectGenerator {
 
         final CRL2J crl2j = new CRL2J();
         crl2j.loadRules(crlFile);
-        List<String> sourceCodeStrings = crl2j.getSourceCode();
-        rulesCount = sourceCodeStrings.size();
+        List<String> classSourceCodes = crl2j.getClassSourceCodes();
+        rulesCount = classSourceCodes.size();
 
         int index = 0;
-        for (String sourceCodeString: sourceCodeStrings) {
+        for (String sourceCodeString: classSourceCodes) {
             index ++;
             File outputFile = outputDir.resolve(String.format("Rule%d.java", index)).toFile();
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile));

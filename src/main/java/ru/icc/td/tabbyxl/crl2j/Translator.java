@@ -324,7 +324,7 @@ public final class Translator {
 
             code
                     .append("( ")
-                    .append(translateExpressions(constraints.get(i).getExpressions(), conditionVarName))
+                    .append(generateExpressions(constraints.get(i).getExpressions(), conditionVarName))
                     .append(" )");
 
             if (i < constraints.size() - 1) code.append(" && ");
@@ -342,7 +342,7 @@ public final class Translator {
                 .append("String ")
                 .append(assignment.getIdentifier())
                 .append(" = String.valueOf( ")
-                .append(translateExpressions(assignment.getExpressions(), conditionVarName))
+                .append(generateExpressions(assignment.getExpressions(), conditionVarName))
                 .append(" );").append(newLine);
 
         return code.toString();
@@ -361,14 +361,14 @@ public final class Translator {
 
             code
                     .append(fetchIndent(level))
-                    .append(translateExpressions(operands.get(0).getExpressions(), ""))
+                    .append(generateExpressions(operands.get(0).getExpressions(), ""))
                     .append(".")
                     .append(action.getType())
                     .append("(");
 
             if (operands.size() > 1) {
                 for (int i = 1; i < operands.size(); i++) {
-                    code.append(translateExpressions(operands.get(i).getExpressions(), ""));
+                    code.append(generateExpressions(operands.get(i).getExpressions(), ""));
                     if (i < operands.size() - 1) code.append(", ");
                 }
             }
@@ -376,7 +376,7 @@ public final class Translator {
             code.append(");").append(newLine);
 
             if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge))
-                code.append(fetchIndent(level)).append(updateIterators("CCell", level));
+                code.append(fetchIndent(level)).append(generateIterator("CCell", level));
         }
 
         return code.toString();
@@ -390,7 +390,7 @@ public final class Translator {
         return indent.toString();
     }
 
-    public String updateIterators(String className, int level) {
+    public String generateIterator(String className, int level) {
 
         StringBuilder code = new StringBuilder();
 
@@ -429,7 +429,7 @@ public final class Translator {
         return code.toString();
     }
 
-    String translateExpressions(List<String> expressions, String variable) {
+    private String generateExpressions(List<String> expressions, String variable) {
 
         StringBuilder code = new StringBuilder();
 
