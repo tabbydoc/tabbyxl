@@ -20,7 +20,6 @@ import org.antlr.runtime.RecognitionException;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2J;
-import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
@@ -64,6 +63,8 @@ public final class TabbyXL {
 
     // Statistics
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
+
+    private static long rulesetPreparationTime;
     private static long totalRulesetExecutionTime;
     private static long currentRulesetExecutionTime;
 
@@ -524,7 +525,7 @@ public final class TabbyXL {
             System.out.println("Statistics on the running time:");
 
             System.out.printf(String.format("\tUsed option: %s%n", executingOptionName));
-            System.out.printf("\tRuleset translation time: %s ms%n", rulesetTranslationTime);
+            System.out.printf("\tRuleset translation time: %s ms%n", rulesetPreparationTime);
             System.out.printf("\tRuleset execution time (total for all tables): %s ms%n", totalRulesetExecutionTime);
             System.out.printf("\tTotal time: %s ms%n", endTime - startTime);
             System.out.println();
@@ -533,20 +534,11 @@ public final class TabbyXL {
         }
     }
 
-    private static long rulesetTranslationTime;
-
-    private static void runWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
-
-        final Date startTime = new Date();
-
-        Properties ruleEngineConfig = new Properties();
-        ruleEngineConfig.load(new FileReader(ruleEngineConfigFile));
+    private static RuleSession getRuleSession(Properties ruleEngineConfig) throws IOException, ClassNotFoundException, RuleException {
 
         Class.forName(ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER_IMPL"));
         RuleServiceProvider ruleServiceProvider = RuleServiceProviderManager.getRuleServiceProvider(ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER"));
-        executingOptionName = ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER");
         RuleAdministrator ruleAdministrator = ruleServiceProvider.getRuleAdministrator();
-
         LocalRuleExecutionSetProvider ruleExecutionSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
 
         Reader rulesetFileReader = new InputStreamReader(new FileInputStream(rulesetFile));
@@ -559,18 +551,33 @@ public final class TabbyXL {
         }
 
         RuleExecutionSet ruleExecutionSet = ruleExecutionSetProvider.createRuleExecutionSet(rulesetFileReader, properties);
-
         RuleRuntime ruleRuntime = ruleServiceProvider.getRuleRuntime();
-
         ruleAdministrator.registerRuleExecutionSet(ruleExecutionSet.getName(), ruleExecutionSet, null);
-        StatefulRuleSession session = (StatefulRuleSession) ruleRuntime.createRuleSession(ruleExecutionSet.getName(), null, RuleRuntime.STATEFUL_SESSION_TYPE);
-
-        final Date endTime = new Date();
-        rulesetTranslationTime = endTime.getTime() - startTime.getTime();
 
         rulesetFileReader.close();
 
-        System.out.println("The rule engine is ready");
+        return ruleRuntime.createRuleSession(ruleExecutionSet.getName(), null, RuleRuntime.STATEFUL_SESSION_TYPE);
+    }
+
+    private static void runWithRuleEngine() throws IOException, ClassNotFoundException, RuleException {
+        System.out.println("Rule preparing is in progress");
+        System.out.println();
+
+        final Date startTime = new Date();
+
+        Properties ruleEngineConfig = new Properties();
+        ruleEngineConfig.load(new FileReader(ruleEngineConfigFile));
+        executingOptionName = ruleEngineConfig.getProperty("RULE_SERVICE_PROVIDER");
+        StatefulRuleSession session = (StatefulRuleSession) getRuleSession(ruleEngineConfig);
+
+        final Date endTime = new Date();
+        rulesetPreparationTime = endTime.getTime() - startTime.getTime();
+
+        System.out.println("Rule preparing is completed successfully");
+        System.out.println();
+
+        System.out.println("Table processing is in progress");
+        System.out.println();
 
         Consumer<CTable> ruleEngineOption = (table) -> {
             try {
@@ -584,26 +591,29 @@ public final class TabbyXL {
         };
 
         processTables(ruleEngineOption);
+
+        System.out.println("Table processing is completed successfully");
+        System.out.println();
     }
 
     private static void runWithCRL2J() throws IOException, RecognitionException {
-
-        executingOptionName = "CRL2J";
-
-        System.out.println("CRL2J is in progress");
-        System.out.println();
-
-        final CRL2J crl2j = new CRL2J();
-
-        System.out.println();
-        System.out.println("CRL2J is completed successfully");
+        System.out.println("Rule preparing is in progress");
         System.out.println();
 
         final Date startTime = new Date();
-        crl2j.loadRules(rulesetFile);
+
+        executingOptionName = "CRL2J";
+        final CRL2J crl2j = new CRL2J();
+        new CRL2J().loadRules(rulesetFile);
 
         final Date endTime = new Date();
-        rulesetTranslationTime = endTime.getTime() - startTime.getTime();
+        rulesetPreparationTime = endTime.getTime() - startTime.getTime();
+
+        System.out.println("Rule preparing is completed successfully");
+        System.out.println();
+
+        System.out.println("Table processing is in progress");
+        System.out.println();
 
         Consumer<CTable> crl2jOption = (table) -> {
             try {
@@ -614,6 +624,9 @@ public final class TabbyXL {
         };
 
         processTables(crl2jOption);
+
+        System.out.println("Table processing is completed successfully");
+        System.out.println();
     }
 
     private static void processTables(Consumer<CTable> executionOption) throws IOException {
