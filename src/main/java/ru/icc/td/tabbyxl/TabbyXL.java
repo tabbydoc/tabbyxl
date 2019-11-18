@@ -652,7 +652,7 @@ public final class TabbyXL {
         System.out.println();
 
         final Date startTime = new Date();
-        crl2j.compile(rulesetFile);
+        crl2j.loadRules(rulesetFile);
 
         final Date endTime = new Date();
         rulesetTranslationTime = endTime.getTime() - startTime.getTime();
@@ -684,7 +684,7 @@ public final class TabbyXL {
                 preprocessTable(table);
 
                 Date startDate = new Date();
-                crl2j.execute(table);
+                crl2j.processTable(table);
                 Date endDate = new Date();
 
                 currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();

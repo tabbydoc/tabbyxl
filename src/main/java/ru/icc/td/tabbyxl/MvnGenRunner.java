@@ -21,7 +21,7 @@ public class MvnGenRunner {
             MvnProjectGenerator mvnProjectGenerator = new MvnProjectGenerator(resultDirectory);
             mvnProjectGenerator.setGroupID(groupId);
             mvnProjectGenerator.setArtifactID(artifactId);
-            mvnProjectGenerator.setRuleSetFile(rulesetFile);
+            mvnProjectGenerator.setCrlFile(rulesetFile);
 
             mvnProjectGenerator.generate();
         } catch (IOException | RecognitionException e) {

@@ -19,7 +19,7 @@ public class MvnProjectGenerator {
     private static final String newLine = System.lineSeparator();
     private static final String indent = StringUtils.repeat(" ", 4);
 
-    private File ruleSetFile;
+    private File crlFile;
     private Path root;
     private String groupID;
     private String artifactID;
@@ -27,7 +27,7 @@ public class MvnProjectGenerator {
     private Path tabbyxlPath;
     private Path packagePath;
 
-    private Translator translator;
+    //private Translator translator;
 
     private int rulesCount;
 
@@ -148,9 +148,8 @@ public class MvnProjectGenerator {
 
     private void writeRuleClasses() throws IOException, RecognitionException {
 
-        translator = new Translator();
-        translator.loadRuleset(ruleSetFile);
-        translator.setPack(String.format("%s.rules", groupID));
+
+        Translator.setPackageStatement(String.format("%s.rules", groupID));
 
         Path outputDir = packagePath.resolve(groupID.replace(".", File.separator)).resolve("rules");
         if (!Files.exists(outputDir)) {
@@ -159,15 +158,17 @@ public class MvnProjectGenerator {
             FileUtils.cleanDirectory(outputDir.toFile());
         }
 
-        List<String> rules = translator.translateRuleset();
-        rulesCount = rules.size();
+        final CRL2J crl2j = new CRL2J();
+        crl2j.loadRules(crlFile);
+        List<String> sourceCodeStrings = crl2j.getSourceCode();
+        rulesCount = sourceCodeStrings.size();
 
         int index = 0;
-        for (String rule: rules) {
+        for (String sourceCodeString: sourceCodeStrings) {
             index ++;
             File outputFile = outputDir.resolve(String.format("Rule%d.java", index)).toFile();
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile));
-            writer.write(rule);
+            writer.write(sourceCodeString);
             writer.flush();
             writer.close();
         }
@@ -189,7 +190,7 @@ public class MvnProjectGenerator {
         this.artifactID = artifactID;
     }
 
-    public void setRuleSetFile(File ruleSetFile) {
-        this.ruleSetFile = ruleSetFile;
+    public void setCrlFile(File crlFile) {
+        this.crlFile = crlFile;
     }
 }
