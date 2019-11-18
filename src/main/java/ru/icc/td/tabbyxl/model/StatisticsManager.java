@@ -22,6 +22,9 @@ import java.util.Map;
 public final class StatisticsManager {
     private static final StatisticsManager INSTANCE = new StatisticsManager();
 
+    private static final String eol = System.lineSeparator();
+    private static final String tab = "\t";
+
     private int numOfTables;
     private int numOfCells;
     private int numOfNotEmptyCells;
@@ -61,8 +64,6 @@ public final class StatisticsManager {
 
     public String trace() {
         final StringBuilder sb = new StringBuilder();
-        final String eol = System.lineSeparator();
-        final String tab = "\t";
 
         sb.append("Statistics:").append(eol).append(eol);
 
@@ -130,8 +131,6 @@ public final class StatisticsManager {
 
         public String trace() {
             final StringBuilder sb = new StringBuilder();
-            final String eol = "\r\n";
-            final String tab = "\t";
 
             sb.append("Number of").append(eol);
             sb.append(tab).append("cells: ").append(numOfCells).append(eol);
