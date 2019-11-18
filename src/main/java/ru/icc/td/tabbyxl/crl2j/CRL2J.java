@@ -42,8 +42,9 @@ public final class CRL2J {
         CRLParser parser = new CRLParser(tokenStream);
         CommonTree ast = (CommonTree) parser.crl().getTree();
 
-        Translator.addImportStatements(RuleModelBuilder.buildImports(ast));
-        rules = RuleModelBuilder.buildRules(ast);
+        List<String> imports = RuleGen.createImports(ast);
+        Translator.addImportStatements(imports);
+        rules = RuleGen.createRules(ast);
     }
 
     private void translateRuleset() {

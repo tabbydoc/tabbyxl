@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CharSequenceCompiler<T> {
-    private static final String JAVA_EXTENSION = ".java";
+    private static final String JAVA_EXT = ".java";
 
     private ClassLoaderImpl classLoader;
 
@@ -93,7 +93,7 @@ public class CharSequenceCompiler<T> {
                 String packageName = dotPos == -1 ? "" : fullClassName.substring(0, dotPos);
                 FileObjectImpl source = new FileObjectImpl(className, javaSource);
                 sources.add(source);
-                fileManagerImpl.putFileForInput(StandardLocation.SOURCE_PATH, packageName, className + JAVA_EXTENSION, source);
+                fileManagerImpl.putFileForInput(StandardLocation.SOURCE_PATH, packageName, className + JAVA_EXT, source);
             }
         }
 
