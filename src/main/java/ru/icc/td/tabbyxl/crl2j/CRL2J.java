@@ -22,11 +22,10 @@ import java.util.List;
 
 public final class CRL2J {
 
-    private static final String filler;
+    private static final String filledLine = StringUtils.repeat("=", 100);
     private static final CharSequenceCompiler compiler;
 
     static {
-        filler = StringUtils.repeat("=", 100);
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
     }
 
@@ -51,7 +50,7 @@ public final class CRL2J {
 
         System.out.println("This Java source code was generated from the ruleset");
         System.out.println();
-        System.out.println(filler);
+        System.out.println(filledLine);
 
         for (Rule rule : rules) {
             Translator translator = new Translator(rule);
@@ -59,7 +58,7 @@ public final class CRL2J {
 
             // Print the source code generated from a rule
             System.out.println(classSourceCode);
-            System.out.println(filler);
+            System.out.println(filledLine);
 
             classSourceCodes.add(classSourceCode);
         }

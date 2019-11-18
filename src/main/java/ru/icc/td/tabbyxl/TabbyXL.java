@@ -19,6 +19,7 @@ package ru.icc.td.tabbyxl;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2J;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
@@ -304,6 +305,7 @@ public final class TabbyXL {
        -ruleEngineConfig <path>           specify a path to a rule crl2j configuration file (*.properties) you prefer to use (e.g. Drools, JESS)
        -help                              print this usage
      */
+
     @SuppressWarnings("static-access")
     private static void parseCommandLineParams(String[] args) {
         // Creating command line parameters
@@ -507,10 +509,14 @@ public final class TabbyXL {
             dataLoader.setWithoutSuperscript(ignoreSuperscript);
             dataLoader.setUseCellValue(useCellValue);
 
+            // Load data
+
             loadWorkbook();
             loadCatFiles();
 
             if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
+
+            // Process data
 
             if (useRuleEngine)
                 runWithRuleEngine();
@@ -573,9 +579,9 @@ public final class TabbyXL {
         final Date endTime = new Date();
         rulesetPreparationTime = endTime.getTime() - startTime.getTime();
 
+        System.out.println();
         System.out.println("Rule preparing is completed successfully");
         System.out.println();
-
         System.out.println("Table processing is in progress");
         System.out.println();
 
@@ -592,6 +598,7 @@ public final class TabbyXL {
 
         processTables(ruleEngineOption);
 
+        System.out.println();
         System.out.println("Table processing is completed successfully");
         System.out.println();
     }
@@ -604,14 +611,14 @@ public final class TabbyXL {
 
         executingOptionName = "CRL2J";
         final CRL2J crl2j = new CRL2J();
-        new CRL2J().loadRules(rulesetFile);
+        crl2j.loadRules(rulesetFile);
 
         final Date endTime = new Date();
         rulesetPreparationTime = endTime.getTime() - startTime.getTime();
 
+        System.out.println();
         System.out.println("Rule preparing is completed successfully");
         System.out.println();
-
         System.out.println("Table processing is in progress");
         System.out.println();
 
@@ -625,6 +632,7 @@ public final class TabbyXL {
 
         processTables(crl2jOption);
 
+        System.out.println();
         System.out.println("Table processing is completed successfully");
         System.out.println();
     }
@@ -698,7 +706,6 @@ public final class TabbyXL {
             }
         }
     }
-
 
     private static final Preprocessor headrecog = new HeadrecogPreprocessor();
     private static final Preprocessor ner = new NerPreprocessor();
