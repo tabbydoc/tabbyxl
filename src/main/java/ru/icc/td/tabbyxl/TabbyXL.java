@@ -19,7 +19,6 @@ package ru.icc.td.tabbyxl;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2J;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
@@ -528,10 +527,9 @@ public final class TabbyXL {
         } finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
-            System.out.println("Statistics on the running time:");
 
             System.out.printf(String.format("\tUsed option: %s%n", executingOptionName));
-            System.out.printf("\tRuleset translation time: %s ms%n", rulesetPreparationTime);
+            System.out.printf("\tRuleset preparation time: %s ms%n", rulesetPreparationTime);
             System.out.printf("\tRuleset execution time (total for all tables): %s ms%n", totalRulesetExecutionTime);
             System.out.printf("\tTotal time: %s ms%n", endTime - startTime);
             System.out.println();

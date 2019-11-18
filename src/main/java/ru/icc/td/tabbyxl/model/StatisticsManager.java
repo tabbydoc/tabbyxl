@@ -19,8 +19,7 @@ package ru.icc.td.tabbyxl.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class StatisticsManager
-{
+public final class StatisticsManager {
     private static final StatisticsManager INSTANCE = new StatisticsManager();
 
     private int numOfTables;
@@ -38,12 +37,11 @@ public final class StatisticsManager
 
     private final Map<CTable, Statistics> map = new HashMap<CTable, Statistics>();
 
-    public Statistics collect( CTable table )
-    {
+    public Statistics collect(CTable table) {
         Statistics statistics = new Statistics();
-        statistics.collect( table );
-        map.put( table, statistics );
-        numOfTables ++;
+        statistics.collect(table);
+        map.put(table, statistics);
+        numOfTables++;
 
         // Incrementing statistics using the table
         numOfCells += statistics.numOfCells;
@@ -61,45 +59,44 @@ public final class StatisticsManager
         return statistics;
     }
 
-    public String trace()
-    {
+    public String trace() {
         final StringBuilder sb = new StringBuilder();
-        final String eol = "\r\n";
+        final String eol = System.lineSeparator();
         final String tab = "\t";
 
-        sb.append("Total number of").append( eol );
-        sb.append( tab ).append( "tables: " ).append( numOfTables ).append( eol );
-        sb.append( tab ).append( "cells: " ).append( numOfCells ).append( eol );
-        sb.append( tab ).append( "not empty cells: " ).append( numOfNotEmptyCells ).append( eol );
-        sb.append( tab ).append( "labels: " ).append( numOfLabels ).append( eol );
-        sb.append( tab ).append( "entries: " ).append( numOfEntries ).append( eol );
+        sb.append("Statistics:").append(eol).append(eol);
 
-        sb.append( tab ).append( "label-label pairs: " ).append( numOfLL ).append( eol );
-        sb.append( tab ).append( "entry-label pairs: " ).append( numOfEL ).append( eol );
-        sb.append( tab ).append( "category-label pairs: " ).append( numOfCL ).append( eol );
+        sb.append(tab).append("Total number of").append(eol);
+        sb.append(tab).append("tables: ").append(numOfTables).append(eol);
+        sb.append(tab).append("cells: ").append(numOfCells).append(eol);
+        sb.append(tab).append("not empty cells: ").append(numOfNotEmptyCells).append(eol);
+        sb.append(tab).append("labels: ").append(numOfLabels).append(eol);
+        sb.append(tab).append("entries: ").append(numOfEntries).append(eol);
 
-        sb.append( tab ).append( "categories: " ).append( numOfCategories ).append( eol );
-        sb.append( tab ).append( "label groups: " ).append(numOfLabelGroups).append( eol );
+        sb.append(tab).append("label-label pairs: ").append(numOfLL).append(eol);
+        sb.append(tab).append("entry-label pairs: ").append(numOfEL).append(eol);
+        sb.append(tab).append("category-label pairs: ").append(numOfCL).append(eol);
+
+        sb.append(tab).append("categories: ").append(numOfCategories).append(eol);
+        sb.append(tab).append("label groups: ").append(numOfLabelGroups).append(eol);
 
         return sb.toString();
     }
 
-    public String trace( CTable table )
-    {
-        Statistics statistics = map.get( table );
-        if ( null != statistics) return statistics.trace();
+    public String trace(CTable table) {
+        Statistics statistics = map.get(table);
+        if (null != statistics) return statistics.trace();
         else return null;
     }
 
-    private StatisticsManager() {}
+    private StatisticsManager() {
+    }
 
-    public static StatisticsManager getInstance()
-    {
+    public static StatisticsManager getInstance() {
         return INSTANCE;
     }
 
-    public class Statistics
-    {
+    public class Statistics {
         private CTable table;
         private StatisticsManager manager;
 
@@ -115,8 +112,7 @@ public final class StatisticsManager
         private int numOfCategories;
         private int numOfLabelGroups;
 
-        public void collect( CTable table )
-        {
+        public void collect(CTable table) {
             this.table = table;
             // Collecting statistics from the table
             numOfCells = table.numOfCells();
@@ -132,28 +128,30 @@ public final class StatisticsManager
             numOfLabelGroups = table.numOfLabelGroups();
         }
 
-        public String trace()
-        {
+        public String trace() {
             final StringBuilder sb = new StringBuilder();
             final String eol = "\r\n";
             final String tab = "\t";
 
-            sb.append( "Number of" ).append( eol );
-            sb.append( tab ).append( "cells: " ).append( numOfCells ).append( eol );
-            sb.append( tab ).append( "not empty cells: " ).append( numOfNotEmptyCells ).append( eol );
-            sb.append( tab ).append( "labels: " ).append( numOfLabels ).append( eol );
-            sb.append( tab ).append( "entries: " ).append( numOfEntries ).append( eol );
+            sb.append("Number of").append(eol);
+            sb.append(tab).append("cells: ").append(numOfCells).append(eol);
+            sb.append(tab).append("not empty cells: ").append(numOfNotEmptyCells).append(eol);
+            sb.append(tab).append("labels: ").append(numOfLabels).append(eol);
+            sb.append(tab).append("entries: ").append(numOfEntries).append(eol);
 
-            sb.append( tab ).append( "label-label pairs: " ).append( numOfLL ).append( eol );
-            sb.append( tab ).append( "entry-label pairs: " ).append( numOfEL ).append( eol );
-            sb.append( tab ).append( "category-label pairs: " ).append( numOfCL).append( eol );
+            sb.append(tab).append("label-label pairs: ").append(numOfLL).append(eol);
+            sb.append(tab).append("entry-label pairs: ").append(numOfEL).append(eol);
+            sb.append(tab).append("category-label pairs: ").append(numOfCL).append(eol);
 
-            sb.append( tab ).append( "categories: " ).append( numOfCategories ).append( eol );
-            sb.append( tab ).append( "label groups: " ).append(numOfLabelGroups).append( eol );
+            sb.append(tab).append("categories: ").append(numOfCategories).append(eol);
+            sb.append(tab).append("label groups: ").append(numOfLabelGroups).append(eol);
 
             return sb.toString();
         }
 
-        private Statistics() {};
+        private Statistics() {
+        }
+
+        ;
     }
 }
