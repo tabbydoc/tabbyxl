@@ -102,7 +102,7 @@ public final class CRL2JEngine {
         classes = compile(sourceCode);
     }
 
-    public List<String> getClassSourceCode() {
+    public List<String> getSourceCode() {
         return sourceCode;
     }
 

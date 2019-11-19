@@ -80,10 +80,10 @@ public final class CodeGenerator {
 
             StringBuilder sourceCode = new StringBuilder();
 
-            // Add a package
+            // Add a package statement
             sourceCode.append(fetchPackageStatement());
 
-            // Add importStatements
+            // Add import statements
             sourceCode.append(fetchMandatoryImportStatements());
             String ruleImportStatements = fetchRuleImportStatements();
             if (null != ruleImportStatements)

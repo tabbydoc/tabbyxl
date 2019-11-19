@@ -158,7 +158,7 @@ public class MvnProjectGenerator {
         final CRL2JEngine crl2jEngine = new CRL2JEngine(packageName);
 
         crl2jEngine.loadRules(crlFile);
-        List<String> classSourceCodes = crl2jEngine.getClassSourceCode();
+        List<String> classSourceCodes = crl2jEngine.getSourceCode();
         rulesCount = classSourceCodes.size();
 
         int index = 0;
