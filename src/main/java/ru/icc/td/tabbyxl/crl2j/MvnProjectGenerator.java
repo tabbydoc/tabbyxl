@@ -139,13 +139,15 @@ public class MvnProjectGenerator {
         for (int i = 1; i < rulesCount + 1; i ++) {
             stringBuilder
                     .append(indent).append(indent).append(indent).append(indent).append(indent)
-                    .append("Rule").append(i).append(" rule").append(i).append(" = new Rule").append(i).append("(table);").append(newLine)
-                    .append(indent).append(indent).append(indent).append(indent).append(indent)
-                    .append("rule").append(i).append(".eval();").append(newLine)
-                    .append(newLine);
+                    //.append("Rule").append(i).append(" rule").append(i).append(" = new Rule").append(i).append("(table);").append(newLine)
+                    //.append(indent).append(indent).append(indent).append(indent).append(indent)
+                    //.append("rule").append(i).append(".eval();").append(newLine)
+                    //.append(newLine);
+                    .append("new Rule").append(i).append("(table).eval();").append(newLine);
         }
 
         stringBuilder
+                .append(newLine)
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
                 .append("Tables.recoverCellBorders(table);").append(newLine)
                 .append(indent).append(indent).append(indent).append(indent).append(indent)
