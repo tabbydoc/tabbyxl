@@ -23,7 +23,6 @@ public final class CRL2JEngine {
 
     private static final String filledLine = StringUtils.repeat("=", 100);
     private static final CharSequenceCompiler compiler;
-
     public static final String PACKAGE_NAME_BY_DEFAULT = "ru.icc.td.tabbyxl.crl2j.synthesis";
 
     static {
@@ -54,20 +53,23 @@ public final class CRL2JEngine {
     private Tree parse(File crlFile) throws IOException, RecognitionException {
 
         ANTLRFileStream fileStream = new ANTLRFileStream(crlFile.getPath());
+
+        // Tokenize CRL
         CRLLexer lexer = new CRLLexer(fileStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+
+        // Parser CRL
         CRLParser parser = new CRLParser(tokenStream);
 
         return (Tree) parser.crl().getTree();
     }
 
     private List<String> translate(Tree ast) {
+
+        // Transform AST to Rule Model
         Ruleset ruleset = Ruleset.createInstance(ast);
 
-        System.out.println("This Java source code was generated from the ruleset");
-        System.out.println();
-        System.out.println(filledLine);
-
+        // Transform Rule Model to Java source code
         CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
 
         return codeGenerator.fetchSourceCode();
@@ -97,8 +99,24 @@ public final class CRL2JEngine {
     }
 
     public void loadRules(File crlFile) throws IOException, RecognitionException {
+
+        // Parse CRL to AST
         Tree ast = parse(crlFile);
+
+        // Translate AST to Java source code:
         sourceCode = translate(ast);
+
+        System.out.println("This Java source code was generated from the ruleset");
+        System.out.println(filledLine);
+        System.out.println();
+
+        for (String code : sourceCode) {
+            System.out.println(code);
+            System.out.println(filledLine);
+            System.out.println();
+        }
+
+        // Compile Java source code to Java classes
         classes = compile(sourceCode);
     }
 
