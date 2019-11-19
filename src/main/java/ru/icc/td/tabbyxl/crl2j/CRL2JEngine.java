@@ -58,7 +58,7 @@ public final class CRL2JEngine {
         CRLLexer lexer = new CRLLexer(fileStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
-        // Parser CRL
+        // Parse CRL
         CRLParser parser = new CRLParser(tokenStream);
 
         return (Tree) parser.crl().getTree();
