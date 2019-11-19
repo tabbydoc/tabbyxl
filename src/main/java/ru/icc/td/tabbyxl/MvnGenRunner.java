@@ -15,14 +15,8 @@ public class MvnGenRunner {
         try {
             Path resultDirectory = Paths.get(args[0]);
             File rulesetFile = new File(args[1]);
-            String groupId = args[2];
-            String artifactId = args[3];
 
-            MvnProjectGenerator mvnProjectGenerator = new MvnProjectGenerator(resultDirectory);
-            mvnProjectGenerator.setCrlFile(rulesetFile);
-            mvnProjectGenerator.setGroupID(groupId);
-            mvnProjectGenerator.setArtifactID(artifactId);
-            mvnProjectGenerator.setCrlFile(rulesetFile);
+            MvnProjectGenerator mvnProjectGenerator = new MvnProjectGenerator(resultDirectory, rulesetFile);
 
             mvnProjectGenerator.generate();
         } catch (IOException | RecognitionException e) {

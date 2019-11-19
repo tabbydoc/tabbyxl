@@ -5,14 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
+        <generatedGroupId>%s</generatedGroupId>
+        <generatedArtifactId>%s</generatedArtifactId>
+
+        <generatedMainClass>%s</generatedMainClass>
+
         <tabbyxlPath>%s</tabbyxlPath>
-        <grId>%s</grId>
-        <artId>%s</artId>
-        <mainClass>%s</mainClass>
+
+        <tabbyxlGroupId>%s</tabbyxlGroupId>
+        <tabbyxlArtifactId>%s</tabbyxlArtifactId>
+        <tabbyxlVersion>%s</tabbyxlVersion>
     </properties>
 
-    <groupId>${grId}</groupId>
-    <artifactId>${artId}</artifactId>
+    <groupId>${generatedGroupId}</groupId>
+    <artifactId>${generatedArtifactId}</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <build>
@@ -32,7 +38,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>${generatedMainClass}</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
@@ -62,9 +68,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>%s</groupId>
-            <artifactId>%s</artifactId>
-            <version>%s</version>
+            <groupId>${tabbyxlGroupId}</groupId>
+            <artifactId>${tabbyxlArtifactId}</artifactId>
+            <version>${tabbyxlVersion}</version>
         </dependency>
     </dependencies>
 
