@@ -53,16 +53,12 @@ public final class CodeGenerator {
     }
 
     private final Rule rule;
-    //private final HashMap<String, String> variables = new HashMap<>();
 
     private String packageName;
 
     public CodeGenerator(Rule rule, String packageName) {
         this.rule = rule;
         this.packageName = packageName;
-
-        //for (Condition condition : rule.getConditions())
-        //    variables.put(condition.getIdentifier(), condition.getDataType().toString());
     }
 
     public String fetchSourceCode() {
@@ -80,16 +76,14 @@ public final class CodeGenerator {
         sourceCode.append(newLine);
 
         // Add a class declaration
-        sourceCode.append(fetchClassDeclaration());
-
-        //translator0 = new Translator0(rule.getConditions());
+        sourceCode.append(fetchClassDeclaration(rule));
 
         // Add a constructor
-        sourceCode.append(fetchConstructor());
+        sourceCode.append(fetchConstructor(rule));
         sourceCode.append(newLine);
 
         // Add "eval()" method
-        sourceCode.append(fetchEvalMethod());
+        sourceCode.append(fetchEvalMethod(rule));
 
         // Finish class
         sourceCode.append("}").append(newLine);
@@ -128,7 +122,7 @@ public final class CodeGenerator {
         return sb.toString();
     }
 
-    private String fetchClassDeclaration() {
+    private String fetchClassDeclaration(Rule rule) {
         return new StringBuilder()
                 .append("public class Rule")
                 .append(rule.getId())
@@ -137,7 +131,7 @@ public final class CodeGenerator {
                 .toString();
     }
 
-    private String fetchConstructor() {
+    private String fetchConstructor(Rule rule) {
         return new StringBuilder()
                 .append(fetchIndent(1))
                 .append("public Rule")
@@ -153,7 +147,7 @@ public final class CodeGenerator {
                 .toString();
     }
 
-    private String fetchEvalMethod() {
+    private String fetchEvalMethod(Rule rule) {
         StringBuilder code = new StringBuilder();
 
         code
@@ -369,8 +363,13 @@ public final class CodeGenerator {
 
             code.append(");").append(newLine);
 
-            if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge))
-                code.append(fetchIndent(level)).append(generateIterator("CCell", level));
+            if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge)) {
+                final HashMap<String, String> variables = new HashMap<>();
+                for (Condition condition : rule.getConditions())
+                    variables.put(condition.getIdentifier(), condition.getDataType().toString());
+
+                code.append(fetchIndent(level)).append(generateIterator("CCell", variables, level));
+            }
         }
 
         return code.toString();
@@ -384,13 +383,9 @@ public final class CodeGenerator {
         return indent.toString();
     }
 
-    public String generateIterator(String className, int level) {
+    public String generateIterator(String className, HashMap<String, String> variables, int level) {
 
         StringBuilder code = new StringBuilder();
-
-        final HashMap<String, String> variables = new HashMap<>();
-        for (Condition condition : rule.getConditions())
-            variables.put(condition.getIdentifier(), condition.getDataType().toString());
 
         Iterator<String> keys = variables.keySet().iterator();
 
