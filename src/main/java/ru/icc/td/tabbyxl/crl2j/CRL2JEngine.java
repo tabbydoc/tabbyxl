@@ -20,7 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CRL2J {
+public final class CRL2JEngine {
 
     private static final String filledLine = StringUtils.repeat("=", 100);
     private static final CharSequenceCompiler compiler;
@@ -33,28 +33,51 @@ public final class CRL2J {
     private List<String> classSourceCodes = new ArrayList<>();
     private List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
 
+    public static final String PACKAGE_NAME_BY_DEFAULT = "ru.icc.td.tabbyxl.crl2j.synthesis";
+    private String packageName;
+
+    public CRL2JEngine() {
+        this(PACKAGE_NAME_BY_DEFAULT);
+    }
+
+    public CRL2JEngine(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    private void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    private CommonTree ast;
+
     private void parseRuleset(File crlFile) throws IOException, RecognitionException {
 
         ANTLRFileStream fileStream = new ANTLRFileStream(crlFile.getPath());
         CRLLexer lexer = new CRLLexer(fileStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         CRLParser parser = new CRLParser(tokenStream);
-        CommonTree ast = (CommonTree) parser.crl().getTree();
-
-        List<String> imports = RuleGen.createImports(ast);
-        Translator.addImportStatements(imports);
-        rules = RuleGen.createRules(ast);
+        ast = (CommonTree) parser.crl().getTree();
     }
 
     private void translateRuleset() {
+
+        List<String> imports = RuleGen.createImports(ast);
+        CodeGenerator.addImportStatements(imports);
+        rules = RuleGen.createRules(ast);
+
+        //Ruleset ruleset = Ruleset.createInstance(ast);
 
         System.out.println("This Java source code was generated from the ruleset");
         System.out.println();
         System.out.println(filledLine);
 
         for (Rule rule : rules) {
-            Translator translator = new Translator(rule);
-            String classSourceCode = translator.fetchSourceCode();
+            CodeGenerator codeGenerator = new CodeGenerator(rule, getPackageName());
+            String classSourceCode = codeGenerator.fetchSourceCode();
 
             // Print the source code generated from a rule
             System.out.println(classSourceCode);
@@ -69,7 +92,7 @@ public final class CRL2J {
             int i = 0;
             for (String classSourceCode : classSourceCodes) {
                 i++;
-                String s = String.format("%s.Rule%d", Translator.getPackageStatement(), i);
+                String s = String.format("%s.Rule%d", getPackageName(), i);
                 Class<?>[] prototype = new Class<?>[]{RuleProgramPrototype.class};
                 Class<? extends RuleProgramPrototype> clazz = compiler.compile(s, classSourceCode, null, prototype);
                 classes.add(clazz);

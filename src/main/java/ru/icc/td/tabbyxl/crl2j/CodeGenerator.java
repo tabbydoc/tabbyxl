@@ -24,21 +24,12 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
 
-public final class Translator {
+public final class CodeGenerator {
 
-    private static String packageStatement = "ru.icc.td.tabbyxl.crl2j.synthesis";
     private static final List<String> importStatements = new ArrayList<>();
 
-    public static String getPackageStatement() {
-        return packageStatement;
-    }
-
-    public static void setPackageStatement(String packageStatement) {
-        Translator.packageStatement = packageStatement;
-    }
-
     public static void addImportStatements(Collection<String> importStatements) {
-        Translator.importStatements.addAll(importStatements);
+        CodeGenerator.importStatements.addAll(importStatements);
     }
 
     private static final String newLine = System.lineSeparator();
@@ -62,13 +53,16 @@ public final class Translator {
     }
 
     private final Rule rule;
-    private final HashMap<String, String> variables = new HashMap<>();
+    //private final HashMap<String, String> variables = new HashMap<>();
 
-    public Translator(Rule rule) {
+    private String packageName;
+
+    public CodeGenerator(Rule rule, String packageName) {
         this.rule = rule;
+        this.packageName = packageName;
 
-        for (Condition condition : rule.getConditions())
-            variables.put(condition.getIdentifier(), condition.getDataType().toString());
+        //for (Condition condition : rule.getConditions())
+        //    variables.put(condition.getIdentifier(), condition.getDataType().toString());
     }
 
     public String fetchSourceCode() {
@@ -106,7 +100,7 @@ public final class Translator {
     private String fetchPackageStatement() {
         return new StringBuilder()
                 .append("package ")
-                .append(packageStatement)
+                .append(packageName)
                 .append(";")
                 .append(newLine)
                 .append(newLine)
@@ -385,7 +379,7 @@ public final class Translator {
     private String fetchIndent(int level) {
         StringBuilder indent = new StringBuilder();
         for (int i = 0; i < level; i++) {
-            indent.append(Translator.indent);
+            indent.append(CodeGenerator.indent);
         }
         return indent.toString();
     }
@@ -393,6 +387,10 @@ public final class Translator {
     public String generateIterator(String className, int level) {
 
         StringBuilder code = new StringBuilder();
+
+        final HashMap<String, String> variables = new HashMap<>();
+        for (Condition condition : rule.getConditions())
+            variables.put(condition.getIdentifier(), condition.getDataType().toString());
 
         Iterator<String> keys = variables.keySet().iterator();
 

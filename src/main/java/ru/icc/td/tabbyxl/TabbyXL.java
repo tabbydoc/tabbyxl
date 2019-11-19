@@ -19,7 +19,7 @@ package ru.icc.td.tabbyxl;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
-import ru.icc.td.tabbyxl.crl2j.CRL2J;
+import ru.icc.td.tabbyxl.crl2j.CRL2JEngine;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
@@ -607,9 +607,9 @@ public final class TabbyXL {
 
         final Date startTime = new Date();
 
-        executingOptionName = "CRL2J";
-        final CRL2J crl2j = new CRL2J();
-        crl2j.loadRules(rulesetFile);
+        executingOptionName = "CRL2JEngine";
+        final CRL2JEngine crl2jEngine = new CRL2JEngine();
+        crl2jEngine.loadRules(rulesetFile);
 
         final Date endTime = new Date();
         rulesetPreparationTime = endTime.getTime() - startTime.getTime();
@@ -622,7 +622,7 @@ public final class TabbyXL {
 
         Consumer<CTable> crl2jOption = (table) -> {
             try {
-                crl2j.processTable(table);
+                crl2jEngine.processTable(table);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 e.printStackTrace();
             }
