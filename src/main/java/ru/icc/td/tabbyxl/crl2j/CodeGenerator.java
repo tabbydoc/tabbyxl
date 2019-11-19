@@ -26,12 +26,6 @@ import java.util.List;
 
 public final class CodeGenerator {
 
-    private static final List<String> importStatements = new ArrayList<>();
-
-    public static void addImportStatements(Collection<String> importStatements) {
-        CodeGenerator.importStatements.addAll(importStatements);
-    }
-
     private static final String newLine = System.lineSeparator();
     private static final String indent = StringUtils.repeat(" ", 4);
 
@@ -39,7 +33,7 @@ public final class CodeGenerator {
     private static final List<Field> fields = new ArrayList<>();
 
     static {
-        // TODO Добавить необходимые классы в список classes
+        // TODO Add all classes we need to use (Maybe the style classes such as CStyle, CFont?)
 
         classes.add(CCell.class);
         classes.add(COwned.class);
@@ -52,434 +46,458 @@ public final class CodeGenerator {
             fields.addAll(Arrays.asList(c.getDeclaredFields()));
     }
 
-    private final Rule rule;
-
     private String packageName;
+    private Ruleset ruleset;
 
-    public CodeGenerator(Rule rule, String packageName) {
-        this.rule = rule;
+    CodeGenerator(String packageName, Ruleset ruleset) {
         this.packageName = packageName;
+        this.ruleset = ruleset;
     }
 
-    public String fetchSourceCode() {
+    List<String> fetchSourceCode() {
+        List<Rule> rules = ruleset.getRules();
 
-        StringBuilder sourceCode = new StringBuilder();
+        if (rules.isEmpty()) return null;
 
-        // Add a package
-        sourceCode.append(fetchPackageStatement());
+        List<String> sourceCode = new ArrayList<>();
 
-        // Add importStatements
-        sourceCode.append(fetchMandatoryImportStatements());
-        String ruleImportStatements = fetchRuleImportStatements();
-        if (null != ruleImportStatements)
-            sourceCode.append(ruleImportStatements);
-        sourceCode.append(newLine);
-
-        // Add a class declaration
-        sourceCode.append(fetchClassDeclaration(rule));
-
-        // Add a constructor
-        sourceCode.append(fetchConstructor(rule));
-        sourceCode.append(newLine);
-
-        // Add "eval()" method
-        sourceCode.append(fetchEvalMethod(rule));
-
-        // Finish class
-        sourceCode.append("}").append(newLine);
-
-        return sourceCode.toString();
-    }
-
-    private String fetchPackageStatement() {
-        return new StringBuilder()
-                .append("package ")
-                .append(packageName)
-                .append(";")
-                .append(newLine)
-                .append(newLine)
-                .toString();
-    }
-
-    private String fetchMandatoryImportStatements() {
-        return new StringBuilder()
-                .append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(newLine)
-                .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
-                .append("import ru.icc.td.tabbyxl.model.style.*;").append(newLine)
-                .append("import static ru.icc.td.tabbyxl.model.NerTag.*;").append(newLine)
-                .append("import static ru.icc.td.tabbyxl.model.TypeTag.*;").append(newLine)
-                .append("import java.util.*;").append(newLine)
-                .toString();
-    }
-
-    private String fetchRuleImportStatements() {
-        if (importStatements.isEmpty()) return null;
-
-        StringBuilder sb = new StringBuilder();
-        for (String importItem : importStatements)
-            sb.append(importItem).append(";").append(newLine);
-
-        return sb.toString();
-    }
-
-    private String fetchClassDeclaration(Rule rule) {
-        return new StringBuilder()
-                .append("public class Rule")
-                .append(rule.getId())
-                .append(" extends RuleProgramPrototype {")
-                .append(newLine)
-                .toString();
-    }
-
-    private String fetchConstructor(Rule rule) {
-        return new StringBuilder()
-                .append(fetchIndent(1))
-                .append("public Rule")
-                .append(rule.getId())
-                .append(" (CTable table) {")
-                .append(newLine)
-                .append(fetchIndent(2))
-                .append("super(table);")
-                .append(newLine)
-                .append(fetchIndent(1))
-                .append("}")
-                .append(newLine)
-                .toString();
-    }
-
-    private String fetchEvalMethod(Rule rule) {
-        StringBuilder code = new StringBuilder();
-
-        code
-                .append(fetchIndent(1))
-                .append("@Override").append(newLine)
-                .append(fetchIndent(1))
-                .append("public void eval () {").append(newLine)
-                .append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), 2))
-                .append(fetchIndent(1))
-                .append("}").append(newLine);
-
-        return code.toString();
-    }
-
-    private String generateCondition(Iterator<Condition> conditions, Iterator<Action> actions, int level) {
-        StringBuilder code = new StringBuilder();
-
-        Condition currentCondition = conditions.next();
-
-        code
-                .append(fetchIndent(level))
-                .append("Iterator<")
-                .append(currentCondition.getDataType())
-                .append("> ")
-                .append(currentCondition.getIdentifier())
-                .append("Iterator = ");
-
-        switch (currentCondition.getDataType()) {
-
-            case CCell:
-                code.append("getTable().getCells();");
-                break;
-            case CLabel:
-                code.append("getTable().getLabels();");
-                break;
-            case CEntry:
-                code.append("getTable().getEntries();");
-                break;
-            case CCategory:
-                code.append("getTable().getLocalCategoryBox().getCategories();");
-                break;
-            default:
-                break;
+        for (Rule rule : rules) {
+            String ruleClassCode = new ForRule(rule).fetchSourceCode();
+            sourceCode.add(ruleClassCode);
         }
 
-        code.append(newLine);
+        return sourceCode;
+    }
 
-        if (!currentCondition.isNotExistsCondition()) {
+    private final class ForRule {
+        private final Rule rule;
+
+        ForRule(Rule rule) {
+            this.rule = rule;
+        }
+
+        String fetchSourceCode() {
+
+            StringBuilder sourceCode = new StringBuilder();
+
+            // Add a package
+            sourceCode.append(fetchPackageStatement());
+
+            // Add importStatements
+            sourceCode.append(fetchMandatoryImportStatements());
+            String ruleImportStatements = fetchRuleImportStatements();
+            if (null != ruleImportStatements)
+                sourceCode.append(ruleImportStatements);
+            sourceCode.append(newLine);
+
+            // Add a class declaration
+            sourceCode.append(fetchClassDeclaration());
+
+            // Add a constructor
+            sourceCode.append(fetchConstructor());
+            sourceCode.append(newLine);
+
+            // Add "eval()" method
+            sourceCode.append(fetchEvalMethod());
+
+            // Finish class
+            sourceCode.append("}").append(newLine);
+
+            return sourceCode.toString();
+        }
+
+        String fetchPackageStatement() {
+            return new StringBuilder()
+                    .append("package ")
+                    .append(packageName)
+                    .append(";")
+                    .append(newLine)
+                    .append(newLine)
+                    .toString();
+        }
+
+        String fetchMandatoryImportStatements() {
+            return new StringBuilder()
+                    .append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(newLine)
+                    .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
+                    .append("import ru.icc.td.tabbyxl.model.style.*;").append(newLine)
+                    .append("import static ru.icc.td.tabbyxl.model.NerTag.*;").append(newLine)
+                    .append("import static ru.icc.td.tabbyxl.model.TypeTag.*;").append(newLine)
+                    .append("import java.util.*;").append(newLine)
+                    .toString();
+        }
+
+        String fetchRuleImportStatements() {
+            List<String> importStatements = ruleset.getImportStatements();
+
+            if (importStatements.isEmpty()) return null;
+
+            StringBuilder sb = new StringBuilder();
+
+            for (String importStatement : importStatements)
+                sb.append(importStatement).append(";").append(newLine);
+
+            return sb.toString();
+        }
+
+        String fetchClassDeclaration() {
+            return new StringBuilder()
+                    .append("public class Rule")
+                    .append(rule.getId())
+                    .append(" extends RuleProgramPrototype {")
+                    .append(newLine)
+                    .toString();
+        }
+
+        String fetchConstructor() {
+            return new StringBuilder()
+                    .append(fetchIndent(1))
+                    .append("public Rule")
+                    .append(rule.getId())
+                    .append(" (CTable table) {")
+                    .append(newLine)
+                    .append(fetchIndent(2))
+                    .append("super(table);")
+                    .append(newLine)
+                    .append(fetchIndent(1))
+                    .append("}")
+                    .append(newLine)
+                    .toString();
+        }
+
+        String fetchEvalMethod() {
+            StringBuilder code = new StringBuilder();
+
             code
-                    .append(fetchIndent(level))
-                    .append("while ( ")
-                    .append(currentCondition.getIdentifier())
-                    .append("Iterator.hasNext() ) {").append(newLine)
-                    .append(fetchIndent(level + 1))
-                    .append(currentCondition.getDataType())
-                    .append(" ")
-                    .append(currentCondition.getIdentifier())
-                    .append(" = ")
-                    .append(currentCondition.getIdentifier())
-                    .append("Iterator.next();").append(newLine);
-
-            code.append(fetchIndent(level + 1)).append("if ( ");
-
-            if (currentCondition.getConstraints().size() != 0) {
-                code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getIdentifier()));
-            } else {
-                code.append("true");
-            }
-
-            code.append(" ) {").append(newLine);
-
-            for (Assignment assignment : currentCondition.getAssignments()) {
-                code.append(fetchIndent(level + 2)).append(generateAssignment(assignment, currentCondition.getIdentifier()));
-            }
-
-            if (conditions.hasNext()) {
-                code.append(generateCondition(conditions, actions, level + 2));
-            } else {
-                code.append(generateActions(actions, level + 2));
-            }
-
-            code.append(fetchIndent(level + 1)).append("}").append(newLine);
-            code.append(fetchIndent(level)).append("}").append(newLine);
-        } else {
-
-            code
-                    .append(fetchIndent(level))
-                    .append("boolean $flag")
-                    .append(currentCondition.getId())
-                    .append(" = true;").append(newLine);
-
-            code
-                    .append(fetchIndent(level))
-                    .append("while ( ")
-                    .append(currentCondition.getIdentifier())
-                    .append("Iterator.hasNext() ) {").append(newLine);
-
-            code
-                    .append(fetchIndent(level + 1))
-                    .append(currentCondition.getDataType())
-                    .append(" ")
-                    .append(currentCondition.getIdentifier())
-                    .append(" = ")
-                    .append(currentCondition.getIdentifier())
-                    .append("Iterator.next();").append(newLine);
-
-            code
-                    .append(fetchIndent(level + 1))
-                    .append("if ( ");
-
-            if (currentCondition.getConstraints().size() != 0) {
-                code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getIdentifier()));
-            } else {
-                code.append("false");
-            }
-
-            code
-                    .append(" ) {").append(newLine);
-
-            code
-                    .append(fetchIndent(level + 2))
-                    .append("$flag")
-                    .append(currentCondition.getId())
-                    .append(" = false;").append(newLine);
-
-            code
-                    .append(fetchIndent(level + 2))
-                    .append("break;")
-                    .append(newLine);
-
-            code
-                    .append(fetchIndent(level + 1))
+                    .append(fetchIndent(1))
+                    .append("@Override").append(newLine)
+                    .append(fetchIndent(1))
+                    .append("public void eval () {").append(newLine)
+                    .append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), 2))
+                    .append(fetchIndent(1))
                     .append("}").append(newLine);
 
-            code
-                    .append(fetchIndent(level))
-                    .append("}").append(newLine);
+            return code.toString();
+        }
+
+        String generateCondition(Iterator<Condition> conditions, Iterator<Action> actions, int level) {
+            StringBuilder code = new StringBuilder();
+
+            Condition currentCondition = conditions.next();
 
             code
                     .append(fetchIndent(level))
-                    .append("if ( $flag")
-                    .append(currentCondition.getId())
-                    .append(" ) {").append(newLine);
+                    .append("Iterator<")
+                    .append(currentCondition.getDataType())
+                    .append("> ")
+                    .append(currentCondition.getIdentifier())
+                    .append("Iterator = ");
 
-            if (conditions.hasNext()) {
-                code.append(generateCondition(conditions, actions, level + 1));
-            } else {
-                code.append(generateActions(actions, level + 1));
+            switch (currentCondition.getDataType()) {
+
+                case CCell:
+                    code.append("getTable().getCells();");
+                    break;
+                case CLabel:
+                    code.append("getTable().getLabels();");
+                    break;
+                case CEntry:
+                    code.append("getTable().getEntries();");
+                    break;
+                case CCategory:
+                    code.append("getTable().getLocalCategoryBox().getCategories();");
+                    break;
+                default:
+                    break;
             }
 
-            code.append(fetchIndent(level)).append("}").append(newLine);
-        }
+            code.append(newLine);
 
-        return code.toString();
-    }
+            if (!currentCondition.isNotExistsCondition()) {
+                code
+                        .append(fetchIndent(level))
+                        .append("while ( ")
+                        .append(currentCondition.getIdentifier())
+                        .append("Iterator.hasNext() ) {").append(newLine)
+                        .append(fetchIndent(level + 1))
+                        .append(currentCondition.getDataType())
+                        .append(" ")
+                        .append(currentCondition.getIdentifier())
+                        .append(" = ")
+                        .append(currentCondition.getIdentifier())
+                        .append("Iterator.next();").append(newLine);
 
-    private String generateConstraints(List<Constraint> constraints, String conditionVarName) {
+                code.append(fetchIndent(level + 1)).append("if ( ");
 
-        StringBuilder code = new StringBuilder();
-
-        for (int i = 0; i < constraints.size(); i++) {
-
-            code
-                    .append("( ")
-                    .append(generateExpressions(constraints.get(i).getExpressions(), conditionVarName))
-                    .append(" )");
-
-            if (i < constraints.size() - 1) code.append(" && ");
-        }
-
-        return code.toString();
-
-    }
-
-    private String generateAssignment(Assignment assignment, String conditionVarName) {
-
-        StringBuilder code = new StringBuilder();
-
-        code
-                .append("String ")
-                .append(assignment.getIdentifier())
-                .append(" = String.valueOf( ")
-                .append(generateExpressions(assignment.getExpressions(), conditionVarName))
-                .append(" );").append(newLine);
-
-        return code.toString();
-    }
-
-    private String generateActions(Iterator<Action> actions, int level) {
-
-        StringBuilder code = new StringBuilder();
-
-        while (actions.hasNext()) {
-            Action action = actions.next();
-
-            if (action.getType().equals(Action.Type.update)) continue;
-
-            List<Operand> operands = action.getOperands();
-
-            code
-                    .append(fetchIndent(level))
-                    .append(generateExpressions(operands.get(0).getExpressions(), ""))
-                    .append(".")
-                    .append(action.getType())
-                    .append("(");
-
-            if (operands.size() > 1) {
-                for (int i = 1; i < operands.size(); i++) {
-                    code.append(generateExpressions(operands.get(i).getExpressions(), ""));
-                    if (i < operands.size() - 1) code.append(", ");
+                if (currentCondition.getConstraints().size() != 0) {
+                    code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getIdentifier()));
+                } else {
+                    code.append("true");
                 }
-            }
 
-            code.append(");").append(newLine);
+                code.append(" ) {").append(newLine);
 
-            if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge)) {
-                final HashMap<String, String> variables = new HashMap<>();
-                for (Condition condition : rule.getConditions())
-                    variables.put(condition.getIdentifier(), condition.getDataType().toString());
+                for (Assignment assignment : currentCondition.getAssignments()) {
+                    code.append(fetchIndent(level + 2)).append(generateAssignment(assignment, currentCondition.getIdentifier()));
+                }
 
-                code.append(fetchIndent(level)).append(generateIterator("CCell", variables, level));
-            }
-        }
+                if (conditions.hasNext()) {
+                    code.append(generateCondition(conditions, actions, level + 2));
+                } else {
+                    code.append(generateActions(actions, level + 2));
+                }
 
-        return code.toString();
-    }
-
-    private String fetchIndent(int level) {
-        StringBuilder indent = new StringBuilder();
-        for (int i = 0; i < level; i++) {
-            indent.append(CodeGenerator.indent);
-        }
-        return indent.toString();
-    }
-
-    public String generateIterator(String className, HashMap<String, String> variables, int level) {
-
-        StringBuilder code = new StringBuilder();
-
-        Iterator<String> keys = variables.keySet().iterator();
-
-        while (keys.hasNext()) {
-            String key = keys.next();
-            if (variables.get(key).equals(className)) {
+                code.append(fetchIndent(level + 1)).append("}").append(newLine);
+                code.append(fetchIndent(level)).append("}").append(newLine);
+            } else {
 
                 code
                         .append(fetchIndent(level))
-                        .append(key)
-                        .append("Iterator = getTable().");
+                        .append("boolean $flag")
+                        .append(currentCondition.getId())
+                        .append(" = true;").append(newLine);
 
-                switch (className) {
-                    case "CCell":
-                        code.append("getCells();");
-                        break;
-                    case "CLabel":
-                        code.append("getLabels();");
-                        break;
-                    case "CEntry":
-                        code.append("getEntries();");
-                        break;
-                    case "CCategory":
-                        code.append("getLocalCategoryBox().getCategories();");
-                        break;
-                    default:
-                        break;
+                code
+                        .append(fetchIndent(level))
+                        .append("while ( ")
+                        .append(currentCondition.getIdentifier())
+                        .append("Iterator.hasNext() ) {").append(newLine);
+
+                code
+                        .append(fetchIndent(level + 1))
+                        .append(currentCondition.getDataType())
+                        .append(" ")
+                        .append(currentCondition.getIdentifier())
+                        .append(" = ")
+                        .append(currentCondition.getIdentifier())
+                        .append("Iterator.next();").append(newLine);
+
+                code
+                        .append(fetchIndent(level + 1))
+                        .append("if ( ");
+
+                if (currentCondition.getConstraints().size() != 0) {
+                    code.append(generateConstraints(currentCondition.getConstraints(), currentCondition.getIdentifier()));
+                } else {
+                    code.append("false");
                 }
 
-                code.append(newLine);
+                code
+                        .append(" ) {").append(newLine);
+
+                code
+                        .append(fetchIndent(level + 2))
+                        .append("$flag")
+                        .append(currentCondition.getId())
+                        .append(" = false;").append(newLine);
+
+                code
+                        .append(fetchIndent(level + 2))
+                        .append("break;")
+                        .append(newLine);
+
+                code
+                        .append(fetchIndent(level + 1))
+                        .append("}").append(newLine);
+
+                code
+                        .append(fetchIndent(level))
+                        .append("}").append(newLine);
+
+                code
+                        .append(fetchIndent(level))
+                        .append("if ( $flag")
+                        .append(currentCondition.getId())
+                        .append(" ) {").append(newLine);
+
+                if (conditions.hasNext()) {
+                    code.append(generateCondition(conditions, actions, level + 1));
+                } else {
+                    code.append(generateActions(actions, level + 1));
+                }
+
+                code.append(fetchIndent(level)).append("}").append(newLine);
             }
+
+            return code.toString();
         }
 
-        return code.toString();
-    }
+        String generateConstraints(List<Constraint> constraints, String conditionVarName) {
 
-    private String generateExpressions(List<String> expressions, String variable) {
+            StringBuilder code = new StringBuilder();
 
-        StringBuilder code = new StringBuilder();
+            for (int i = 0; i < constraints.size(); i++) {
 
-        for (int i = 0; i < expressions.size(); i++) {
+                code
+                        .append("( ")
+                        .append(generateExpressions(constraints.get(i).getExpressions(), conditionVarName))
+                        .append(" )");
 
-            String expression = expressions.get(i);
-            boolean fieldFounded = false;
-            String methodName = "";
-
-            for (Field field : fields) {
-
-                if (field.isEnumConstant()) continue;
-
-                if (field.getName().equals(expression)) {
-
-                    fieldFounded = true;
-                    String fieldType = field.getType().getName();
-
-                    String e1 = expression.substring(0, 1).toUpperCase();
-                    String e2 = expression.substring(1, expression.length());
-
-                    if (!fieldType.equals("boolean"))
-                        methodName = String.format("get%s%s", e1, e2);
-                    else
-                        methodName = String.format("is%s%s", e1, e2);
-
-                    break;
-                }
+                if (i < constraints.size() - 1) code.append(" && ");
             }
 
-            if (fieldFounded) {
-                if (i < 2) {
-                    code.append(variable).append(".").append(methodName);
-                } else {
-                    if (!expressions.get(i - 1).equals("."))
-                        code.append(variable).append(".").append(methodName);
-                    else
-                        code.append(methodName);
-                }
+            return code.toString();
 
-                if (i > expressions.size() - 3) {
-                    code.append("()");
-                } else {
-                    if (expressions.get(i + 1).equals("[") && expressions.get(i + 3).equals("]")) {
-                        code.append("(").append(expressions.get(i + 2)).append(")");
-                        i = i + 3;
-                    } else {
-                        code.append("()");
+        }
+
+        String generateAssignment(Assignment assignment, String conditionVarName) {
+
+            StringBuilder code = new StringBuilder();
+
+            code
+                    .append("String ")
+                    .append(assignment.getIdentifier())
+                    .append(" = String.valueOf( ")
+                    .append(generateExpressions(assignment.getExpressions(), conditionVarName))
+                    .append(" );").append(newLine);
+
+            return code.toString();
+        }
+
+        String generateActions(Iterator<Action> actions, int level) {
+
+            StringBuilder code = new StringBuilder();
+
+            while (actions.hasNext()) {
+                Action action = actions.next();
+
+                if (action.getType().equals(Action.Type.update)) continue;
+
+                List<Operand> operands = action.getOperands();
+
+                code
+                        .append(fetchIndent(level))
+                        .append(generateExpressions(operands.get(0).getExpressions(), ""))
+                        .append(".")
+                        .append(action.getType())
+                        .append("(");
+
+                if (operands.size() > 1) {
+                    for (int i = 1; i < operands.size(); i++) {
+                        code.append(generateExpressions(operands.get(i).getExpressions(), ""));
+                        if (i < operands.size() - 1) code.append(", ");
                     }
                 }
-            } else {
-                code.append(expression);
+
+                code.append(");").append(newLine);
+
+                if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge))
+                    code.append(fetchIndent(level)).append(generateIterator("CCell", level));
             }
 
+            return code.toString();
         }
 
-        return code.toString();
+        String fetchIndent(int level) {
+            StringBuilder indent = new StringBuilder();
+            for (int i = 0; i < level; i++) {
+                indent.append(CodeGenerator.indent);
+            }
+            return indent.toString();
+        }
+
+        String generateIterator(String className, int level) {
+
+            StringBuilder code = new StringBuilder();
+
+            final HashMap<String, String> variables = new HashMap<>();
+            for (Condition condition : rule.getConditions())
+                variables.put(condition.getIdentifier(), condition.getDataType().toString());
+
+            Iterator<String> keys = variables.keySet().iterator();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                if (variables.get(key).equals(className)) {
+
+                    code
+                            .append(fetchIndent(level))
+                            .append(key)
+                            .append("Iterator = getTable().");
+
+                    switch (className) {
+                        case "CCell":
+                            code.append("getCells();");
+                            break;
+                        case "CLabel":
+                            code.append("getLabels();");
+                            break;
+                        case "CEntry":
+                            code.append("getEntries();");
+                            break;
+                        case "CCategory":
+                            code.append("getLocalCategoryBox().getCategories();");
+                            break;
+                        default:
+                            break;
+                    }
+
+                    code.append(newLine);
+                }
+            }
+
+            return code.toString();
+        }
+
+        String generateExpressions(List<String> expressions, String variable) {
+
+            StringBuilder code = new StringBuilder();
+
+            for (int i = 0; i < expressions.size(); i++) {
+
+                String expression = expressions.get(i);
+                boolean fieldFounded = false;
+                String methodName = "";
+
+                for (Field field : fields) {
+
+                    if (field.isEnumConstant()) continue;
+
+                    if (field.getName().equals(expression)) {
+
+                        fieldFounded = true;
+                        String fieldType = field.getType().getName();
+
+                        String e1 = expression.substring(0, 1).toUpperCase();
+                        String e2 = expression.substring(1, expression.length());
+
+                        if (!fieldType.equals("boolean"))
+                            methodName = String.format("get%s%s", e1, e2);
+                        else
+                            methodName = String.format("is%s%s", e1, e2);
+
+                        break;
+                    }
+                }
+
+                if (fieldFounded) {
+                    if (i < 2) {
+                        code.append(variable).append(".").append(methodName);
+                    } else {
+                        if (!expressions.get(i - 1).equals("."))
+                            code.append(variable).append(".").append(methodName);
+                        else
+                            code.append(methodName);
+                    }
+
+                    if (i > expressions.size() - 3) {
+                        code.append("()");
+                    } else {
+                        if (expressions.get(i + 1).equals("[") && expressions.get(i + 3).equals("]")) {
+                            code.append("(").append(expressions.get(i + 2)).append(")");
+                            i = i + 3;
+                        } else {
+                            code.append("()");
+                        }
+                    }
+                } else {
+                    code.append(expression);
+                }
+
+            }
+
+            return code.toString();
+        }
     }
 
 }

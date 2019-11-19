@@ -3,13 +3,12 @@ package ru.icc.td.tabbyxl.crl2j;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.apache.commons.lang.StringUtils;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
-import ru.icc.td.tabbyxl.crl2j.rulemodel.Rule;
 import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;
 import ru.icc.td.tabbyxl.model.CTable;
 
@@ -25,15 +24,15 @@ public final class CRL2JEngine {
     private static final String filledLine = StringUtils.repeat("=", 100);
     private static final CharSequenceCompiler compiler;
 
+    public static final String PACKAGE_NAME_BY_DEFAULT = "ru.icc.td.tabbyxl.crl2j.synthesis";
+
     static {
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
     }
 
-    private List<Rule> rules;
-    private List<String> classSourceCodes = new ArrayList<>();
-    private List<Class<? extends RuleProgramPrototype>> classes = new ArrayList<>();
+    private List<String> sourceCode;
+    private List<Class<? extends RuleProgramPrototype>> classes;
 
-    public static final String PACKAGE_NAME_BY_DEFAULT = "ru.icc.td.tabbyxl.crl2j.synthesis";
     private String packageName;
 
     public CRL2JEngine() {
@@ -52,65 +51,59 @@ public final class CRL2JEngine {
         this.packageName = packageName;
     }
 
-    private CommonTree ast;
-
-    private void parseRuleset(File crlFile) throws IOException, RecognitionException {
+    private Tree parse(File crlFile) throws IOException, RecognitionException {
 
         ANTLRFileStream fileStream = new ANTLRFileStream(crlFile.getPath());
         CRLLexer lexer = new CRLLexer(fileStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         CRLParser parser = new CRLParser(tokenStream);
-        ast = (CommonTree) parser.crl().getTree();
+
+        return (Tree) parser.crl().getTree();
     }
 
-    private void translateRuleset() {
-
-        List<String> imports = RuleGen.createImports(ast);
-        CodeGenerator.addImportStatements(imports);
-        rules = RuleGen.createRules(ast);
-
-        //Ruleset ruleset = Ruleset.createInstance(ast);
+    private List<String> translate(Tree ast) {
+        Ruleset ruleset = Ruleset.createInstance(ast);
 
         System.out.println("This Java source code was generated from the ruleset");
         System.out.println();
         System.out.println(filledLine);
 
-        for (Rule rule : rules) {
-            CodeGenerator codeGenerator = new CodeGenerator(rule, getPackageName());
-            String classSourceCode = codeGenerator.fetchSourceCode();
+        CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
 
-            // Print the source code generated from a rule
-            System.out.println(classSourceCode);
-            System.out.println(filledLine);
-
-            classSourceCodes.add(classSourceCode);
-        }
+        return codeGenerator.fetchSourceCode();
     }
 
-    private void compileRuleset() {
+    private List<Class<? extends RuleProgramPrototype>> compile(List<String> sourceCode) {
+        List<Class<? extends RuleProgramPrototype>> clazzes = null;
+
         try {
+            int size = sourceCode.size();
+            clazzes = new ArrayList<>(size);
+
             int i = 0;
-            for (String classSourceCode : classSourceCodes) {
+            for (String classSourceCode : sourceCode) {
                 i++;
                 String s = String.format("%s.Rule%d", getPackageName(), i);
                 Class<?>[] prototype = new Class<?>[]{RuleProgramPrototype.class};
                 Class<? extends RuleProgramPrototype> clazz = compiler.compile(s, classSourceCode, null, prototype);
-                classes.add(clazz);
+                clazzes.add(clazz);
             }
         } catch (CharSequenceCompilerException e) {
             e.printStackTrace();
             System.exit(-1);
+        } finally {
+            return clazzes;
         }
     }
 
     public void loadRules(File crlFile) throws IOException, RecognitionException {
-        parseRuleset(crlFile);
-        translateRuleset();
-        compileRuleset();
+        Tree ast = parse(crlFile);
+        sourceCode = translate(ast);
+        classes = compile(sourceCode);
     }
 
-    public List<String> getClassSourceCodes() {
-        return classSourceCodes;
+    public List<String> getClassSourceCode() {
+        return sourceCode;
     }
 
     public void processTable(CTable table)

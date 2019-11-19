@@ -22,14 +22,17 @@ public final class Ruleset {
     private Ruleset() {}
 
     public static Ruleset createInstance(Tree ast) {
-        Ruleset ruleset = new Ruleset();
-        ruleset.importStatements.addAll(TreeAnalysis.createImports(ast));
-        ruleset.rules.addAll(TreeAnalysis.createRules(ast));
 
-        return null;
+        // TODO Check a param (AST-tree)
+
+        Ruleset ruleset = new Ruleset();
+        ruleset.importStatements.addAll(ASTAnalysis.createImports(ast));
+        ruleset.rules.addAll(ASTAnalysis.createRules(ast));
+
+        return ruleset;
     }
 
-    private static class TreeAnalysis {
+    private static class ASTAnalysis {
 
         static List<String> createImports(Tree ast) {
 
