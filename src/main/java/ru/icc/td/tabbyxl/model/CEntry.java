@@ -16,6 +16,8 @@
 
 package ru.icc.td.tabbyxl.model;
 
+import ru.icc.td.tabbyxl.model.exception.EntryAssociatingException;
+
 import java.util.*;
 
 public final class CEntry extends CItem

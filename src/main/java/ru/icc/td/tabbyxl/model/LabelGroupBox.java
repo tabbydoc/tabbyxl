@@ -16,6 +16,8 @@
 
 package ru.icc.td.tabbyxl.model;
 
+import ru.icc.td.tabbyxl.model.exception.CategoryGroupException;
+
 import java.util.*;
 
 public final class LabelGroupBox extends COwned

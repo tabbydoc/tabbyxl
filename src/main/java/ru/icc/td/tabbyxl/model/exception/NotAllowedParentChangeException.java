@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.model;
+package ru.icc.td.tabbyxl.model.exception;
+
+import ru.icc.td.tabbyxl.model.CLabel;
 
 public final class NotAllowedParentChangeException extends ParentAssociatingException
 {
-    public NotAllowedParentChangeException( CLabel child, CLabel parent, CLabel failedParent )
+    public NotAllowedParentChangeException(CLabel child, CLabel parent, CLabel failedParent )
     {
         super( child, parent, failedParent, "\"The label is already associated with the parent label\"" );
     }

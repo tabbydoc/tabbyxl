@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-18 Alexey O. Shigarov (shigarov@gmail.com)
+ * Copyright 2015-19 Alexey O. Shigarov (shigarov@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.model;
+package ru.icc.td.tabbyxl.util;
+
+import ru.icc.td.tabbyxl.model.CTable;
 
 import java.util.HashMap;
 import java.util.Map;

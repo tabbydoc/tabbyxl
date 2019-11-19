@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Alexey O. Shigarov (shigarov@gmail.com)
+ * Copyright 2018-19 Alexey O. Shigarov (shigarov@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.model;
+package ru.icc.td.tabbyxl.util;
 
+import ru.icc.td.tabbyxl.model.CCell;
+import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.style.BorderType;
 import ru.icc.td.tabbyxl.model.style.CBorder;
 import ru.icc.td.tabbyxl.model.style.CStyle;
@@ -27,7 +29,7 @@ public final class Tables
     //TODO Кто писал этот метод и зачем?
     // Восстановление границ ячеек.
     // Этот метод восстанавливает физ. границы ячеек в соответствии с ее видимыми границами
-    public static CTable recoverCellBorders( CTable table )
+    public static CTable recoverCellBorders(CTable table )
     {
         int numOfCols = table.numOfCols();
         int numOfRows = table.numOfRows();

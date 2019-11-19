@@ -23,11 +23,11 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 
 // TODO Нужно объяснение этого кода: зачем этот класс?
-public class AstPrinter {
+public class ASTPrinter {
 
     private final char FIRST_CHAR, MIDDLE_CHAR, LAST_CHAR;
 
-    public AstPrinter() {
+    public ASTPrinter() {
         // TODO Нужно объяснение этого кода: почему кодировка CP866, зачем эти 3 символа, может сделать их статическими?
         Charset charSet = Charset.forName("CP866");
         CharBuffer charBuff = charSet.decode(ByteBuffer.wrap(new byte[]{(byte) 0xB3, (byte) 0xC3, (byte) 0xC0}));

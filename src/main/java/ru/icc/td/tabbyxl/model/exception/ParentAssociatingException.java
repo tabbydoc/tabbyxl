@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.model;
+package ru.icc.td.tabbyxl.model.exception;
 
-public final class EntryAssociatingException extends IllegalStateException
+import ru.icc.td.tabbyxl.model.CLabel;
+
+public abstract class ParentAssociatingException extends Exception
 {
-    public EntryAssociatingException( CEntry entry, CLabel addingLabel, CLabel addedLabel, CCategory category )
+    protected ParentAssociatingException(CLabel child, CLabel parent, CLabel failedParent, String message )
     {
-        super( String.format( "%s [entry: \"%s\"; adding label: \"%s\"; added label: \"%s\"; category: \"%s\"]",
-               "The entry is already associated with a label from the same category",
-               entry.getValue(), addingLabel.getValue(), addedLabel.getValue(), category.getName() ) );
+        super( String.format( "%s [child: \"%s\"; parent: \"%s\"; failed parent: \"%s\"]",
+               message, child.getValue(), parent.getValue(), failedParent.getValue() ) );
     }
 }

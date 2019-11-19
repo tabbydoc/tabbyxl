@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-18 Alexey O. Shigarov (shigarov@gmail.com) and Vasiliy V. Khristyuk
+ * Copyright 2015-19 Alexey O. Shigarov (shigarov@gmail.com) and Vasiliy V. Khristyuk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
 import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
+import ru.icc.td.tabbyxl.util.StatisticsManager;
+import ru.icc.td.tabbyxl.util.Tables;
 import ru.icc.td.tabbyxl.writers.Writer;
 import ru.icc.td.tabbyxl.writers.DebugWriter;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;

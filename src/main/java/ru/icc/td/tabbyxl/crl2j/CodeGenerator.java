@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
+ * Copyright 2018-19 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,6 +121,7 @@ public final class CodeGenerator {
                     .append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.style.*;").append(newLine)
+                    .append("import ru.icc.td.tabbyxl.model.exception.*;").append(newLine)
                     .append("import static ru.icc.td.tabbyxl.model.NerTag.*;").append(newLine)
                     .append("import static ru.icc.td.tabbyxl.model.TypeTag.*;").append(newLine)
                     .append("import java.util.*;").append(newLine)

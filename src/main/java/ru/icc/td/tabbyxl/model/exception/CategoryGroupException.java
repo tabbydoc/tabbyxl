@@ -1,4 +1,4 @@
-package ru.icc.td.tabbyxl.model;
+package ru.icc.td.tabbyxl.model.exception;
 
 public class CategoryGroupException extends IllegalStateException {
     public CategoryGroupException(String categoryGroupName, String labelGroupName) {

@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.model;
+package ru.icc.td.tabbyxl.model.exception;
 
-public abstract class ParentAssociatingException extends Exception
+import ru.icc.td.tabbyxl.model.CLabel;
+
+public final class NotAllowedParentCycleException extends ParentAssociatingException
 {
-    protected ParentAssociatingException( CLabel child, CLabel parent, CLabel failedParent, String message )
+    public NotAllowedParentCycleException(CLabel child, CLabel parent, CLabel failedParent )
     {
-        super( String.format( "%s [child: \"%s\"; parent: \"%s\"; failed parent: \"%s\"]",
-               message, child.getValue(), parent.getValue(), failedParent.getValue() ) );
+        super( child, parent, failedParent, "\"Label cycles are not allowed\"" );
     }
 }
+

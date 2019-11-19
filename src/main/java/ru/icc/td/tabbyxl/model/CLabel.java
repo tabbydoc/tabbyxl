@@ -16,6 +16,10 @@
 
 package ru.icc.td.tabbyxl.model;
 
+import ru.icc.td.tabbyxl.model.exception.NotAllowedParentChangeException;
+import ru.icc.td.tabbyxl.model.exception.NotAllowedParentCycleException;
+import ru.icc.td.tabbyxl.model.exception.ParentAssociatingException;
+
 import java.util.ArrayList;
 import java.util.List;
 
