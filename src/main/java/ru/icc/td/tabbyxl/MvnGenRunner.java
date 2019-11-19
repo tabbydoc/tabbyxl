@@ -19,6 +19,7 @@ public class MvnGenRunner {
             String artifactId = args[3];
 
             MvnProjectGenerator mvnProjectGenerator = new MvnProjectGenerator(resultDirectory);
+            mvnProjectGenerator.setCrlFile(rulesetFile);
             mvnProjectGenerator.setGroupID(groupId);
             mvnProjectGenerator.setArtifactID(artifactId);
             mvnProjectGenerator.setCrlFile(rulesetFile);

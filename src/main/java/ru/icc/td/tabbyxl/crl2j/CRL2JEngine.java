@@ -66,10 +66,10 @@ public final class CRL2JEngine {
 
     private List<String> translate(Tree ast) {
 
-        // Transform AST to Rule Model
+        // Analyze AST to create a Ruleset model
         Ruleset ruleset = Ruleset.createInstance(ast);
 
-        // Transform Rule Model to Java source code
+        // Generate Java source code from the Ruleset model
         CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
 
         return codeGenerator.fetchSourceCode();
