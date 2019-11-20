@@ -31,9 +31,7 @@ import java.util.Properties;
 public class MvnProjectGenerator {
 
     private static final String newLine = System.lineSeparator();
-    private static final String indent = StringUtils.repeat(" ", 4);
 
-    private static final String pomTemplateFileName = "pom_template.xml";
     private static final String groupId = "generated";
     private static final String artifactId = "SpreadsheetDataCanonicalizer";
 
@@ -43,7 +41,7 @@ public class MvnProjectGenerator {
     private Path tabbyxlPath;
     private Path packagePath;
 
-    private int rulesCount;
+    private int numOfRules;
 
     public MvnProjectGenerator(Path root, File crlFile) {
         this.root = root;
@@ -62,23 +60,60 @@ public class MvnProjectGenerator {
             FileUtils.cleanDirectory(root.toFile());
         }
 
-        writePomFile();
         writeRuleClasses();
+        writePomFile();
         writeMainClassFile();
+    }
+
+    private void writeRuleClasses() throws IOException, RecognitionException {
+
+        // Generate source code
+
+        String nameOfPackage = groupId.concat(".rules");
+        final CRL2JEngine crl2jEngine = new CRL2JEngine(nameOfPackage);
+        crl2jEngine.loadRules(crlFile);
+        List<String> sourceCode = crl2jEngine.getSourceCode();
+
+        // Clean or create the output directory
+
+        Path outputDir = packagePath.resolve(groupId.replace(".", File.separator)).resolve("rules");
+
+        if (Files.exists(outputDir)) {
+            FileUtils.cleanDirectory(outputDir.toFile());
+        } else {
+            Files.createDirectories(outputDir);
+        }
+
+        // Write source code
+
+        int index = 0;
+        for (String sc: sourceCode) {
+            index ++;
+
+            String fileName = String.format("Rule%d.java", index);
+            File outputFile = outputDir.resolve(fileName).toFile();
+            FileOutputStream fos = new FileOutputStream(outputFile);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            writer.write(sc);
+            writer.flush();
+            writer.close();
+        }
+
+        numOfRules = sourceCode.size();
     }
 
     private void writePomFile() throws IOException {
 
-        final Path pathToPomFile = root.resolve("pom.xml");
+        // Read POM template
 
-        final ClassLoader classLoader = getClass().getClassLoader();
-
-        InputStream inputStream = classLoader.getResourceAsStream(pomTemplateFileName);
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("pom_template.txt");
         String pomTemplate = IOUtils.toString(inputStream);
         inputStream.close();
 
-        String mainClass = String.format("%s.%s", groupId, artifactId);
+        // Fill POM template by properties
 
+        String mainClass = String.format("%s.%s", groupId, artifactId);
         // TODO Можно ли считать эти свойства с POM-файла напрямую?
         Properties properties = new Properties();
         properties.load(classLoader.getResourceAsStream("tabbyxl.properties"));
@@ -86,117 +121,55 @@ public class MvnProjectGenerator {
         String tabbyxlArtifactId = properties.getProperty("artifactId");
         String tabbyxlVersion = properties.getProperty("version");
 
-        pomTemplate = String.format(pomTemplate,
+        String pomContent = String.format(pomTemplate,
                 groupId, artifactId,
                 mainClass,
                 tabbyxlPath.toAbsolutePath(),
                 tabbyxlGroupId, tabbyxlArtifactId, tabbyxlVersion);
 
+        // Write POM file
+
+        final Path pathToPomFile = root.resolve("pom.xml");
         FileOutputStream fos = new FileOutputStream(pathToPomFile.toFile());
         OutputStreamWriter streamWriter = new OutputStreamWriter(fos);
-        streamWriter.write(pomTemplate);
+        streamWriter.write(pomContent);
         streamWriter.flush();
         streamWriter.close();
     }
 
     private void writeMainClassFile() throws IOException {
 
+        // Read Main-class template
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("main_class_template.txt");
+        String mainClassTemplate = IOUtils.toString(inputStream);
+        inputStream.close();
+
+        // Fill Main-class template by properties
+
+        StringBuilder sb = new StringBuilder();
+        String indent = StringUtils.repeat(" ", 20);
+        for (int i = 1; i < numOfRules + 1; i ++) {
+            sb
+                    .append(indent)
+                    .append("new Rule")
+                    .append(i)
+                    .append("(table).eval();")
+                    .append(newLine);
+        }
+        String mainClassContent = String.format(mainClassTemplate, sb);
+
+        // Write Main-class
+
         Path outPath = packagePath.resolve(groupId.replace(".", File.separator));
         Files.createDirectories(outPath);
-
         Path filePath = outPath.resolve(String.format("%s.java", artifactId));
         Files.createFile(filePath);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append("package ").append(groupId).append(";").append(newLine)
-                .append(newLine)
-                .append("import ru.icc.td.tabbyxl.DataLoader;").append(newLine)
-                .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
-                .append("import ").append(groupId).append(".rules.*;").append(newLine)
-                .append(newLine)
-                .append("import java.io.File;").append(newLine)
-                .append("import java.io.IOException;").append(newLine)
-                .append(newLine)
-                .append("public class ") .append(artifactId).append(" {").append(newLine)
-                .append(indent).append("public static void main(String[] args) {").append(newLine)
-                .append(newLine)
-                .append(indent).append(indent).append("try {").append(newLine)
-                .append(indent).append(indent).append(indent).append("String inputExcelFilePath = args[0];").append(newLine)
-                .append(indent).append(indent).append(indent).append("File inputExcelFile = new File(inputExcelFilePath);").append(newLine)
-                .append(newLine)
-                .append(indent).append(indent).append(indent).append("DataLoader dataLoader = DataLoader.getInstance();").append(newLine)
-                .append(indent).append(indent).append(indent).append("dataLoader.loadWorkbook(inputExcelFile);").append(newLine)
-                .append(newLine)
-                .append(indent).append(indent).append(indent).append("for (int i = 0; i < dataLoader.numOfSheets(); i++) {").append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append("dataLoader.goToSheet(i);").append(newLine)
-                .append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append("while (true) {").append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append(indent).append("CTable table = dataLoader.nextTable();").append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append(indent).append("if (null == table) break;").append(newLine)
-                .append(newLine);
-
-        for (int i = 1; i < rulesCount + 1; i ++) {
-            stringBuilder
-                    .append(indent).append(indent).append(indent).append(indent).append(indent)
-                    //.append("Rule").append(i).append(" rule").append(i).append(" = new Rule").append(i).append("(table);").append(newLine)
-                    //.append(indent).append(indent).append(indent).append(indent).append(indent)
-                    //.append("rule").append(i).append(".eval();").append(newLine)
-                    //.append(newLine);
-                    .append("new Rule").append(i).append("(table).eval();").append(newLine);
-        }
-
-        stringBuilder
-                .append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("Tables.recoverCellBorders(table);").append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("table.update();").append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("System.out.println(table.trace());").append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append(indent)
-                .append("table.toCanonicalForm().print();").append(newLine)
-                .append(indent).append(indent).append(indent).append(indent).append("}").append(newLine)
-                .append(indent).append(indent).append(indent).append("}").append(newLine)
-                .append(indent).append(indent).append("} catch (IOException e) {").append(newLine)
-                .append(indent).append(indent).append(indent).append("e.printStackTrace();").append(newLine)
-                .append(indent).append(indent).append("}").append(newLine);
-
-        stringBuilder
-                .append(indent).append("}").append(newLine)
-                .append("}");
-
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filePath.toFile()));
-        writer.write(stringBuilder.toString());
+        writer.write(mainClassContent);
         writer.flush();
         writer.close();
     }
 
-    private void writeRuleClasses() throws IOException, RecognitionException {
-
-        Path outputDir = packagePath.resolve(groupId.replace(".", File.separator)).resolve("rules");
-
-        if (!Files.exists(outputDir)) {
-            Files.createDirectories(outputDir);
-        } else {
-            FileUtils.cleanDirectory(outputDir.toFile());
-        }
-
-        final String packageName = String.format("%s.rules", groupId);
-        final CRL2JEngine crl2jEngine = new CRL2JEngine(packageName);
-
-        crl2jEngine.loadRules(crlFile);
-        List<String> classSourceCodes = crl2jEngine.getSourceCode();
-        rulesCount = classSourceCodes.size();
-
-        int index = 0;
-        for (String sourceCodeString: classSourceCodes) {
-            index ++;
-            File outputFile = outputDir.resolve(String.format("Rule%d.java", index)).toFile();
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile));
-            writer.write(sourceCodeString);
-            writer.flush();
-            writer.close();
-        }
-    }
 }

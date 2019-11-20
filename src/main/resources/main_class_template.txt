@@ -1,0 +1,39 @@
+package generated;
+
+import ru.icc.td.tabbyxl.DataLoader;
+import ru.icc.td.tabbyxl.model.*;
+import generated.rules.*;
+
+import java.io.File;
+import java.io.IOException;
+
+public class SpreadsheetDataCanonicalizer {
+    public static void main(String[] args) {
+
+        try {
+            String inputExcelFilePath = args[0];
+            File inputExcelFile = new File(inputExcelFilePath);
+
+            DataLoader dataLoader = DataLoader.getInstance();
+            dataLoader.loadWorkbook(inputExcelFile);
+
+            for (int i = 0; i < dataLoader.numOfSheets(); i++) {
+                dataLoader.goToSheet(i);
+
+                while (true) {
+                    CTable table = dataLoader.nextTable();
+                    if (null == table) break;
+
+%s
+
+                    Tables.recoverCellBorders(table);
+                    table.update();
+                    System.out.println(table.trace());
+                    table.toCanonicalForm().print();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
