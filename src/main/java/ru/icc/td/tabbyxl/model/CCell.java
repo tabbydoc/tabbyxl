@@ -531,4 +531,14 @@ public final class CCell extends COwned implements Cloneable
     public NerTag getNerTag() {
         return nerTag;
     }
+
+    private String tag;
+
+    public String getTag() {
+        return getMark();
+    }
+
+    public void setTag(String tag) {
+        this.setMark(tag);
+    }
 }
