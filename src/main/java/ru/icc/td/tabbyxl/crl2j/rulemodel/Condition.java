@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Condition {
 
-    public enum ConditionType {
-        ForAll, NotExist
+    public enum Quantifier {
+        FOR_ALL, NOT_EXIST
     }
 
     public enum DataType {
@@ -14,7 +14,7 @@ public class Condition {
     }
 
     private int id;
-    private ConditionType conditionType;
+    private Quantifier quantifier;
     private DataType dataType;
     private String identifier;
     private List<Constraint> constraints = new ArrayList<>();
@@ -28,8 +28,12 @@ public class Condition {
         this.id = id;
     }
 
-    public void setConditionType(ConditionType conditionType) {
-        this.conditionType = conditionType;
+    public Quantifier getQuantifier() {
+        return quantifier;
+    }
+
+    public void setQuantifier(Quantifier quantifier) {
+        this.quantifier = quantifier;
     }
 
     public void setDataType(DataType dataType) {
@@ -64,7 +68,9 @@ public class Condition {
         return assignments;
     }
 
-    public boolean isNotExistsCondition() {
-        return (conditionType == ConditionType.NotExist ? true : false);
+    /*
+    public boolean isNotExistCondition() {
+        return (quantifier == Quantifier.NOT_EXIST ? true : false);
     }
+    */
 }

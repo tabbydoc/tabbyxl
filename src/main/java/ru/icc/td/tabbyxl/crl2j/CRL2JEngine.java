@@ -16,6 +16,7 @@
 
 package ru.icc.td.tabbyxl.crl2j;
 
+import com.squareup.javapoet.JavaFile;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -86,7 +87,8 @@ public final class CRL2JEngine {
         Ruleset ruleset = Ruleset.createInstance(ast);
 
         // Generate Java source code from the Ruleset model
-        CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
+        //CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
+        CodeGenerator2 codeGenerator = new CodeGenerator2(getPackageName(), ruleset);
 
         return codeGenerator.fetchSourceCode();
     }
@@ -101,9 +103,9 @@ public final class CRL2JEngine {
             int i = 0;
             for (String classSourceCode : sourceCode) {
                 i++;
-                String s = String.format("%s.Rule%d", getPackageName(), i);
+                String className = String.format("%s.Rule%d", getPackageName(), i);
                 Class<?>[] prototype = new Class<?>[]{RuleProgramPrototype.class};
-                Class<? extends RuleProgramPrototype> clazz = compiler.compile(s, classSourceCode, null, prototype);
+                Class<? extends RuleProgramPrototype> clazz = compiler.compile(className, classSourceCode, null, prototype);
                 clazzes.add(clazz);
             }
         } catch (CharSequenceCompilerException e) {
@@ -116,7 +118,7 @@ public final class CRL2JEngine {
 
     public void loadRules(File crlFile) throws IOException, RecognitionException {
 
-        // Parse CRL to AST
+        // Parse the CRL ruleset to AST
         Tree ast = parse(crlFile);
 
         // Translate AST to Java source code:

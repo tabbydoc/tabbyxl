@@ -24,7 +24,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
 
-public final class CodeGenerator {
+final class CodeGenerator {
 
     private static final String newLine = System.lineSeparator();
     private static final String indent = StringUtils.repeat(" ", 4);
@@ -214,7 +214,7 @@ public final class CodeGenerator {
 
             code.append(newLine);
 
-            if (!currentCondition.isNotExistsCondition()) {
+            if (currentCondition.getQuantifier() == Condition.Quantifier.FOR_ALL) {
                 code
                         .append(fetchIndent(level))
                         .append("while ( ")

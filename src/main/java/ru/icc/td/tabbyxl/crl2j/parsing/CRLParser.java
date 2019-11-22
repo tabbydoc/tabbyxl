@@ -784,7 +784,7 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleSubtreeStream stream_query=new RewriteRuleSubtreeStream(adaptor,"rule query");
         RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
          
-        	((condition_scope)condition_stack.peek()).type = "ForAll"; 
+        	((condition_scope)condition_stack.peek()).type = "FOR_ALL";
         	((condition_scope)condition_stack.peek()).id = null;
 
         try {
@@ -806,7 +806,7 @@ public TreeAdaptor getTreeAdaptor() {
                     if ( state.backtracking==0 ) stream_56.add(string_literal18);
 
 
-                    if ( state.backtracking==0 ) { ((condition_scope)condition_stack.peek()).type = "NotExist"; }
+                    if ( state.backtracking==0 ) { ((condition_scope)condition_stack.peek()).type = "NOT_EXIST"; }
 
                     }
                     break;
