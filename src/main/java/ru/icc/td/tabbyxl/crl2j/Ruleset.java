@@ -16,9 +16,7 @@
 
 package ru.icc.td.tabbyxl.crl2j;
 
-import com.squareup.javapoet.ClassName;
 import org.antlr.runtime.tree.Tree;
-import org.apache.commons.lang3.tuple.Pair;
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
 
 import java.util.ArrayList;
@@ -37,16 +35,145 @@ final class Ruleset {
         return rules;
     }
 
-    private Ruleset() {}
+    public Ruleset(Tree ast) {
+        importStatements.addAll(Constructor.createImports(ast));
+        rules.addAll(Constructor.createRules(ast));
+    }
 
-    public static Ruleset createInstance(Tree ast) {
+    private static final class Constructor {
 
-        // TODO Check a param (AST-tree)
+        static List<String> createImports(Tree ast) {
 
-        Ruleset ruleset = new Ruleset();
-        ruleset.importStatements.addAll(Interpreter.createImports(ast));
-        ruleset.rules.addAll(Interpreter.createRules(ast));
+            List<String> imports = new ArrayList<>();
 
-        return ruleset;
+            for (int i = 0; i < ast.getChildCount(); i++) {
+                Tree subtree = ast.getChild(i);
+
+                if (subtree.getText().equals("IMPORTS")) {
+                    for (int j = 0; j < subtree.getChildCount(); j++) {
+                        imports.add(subtree.getChild(j).getText());
+                    }
+                }
+            }
+
+            return imports;
+        }
+
+        static List<Rule> createRules(Tree ast) {
+
+            List<Rule> rules = new ArrayList<>();
+
+            for (int i = 0; i < ast.getChildCount(); i++) {
+                Tree subTree = ast.getChild(i);
+
+                if (subTree.getText().equals("RULES")) {
+                    for (int j = 0; j < subTree.getChildCount(); j++) {
+                        rules.add(createRule(subTree.getChild(j)));
+                    }
+                }
+            }
+
+            return rules;
+        }
+
+        static Rule createRule(Tree tree) {
+
+            Rule rule = new Rule();
+
+            rule.setId(Integer.parseInt(tree.getText()));
+
+            for (int i = 0; i < tree.getChildCount(); i++) {
+                Tree subtree = tree.getChild(i);
+
+                if (subtree.getText().equals("CONDITIONS")) {
+
+                    for (int j = 0; j < subtree.getChildCount(); j++) {
+                        rule.addCondition(createCondition(subtree.getChild(j), j + 1));
+                    }
+                } else if (subtree.getText().equals("ACTIONS")) {
+
+                    for (int j = 0; j < subtree.getChildCount(); j++) {
+                        rule.addAction(createAction(subtree.getChild(j)));
+                    }
+                }
+            }
+
+            return rule;
+        }
+
+        static Condition createCondition(Tree tree, int id) {
+
+            Condition condition = new Condition();
+
+            condition.setId(id);
+            condition.setQuantifier(Condition.Quantifier.valueOf(tree.getChild(0).getText()));
+            condition.setDataType(Condition.DataType.valueOf(tree.getChild(1).getText()));
+
+            if (tree.getChild(2).getText().equals("null")) {
+                condition.setIdentifier("id" + id);
+            } else {
+                condition.setIdentifier(tree.getChild(2).getText());
+            }
+
+            Tree constraintsTree = tree.getChild(3);
+            for (int i = 0; i < constraintsTree.getChildCount(); i++) {
+                Tree subTree = constraintsTree.getChild(i);
+                condition.addConstraint(createConstraint(subTree));
+            }
+
+            Tree assignmentTree = tree.getChild(4);
+            if (assignmentTree.getChildCount() > 0)
+                condition.addAssignment(createAssignment(assignmentTree));
+
+            return condition;
+        }
+
+        static Constraint createConstraint(Tree tree) {
+
+            Constraint constraint = new Constraint();
+
+            for (int i = 0; i < tree.getChildCount(); i++) {
+                constraint.addExpression(tree.getChild(i).getText());
+            }
+
+            return constraint;
+        }
+
+        static Assignment createAssignment(Tree tree) {
+
+            Assignment assignment = new Assignment();
+
+            assignment.setIdentifier(tree.getChild(0).getText());
+
+            for (int i = 0; i < tree.getChild(1).getChildCount(); i++) {
+                assignment.addExpression(tree.getChild(1).getChild(i).getText());
+            }
+
+            return assignment;
+        }
+
+        static Action createAction(Tree tree) {
+
+            Action action = new Action();
+            action.setType(Action.Type.valueOf(tree.getText()));
+
+            List<Operand> operands = new ArrayList<>();
+
+            for (int i = 0; i < tree.getChildCount(); i++) {
+                Tree subTree = tree.getChild(i);
+
+                List<String> expressions = new ArrayList<>();
+                for (int j = 0; j < subTree.getChildCount(); j++) {
+                    expressions.add(subTree.getChild(j).getText());
+                }
+                Operand operand = new Operand();
+                operand.setExpressions(expressions);
+                operands.add(operand);
+            }
+
+            action.setOperands(operands);
+
+            return action;
+        }
     }
 }

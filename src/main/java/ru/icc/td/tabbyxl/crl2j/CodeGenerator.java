@@ -118,7 +118,7 @@ final class CodeGenerator {
 
         String fetchMandatoryImportStatements() {
             return new StringBuilder()
-                    .append("import ru.icc.td.tabbyxl.crl2j.synthesis.GeneratedTableModifier;").append(newLine)
+                    .append("import ru.icc.td.tabbyxl.crl2j.GeneratedTableModifier;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.style.*;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.exception.*;").append(newLine)

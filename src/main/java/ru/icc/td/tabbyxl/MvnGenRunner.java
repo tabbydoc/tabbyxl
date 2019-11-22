@@ -1,7 +1,7 @@
 package ru.icc.td.tabbyxl;
 
 import org.antlr.runtime.RecognitionException;
-import ru.icc.td.tabbyxl.crl2j.MvnProjectGenerator;
+import ru.icc.td.tabbyxl.crl2j.mvngen.MvnProjectGenerator;
 
 import java.io.File;
 import java.io.IOException;

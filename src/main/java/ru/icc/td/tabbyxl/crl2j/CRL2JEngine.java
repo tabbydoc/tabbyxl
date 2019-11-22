@@ -16,7 +16,6 @@
 
 package ru.icc.td.tabbyxl.crl2j;
 
-import com.squareup.javapoet.JavaFile;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -26,7 +25,6 @@ import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
-import ru.icc.td.tabbyxl.crl2j.synthesis.GeneratedTableModifier;
 import ru.icc.td.tabbyxl.model.CTable;
 
 import java.io.File;
@@ -40,7 +38,7 @@ public final class CRL2JEngine {
 
     private static final String filledLine = StringUtils.repeat("=", 100);
     private static final CharSequenceCompiler compiler;
-    public static final String PACKAGE_NAME_BY_DEFAULT = "ru.icc.td.tabbyxl.crl2j.synthesis";
+    public static final String PACKAGE_NAME_BY_DEFAULT = "generated";
 
     static {
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
@@ -84,7 +82,7 @@ public final class CRL2JEngine {
     private List<String> translate(Tree ast) {
 
         // Analyze AST to create a Ruleset model
-        Ruleset ruleset = Ruleset.createInstance(ast);
+        Ruleset ruleset = new Ruleset(ast);
 
         // Generate Java source code from the Ruleset model
         //CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
