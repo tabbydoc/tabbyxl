@@ -94,8 +94,8 @@ final class CodeGenerator {
             sourceCode.append(fetchClassDeclaration());
 
             // Add a constructor
-            sourceCode.append(fetchConstructor());
-            sourceCode.append(newLine);
+            //sourceCode.append(fetchConstructor());
+            //sourceCode.append(newLine);
 
             // Add "eval()" method
             sourceCode.append(fetchEvalMethod());
@@ -118,7 +118,7 @@ final class CodeGenerator {
 
         String fetchMandatoryImportStatements() {
             return new StringBuilder()
-                    .append("import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;").append(newLine)
+                    .append("import ru.icc.td.tabbyxl.crl2j.synthesis.GeneratedTableModifier;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.*;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.style.*;").append(newLine)
                     .append("import ru.icc.td.tabbyxl.model.exception.*;").append(newLine)
@@ -143,13 +143,14 @@ final class CodeGenerator {
 
         String fetchClassDeclaration() {
             return new StringBuilder()
-                    .append("public class Rule")
+                    .append("public class GeneratedTableModifier")
                     .append(rule.getId())
-                    .append(" extends RuleProgramPrototype {")
+                    .append(" implements GeneratedTableModifier {")
                     .append(newLine)
                     .toString();
         }
 
+        /*
         String fetchConstructor() {
             return new StringBuilder()
                     .append(fetchIndent(1))
@@ -165,6 +166,7 @@ final class CodeGenerator {
                     .append(newLine)
                     .toString();
         }
+        */
 
         String fetchEvalMethod() {
             StringBuilder code = new StringBuilder();
@@ -173,7 +175,7 @@ final class CodeGenerator {
                     .append(fetchIndent(1))
                     .append("@Override").append(newLine)
                     .append(fetchIndent(1))
-                    .append("public void eval () {").append(newLine)
+                    .append("public void apply(CTable table) {").append(newLine)
                     .append(generateCondition(rule.getConditions().iterator(), rule.getActions().iterator(), 2))
                     .append(fetchIndent(1))
                     .append("}").append(newLine);
@@ -197,16 +199,16 @@ final class CodeGenerator {
             switch (currentCondition.getDataType()) {
 
                 case CCell:
-                    code.append("getTable().getCells();");
+                    code.append("table.getCells();");
                     break;
                 case CLabel:
-                    code.append("getTable().getLabels();");
+                    code.append("table.getLabels();");
                     break;
                 case CEntry:
-                    code.append("getTable().getEntries();");
+                    code.append("table.getEntries();");
                     break;
                 case CCategory:
-                    code.append("getTable().getLocalCategoryBox().getCategories();");
+                    code.append("table.getLocalCategoryBox().getCategories();");
                     break;
                 default:
                     break;

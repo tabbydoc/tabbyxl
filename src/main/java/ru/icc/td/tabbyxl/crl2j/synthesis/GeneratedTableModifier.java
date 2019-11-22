@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
+ * Copyright 2018-19 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,9 @@
 
 package ru.icc.td.tabbyxl.crl2j.synthesis;
 
-import ru.icc.td.tabbyxl.model.*;
+import ru.icc.td.tabbyxl.model.CTable;
 
-public abstract class RuleProgramPrototype implements RuleProgramInterface {
-
-    private CTable table;
-
-    public CTable getTable() {
-        return table;
-    }
-
-    public RuleProgramPrototype(CTable table) {
-        this.table = table;
-    }
+@FunctionalInterface
+public interface GeneratedTableModifier {
+    void apply(CTable table);
 }

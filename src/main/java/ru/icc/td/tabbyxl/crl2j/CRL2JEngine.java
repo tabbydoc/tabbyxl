@@ -26,7 +26,7 @@ import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
-import ru.icc.td.tabbyxl.crl2j.synthesis.RuleProgramPrototype;
+import ru.icc.td.tabbyxl.crl2j.synthesis.GeneratedTableModifier;
 import ru.icc.td.tabbyxl.model.CTable;
 
 import java.io.File;
@@ -47,7 +47,7 @@ public final class CRL2JEngine {
     }
 
     private List<String> sourceCode;
-    private List<Class<? extends RuleProgramPrototype>> classes;
+    private List<Class<GeneratedTableModifier>> classes;
 
     private String packageName;
 
@@ -93,8 +93,8 @@ public final class CRL2JEngine {
         return codeGenerator.fetchSourceCode();
     }
 
-    private List<Class<? extends RuleProgramPrototype>> compile(List<String> sourceCode) {
-        List<Class<? extends RuleProgramPrototype>> clazzes = null;
+    private List<Class<GeneratedTableModifier>> compile(List<String> sourceCode) {
+        List<Class<GeneratedTableModifier>> clazzes = null;
 
         try {
             int size = sourceCode.size();
@@ -103,9 +103,9 @@ public final class CRL2JEngine {
             int i = 0;
             for (String classSourceCode : sourceCode) {
                 i++;
-                String className = String.format("%s.Rule%d", getPackageName(), i);
-                Class<?>[] prototype = new Class<?>[]{RuleProgramPrototype.class};
-                Class<? extends RuleProgramPrototype> clazz = compiler.compile(className, classSourceCode, null, prototype);
+                String className = String.format("%s.GeneratedTableModifier%d", getPackageName(), i);
+                Class<?>[] prototype = new Class<?>[]{GeneratedTableModifier.class};
+                Class<GeneratedTableModifier> clazz = compiler.compile(className, classSourceCode, null, prototype);
                 clazzes.add(clazz);
             }
         } catch (CharSequenceCompilerException e) {
@@ -145,10 +145,10 @@ public final class CRL2JEngine {
     public void processTable(CTable table)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        for (Class<? extends RuleProgramPrototype> clazz: classes) {
-            Constructor<? extends RuleProgramPrototype> constructor = clazz.getConstructor(CTable.class);
-            RuleProgramPrototype instance = constructor.newInstance(table);
-            instance.eval();
+        for (Class<GeneratedTableModifier> clazz: classes) {
+            Constructor<GeneratedTableModifier> constructor = clazz.getConstructor();
+            GeneratedTableModifier instance = constructor.newInstance();
+            instance.apply(table);
         }
     }
 }
