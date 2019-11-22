@@ -29,7 +29,4 @@ public abstract class RuleProgramPrototype implements RuleProgramInterface {
     public RuleProgramPrototype(CTable table) {
         this.table = table;
     }
-
-   @Override
-   public void eval() {}
 }

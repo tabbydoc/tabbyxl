@@ -132,6 +132,7 @@ final class CodeGenerator2 {
             return javaFile;
         }
 
+        // TODO Test this method
         void addStaticImports(JavaFile.Builder builder) {
             List<String> importStatements = ruleset.getImportStatements();
 
