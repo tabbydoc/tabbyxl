@@ -24,36 +24,28 @@ import ru.icc.td.tabbyxl.model.style.CStyle;
 
 import java.util.Iterator;
 
-public final class Tables
-{
-    //TODO Кто писал этот метод и зачем?
-    // Восстановление границ ячеек.
-    // Этот метод восстанавливает физ. границы ячеек в соответствии с ее видимыми границами
-    public static CTable recoverCellBorders(CTable table )
-    {
+public final class TableUtils {
+
+    public static CTable recoverCellBorders(CTable table) {
         int numOfCols = table.numOfCols();
         int numOfRows = table.numOfRows();
 
-        CCell[][] cellMatrix = new CCell[ numOfCols + 1 ][ numOfRows + 1 ];
+        CCell[][] cellMatrix = new CCell[numOfCols + 1][numOfRows + 1];
 
         Iterator<CCell> cells = table.getCells();
 
-        while ( cells.hasNext() )
-        {
+        while (cells.hasNext()) {
             CCell cell = cells.next();
-            for ( int i = cell.getCl(); i <= cell.getCr(); i++ )
-            {
-                for ( int j = cell.getRt(); j <= cell.getRb(); j++ )
-                {
-                    cellMatrix[ i ][ j ] = cell;
+            for (int i = cell.getCl(); i <= cell.getCr(); i++) {
+                for (int j = cell.getRt(); j <= cell.getRb(); j++) {
+                    cellMatrix[i][j] = cell;
                 }
             }
         }
 
         cells = table.getCells();
 
-        while ( cells.hasNext() )
-        {
+        while (cells.hasNext()) {
             CCell cell = cells.next();
             CStyle sty = cell.getStyle();
             CCell neighbor;
@@ -62,89 +54,81 @@ public final class Tables
 
             // Left
             CBorder leftBorder = sty.getLeftBorder();
-            if ( leftBorder.getType() == BorderType.NONE && cell.getCl() > 1 )
-            {
+            if (leftBorder.getType() == BorderType.NONE && cell.getCl() > 1) {
                 recoveredBorderType = BorderType.NONE;
 
-                for ( int j = cell.getRt(); j <= cell.getRb(); j++ )
-                {
-                    neighbor = cellMatrix[ cell.getCl() - 1 ][ j ];
-                    if ( null == neighbor ) continue;
+                for (int j = cell.getRt(); j <= cell.getRb(); j++) {
+                    neighbor = cellMatrix[cell.getCl() - 1][j];
+                    if (null == neighbor) continue;
 
                     neighborSty = neighbor.getStyle();
 
                     recoveredBorderType = neighborSty.getRightBorder().getType();
-                    if ( recoveredBorderType == BorderType.NONE )
+                    if (recoveredBorderType == BorderType.NONE)
                         break;
                 }
 
-                if ( recoveredBorderType != BorderType.NONE )
+                if (recoveredBorderType != BorderType.NONE)
                     leftBorder.setType(recoveredBorderType);
             }
 
             // Right
             CBorder rightBorder = sty.getRightBorder();
-            if ( rightBorder.getType() == BorderType.NONE && cell.getCr() < numOfCols )
-            {
+            if (rightBorder.getType() == BorderType.NONE && cell.getCr() < numOfCols) {
                 recoveredBorderType = BorderType.NONE;
 
-                for ( int j = cell.getRt(); j <= cell.getRb(); j++ )
-                {
-                    neighbor = cellMatrix[ cell.getCr() + 1 ][ j ];
-                    if ( null == neighbor ) continue;
+                for (int j = cell.getRt(); j <= cell.getRb(); j++) {
+                    neighbor = cellMatrix[cell.getCr() + 1][j];
+                    if (null == neighbor) continue;
 
                     neighborSty = neighbor.getStyle();
 
                     recoveredBorderType = neighborSty.getLeftBorder().getType();
-                    if ( recoveredBorderType == BorderType.NONE )
+                    if (recoveredBorderType == BorderType.NONE)
                         break;
                 }
 
-                if ( recoveredBorderType != BorderType.NONE )
+                if (recoveredBorderType != BorderType.NONE)
                     rightBorder.setType(recoveredBorderType);
             }
 
             // Top
             CBorder topBorder = sty.getTopBorder();
-            if ( topBorder.getType() == BorderType.NONE && cell.getRt() > 1 )
-            {
+            if (topBorder.getType() == BorderType.NONE && cell.getRt() > 1) {
                 recoveredBorderType = BorderType.NONE;
 
-                for ( int i = cell.getCl(); i <= cell.getCr(); i++ )
-                {
-                    neighbor = cellMatrix[ i ][ cell.getRt() - 1 ];
-                    if ( null == neighbor ) continue;
+                for (int i = cell.getCl(); i <= cell.getCr(); i++) {
+                    neighbor = cellMatrix[i][cell.getRt() - 1];
+                    if (null == neighbor) continue;
 
                     neighborSty = neighbor.getStyle();
 
                     recoveredBorderType = neighborSty.getBottomBorder().getType();
-                    if ( recoveredBorderType == BorderType.NONE )
+                    if (recoveredBorderType == BorderType.NONE)
                         break;
                 }
 
-                if ( recoveredBorderType != BorderType.NONE )
+                if (recoveredBorderType != BorderType.NONE)
                     topBorder.setType(recoveredBorderType);
             }
 
             // Bottom
             CBorder bottomBorder = sty.getBottomBorder();
-            if ( bottomBorder.getType() == BorderType.NONE && cell.getRb() < numOfRows )
-            {
+            if (bottomBorder.getType() == BorderType.NONE && cell.getRb() < numOfRows) {
                 recoveredBorderType = BorderType.NONE;
 
-                for ( int i = cell.getCl(); i <= cell.getCr(); i++ )
-                {
-                    neighbor = cellMatrix[ i ][ cell.getRb() + 1 ];
-                    if ( null == neighbor ) continue;
+                for (int i = cell.getCl(); i <= cell.getCr(); i++) {
+                    neighbor = cellMatrix[i][cell.getRb() + 1];
+                    if (null == neighbor) continue;
 
                     neighborSty = neighbor.getStyle();
 
                     recoveredBorderType = neighborSty.getTopBorder().getType();
-                    if ( recoveredBorderType == BorderType.NONE )
+                    if (recoveredBorderType == BorderType.NONE)
                         break;
                 }
 
-                if ( recoveredBorderType != BorderType.NONE )
+                if (recoveredBorderType != BorderType.NONE)
                     bottomBorder.setType(recoveredBorderType);
             }
         }

@@ -25,7 +25,7 @@ import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
 import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
 import ru.icc.td.tabbyxl.util.StatisticsManager;
-import ru.icc.td.tabbyxl.util.Tables;
+import ru.icc.td.tabbyxl.util.TableUtils;
 import ru.icc.td.tabbyxl.writers.Writer;
 import ru.icc.td.tabbyxl.writers.DebugWriter;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
@@ -653,7 +653,7 @@ public final class TabbyXL {
 
                 System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
 
-                Tables.recoverCellBorders(table);
+                TableUtils.recoverCellBorders(table);
 
                 if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
                     categoryTemplateManager.createCategories(table);
