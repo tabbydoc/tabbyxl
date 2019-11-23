@@ -1,5 +1,7 @@
 package ru.icc.td.tabbyxl.crl2j.rulemodel;
 
+import ru.icc.td.tabbyxl.model.COwned;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +11,9 @@ public class Condition {
         FOR_ALL, NOT_EXIST
     }
 
-    public enum DataType {
-        CCell, CLabel, CEntry, CCategory
-    }
-
     private int id;
     private Quantifier quantifier;
-    private DataType dataType;
+    private Class<COwned> dataType;
     private String identifier;
     private List<Constraint> constraints = new ArrayList<>();
     private List<Assignment> assignments = new ArrayList<>();
@@ -36,11 +34,11 @@ public class Condition {
         this.quantifier = quantifier;
     }
 
-    public void setDataType(DataType dataType) {
+    public void setDataType(Class<COwned> dataType) {
         this.dataType = dataType;
     }
 
-    public DataType getDataType() {
+    public Class<COwned> getDataType() {
         return dataType;
     }
 
@@ -68,9 +66,4 @@ public class Condition {
         return assignments;
     }
 
-    /*
-    public boolean isNotExistCondition() {
-        return (quantifier == Quantifier.NOT_EXIST ? true : false);
-    }
-    */
 }

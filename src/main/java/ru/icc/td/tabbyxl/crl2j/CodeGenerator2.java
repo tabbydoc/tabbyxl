@@ -134,6 +134,23 @@ final class CodeGenerator2 {
                     .build();
         }
 
+        String generateIteratorExpression(Class type) {
+            if (type == CCell.class)
+                return "table.getCells()";
+
+            if (type == CLabel.class)
+                return "table.getLabels()";
+
+            if (type == CEntry.class)
+                return "table.getEntries()";
+
+            if (type == CCategory.class)
+                return "table.getLocalCategoryBox().getCategories()";
+
+            // TODO Throw an exception
+            return null;
+        }
+
         void createCodeBlock(Iterator<Condition> conditions, Iterator<Action> actions) {
 
             final Condition currentCondition = conditions.next();
@@ -141,36 +158,12 @@ final class CodeGenerator2 {
             CodeBlock statement;
             CodeBlock controlFlow;
 
-            final Class type;
+            // Collect data of the condition
+
+            final Class type = currentCondition.getDataType();
             final String varName = currentCondition.getIdentifier();
             final String iteratorName = varName.concat("Iterator");
-            final String iteratorExpression;
-
-            // Find the method to get the needed iterator
-
-            switch (currentCondition.getDataType()) {
-                case CCell:
-                    iteratorExpression = "table.getCells()";
-                    type = CCell.class;
-                    break;
-                case CLabel:
-                    iteratorExpression = "table.getLabels()";
-                    type = CLabel.class;
-                    break;
-                case CEntry:
-                    iteratorExpression = "table.getEntries()";
-                    type = CEntry.class;
-                    break;
-                case CCategory:
-                    iteratorExpression = "table.getLocalCategoryBox().getCategories()";
-                    type = CCategory.class;
-                    break;
-                default:
-                    // TODO Throw an exception
-                    iteratorExpression = "";
-                    type = null;
-                    break;
-            }
+            final String iteratorExpression = generateIteratorExpression(type);
 
             // Add initialization of the iterator variable
 

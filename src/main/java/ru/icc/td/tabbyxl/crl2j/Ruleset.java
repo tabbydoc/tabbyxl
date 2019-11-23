@@ -18,6 +18,7 @@ package ru.icc.td.tabbyxl.crl2j;
 
 import org.antlr.runtime.tree.Tree;
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
+import ru.icc.td.tabbyxl.model.COwned;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,12 @@ final class Ruleset {
 
     public Ruleset(Tree ast) {
         staticImportDescriptors.addAll(Constructor.createStaticImportDescriptors(ast));
-        rules.addAll(Constructor.createRules(ast));
+        try {
+            rules.addAll(Constructor.createRules(ast));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     private static final class Constructor {
@@ -62,7 +68,7 @@ final class Ruleset {
             return staticImportDescriptors;
         }
 
-        static List<Rule> createRules(Tree ast) {
+        static List<Rule> createRules(Tree ast) throws ClassNotFoundException {
 
             List<Rule> rules = new ArrayList<>();
 
@@ -79,7 +85,7 @@ final class Ruleset {
             return rules;
         }
 
-        static Rule createRule(Tree tree) {
+        static Rule createRule(Tree tree) throws ClassNotFoundException {
 
             Rule rule = new Rule();
 
@@ -104,13 +110,16 @@ final class Ruleset {
             return rule;
         }
 
-        static Condition createCondition(Tree tree, int id) {
+        static Condition createCondition(Tree tree, int id) throws ClassNotFoundException {
 
             Condition condition = new Condition();
 
             condition.setId(id);
             condition.setQuantifier(Condition.Quantifier.valueOf(tree.getChild(0).getText()));
-            condition.setDataType(Condition.DataType.valueOf(tree.getChild(1).getText()));
+
+            String simpleClassName = tree.getChild(1).getText();
+            Class<COwned> queriedDataType = (Class<COwned>) Class.forName("ru.icc.td.tabbyxl.model." + simpleClassName);
+            condition.setDataType(queriedDataType);
 
             if (tree.getChild(2).getText().equals("null")) {
                 condition.setIdentifier("id" + id);
