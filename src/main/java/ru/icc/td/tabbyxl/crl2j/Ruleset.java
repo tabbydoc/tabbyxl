@@ -24,11 +24,11 @@ import java.util.List;
 
 final class Ruleset {
 
-    private List<String> importStatements = new ArrayList<>();
+    private List<StaticImportDescriptor> staticImportDescriptors = new ArrayList<>();
     private List<Rule> rules = new ArrayList<>();
 
-    public List<String> getImportStatements() {
-        return importStatements;
+    public List<StaticImportDescriptor> getStaticImportDescriptors() {
+        return staticImportDescriptors;
     }
 
     public List<Rule> getRules() {
@@ -36,27 +36,30 @@ final class Ruleset {
     }
 
     public Ruleset(Tree ast) {
-        importStatements.addAll(Constructor.createImports(ast));
+        staticImportDescriptors.addAll(Constructor.createStaticImportDescriptors(ast));
         rules.addAll(Constructor.createRules(ast));
     }
 
     private static final class Constructor {
 
-        static List<String> createImports(Tree ast) {
+        static List<StaticImportDescriptor> createStaticImportDescriptors(Tree ast) {
 
-            List<String> imports = new ArrayList<>();
+            List<StaticImportDescriptor> staticImportDescriptors = new ArrayList<>();
 
             for (int i = 0; i < ast.getChildCount(); i++) {
                 Tree subtree = ast.getChild(i);
 
                 if (subtree.getText().equals("IMPORTS")) {
                     for (int j = 0; j < subtree.getChildCount(); j++) {
-                        imports.add(subtree.getChild(j).getText());
+                        String statement = subtree.getChild(j).getText();
+                        StaticImportDescriptor importDesc = StaticImportDescriptor.parseStaticImportStatement(statement);
+                        if (null != importDesc)
+                            staticImportDescriptors.add(importDesc);
                     }
                 }
             }
 
-            return imports;
+            return staticImportDescriptors;
         }
 
         static List<Rule> createRules(Tree ast) {

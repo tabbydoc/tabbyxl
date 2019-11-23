@@ -10,6 +10,7 @@ public class Action {
     }
 
     private Type type;
+
     private List<Operand> operands = new ArrayList<>();
 
     public Type  getType() {

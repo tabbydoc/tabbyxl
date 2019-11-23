@@ -16,6 +16,7 @@
 
 package ru.icc.td.tabbyxl.crl2j.mvngen;
 
+import com.squareup.javapoet.JavaFile;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -73,7 +74,7 @@ public class MvnProjectGenerator {
         String nameOfPackage = groupId.concat(".table_modifiers");
         final CRL2JEngine crl2jEngine = new CRL2JEngine(nameOfPackage);
         crl2jEngine.loadRules(crlFile);
-        List<String> sourceCode = crl2jEngine.getSourceCode();
+        List<JavaFile> javaFiles = crl2jEngine.getJavaFiles();
 
         // Clean or create the output directory
 
@@ -87,20 +88,10 @@ public class MvnProjectGenerator {
 
         // Write source code
 
-        int index = 0;
-        for (String sc: sourceCode) {
-            index ++;
+        for (JavaFile javaFile: javaFiles)
+            javaFile.writeTo(outputDir);
 
-            String fileName = String.format("GeneratedTableModifier%d.java", index);
-            File outputFile = outputDir.resolve(fileName).toFile();
-            FileOutputStream fos = new FileOutputStream(outputFile);
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
-            writer.write(sc);
-            writer.flush();
-            writer.close();
-        }
-
-        numOfRules = sourceCode.size();
+        numOfRules = javaFiles.size();
     }
 
     private void writePomFile() throws IOException {

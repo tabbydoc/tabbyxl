@@ -16,6 +16,7 @@
 
 package ru.icc.td.tabbyxl.crl2j;
 
+import com.squareup.javapoet.JavaFile;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -44,7 +45,8 @@ public final class CRL2JEngine {
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
     }
 
-    private List<String> sourceCode;
+    //private List<String> sourceCode;
+    private List<JavaFile> javaFiles;
     private List<Class<GeneratedTableModifier>> classes;
 
     private String packageName;
@@ -79,31 +81,30 @@ public final class CRL2JEngine {
         return (Tree) parser.crl().getTree();
     }
 
-    private List<String> translate(Tree ast) {
+    private List<JavaFile> translate(Tree ast) {
 
-        // Analyze AST to create a Ruleset model
+        // Analyze and interpret AST to create a Ruleset model
         Ruleset ruleset = new Ruleset(ast);
 
         // Generate Java source code from the Ruleset model
-        //CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
         CodeGenerator2 codeGenerator = new CodeGenerator2(getPackageName(), ruleset);
-
-        return codeGenerator.fetchSourceCode();
+        return codeGenerator.generateJavaFiles();
     }
 
-    private List<Class<GeneratedTableModifier>> compile(List<String> sourceCode) {
+    private List<Class<GeneratedTableModifier>> compile(List<JavaFile> javaFiles) {
         List<Class<GeneratedTableModifier>> clazzes = null;
 
         try {
-            int size = sourceCode.size();
+            int size = javaFiles.size();
             clazzes = new ArrayList<>(size);
 
             int i = 0;
-            for (String classSourceCode : sourceCode) {
+            for (JavaFile javaFile : javaFiles) {
                 i++;
                 String className = String.format("%s.GeneratedTableModifier%d", getPackageName(), i);
                 Class<?>[] prototype = new Class<?>[]{GeneratedTableModifier.class};
-                Class<GeneratedTableModifier> clazz = compiler.compile(className, classSourceCode, null, prototype);
+                String sourceCode = javaFile.toString();
+                Class<GeneratedTableModifier> clazz = compiler.compile(className, sourceCode, null, prototype);
                 clazzes.add(clazz);
             }
         } catch (CharSequenceCompilerException e) {
@@ -120,24 +121,24 @@ public final class CRL2JEngine {
         Tree ast = parse(crlFile);
 
         // Translate AST to Java source code:
-        sourceCode = translate(ast);
+        javaFiles = translate(ast);
 
         System.out.println("This Java source code was generated from the ruleset");
         System.out.println(filledLine);
         System.out.println();
 
-        for (String code : sourceCode) {
-            System.out.println(code);
+        for (JavaFile javaFile : javaFiles) {
+            System.out.println(javaFile.toString());
             System.out.println(filledLine);
             System.out.println();
         }
 
         // Compile Java source code to Java classes
-        classes = compile(sourceCode);
+        classes = compile(javaFiles);
     }
 
-    public List<String> getSourceCode() {
-        return sourceCode;
+    public List<JavaFile> getJavaFiles() {
+        return javaFiles;
     }
 
     public void processTable(CTable table)

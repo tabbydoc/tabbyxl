@@ -22,15 +22,12 @@ import ru.icc.td.tabbyxl.model.*;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.squareup.javapoet.*;
 
 import javax.lang.model.element.Modifier;
 
 final class CodeGenerator2 {
-
-    private static final String newLine = System.lineSeparator();
 
     private static final List<Class> classes = new ArrayList<>();
     private static final List<Field> fields = new ArrayList<>();
@@ -57,23 +54,6 @@ final class CodeGenerator2 {
         this.ruleset = ruleset;
     }
 
-    // TODO Remove this temporal method if this CodeGenerator will become trusted
-    List<String> fetchSourceCode() {
-        List<String> sourceCode = new ArrayList<>();
-
-        List<JavaFile> javaFiles = generateJavaFiles();
-        //System.out.println();
-        for (JavaFile javaFile : javaFiles) {
-            //System.out.println(StringUtils.repeat("~", 140));
-            //System.out.println(javaFile.toString());
-            //System.out.println(StringUtils.repeat("~", 140));
-            sourceCode.add(javaFile.toString());
-        }
-        //System.out.println();
-
-        return sourceCode;
-    }
-
     List<JavaFile> generateJavaFiles() {
         List<Rule> rules = ruleset.getRules();
 
@@ -90,16 +70,12 @@ final class CodeGenerator2 {
     }
 
     private final class ForRule {
-        final String[] importStatements;
         final Rule rule;
 
         private List<CodeBlock> codeBlocks = new ArrayList<>();
 
         ForRule(Rule rule) {
             this.rule = rule;
-
-            List<String> importStatementList = ruleset.getImportStatements();
-            importStatements = importStatementList.toArray(new String[0]);
         }
 
         JavaFile createJavaFile() {
@@ -133,25 +109,13 @@ final class CodeGenerator2 {
 
         // TODO Test this method
         void addStaticImports(JavaFile.Builder builder) {
-            List<String> importStatements = ruleset.getImportStatements();
+            List<StaticImportDescriptor> staticImportDescriptors = ruleset.getStaticImportDescriptors();
 
-            if (importStatements.isEmpty()) return;
+            if (staticImportDescriptors.isEmpty()) return;
 
-            final String regex = "import(\\s)+static(\\s)+(\\w+(\\.)?\\w+)+\\.((\\w)+|\\*)";
-            final Pattern validator = Pattern.compile(regex);
-
-            for (String importStatement : importStatements) {
-
-                if (validator.matcher(importStatement).matches()) {
-                    importStatement = importStatement.replaceFirst("import(\\s)+static(\\s)+", "");
-
-                    int separatorIndex = importStatement.lastIndexOf('.');
-                    String s = importStatement.substring(0, separatorIndex);
-                    ClassName className = ClassName.bestGuess(s);
-                    String imported = importStatement.substring(separatorIndex + 1, importStatement.length());
-
-                    builder.addStaticImport(className, imported);
-                }
+            for (StaticImportDescriptor importDesc : staticImportDescriptors) {
+                ClassName className = ClassName.get(importDesc.getPackageName(), importDesc.getClassName());
+                builder.addStaticImport(className, importDesc.getMemberName());
             }
         }
 
@@ -186,22 +150,18 @@ final class CodeGenerator2 {
 
             switch (currentCondition.getDataType()) {
                 case CCell:
-                    //iteratorExpression = "getTable().getCells()";
                     iteratorExpression = "table.getCells()";
                     type = CCell.class;
                     break;
                 case CLabel:
-                    //iteratorExpression = "getTable().getLabels()";
                     iteratorExpression = "table.getLabels()";
                     type = CLabel.class;
                     break;
                 case CEntry:
-                    //iteratorExpression = "getTable().getEntries()";
                     iteratorExpression = "table.getEntries()";
                     type = CEntry.class;
                     break;
                 case CCategory:
-                    //iteratorExpression = "getTable().getLocalCategoryBox().getCategories()";
                     iteratorExpression = "table.getLocalCategoryBox().getCategories()";
                     type = CCategory.class;
                     break;
@@ -405,6 +365,35 @@ final class CodeGenerator2 {
 
                 CodeBlock statement = CodeBlock.builder().addStatement("$L", code.toString()).build();
                 codeBlocks.add(statement);
+
+                // TODO Test cases with the use of "split" and "merge" actions
+                // When the current action is "split" or "merge"
+                // then it is needed to re-start the all iterators of cells
+
+                if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge)) {
+                    final HashMap<String, String> variables = new HashMap<>();
+                    for (Condition condition : rule.getConditions())
+                        variables.put(condition.getIdentifier(), condition.getDataType().toString());
+
+                    Iterator<String> keys = variables.keySet().iterator();
+
+                    while (keys.hasNext()) {
+                        String key = keys.next();
+                        if (variables.get(key).equals("CCell")) {
+
+                            String varName = key;
+                            String iteratorName = varName.concat("Iterator");
+                            String iteratorExpression = "table.getCells()";
+
+                            statement = CodeBlock
+                                    .builder()
+                                    .addStatement("$N = $L", iteratorName, iteratorExpression)
+                                    .build();
+
+                            codeBlocks.add(statement);
+                        }
+                    }
+                }
             }
         }
 
