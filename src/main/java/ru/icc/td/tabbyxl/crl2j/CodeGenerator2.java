@@ -153,6 +153,8 @@ final class CodeGenerator2 {
 
         void createCodeBlock(Iterator<Condition> conditions, Iterator<Action> actions) {
 
+            // Go to the next condition
+
             final Condition currentCondition = conditions.next();
 
             CodeBlock statement;
