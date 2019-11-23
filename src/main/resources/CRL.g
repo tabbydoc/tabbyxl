@@ -1,4 +1,4 @@
-grammar Crl;
+grammar CRL;
 
 options {
 
@@ -48,8 +48,8 @@ importing
 scope {
 	String value;
 }
-@init { $importing::value = "import "; }
-	:	'import' id = ID { $importing::value+=$id.text; } ('.' id = ID { $importing::value+="."+$id.text; } )* ('.*' { $importing::value+=".*"; })? ';'? EOL
+@init { $importing::value = "import static "; }
+	:	'import static' id = ID { $importing::value+=$id.text; } ('.' id = ID { $importing::value+="."+$id.text; } )* ('.*' { $importing::value+=".*"; })? ';'? EOL
 		-> IMPORT [$importing::value]
 	;
 	
@@ -69,10 +69,10 @@ scope {
 	String id; 
 }
 @init { 
-	$condition::typeTag = "ForAll";
+	$condition::typeTag = "FOR_ALL";
 	$condition::id = null;
 }
-	:	('no' { $condition::typeTag = "NotExist"; })?
+	:	('no' { $condition::typeTag = "NOT_EXIST"; })?
 		query 
 		( ident = ID { $condition::id = $ident.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
 		(
@@ -124,7 +124,7 @@ operand
 	;
 
 set_mark
-	:	'set mark' op1 = operand 'to' op2 = operand EOL
+	:	('set mark'|'set tag') op1 = operand 'to' op2 = operand EOL
 		-> ^(ACTION["setMark"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
