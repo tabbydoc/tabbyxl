@@ -26,6 +26,7 @@ import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
+import ru.icc.td.tabbyxl.crl2j.parsing.TreeUtils;
 import ru.icc.td.tabbyxl.model.CTable;
 
 import java.io.File;
@@ -98,10 +99,8 @@ public final class CRL2JEngine {
             int size = javaFiles.size();
             clazzes = new ArrayList<>(size);
 
-            int i = 0;
             for (JavaFile javaFile : javaFiles) {
-                i++;
-                String className = String.format("%s.GeneratedTableModifier%d", getPackageName(), i);
+                String className = String.format("%s.%s", javaFile.packageName, javaFile.typeSpec.name);
                 Class<?>[] prototype = new Class<?>[]{GeneratedTableModifier.class};
                 String sourceCode = javaFile.toString();
                 Class<GeneratedTableModifier> clazz = compiler.compile(className, sourceCode, null, prototype);
@@ -120,17 +119,26 @@ public final class CRL2JEngine {
         // Parse the CRL ruleset to AST
         Tree ast = parse(crlFile);
 
+        if (false) {
+            System.out.println("This AST was produced from the ruleset");
+            System.out.println(TreeUtils.trace(ast));
+            System.out.println(filledLine);
+            System.out.println();
+        }
+
         // Translate AST to Java source code:
         javaFiles = translate(ast);
 
-        System.out.println("This Java source code was generated from the ruleset");
-        System.out.println(filledLine);
-        System.out.println();
-
-        for (JavaFile javaFile : javaFiles) {
-            System.out.println(javaFile.toString());
+        if (true) {
+            System.out.println("This Java source code was generated from the ruleset");
             System.out.println(filledLine);
             System.out.println();
+
+            for (JavaFile javaFile : javaFiles) {
+                System.out.println(javaFile.toString());
+                System.out.println(filledLine);
+                System.out.println();
+            }
         }
 
         // Compile Java source code to Java classes
