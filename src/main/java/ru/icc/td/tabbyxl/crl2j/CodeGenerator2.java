@@ -387,16 +387,14 @@ final class CodeGenerator2 {
                 // then it is needed to re-start the all iterators of cells
 
                 if (action.getMethodName().equals("split") || action.getMethodName().equals("merge")) {
-                    final HashMap<String, String> variables = new HashMap<>();
-                    for (Condition condition : rule.getConditions())
-                        variables.put(condition.getIdentifier(), condition.getQueriedType().toString());
+                    final List<String> varNames = new ArrayList<>();
+                    for (Condition condition : rule.getConditions()) {
+                        Class queriedType = condition.getQueriedType();
 
-                    Iterator<String> keys = variables.keySet().iterator();
+                        if (queriedType == CCell.class) {
+                            String varName = condition.getIdentifier();
+                            varNames.add(varName);
 
-                    while (keys.hasNext()) {
-                        String varName = keys.next();
-                        String varType = variables.get(varName);
-                        if (varType.equals("CCell")) {
                             String iteratorName = varName.concat("Iterator");
                             String iteratorExpression = "table.getCells()";
 
