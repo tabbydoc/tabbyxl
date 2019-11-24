@@ -16,8 +16,7 @@
 
 package ru.icc.td.tabbyxl.model;
 
-public enum TypeTag
-{
+public enum TypeTag {
     NUMERIC,
     DATE,
     STRING,

@@ -16,40 +16,34 @@
 
 package ru.icc.td.tabbyxl.model;
 
-public abstract class CItem extends COwned
-{
+public abstract class CItem extends COwned {
     private CCell cell;
 
-    public CCell getCell()
-    {
+    public CCell getCell() {
         return cell;
     }
 
-    private void setCell( CCell cell )
-    {
+    private void setCell(CCell cell) {
         this.cell = cell;
     }
 
     private String value;
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public void setValue( String value )
-    {
-        if ( null == value )
+    public void setValue(String value) {
+        if (null == value)
             this.value = "";
         else
             this.value = value.trim().toLowerCase();
     }
 
-    protected CItem(CTable owner, CCell cell, String value )
-    {
-        super( owner );
-        setCell( cell );
-        setValue( value );
+    protected CItem(CTable owner, CCell cell, String value) {
+        super(owner);
+        setCell(cell);
+        setValue(value);
     }
 
 }

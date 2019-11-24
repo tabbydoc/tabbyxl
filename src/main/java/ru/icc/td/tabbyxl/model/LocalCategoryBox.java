@@ -18,14 +18,13 @@ package ru.icc.td.tabbyxl.model;
 
 import java.util.*;
 
-public final class LocalCategoryBox extends COwned
-{
+public final class LocalCategoryBox extends COwned {
     private Set<CCategory> categories = new HashSet<CCategory>();
 
-    public Iterator<CCategory> getCategories()
-    {
+    public Iterator<CCategory> getCategories() {
         return categories.iterator();
     }
+
     public List<CCategory> getCategoryList() {
         List<CCategory> res = new ArrayList();
         Iterator iterator = categories.iterator();
@@ -34,38 +33,31 @@ public final class LocalCategoryBox extends COwned
         return res;
     }
 
-    int numOfCategories()
-    {
+    int numOfCategories() {
         return this.categories.size();
     }
 
-    CCategory newCategory( String categoryName )
-    {
-        CCategory category = new CCategory( getOwner(), categoryName );
+    CCategory newCategory(String categoryName) {
+        CCategory category = new CCategory(getOwner(), categoryName);
         // TODO testing is needed: an adding category must have an unique name among all added categories
-        if ( categories.add( category ) )
-        {
+        if (categories.add(category)) {
             return category;
         }
         return null;
     }
 
-    CCategory findCategory( String categoryName )
-    {
+    CCategory findCategory(String categoryName) {
         categoryName = categoryName.toLowerCase();
 
-        for ( CCategory c : categories )
-        {
-            if ( c.getName().equalsIgnoreCase( categoryName ) )
-            {
+        for (CCategory c : categories) {
+            if (c.getName().equalsIgnoreCase(categoryName)) {
                 return c;
             }
         }
         return null;
     }
 
-    LocalCategoryBox( CTable owner )
-    {
-        super( owner );
+    LocalCategoryBox(CTable owner) {
+        super(owner);
     }
 }

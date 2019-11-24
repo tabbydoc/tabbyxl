@@ -16,25 +16,21 @@
 
 package ru.icc.td.tabbyxl.model;
 
-public abstract class COwned
-{
+public abstract class COwned {
     private CTable owner;
 
-    protected CTable getOwner()
-    {
+    protected CTable getOwner() {
         return owner;
     }
 
-    protected void setOwner( CTable owner )
-    {
-        if ( null == owner )
-            throw new NullPointerException( "The owner cannot be null" );
+    protected void setOwner(CTable owner) {
+        if (null == owner)
+            throw new NullPointerException("The owner cannot be null");
         this.owner = owner;
     }
 
-    protected COwned( CTable owner )
-    {
+    protected COwned(CTable owner) {
         super();
-        setOwner( owner );
+        setOwner(owner);
     }
 }

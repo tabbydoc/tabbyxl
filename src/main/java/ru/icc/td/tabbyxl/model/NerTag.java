@@ -17,15 +17,35 @@
 package ru.icc.td.tabbyxl.model;
 
 public enum NerTag {
+
     // 12 entity classes provided by Stanford NLP for English, by default
 
-    PERSON, LOCATION, ORGANIZATION, MISC, // Named entity classes
-    MONEY, NUMBER, ORDINAL, PERCENT, // Numerical entity classes
-    DATE, TIME, DURATION, SET, // Temporal entity classes
+    PERSON,
+    LOCATION,
+    ORGANIZATION,
+    MISC,
 
-    // Additional entity classes provided by Stanford NLP for English
+    MONEY,
+    NUMBER,
+    ORDINAL,
+    PERCENT,
 
-    EMAIL, URL, CITY, STATE_OR_PROVINCE, COUNTRY, NATIONALITY, RELIGION, TITLE, IDEOLOGY, CRIMINAL_CHARGE, CAUSE_OF_DEATH,
+    DATE,
+    TIME,
+    DURATION,
+    SET,
+
+    EMAIL,
+    URL,
+    CITY,
+    STATE_OR_PROVINCE,
+    COUNTRY,
+    NATIONALITY,
+    RELIGION,
+    TITLE,
+    IDEOLOGY,
+    CRIMINAL_CHARGE,
+    CAUSE_OF_DEATH,
 
     // A class of named entities for all rest cases
 

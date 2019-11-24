@@ -23,53 +23,40 @@ import ru.icc.td.tabbyxl.model.exception.ParentAssociatingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CLabel extends CItem
-{
+public final class CLabel extends CItem {
     // TODO reading SEPARATOR value from settings is needed
     private final static String SEPARATOR = "|";
 
-    public String getCompoundValue()
-    {
-        if ( null == parent )
-        {
+    public String getCompoundValue() {
+        if (null == parent) {
             return getValue();
-        }
-        else
-        {
-            return String.format( "%s %s %s", parent.getCompoundValue(), SEPARATOR, getValue() );
+        } else {
+            return String.format("%s %s %s", parent.getCompoundValue(), SEPARATOR, getValue());
         }
     }
 
     private CCategory category;
 
-    public CCategory getCategory()
-    {
+    public CCategory getCategory() {
         return category;
     }
 
-    public boolean hasCategory()
-    {
+    public boolean hasCategory() {
         return null != category;
     }
 
     private boolean blocked = false;
 
-    public void setCategory( CCategory category )
-    {
-        if ( blocked )
-        {
+    public void setCategory(CCategory category) {
+        if (blocked) {
             // TODO generating the warning: "The label is already associated with a category"
-        }
-        else
-        {
-            if ( category.addLabel( this ) )
-            {
+        } else {
+            if (category.addLabel(this)) {
                 this.category = category;
                 // TODO checking category conflicts in label hierarchy, setting category in label hierarchy
 
-                for ( CEntry entry : listeners )
-                {
-                    entry.categoryActivated( this );
+                for (CEntry entry : listeners) {
+                    entry.categoryActivated(this);
                 }
                 listeners = null;
                 blocked = true;
@@ -77,73 +64,61 @@ public final class CLabel extends CItem
         }
     }
 
-    public void setCategory( String categoryName )
-    {
-        if ( null == categoryName )
-            throw new NullPointerException( "The category name cannot be null" );
+    public void setCategory(String categoryName) {
+        if (null == categoryName)
+            throw new NullPointerException("The category name cannot be null");
 
         categoryName = categoryName.trim();
 
-        if ( categoryName.isEmpty() )
-            new IllegalArgumentException( "The category name cannot be empty" );
+        if (categoryName.isEmpty())
+            new IllegalArgumentException("The category name cannot be empty");
 
         LocalCategoryBox localCategoryBox = getOwner().getLocalCategoryBox();
-        CCategory category = localCategoryBox.findCategory( categoryName );
-        if ( category == null )
-        {
-            category = localCategoryBox.newCategory( categoryName );
+        CCategory category = localCategoryBox.findCategory(categoryName);
+        if (category == null) {
+            category = localCategoryBox.newCategory(categoryName);
         }
-        setCategory( category );
+        setCategory(category);
     }
 
-    public void group( CLabel label )
-    {
-        getOwner().getLabelGroupBox().group( this, label );
+    public void group(CLabel label) {
+        getOwner().getLabelGroupBox().group(this, label);
     }
 
-    public CLabel( CTable owner, CCell cell, String value )
-    {
-        super( owner, cell, value );
+    public CLabel(CTable owner, CCell cell, String value) {
+        super(owner, cell, value);
     }
 
-    public CLabel( CTable owner, String value )
-    {
-        this( owner, null, value );
+    public CLabel(CTable owner, String value) {
+        this(owner, null, value);
     }
 
     private CLabel parent;
 
-    public CLabel getParent()
-    {
+    public CLabel getParent() {
         return parent;
     }
 
-    public boolean hasParent()
-    {
+    public boolean hasParent() {
         return null != parent;
     }
 
     private List<CLabel> children = new ArrayList<CLabel>();
 
-    private void addChild( CLabel child )
-    {
+    private void addChild(CLabel child) {
         children.add(child);
     }
 
     // return true if the label nas no child label
     private boolean terminal;
 
-    public boolean isTerminal()
-    {
+    public boolean isTerminal() {
         return children.size() == 0;
     }
 
-    private boolean isDescendant( CLabel label )
-    {
-        for ( CLabel child : children )
-        {
-            if ( child.equals( label ) || child.isDescendant( label ) )
-            {
+    private boolean isDescendant(CLabel label) {
+        for (CLabel child : children) {
+            if (child.equals(label) || child.isDescendant(label)) {
                 return true;
             }
         }
@@ -151,48 +126,37 @@ public final class CLabel extends CItem
     }
 
     // TODO changing exception type is needed
-    public void setParent( CLabel parent ) //throws NotAllowedParentCycleException, NotAllowedParentChangeException
+    public void setParent(CLabel parent) //throws NotAllowedParentCycleException, NotAllowedParentChangeException
     {
-        if ( null == parent )
-            throw new NullPointerException( "The parent label cannot be null" );
+        if (null == parent)
+            throw new NullPointerException("The parent label cannot be null");
 
-        try
-        {
+        try {
             // parent change is not allowed
-            if ( null == this.parent )
-            {
+            if (null == this.parent) {
                 // label cycles are not allowed
-                if ( this.equals( parent ) || isDescendant( parent ) )
-                {
-                    throw new NotAllowedParentCycleException( this, this.getParent(), parent );
-                }
-                else
-                {
+                if (this.equals(parent) || isDescendant(parent)) {
+                    throw new NotAllowedParentCycleException(this, this.getParent(), parent);
+                } else {
                     // TODO checking category conflicts in label hierarchy, setting category in label hierarchy
-                    parent.addChild( this );
+                    parent.addChild(this);
                     this.parent = parent;
                 }
+            } else {
+                throw new NotAllowedParentChangeException(this, this.getParent(), parent);
             }
-            else
-            {
-                throw new NotAllowedParentChangeException( this, this.getParent(), parent );
-            }
-        }
-        catch ( ParentAssociatingException e )
-        {
-            System.out.println( "The label parent candidate has been declined: " + e.getMessage() );
+        } catch (ParentAssociatingException e) {
+            System.out.println("The label parent candidate has been declined: " + e.getMessage());
         }
     }
 
     private List<CEntry> listeners = new ArrayList<CEntry>();
 
-    void addListener( CEntry entry )
-    {
+    void addListener(CEntry entry) {
         listeners.add(entry);
     }
 
-    public String trace()
-    {
+    public String trace() {
         final String separator = "; ";
         final StringBuilder sb = new StringBuilder();
         final String nil = "null";
@@ -205,15 +169,15 @@ public final class CLabel extends CItem
         sb.append(s2).append(separator);
 
         sb.append("parent=");
-        if ( null == parent )
-            sb.append( nil );
+        if (null == parent)
+            sb.append(nil);
         else
             sb.append('"').append(parent.getValue()).append('"');
         sb.append(separator);
 
         sb.append("category=");
-        if ( null == category )
-            sb.append( nil );
+        if (null == category)
+            sb.append(nil);
         else
             sb.append('"').append(category.getName()).append('"');
 
