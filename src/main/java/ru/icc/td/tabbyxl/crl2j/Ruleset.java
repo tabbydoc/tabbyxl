@@ -140,9 +140,9 @@ final class Ruleset {
             return condition;
         }
 
-        static Constraint createConstraint(Tree tree) {
+        static Expression createConstraint(Tree tree) {
 
-            Constraint constraint = new Constraint();
+            Expression constraint = new Expression();
 
             for (int i = 0; i < tree.getChildCount(); i++) {
                 constraint.addToken(tree.getChild(i).getText());
@@ -169,12 +169,12 @@ final class Ruleset {
             Action action = new Action();
             action.setMethodName(tree.getText());
 
-            List<Operand> operands = new ArrayList<>();
+            List<Expression> operands = new ArrayList<>();
 
             for (int i = 0; i < tree.getChildCount(); i++) {
                 Tree subTree = tree.getChild(i);
 
-                Operand operand = new Operand();
+                Expression operand = new Expression();
                 for (int j = 0; j < subTree.getChildCount(); j++) {
                     operand.addToken(subTree.getChild(j).getText());
                 }

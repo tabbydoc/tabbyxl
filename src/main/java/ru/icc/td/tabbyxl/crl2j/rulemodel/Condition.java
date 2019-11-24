@@ -21,7 +21,7 @@ import ru.icc.td.tabbyxl.model.COwned;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Condition {
+public final class Condition {
 
     public enum Quantifier {
         FOR_ALL, NOT_EXIST
@@ -31,7 +31,7 @@ public class Condition {
     private Quantifier quantifier;
     private Class<COwned> dataType;
     private String identifier;
-    private List<Constraint> constraints = new ArrayList<>();
+    private List<Expression> constraints = new ArrayList<>();
     private List<Assignment> assignments = new ArrayList<>();
 
     public int getId() {
@@ -66,11 +66,11 @@ public class Condition {
         return identifier;
     }
 
-    public void addConstraint(Constraint constraint) {
+    public void addConstraint(Expression constraint) {
         this.constraints.add(constraint);
     }
 
-    public List<Constraint> getConstraints() {
+    public List<Expression> getConstraints() {
         return constraints;
     }
 

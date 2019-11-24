@@ -209,12 +209,12 @@ final class CodeGenerator2 {
                 // Add if-block by using the constraints
 
                 String allConstraints;
-                List<Constraint> constraints = currentCondition.getConstraints();
+                List<Expression> constraints = currentCondition.getConstraints();
 
                 if (constraints.isEmpty())
                     allConstraints = Boolean.TRUE.toString();
                 else
-                    allConstraints = generateConstraintExpression(constraints, varName);
+                    allConstraints = collectConstraintsOfCondition(constraints, varName);
 
                 controlFlow = CodeBlock.builder().beginControlFlow("if ($L)", allConstraints).build();
                 codeBlocks.add(controlFlow);
@@ -275,13 +275,13 @@ final class CodeGenerator2 {
 
                 // Add if-block by using the constraints
 
-                List<Constraint> constraints = currentCondition.getConstraints();
+                List<Expression> constraints = currentCondition.getConstraints();
                 String allConstraints;
 
                 if (constraints.isEmpty())
                     allConstraints = "false";
                 else
-                    allConstraints = generateConstraintExpression(currentCondition.getConstraints(), varName);
+                    allConstraints = collectConstraintsOfCondition(currentCondition.getConstraints(), varName);
 
                 controlFlow = CodeBlock.builder().beginControlFlow("if ($L)", allConstraints).build();
                 codeBlocks.add(controlFlow);
@@ -325,7 +325,7 @@ final class CodeGenerator2 {
             }
         }
 
-        String generateConstraintExpression(List<Constraint> constraints, String conditionVarName) {
+        String collectConstraintsOfCondition(List<Expression> constraints, String conditionVarName) {
 
             StringBuilder allConstraints = new StringBuilder();
             List<String> expressions;
@@ -360,7 +360,7 @@ final class CodeGenerator2 {
                 // TODO Remove "update" action from grammar
                 if (action.getMethodName().equals("update")) continue;
 
-                List<Operand> operands = action.getOperands();
+                List<Expression> operands = action.getOperands();
                 String caller = generateNormalizedExpression(operands.get(0).getTokens(), "");
 
                 code

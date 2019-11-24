@@ -3,10 +3,10 @@ package ru.icc.td.tabbyxl.crl2j.rulemodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Action {
+public final class Action {
 
     private String methodName;
-    private List<Operand> operands = new ArrayList<>();
+    private List<Expression> operands = new ArrayList<>();
 
     public String getMethodName() {
         return methodName;
@@ -16,11 +16,11 @@ public class Action {
         this.methodName = methodName;
     }
 
-    public List<Operand> getOperands() {
+    public List<Expression> getOperands() {
         return operands;
     }
 
-    public void setOperands(List<Operand> operands) {
+    public void setOperands(List<Expression> operands) {
         this.operands = operands;
     }
 }

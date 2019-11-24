@@ -3,7 +3,7 @@ package ru.icc.td.tabbyxl.crl2j.rulemodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Assignment {
+public final class Assignment {
 
     private String identifier;
     private List<String> expressions = new ArrayList<>();
