@@ -5,20 +5,15 @@ import java.util.List;
 
 public class Action {
 
-    public enum Type {
-        split, setText, setIndent, setMark, setValue, newEntry, newLabel, merge, addLabel, setCategory, setParent, group, update
-    }
-
-    private Type type;
-
+    private String methodName;
     private List<Operand> operands = new ArrayList<>();
 
-    public Type  getType() {
-        return type;
+    public String getMethodName() {
+        return methodName;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
     public List<Operand> getOperands() {

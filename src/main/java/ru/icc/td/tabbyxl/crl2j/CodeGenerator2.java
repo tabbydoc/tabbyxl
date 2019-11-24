@@ -28,11 +28,12 @@ import com.squareup.javapoet.*;
 import javax.lang.model.element.Modifier;
 
 final class CodeGenerator2 {
-
-    private static final List<Class> classes = new ArrayList<>();
     private static final List<Field> fields = new ArrayList<>();
+    private static final List<String> binaryOperators;
 
     static {
+        List<Class> classes = new ArrayList<>();
+
         classes.add(CCell.class);
         classes.add(COwned.class);
         classes.add(CItem.class);
@@ -42,8 +43,21 @@ final class CodeGenerator2 {
 
         // TODO Add here all classes we need to use (Maybe the style classes such as CStyle, CFont?)
 
-        for (Class c : classes)
-            fields.addAll(Arrays.asList(c.getDeclaredFields()));
+        for (Class clazz : classes) {
+            for (Field field : clazz.getDeclaredFields()) {
+                if (field.isEnumConstant()) continue;
+                fields.add(field);
+            }
+        }
+
+        binaryOperators = Arrays.asList(
+                "=",
+                "+", "-", "*", "/", "%",
+                "==", "!=", ">", ">=", "<", "<=",
+                "&&", "||",
+                "instanceof",
+                "<<", ">>", ">>>", "&", "^", "|"
+        );
     }
 
     private String packageName;
@@ -311,26 +325,27 @@ final class CodeGenerator2 {
 
         String generateConstraintExpression(List<Constraint> constraints, String conditionVarName) {
 
-            StringBuilder expression = new StringBuilder();
+            StringBuilder allConstraints = new StringBuilder();
             List<String> expressions;
 
             if (constraints.size() == 1) {
                 expressions = constraints.get(0).getExpressions();
-                expression.append(generateNormalizedExpression(expressions, conditionVarName));
-            }
-            else if (constraints.size() > 1) {
+                allConstraints.append(generateNormalizedExpression(expressions, conditionVarName));
+            } else if (constraints.size() > 1) {
                 for (int i = 0; i < constraints.size(); i++) {
                     expressions = constraints.get(i).getExpressions();
-                    expression
+                    String normalizedExpression = generateNormalizedExpression(expressions, conditionVarName);
+
+                    allConstraints
                             .append("(")
-                            .append(generateNormalizedExpression(expressions, conditionVarName))
+                            .append(normalizedExpression)
                             .append(")");
 
-                    if (i < constraints.size() - 1) expression.append(" && ");
+                    if (i < constraints.size() - 1) allConstraints.append(" && ");
                 }
             }
 
-            return expression.toString();
+            return allConstraints.toString();
         }
 
         void createActions(Iterator<Action> actions) {
@@ -339,19 +354,23 @@ final class CodeGenerator2 {
 
                 Action action = actions.next();
 
-                if (action.getType().equals(Action.Type.update)) continue;
+                //if (action.getType().equals(Action.Type.update)) continue;
+                // TODO Remove "update" action from grammar
+                if (action.getMethodName().equals("update")) continue;
 
                 List<Operand> operands = action.getOperands();
+                String caller = generateNormalizedExpression(operands.get(0).getExpressions(), "");
 
                 code
-                        .append(generateNormalizedExpression(operands.get(0).getExpressions(), ""))
+                        .append(caller)
                         .append(".")
-                        .append(action.getType())
+                        .append(action.getMethodName())
                         .append("(");
 
                 if (operands.size() > 1) {
                     for (int i = 1; i < operands.size(); i++) {
-                        code.append(generateNormalizedExpression(operands.get(i).getExpressions(), ""));
+                        String argument = generateNormalizedExpression(operands.get(i).getExpressions(), "");
+                        code.append(argument);
                         if (i < operands.size() - 1) code.append(", ");
                     }
                 }
@@ -365,7 +384,7 @@ final class CodeGenerator2 {
                 // When the current action is "split" or "merge"
                 // then it is needed to re-start the all iterators of cells
 
-                if (action.getType().equals(Action.Type.split) || action.getType().equals(Action.Type.merge)) {
+                if (action.getMethodName().equals("split") || action.getMethodName().equals("merge")) {
                     final HashMap<String, String> variables = new HashMap<>();
                     for (Condition condition : rule.getConditions())
                         variables.put(condition.getIdentifier(), condition.getDataType().toString());
@@ -373,10 +392,9 @@ final class CodeGenerator2 {
                     Iterator<String> keys = variables.keySet().iterator();
 
                     while (keys.hasNext()) {
-                        String key = keys.next();
-                        if (variables.get(key).equals("CCell")) {
-
-                            String varName = key;
+                        String varName = keys.next();
+                        String varType = variables.get(varName);
+                        if (varType.equals("CCell")) {
                             String iteratorName = varName.concat("Iterator");
                             String iteratorExpression = "table.getCells()";
 
@@ -404,9 +422,6 @@ final class CodeGenerator2 {
                 boolean wasFoundMethod = false;
 
                 for (Field field : fields) {
-
-                    if (field.isEnumConstant()) continue;
-
                     if (field.getName().equals(token)) {
                         String capitalized = token.substring(0, 1).toUpperCase() + token.substring(1);
                         if (field.getType() == boolean.class)
@@ -439,6 +454,8 @@ final class CodeGenerator2 {
                             expression.append("()");
                         }
                     }
+                } else if (binaryOperators.contains(token)) {
+                    expression.append(" ").append(token).append(" ");
                 } else {
                     expression.append(token);
                 }

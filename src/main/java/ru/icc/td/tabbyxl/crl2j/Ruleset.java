@@ -167,7 +167,7 @@ final class Ruleset {
         static Action createAction(Tree tree) {
 
             Action action = new Action();
-            action.setType(Action.Type.valueOf(tree.getText()));
+            action.setMethodName(tree.getText());
 
             List<Operand> operands = new ArrayList<>();
 
