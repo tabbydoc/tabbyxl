@@ -26,6 +26,7 @@ import java.util.List;
 import com.squareup.javapoet.*;
 
 import javax.lang.model.element.Modifier;
+import static java.lang.reflect.Modifier.isStatic;
 
 final class CodeGenerator2 {
     private static final List<Field> fields = new ArrayList<>();
@@ -45,6 +46,7 @@ final class CodeGenerator2 {
 
         for (Class clazz : classes) {
             for (Field field : clazz.getDeclaredFields()) {
+                if (isStatic(field.getModifiers())) continue;
                 if (field.isEnumConstant()) continue;
                 fields.add(field);
             }
