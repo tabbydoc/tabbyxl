@@ -119,7 +119,7 @@ final class Ruleset {
 
             String simpleClassName = tree.getChild(1).getText();
             Class<COwned> queriedDataType = (Class<COwned>) Class.forName("ru.icc.td.tabbyxl.model." + simpleClassName);
-            condition.setDataType(queriedDataType);
+            condition.setQueriedType(queriedDataType);
 
             if (tree.getChild(2).getText().equals("null")) {
                 condition.setIdentifier("id" + id);

@@ -178,7 +178,7 @@ final class CodeGenerator2 {
 
             // Collect data of the condition
 
-            final Class type = currentCondition.getDataType();
+            final Class type = currentCondition.getQueriedType();
             final String varName = currentCondition.getIdentifier();
             final String iteratorName = varName.concat("Iterator");
             final String iteratorExpression = generateIteratorExpression(type);
@@ -389,7 +389,7 @@ final class CodeGenerator2 {
                 if (action.getMethodName().equals("split") || action.getMethodName().equals("merge")) {
                     final HashMap<String, String> variables = new HashMap<>();
                     for (Condition condition : rule.getConditions())
-                        variables.put(condition.getIdentifier(), condition.getDataType().toString());
+                        variables.put(condition.getIdentifier(), condition.getQueriedType().toString());
 
                     Iterator<String> keys = variables.keySet().iterator();
 

@@ -16,8 +16,6 @@
 
 package ru.icc.td.tabbyxl.crl2j.rulemodel;
 
-import ru.icc.td.tabbyxl.model.COwned;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,7 @@ public final class Condition {
 
     private int id;
     private Quantifier quantifier;
-    private Class<COwned> dataType;
+    private Class queriedType;
     private String identifier;
     private List<Expression> constraints = new ArrayList<>();
     private List<Assignment> assignments = new ArrayList<>();
@@ -50,12 +48,12 @@ public final class Condition {
         this.quantifier = quantifier;
     }
 
-    public void setDataType(Class<COwned> dataType) {
-        this.dataType = dataType;
+    public void setQueriedType(Class queriedType) {
+        this.queriedType = queriedType;
     }
 
-    public Class<COwned> getDataType() {
-        return dataType;
+    public Class getQueriedType() {
+        return queriedType;
     }
 
     public void setIdentifier(String identifier) {
