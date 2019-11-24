@@ -3,7 +3,7 @@ package ru.icc.td.tabbyxl.crl2j.rulemodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Expression {
+public final class Expression {
 
     private List<String> tokens = new ArrayList<>();
 
