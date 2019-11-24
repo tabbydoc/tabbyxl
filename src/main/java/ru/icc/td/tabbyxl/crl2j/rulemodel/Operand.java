@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Operand {
 
-    private List<String> expressions = new ArrayList<>();
+    private List<String> tokens = new ArrayList<>();
 
-    public void setExpressions(List<String> expressions) {
-        this.expressions = expressions;
+    public void addToken(String token) {
+        tokens.add(token);
     }
 
-    public List<String> getExpressions() {
-        return expressions;
+    public List<String> getTokens() {
+        return tokens;
     }
 }

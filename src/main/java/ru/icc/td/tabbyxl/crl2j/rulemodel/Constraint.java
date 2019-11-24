@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Constraint {
 
-    private List<String> expressions = new ArrayList<>();
+    private List<String> tokens = new ArrayList<>();
 
-    public void addExpression(String expression) {
-        this.expressions.add(expression);
+    public void addToken(String token) {
+        this.tokens.add(token);
     }
 
-    public List<String> getExpressions() {
-        return expressions;
+    public List<String> getTokens() {
+        return tokens;
     }
 }

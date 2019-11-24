@@ -145,7 +145,7 @@ final class Ruleset {
             Constraint constraint = new Constraint();
 
             for (int i = 0; i < tree.getChildCount(); i++) {
-                constraint.addExpression(tree.getChild(i).getText());
+                constraint.addToken(tree.getChild(i).getText());
             }
 
             return constraint;
@@ -174,12 +174,11 @@ final class Ruleset {
             for (int i = 0; i < tree.getChildCount(); i++) {
                 Tree subTree = tree.getChild(i);
 
-                List<String> expressions = new ArrayList<>();
-                for (int j = 0; j < subTree.getChildCount(); j++) {
-                    expressions.add(subTree.getChild(j).getText());
-                }
                 Operand operand = new Operand();
-                operand.setExpressions(expressions);
+                for (int j = 0; j < subTree.getChildCount(); j++) {
+                    operand.addToken(subTree.getChild(j).getText());
+                }
+
                 operands.add(operand);
             }
 

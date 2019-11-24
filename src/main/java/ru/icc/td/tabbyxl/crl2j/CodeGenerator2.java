@@ -331,11 +331,11 @@ final class CodeGenerator2 {
             List<String> expressions;
 
             if (constraints.size() == 1) {
-                expressions = constraints.get(0).getExpressions();
+                expressions = constraints.get(0).getTokens();
                 allConstraints.append(generateNormalizedExpression(expressions, conditionVarName));
             } else if (constraints.size() > 1) {
                 for (int i = 0; i < constraints.size(); i++) {
-                    expressions = constraints.get(i).getExpressions();
+                    expressions = constraints.get(i).getTokens();
                     String normalizedExpression = generateNormalizedExpression(expressions, conditionVarName);
 
                     allConstraints
@@ -361,7 +361,7 @@ final class CodeGenerator2 {
                 if (action.getMethodName().equals("update")) continue;
 
                 List<Operand> operands = action.getOperands();
-                String caller = generateNormalizedExpression(operands.get(0).getExpressions(), "");
+                String caller = generateNormalizedExpression(operands.get(0).getTokens(), "");
 
                 code
                         .append(caller)
@@ -371,7 +371,7 @@ final class CodeGenerator2 {
 
                 if (operands.size() > 1) {
                     for (int i = 1; i < operands.size(); i++) {
-                        String argument = generateNormalizedExpression(operands.get(i).getExpressions(), "");
+                        String argument = generateNormalizedExpression(operands.get(i).getTokens(), "");
                         code.append(argument);
                         if (i < operands.size() - 1) code.append(", ");
                     }
