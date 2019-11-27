@@ -185,7 +185,7 @@ new_label
 	
 update
 	:	'update' operand EOL
-		-> ^(ACTION["update"] ^(OPERAND operand))
+		->
 	;
 	
 print

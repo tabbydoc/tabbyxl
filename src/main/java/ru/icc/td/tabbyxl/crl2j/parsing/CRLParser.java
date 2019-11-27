@@ -1,4 +1,4 @@
-// $ANTLR 3.4 F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g 2019-11-23 21:10:43
+// $ANTLR 3.4 F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g 2019-11-27 15:53:58
 
 package ru.icc.td.tabbyxl.crl2j.parsing;
 
@@ -207,7 +207,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: rule, importing
+            // elements: importing, rule
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1023,7 +1023,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: constraint, query, assignment
+            // elements: assignment, query, constraint
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2395,7 +2395,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: op1, op2
+            // elements: op2, op1
             // token labels: 
             // rule labels: op2, op1, retval
             // token list labels: 
@@ -2937,7 +2937,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: op1, op2
+            // elements: op2, op1
             // token labels: 
             // rule labels: op2, op1, retval
             // token list labels: 
@@ -3245,7 +3245,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: op1, op2
+            // elements: op2, op1
             // token labels: 
             // rule labels: op2, op1, retval
             // token list labels: 
@@ -3531,7 +3531,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: op2, op1
+            // elements: op1, op2
             // token labels: 
             // rule labels: op2, op1, retval
             // token list labels: 
@@ -4028,7 +4028,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: op1, op2
+            // elements: op2, op1
             // token labels: 
             // rule labels: op2, op1, retval
             // token list labels: 
@@ -4122,7 +4122,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "update"
-    // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:186:1: update : 'update' operand EOL -> ^( ACTION[\"update\"] ^( OPERAND operand ) ) ;
+    // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:186:1: update : 'update' operand EOL ->;
     public final update_return update() throws RecognitionException {
         update_return retval = new update_return();
         retval.start = input.LT(1);
@@ -4141,7 +4141,7 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_71=new RewriteRuleTokenStream(adaptor,"token 71");
         RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
         try {
-            // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:187:2: ( 'update' operand EOL -> ^( ACTION[\"update\"] ^( OPERAND operand ) ) )
+            // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:187:2: ( 'update' operand EOL ->)
             // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:187:4: 'update' operand EOL
             {
             string_literal93=(CommonToken)match(input,71,FOLLOW_71_in_update1314); if (state.failed) return retval; 
@@ -4160,7 +4160,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: operand
+            // elements: 
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4172,30 +4172,9 @@ public TreeAdaptor getTreeAdaptor() {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 188:3: -> ^( ACTION[\"update\"] ^( OPERAND operand ) )
+            // 188:3: ->
             {
-                // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:188:6: ^( ACTION[\"update\"] ^( OPERAND operand ) )
-                {
-                CommonTree root_1 = (CommonTree)adaptor.nil();
-                root_1 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(ACTION, "update")
-                , root_1);
-
-                // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:188:25: ^( OPERAND operand )
-                {
-                CommonTree root_2 = (CommonTree)adaptor.nil();
-                root_2 = (CommonTree)adaptor.becomeRoot(
-                (CommonTree)adaptor.create(OPERAND, "OPERAND")
-                , root_2);
-
-                adaptor.addChild(root_2, stream_operand.nextTree());
-
-                adaptor.addChild(root_1, root_2);
-                }
-
-                adaptor.addChild(root_0, root_1);
-                }
-
+                root_0 = null;
             }
 
 
@@ -4284,7 +4263,7 @@ public TreeAdaptor getTreeAdaptor() {
                 case 1 :
                     // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:192:12: 'print'
                     {
-                    string_literal96=(CommonToken)match(input,58,FOLLOW_58_in_print1350); if (state.failed) return retval; 
+                    string_literal96=(CommonToken)match(input,58,FOLLOW_58_in_print1339); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_58.add(string_literal96);
 
 
@@ -4293,7 +4272,7 @@ public TreeAdaptor getTreeAdaptor() {
                 case 2 :
                     // F:\\Work\\TabbyDOC\\tabbyxl2-1\\src\\main\\resources\\CRL.g:192:20: 'printf'
                     {
-                    string_literal97=(CommonToken)match(input,59,FOLLOW_59_in_print1352); if (state.failed) return retval; 
+                    string_literal97=(CommonToken)match(input,59,FOLLOW_59_in_print1341); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_59.add(string_literal97);
 
 
@@ -4303,14 +4282,14 @@ public TreeAdaptor getTreeAdaptor() {
             }
 
 
-            pushFollow(FOLLOW_operand_in_print1355);
+            pushFollow(FOLLOW_operand_in_print1344);
             operand98=operand();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_operand.add(operand98.getTree());
 
-            EOL99=(CommonToken)match(input,EOL,FOLLOW_EOL_in_print1357); if (state.failed) return retval; 
+            EOL99=(CommonToken)match(input,EOL,FOLLOW_EOL_in_print1346); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_EOL.add(EOL99);
 
 
@@ -4507,9 +4486,9 @@ public TreeAdaptor getTreeAdaptor() {
     public static final BitSet FOLLOW_71_in_update1314 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000001BFL});
     public static final BitSet FOLLOW_operand_in_update1316 = new BitSet(new long[]{0x0000000000004000L});
     public static final BitSet FOLLOW_EOL_in_update1318 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_58_in_print1350 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000001BFL});
-    public static final BitSet FOLLOW_59_in_print1352 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000001BFL});
-    public static final BitSet FOLLOW_operand_in_print1355 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_EOL_in_print1357 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_58_in_print1339 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000001BFL});
+    public static final BitSet FOLLOW_59_in_print1341 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000001BFL});
+    public static final BitSet FOLLOW_operand_in_print1344 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_EOL_in_print1346 = new BitSet(new long[]{0x0000000000000002L});
 
 }
