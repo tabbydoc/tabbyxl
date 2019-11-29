@@ -248,7 +248,6 @@ final class CodeGenerator2 {
 
                 controlFlow = CodeBlock.builder().endControlFlow().build();
                 codeBlocks.add(controlFlow);
-
             }
 
             // Generate code blocks for the case of not-exist-condition
