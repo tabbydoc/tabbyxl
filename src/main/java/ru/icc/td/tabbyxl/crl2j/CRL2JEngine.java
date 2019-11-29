@@ -88,7 +88,7 @@ public final class CRL2JEngine {
         Ruleset ruleset = new Ruleset(ast);
 
         // Generate Java source code from the Ruleset model
-        CodeGenerator2 codeGenerator = new CodeGenerator2(getPackageName(), ruleset);
+        CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
         return codeGenerator.generateJavaFiles();
     }
 

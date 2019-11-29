@@ -27,7 +27,7 @@ import com.squareup.javapoet.*;
 import javax.lang.model.element.Modifier;
 import static java.lang.reflect.Modifier.isStatic;
 
-final class CodeGenerator2 {
+final class CodeGenerator {
     private static final List<Field> fields = new ArrayList<>();
     private static final List<String> binaryOperators;
 
@@ -64,7 +64,7 @@ final class CodeGenerator2 {
     private String packageName;
     private Ruleset ruleset;
 
-    CodeGenerator2(String packageName, Ruleset ruleset) {
+    CodeGenerator(String packageName, Ruleset ruleset) {
         this.packageName = packageName;
         this.ruleset = ruleset;
     }
