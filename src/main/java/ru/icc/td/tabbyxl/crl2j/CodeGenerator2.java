@@ -24,7 +24,6 @@ import java.util.*;
 import java.util.List;
 
 import com.squareup.javapoet.*;
-
 import javax.lang.model.element.Modifier;
 import static java.lang.reflect.Modifier.isStatic;
 
@@ -238,7 +237,7 @@ final class CodeGenerator2 {
                 if (conditions.hasNext())
                     createCodeBlock(conditions, actions);
                 else
-                    createActions(actions);
+                    createActionStatements(actions);
 
                 // Add finalization of if-block
 
@@ -279,9 +278,9 @@ final class CodeGenerator2 {
                 String allConstraints;
 
                 if (constraints.isEmpty())
-                    allConstraints = "false";
+                    allConstraints = Boolean.FALSE.toString();
                 else
-                    allConstraints = collectConstraintsOfCondition(currentCondition.getConstraints(), varName);
+                    allConstraints = collectConstraintsOfCondition(constraints, varName);
 
                 controlFlow = CodeBlock.builder().beginControlFlow("if ($L)", allConstraints).build();
                 codeBlocks.add(controlFlow);
@@ -316,7 +315,7 @@ final class CodeGenerator2 {
                 if (conditions.hasNext())
                     createCodeBlock(conditions, actions);
                 else
-                    createActions(actions);
+                    createActionStatements(actions);
 
                 // Add finalization of if-block
 
@@ -350,15 +349,11 @@ final class CodeGenerator2 {
             return allConstraints.toString();
         }
 
-        void createActions(Iterator<Action> actions) {
+        void createActionStatements(Iterator<Action> actions) {
             while (actions.hasNext()) {
                 StringBuilder code = new StringBuilder();
 
                 Action action = actions.next();
-
-                //if (action.getType().equals(Action.Type.update)) continue;
-                // TODO Remove "update" action from grammar
-                if (action.getMethodName().equals("update")) continue;
 
                 List<Expression> operands = action.getOperands();
                 String caller = generateNormalizedExpression(operands.get(0).getTokens(), "");
