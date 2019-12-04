@@ -21,7 +21,7 @@ import ru.icc.td.tabbyxl.model.*;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.List;
+import java.util.function.Consumer;
 
 import com.squareup.javapoet.*;
 import javax.lang.model.element.Modifier;
@@ -96,12 +96,12 @@ final class CodeGenerator {
         JavaFile createJavaFile() {
             MethodSpec method = createMethod();
 
-            String className = GeneratedTableModifier.class.getSimpleName() + rule.getId();
+            String className = TableConsumer.class.getSimpleName() + rule.getId();
 
             TypeSpec typeSpec = TypeSpec
                     .classBuilder(className)
                     .addModifiers(Modifier.PUBLIC)
-                    .addSuperinterface(GeneratedTableModifier.class)
+                    .addSuperinterface(TableConsumer.class)
                     .addMethod(method)
                     .build();
 
@@ -141,7 +141,7 @@ final class CodeGenerator {
             CodeBlock cb = CodeBlock.join(codeBlocks, "");
 
             return MethodSpec
-                    .methodBuilder("apply")
+                    .methodBuilder("accept")
                     .addAnnotation(Override.class)
                     .addModifiers(Modifier.PUBLIC)
                     .addParameter(CTable.class, "table")

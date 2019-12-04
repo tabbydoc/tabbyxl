@@ -26,6 +26,8 @@ import java.util.Iterator;
 
 public final class TableUtils {
 
+    private TableUtils() {}
+
     public static CTable recoverCellBorders(CTable table) {
         int numOfCols = table.numOfCols();
         int numOfRows = table.numOfRows();

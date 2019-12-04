@@ -1,39 +1,31 @@
-package generated;
+import generated.TableCanonicalizer;
 
 import ru.icc.td.tabbyxl.DataLoader;
-import ru.icc.td.tabbyxl.model.*;
-import generated.rules.*;
+import ru.icc.td.tabbyxl.model.CTable;
 
 import java.io.File;
-import java.io.IOException;
 
-public class SpreadsheetDataCanonicalizer {
-    public static void main(String[] args) {
+class SpreadsheetDataConverter {
 
-        try {
-            String inputExcelFilePath = args[0];
-            File inputExcelFile = new File(inputExcelFilePath);
+    public static void main(String[] args) throws Exception {
+        String inputExcelFilePath = "D:\\Box Sync\\data\\tabbyxl\\illustrative_examples\\mvngen2019\\example1\\data\\tables.xlsx";
+        File inputExcelFile = new File(inputExcelFilePath);
 
-            DataLoader dataLoader = DataLoader.getInstance();
-            dataLoader.loadWorkbook(inputExcelFile);
+        DataLoader dataLoader = DataLoader.getInstance();
+        dataLoader.loadWorkbook(inputExcelFile);
 
-            for (int i = 0; i < dataLoader.numOfSheets(); i++) {
-                dataLoader.goToSheet(i);
+        for (int i = 0; i < dataLoader.numOfSheets(); i++) {
+            dataLoader.goToSheet(i);
 
-                while (true) {
-                    CTable table = dataLoader.nextTable();
-                    if (null == table) break;
+            while (true) {
+                CTable table = dataLoader.nextTable();
+                if (null == table) break;
 
-%s
+                TableCanonicalizer.canonicalize(table);
 
-                    Tables.recoverCellBorders(table);
-                    table.update();
-                    System.out.println(table.trace());
-                    table.toCanonicalForm().print();
-                }
+                System.out.println(table.trace());
+                table.toCanonicalForm().print();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

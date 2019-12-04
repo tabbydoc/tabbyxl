@@ -7,11 +7,8 @@
     <properties>
         <generatedGroupId>%s</generatedGroupId>
         <generatedArtifactId>%s</generatedArtifactId>
-
         <generatedMainClass>%s</generatedMainClass>
-
         <tabbyxlPath>%s</tabbyxlPath>
-
         <tabbyxlGroupId>%s</tabbyxlGroupId>
         <tabbyxlArtifactId>%s</tabbyxlArtifactId>
         <tabbyxlVersion>%s</tabbyxlVersion>

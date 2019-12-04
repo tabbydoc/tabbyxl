@@ -35,6 +35,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public final class CRL2JEngine {
 
@@ -48,7 +49,7 @@ public final class CRL2JEngine {
 
     //private List<String> sourceCode;
     private List<JavaFile> javaFiles;
-    private List<Class<GeneratedTableModifier>> classes;
+    private List<Class<TableConsumer>> classes;
 
     private String packageName;
 
@@ -92,8 +93,8 @@ public final class CRL2JEngine {
         return codeGenerator.generateJavaFiles();
     }
 
-    private List<Class<GeneratedTableModifier>> compile(List<JavaFile> javaFiles) {
-        List<Class<GeneratedTableModifier>> clazzes = null;
+    private List<Class<TableConsumer>> compile(List<JavaFile> javaFiles) {
+        List<Class<TableConsumer>> clazzes = null;
 
         try {
             int size = javaFiles.size();
@@ -101,9 +102,9 @@ public final class CRL2JEngine {
 
             for (JavaFile javaFile : javaFiles) {
                 String className = String.format("%s.%s", javaFile.packageName, javaFile.typeSpec.name);
-                Class<?>[] prototype = new Class<?>[]{GeneratedTableModifier.class};
+                Class<TableConsumer>[] prototype = new Class[]{TableConsumer.class};
                 String sourceCode = javaFile.toString();
-                Class<GeneratedTableModifier> clazz = compiler.compile(className, sourceCode, null, prototype);
+                Class<TableConsumer> clazz = compiler.compile(className, sourceCode, null, prototype);
                 clazzes.add(clazz);
             }
         } catch (CharSequenceCompilerException e) {
@@ -152,10 +153,10 @@ public final class CRL2JEngine {
     public void processTable(CTable table)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        for (Class<GeneratedTableModifier> clazz: classes) {
-            Constructor<GeneratedTableModifier> constructor = clazz.getConstructor();
-            GeneratedTableModifier instance = constructor.newInstance();
-            instance.apply(table);
+        for (Class<TableConsumer> clazz: classes) {
+            Constructor<TableConsumer> constructor = clazz.getConstructor();
+            TableConsumer consumer = constructor.newInstance();
+            consumer.accept(table);
         }
     }
 }

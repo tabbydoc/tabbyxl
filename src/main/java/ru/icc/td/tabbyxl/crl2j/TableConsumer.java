@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-19 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
+ * Copyright 2019 Alexey O. Shigarov (shigarov@icc.ru)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package ru.icc.td.tabbyxl.crl2j;
 
 import ru.icc.td.tabbyxl.model.CTable;
 
-@FunctionalInterface
-public interface GeneratedTableModifier {
-    void apply(CTable table);
+import java.util.function.Consumer;
+
+public interface TableConsumer extends Consumer<CTable> {
 }
