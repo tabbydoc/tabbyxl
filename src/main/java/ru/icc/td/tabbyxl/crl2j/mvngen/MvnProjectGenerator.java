@@ -36,45 +36,44 @@ public class MvnProjectGenerator {
     private static final String mainClassName = "SpreadsheetTableCanonicalizer";
     private static final String nameOfPackage = "generated";
 
-    private File crlFile;
-    private Path root;
+    private MvnProjectGenerator() {}
 
-    private Path tabbyxlPath;
-    private Path outputPath;
+    public static void generate(File crlFile, Path projectPath) throws IOException, RecognitionException {
 
-    public MvnProjectGenerator(Path root, File crlFile) {
-        this.root = root;
-        outputPath = root.resolve("src").resolve("main").resolve("java");
-        tabbyxlPath = Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replaceFirst("/", ""));
+        // Generate source code of the table consumers
 
-        this.crlFile = crlFile;
+        List<JavaFile> javaFiles = generateJavaFiles(crlFile);
+
+        // Create or clean the project directory
+
+        if (Files.notExists(projectPath))
+            Files.createDirectory(projectPath);
+        else
+            FileUtils.cleanDirectory(projectPath.toFile());
+
+        // Create or clean the source code directory
+
+        Path sourceCodePath = projectPath.resolve("src").resolve("main").resolve("java");
+
+        if (Files.exists(sourceCodePath))
+            FileUtils.cleanDirectory(sourceCodePath.toFile());
+        else
+            Files.createDirectories(sourceCodePath);
+
+        // Write the generated source code of the table consumers
+
+        writeTableConsumerFiles(javaFiles, sourceCodePath);
+
+        // Add pom file to the project
+
+        writePomFile(projectPath);
+
+        // Add main-class to the project
+
+        writeMainClassFile(sourceCodePath);
     }
 
-    public void generate() throws IOException, RecognitionException {
-
-        // Clean or create the output directory
-        if (Files.notExists(root)) {
-            Files.createDirectory(root);
-        } else {
-            FileUtils.cleanDirectory(root.toFile());
-        }
-
-        if (Files.exists(outputPath)) {
-            FileUtils.cleanDirectory(outputPath.toFile());
-        } else {
-            Files.createDirectories(outputPath);
-        }
-
-        List<JavaFile> javaFiles = generateSourceCode();
-        writeTableConsumerFiles(javaFiles);
-
-        writePomFile();
-        writeMainClassFile();
-    }
-
-    //private List<JavaFile> javaFiles;
-
-    private List<JavaFile> generateSourceCode() throws IOException, RecognitionException {
+    private static List<JavaFile> generateJavaFiles(File crlFile) throws IOException, RecognitionException {
         // Generate source code of the table consumers from rules
 
         final CRL2JEngine crl2jEngine = new CRL2JEngine(nameOfPackage);
@@ -83,18 +82,18 @@ public class MvnProjectGenerator {
         return crl2jEngine.getJavaFiles();
     }
 
-    private void writeTableConsumerFiles(List<JavaFile> javaFiles) throws IOException, RecognitionException {
-        // Write source code
-
+    private static void writeTableConsumerFiles(List<JavaFile> javaFiles, Path sourceCodePath) throws IOException {
         for (JavaFile javaFile : javaFiles)
-            javaFile.writeTo(outputPath);
+            javaFile.writeTo(sourceCodePath);
     }
 
-    private void writePomFile() throws IOException {
+    private static final Class THIS_CLASS = MvnProjectGenerator.class;
+
+    private static void writePomFile(Path projectPath) throws IOException {
 
         // Read pom-file template
 
-        ClassLoader classLoader = getClass().getClassLoader();
+        ClassLoader classLoader = THIS_CLASS.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("mvngen/pom.template");
         String pomTemplate = IOUtils.toString(inputStream);
         inputStream.close();
@@ -109,6 +108,12 @@ public class MvnProjectGenerator {
         String tabbyxlArtifactId = properties.getProperty("artifactId");
         String tabbyxlVersion = properties.getProperty("version");
 
+        // Get the path to the tabbyxl classes
+        String path = THIS_CLASS.getProtectionDomain().getCodeSource().getLocation().getPath().replaceFirst("/", "");
+        Path tabbyxlPath = Paths.get(path);
+
+        // Fill pom-file template by using the appropriate properties
+
         String pomContent = String.format(pomTemplate,
                 groupId, artifactId,
                 mainClass,
@@ -117,7 +122,7 @@ public class MvnProjectGenerator {
 
         // Write pom-file
 
-        final Path pathToPomFile = root.resolve("pom.xml");
+        final Path pathToPomFile = projectPath.resolve("pom.xml");
         FileOutputStream fos = new FileOutputStream(pathToPomFile.toFile());
         OutputStreamWriter streamWriter = new OutputStreamWriter(fos);
         streamWriter.write(pomContent);
@@ -125,24 +130,23 @@ public class MvnProjectGenerator {
         streamWriter.close();
     }
 
-    private void writeMainClassFile() throws IOException {
+    private static void writeMainClassFile(Path sourceCodePath) throws IOException {
 
         // Read Main-class template
 
-        ClassLoader classLoader = getClass().getClassLoader();
+        ClassLoader classLoader = THIS_CLASS.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("mvngen/main-class.template");
         String mainClassTemplate = IOUtils.toString(inputStream);
         inputStream.close();
 
         // Write Main-class
 
-        Files.createDirectories(outputPath);
-        Path filePath = outputPath.resolve(String.format("%s.java", mainClassName));
+        Files.createDirectories(sourceCodePath);
+        Path filePath = sourceCodePath.resolve(String.format("%s.java", mainClassName));
         Files.createFile(filePath);
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filePath.toFile()));
         writer.write(mainClassTemplate);
         writer.flush();
         writer.close();
     }
-
 }
