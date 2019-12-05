@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 public class MvnGen {
 
     public static void main(String[] args) {
-
         try {
 
             File crlFile = new File(args[0]);
