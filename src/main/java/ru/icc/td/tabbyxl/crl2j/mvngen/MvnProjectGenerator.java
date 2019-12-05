@@ -20,12 +20,8 @@ import com.squareup.javapoet.*;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2JEngine;
-import ru.icc.td.tabbyxl.crl2j.TableConsumer;
-import ru.icc.td.tabbyxl.model.CTable;
 
-import javax.lang.model.element.Modifier;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,10 +31,9 @@ import java.util.Properties;
 
 public class MvnProjectGenerator {
 
-    private static final String newLine = System.lineSeparator();
-
     private static final String groupId = "generated";
-    private static final String artifactId = "SpreadsheetDataConverter";
+    private static final String artifactId = "SpreadsheetTableCanonicalizer";
+    private static final String mainClassName = "SpreadsheetTableCanonicalizer";
     private static final String nameOfPackage = "generated";
 
     private File crlFile;
@@ -46,8 +41,6 @@ public class MvnProjectGenerator {
 
     private Path tabbyxlPath;
     private Path outputPath;
-
-    private int numOfRules;
 
     public MvnProjectGenerator(Path root, File crlFile) {
         this.root = root;
@@ -73,19 +66,16 @@ public class MvnProjectGenerator {
         }
 
         List<JavaFile> javaFiles = generateSourceCode();
-        writeTableConsumers(javaFiles);
-
-        generateTableCanonicalizer(javaFiles).writeTo(outputPath);
+        writeTableConsumerFiles(javaFiles);
 
         writePomFile();
         writeMainClassFile();
     }
 
-
     //private List<JavaFile> javaFiles;
 
     private List<JavaFile> generateSourceCode() throws IOException, RecognitionException {
-        // Generate source code
+        // Generate source code of the table consumers from rules
 
         final CRL2JEngine crl2jEngine = new CRL2JEngine(nameOfPackage);
         crl2jEngine.loadRules(crlFile);
@@ -93,13 +83,11 @@ public class MvnProjectGenerator {
         return crl2jEngine.getJavaFiles();
     }
 
-    private void writeTableConsumers(List<JavaFile> javaFiles) throws IOException, RecognitionException {
+    private void writeTableConsumerFiles(List<JavaFile> javaFiles) throws IOException, RecognitionException {
         // Write source code
 
         for (JavaFile javaFile : javaFiles)
             javaFile.writeTo(outputPath);
-
-        numOfRules = javaFiles.size();
     }
 
     private void writePomFile() throws IOException {
@@ -107,7 +95,7 @@ public class MvnProjectGenerator {
         // Read pom-file template
 
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("pom_template.txt");
+        InputStream inputStream = classLoader.getResourceAsStream("mvngen/pom.template");
         String pomTemplate = IOUtils.toString(inputStream);
         inputStream.close();
 
@@ -137,107 +125,22 @@ public class MvnProjectGenerator {
         streamWriter.close();
     }
 
-    private JavaFile generateTableCanonicalizer(List<JavaFile> tableConsumerJavaFiles) {
-
-        String arrayName = "consumers";
-        Class arrayType = TableConsumer[].class;
-        String varName = "consumer";
-        Class varType = TableConsumer.class;
-
-        // Create a static field and its initializer
-
-        CodeBlock.Builder builder = CodeBlock.builder();
-
-        builder.add("{");
-        builder.add(System.lineSeparator());
-
-
-        for (int i = 0; i < tableConsumerJavaFiles.size(); i++) {
-            JavaFile tableConsumerJavaFile = tableConsumerJavaFiles.get(i);
-
-            builder.add("    new $N()", tableConsumerJavaFile.typeSpec.name);
-            if (i < tableConsumerJavaFiles.size() - 1)
-                builder.add(",");
-            builder.add(System.lineSeparator());
-        }
-        builder.add("}");
-
-        CodeBlock initializerCodeBlock = builder.build();
-
-        FieldSpec field = FieldSpec
-                .builder(arrayType, arrayName, Modifier.STATIC)
-                .initializer(initializerCodeBlock)
-                .build();
-
-        // Create a static method
-
-        String paramName = "table";
-
-        CodeBlock codeBlock = CodeBlock
-                .builder()
-                .beginControlFlow("for ($T $N : $N)", varType, varName, arrayName)
-                .addStatement("$N.accept($N)", varName, paramName)
-                .endControlFlow()
-                .addStatement("$N.update()", paramName)
-                .build();
-
-        MethodSpec method = MethodSpec
-                .methodBuilder("canonicalize")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(CTable.class, paramName)
-                .addCode(codeBlock)
-                .build();
-
-        // Create a type
-
-        TypeSpec typeSpec = TypeSpec
-                .classBuilder("TableCanonicalizer")
-                .addModifiers(Modifier.PUBLIC)
-                .addField(field)
-                .addMethod(method)
-                .build();
-
-        return JavaFile
-                .builder(nameOfPackage, typeSpec)
-                .indent("    ")
-                .skipJavaLangImports(true)
-                .addFileComment("This source code was generated by TabbyXL")
-                .build();
-    }
-
     private void writeMainClassFile() throws IOException {
 
         // Read Main-class template
 
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("main_class_template.txt");
+        InputStream inputStream = classLoader.getResourceAsStream("mvngen/main-class.template");
         String mainClassTemplate = IOUtils.toString(inputStream);
         inputStream.close();
 
         // Write Main-class
 
-        StringBuilder sb = new StringBuilder();
-        String indent = StringUtils.repeat(" ", 20);
-        for (int i = 1; i <= numOfRules; i++) {
-            sb
-                    .append(indent)
-                    .append("new ")
-                    .append(TableConsumer.class.getSimpleName())
-                    .append(i)
-                    .append("()");
-
-            if (i < numOfRules)
-                sb.append("(),").append(newLine);
-        }
-        String mainClassContent = String.format(mainClassTemplate, sb);
-
-        // Write Main-class
-
         Files.createDirectories(outputPath);
-        Path filePath = outputPath.resolve(String.format("%s.java", artifactId));
+        Path filePath = outputPath.resolve(String.format("%s.java", mainClassName));
         Files.createFile(filePath);
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filePath.toFile()));
-        writer.write(mainClassContent);
+        writer.write(mainClassTemplate);
         writer.flush();
         writer.close();
     }
