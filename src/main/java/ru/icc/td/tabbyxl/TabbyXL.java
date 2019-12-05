@@ -653,8 +653,6 @@ public final class TabbyXL {
 
                 System.out.printf("#%d Processing sheet: %d [%s] | table %d%n%n", count, sheetNo, sheetName, tableNo);
 
-                TableUtils.recoverCellBorders(table);
-
                 if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
                     categoryTemplateManager.createCategories(table);
 
