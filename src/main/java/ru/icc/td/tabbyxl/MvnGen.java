@@ -19,6 +19,7 @@ public class MvnGen {
 
         } catch (IOException | RecognitionException e) {
             e.printStackTrace();
+            System.exit(-1);
         }
     }
 }

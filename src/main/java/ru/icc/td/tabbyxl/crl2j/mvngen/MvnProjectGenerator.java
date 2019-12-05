@@ -55,14 +55,10 @@ public class MvnProjectGenerator {
         else
             FileUtils.cleanDirectory(projectPath.toFile());
 
-        // Create or clean the source code directory
+        // Create the source code directory
 
         Path sourceCodePath = projectPath.resolve("src").resolve("main").resolve("java");
-
-        if (Files.exists(sourceCodePath))
-            FileUtils.cleanDirectory(sourceCodePath.toFile());
-        else
-            Files.createDirectories(sourceCodePath);
+        Files.createDirectories(sourceCodePath);
 
         // Write the generated source code of the table consumers
 
