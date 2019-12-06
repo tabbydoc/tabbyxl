@@ -3,7 +3,7 @@ package ru.icc.td.tabbyxl.crl2j.rulemodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rule {
+public final class Rule {
 
     private int id;
     private List<Condition> conditions = new ArrayList<>();

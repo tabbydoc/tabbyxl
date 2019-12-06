@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CharSequenceCompiler<T> {
+public final class CharSequenceCompiler<T> {
     private static final String JAVA_EXT = ".java";
 
     private ClassLoaderImpl classLoader;

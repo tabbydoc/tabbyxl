@@ -25,7 +25,6 @@ import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
 import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
 import ru.icc.td.tabbyxl.util.StatisticsManager;
-import ru.icc.td.tabbyxl.util.TableUtils;
 import ru.icc.td.tabbyxl.writers.Writer;
 import ru.icc.td.tabbyxl.writers.DebugWriter;
 import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
@@ -46,9 +45,10 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
-
 public final class TabbyXL {
+
     // Params
+
     private static File inputExcelFile;
     private static List<Integer> sheetIndexes;
     private static File rulesetFile;
@@ -64,6 +64,7 @@ public final class TabbyXL {
     private static boolean useNer;
 
     // Statistics
+
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
 
     private static long rulesetPreparationTime;

@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassLoaderImpl extends ClassLoader {
+final class ClassLoaderImpl extends ClassLoader {
     private Map<String, JavaFileObject> classes = new HashMap<>();
 
     public ClassLoaderImpl(ClassLoader parentClassLoader)

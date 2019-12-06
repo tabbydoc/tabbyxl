@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class FileObjectImpl extends SimpleJavaFileObject {
+final class FileObjectImpl extends SimpleJavaFileObject {
     private ByteArrayOutputStream byteCode;
 
     private CharSequence source;

@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Evaluator {
+public final class Evaluator {
     public static void main(String[] args) throws IOException {
         File resultDirectory = new File(args[0]);
         File groundTruthDirectory = new File(args[1]);

@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class EvalBox {
+final class EvalBox {
     Eval entryEval;
     Eval labelEval;
     Eval elPairEval;

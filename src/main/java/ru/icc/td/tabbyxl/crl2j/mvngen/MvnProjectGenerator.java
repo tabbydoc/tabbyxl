@@ -30,7 +30,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
-public class MvnProjectGenerator {
+public final class MvnProjectGenerator {
 
     private static final String groupId = "generated";
     private static final String artifactId = "SpreadsheetTableCanonicalizer";

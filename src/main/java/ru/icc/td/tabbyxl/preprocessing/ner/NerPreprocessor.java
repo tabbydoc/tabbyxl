@@ -26,7 +26,7 @@ import edu.stanford.nlp.simple.Sentence;
 
 import java.util.List;
 
-public class NerPreprocessor implements Preprocessor {
+public final class NerPreprocessor implements Preprocessor {
     @Override
     public void process(CTable table) {
         // Extracting named entity from each cell

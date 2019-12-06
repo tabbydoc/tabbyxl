@@ -19,7 +19,7 @@ package ru.icc.td.tabbyxl.preprocessing.headrecog;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
-public class HeadrecogPreprocessor implements Preprocessor {
+public final class HeadrecogPreprocessor implements Preprocessor {
     @Override
     public void process(CTable table) {
         // TODO recovering the physical structure of a header by some visual features

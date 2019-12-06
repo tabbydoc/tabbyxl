@@ -26,7 +26,7 @@ import java.util.Set;
 
 import javax.tools.ForwardingJavaFileManager;
 
-public class FileManagerImpl extends ForwardingJavaFileManager<JavaFileManager> {
+final class FileManagerImpl extends ForwardingJavaFileManager<JavaFileManager> {
     private ClassLoaderImpl classLoader;
 
     private Map<URI, JavaFileObject> fileObjects = new HashMap<>();

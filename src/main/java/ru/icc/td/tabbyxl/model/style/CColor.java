@@ -16,7 +16,7 @@
 
 package ru.icc.td.tabbyxl.model.style;
 
-public class CColor
+public final class CColor
 {
     private int r;
     private int g;

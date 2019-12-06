@@ -16,7 +16,7 @@
 
 package ru.icc.td.tabbyxl.model.style;
 
-public class CBorder
+public final class CBorder
 {
     private BorderType type;
 

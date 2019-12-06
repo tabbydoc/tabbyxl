@@ -16,7 +16,7 @@
 
 package ru.icc.td.tabbyxl.model.style;
 
-public class CFont
+public final class CFont
 {
     private String name;
 
