@@ -54,7 +54,7 @@ final class FileManagerImpl extends ForwardingJavaFileManager<JavaFileManager> {
 
     private URI uri(Location location, String packageName, String name)
     {
-        return CharSequenceCompiler.toURI(location.getName()+'/' + packageName + '/' + name);
+        return CharSequenceCompiler.toURI(location.getName() + '/' + packageName + '/' + name);
     }
 
     @Override

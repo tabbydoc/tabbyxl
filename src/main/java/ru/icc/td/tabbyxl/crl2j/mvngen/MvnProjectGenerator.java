@@ -47,14 +47,17 @@ public final class MvnProjectGenerator {
         // Generate source code of the table consumers
 
         List<JavaFile> javaFiles = generateJavaFiles(crlFile);
+        System.out.println("The source code was generated");
 
         // Create or clean the project directory
 
-        if (Files.notExists(projectPath))
+        if (Files.notExists(projectPath)) {
             Files.createDirectory(projectPath);
-        else
+            System.out.println("The project directory was created");
+        } else {
             FileUtils.cleanDirectory(projectPath.toFile());
-
+            System.out.println("The project directory was clean");
+        }
         // Create the source code directory
 
         Path sourceCodePath = projectPath.resolve("src").resolve("main").resolve("java");
@@ -63,14 +66,19 @@ public final class MvnProjectGenerator {
         // Write the generated source code of the table consumers
 
         writeTableConsumerFiles(javaFiles, sourceCodePath);
+        System.out.println("The source code was written in java files");
 
         // Add main-class to the project
 
         writeMainClassFile(sourceCodePath);
+        System.out.println("The main-class was added");
 
         // Add pom file to the project
 
         writePomFile(projectPath);
+        System.out.println("The pom file was added");
+
+        System.out.printf("Your project was created successfully in \"%s\"", projectPath);
     }
 
     private static List<JavaFile> generateJavaFiles(File crlFile) throws IOException, RecognitionException {
