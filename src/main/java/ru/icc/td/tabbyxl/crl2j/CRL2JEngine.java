@@ -35,7 +35,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public final class CRL2JEngine {
 
@@ -47,7 +46,6 @@ public final class CRL2JEngine {
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
     }
 
-    //private List<String> sourceCode;
     private List<JavaFile> javaFiles;
     private List<Class<TableConsumer>> classes;
 
@@ -63,10 +61,6 @@ public final class CRL2JEngine {
 
     public String getPackageName() {
         return packageName;
-    }
-
-    private void setPackageName(String packageName) {
-        this.packageName = packageName;
     }
 
     private Tree parse(File crlFile) throws IOException, RecognitionException {
@@ -98,7 +92,7 @@ public final class CRL2JEngine {
         List<Class<TableConsumer>> clazzes = new ArrayList<>(size);
 
         for (JavaFile javaFile : javaFiles) {
-            String className = String.format("%s.%s", javaFile.packageName, javaFile.typeSpec.name);
+            String className = javaFile.packageName + '.' + javaFile.typeSpec.name;
             Class<TableConsumer>[] prototype = new Class[]{TableConsumer.class};
             String sourceCode = javaFile.toString();
             Class<TableConsumer> clazz = compiler.compile(className, sourceCode, null, prototype);
