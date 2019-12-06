@@ -692,9 +692,10 @@ public final class TabbyXL {
                 Path outPath = outputDirectory.resolve(outFileName);
 
                 // Write output to Excel
-                final boolean useDebug = true;
                 Writer writer;
                 File outFile = outPath.toFile();
+
+                final boolean useDebug = false;
                 if (useDebug)
                     writer = new DebugWriter(outFile);
                 else

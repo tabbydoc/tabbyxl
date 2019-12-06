@@ -93,26 +93,19 @@ public final class CRL2JEngine {
         return codeGenerator.generateJavaFiles();
     }
 
-    private List<Class<TableConsumer>> compile(List<JavaFile> javaFiles) {
-        List<Class<TableConsumer>> clazzes = null;
+    private List<Class<TableConsumer>> compile(List<JavaFile> javaFiles) throws CharSequenceCompilerException {
+        int size = javaFiles.size();
+        List<Class<TableConsumer>> clazzes = new ArrayList<>(size);
 
-        try {
-            int size = javaFiles.size();
-            clazzes = new ArrayList<>(size);
-
-            for (JavaFile javaFile : javaFiles) {
-                String className = String.format("%s.%s", javaFile.packageName, javaFile.typeSpec.name);
-                Class<TableConsumer>[] prototype = new Class[]{TableConsumer.class};
-                String sourceCode = javaFile.toString();
-                Class<TableConsumer> clazz = compiler.compile(className, sourceCode, null, prototype);
-                clazzes.add(clazz);
-            }
-        } catch (CharSequenceCompilerException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        } finally {
-            return clazzes;
+        for (JavaFile javaFile : javaFiles) {
+            String className = String.format("%s.%s", javaFile.packageName, javaFile.typeSpec.name);
+            Class<TableConsumer>[] prototype = new Class[]{TableConsumer.class};
+            String sourceCode = javaFile.toString();
+            Class<TableConsumer> clazz = compiler.compile(className, sourceCode, null, prototype);
+            clazzes.add(clazz);
         }
+
+        return clazzes;
     }
 
     public void loadRules(File crlFile) throws IOException, RecognitionException {
@@ -143,7 +136,13 @@ public final class CRL2JEngine {
         }
 
         // Compile Java source code to Java classes
-        classes = compile(javaFiles);
+        try {
+            classes = compile(javaFiles);
+        } catch (CharSequenceCompilerException e) {
+            e.printStackTrace();
+            System.err.println("The generated java files could not be compiled");
+            //System.exit(-1);
+        }
     }
 
     public List<JavaFile> getJavaFiles() {
@@ -153,7 +152,7 @@ public final class CRL2JEngine {
     public void processTable(CTable table)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        for (Class<TableConsumer> clazz: classes) {
+        for (Class<TableConsumer> clazz : classes) {
             Constructor<TableConsumer> constructor = clazz.getConstructor();
             TableConsumer consumer = constructor.newInstance();
             consumer.accept(table);

@@ -23,6 +23,11 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 import com.squareup.javapoet.*;
+import ru.icc.td.tabbyxl.model.style.CBorder;
+import ru.icc.td.tabbyxl.model.style.CColor;
+import ru.icc.td.tabbyxl.model.style.CFont;
+import ru.icc.td.tabbyxl.model.style.CStyle;
+
 import javax.lang.model.element.Modifier;
 import static java.lang.reflect.Modifier.isStatic;
 
@@ -39,6 +44,11 @@ final class CodeGenerator {
         classes.add(CEntry.class);
         classes.add(CLabel.class);
         classes.add(CCategory.class);
+
+        classes.add(CStyle.class);
+        classes.add(CBorder.class);
+        classes.add(CColor.class);
+        classes.add(CFont.class);
 
         // TODO Add here all classes we need to use (Maybe the style classes such as CStyle, CFont?)
 
@@ -285,7 +295,7 @@ final class CodeGenerator {
 
                 // Add assignment of the flag variable
 
-                statement = CodeBlock.builder().addStatement("$T $N = $L", boolean.class, flagName, Boolean.FALSE).build();
+                statement = CodeBlock.builder().addStatement("$N = $L", flagName, Boolean.FALSE).build();
                 codeBlocks.add(statement);
 
                 // Add break
