@@ -18,18 +18,17 @@ package ru.icc.td.tabbyxl.crl2j;
 
 import ru.icc.td.tabbyxl.crl2j.rulemodel.*;
 import ru.icc.td.tabbyxl.model.*;
-
-import java.lang.reflect.Field;
-import java.util.*;
-
-import com.squareup.javapoet.*;
 import ru.icc.td.tabbyxl.model.style.CBorder;
 import ru.icc.td.tabbyxl.model.style.CColor;
 import ru.icc.td.tabbyxl.model.style.CFont;
 import ru.icc.td.tabbyxl.model.style.CStyle;
 
+import java.lang.reflect.Field;
+import java.util.*;
 import javax.lang.model.element.Modifier;
 import static java.lang.reflect.Modifier.isStatic;
+
+import com.squareup.javapoet.*;
 
 final class CodeGenerator {
     private static final List<Field> fields = new ArrayList<>();
@@ -105,12 +104,28 @@ final class CodeGenerator {
         JavaFile createJavaFile() {
             MethodSpec method = createMethod();
 
-            String className = TableConsumer.class.getSimpleName() + rule.getId();
+            final int order = rule.getId();
+
+            FieldSpec f = FieldSpec
+                    .builder(int.class, "ORDER", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+                    .initializer(String.valueOf(order))
+                    .build();
+
+            MethodSpec m = MethodSpec
+                    .methodBuilder("getOrder")
+                    .addModifiers(Modifier.PUBLIC)
+                    .returns(int.class)
+                    .addStatement("return ORDER")
+                    .build();
+
+            String className = TableConsumer.class.getSimpleName() + order;
 
             TypeSpec typeSpec = TypeSpec
                     .classBuilder(className)
                     .addModifiers(Modifier.PUBLIC)
                     .addSuperinterface(TableConsumer.class)
+                    .addField(f)
+                    .addMethod(m)
                     .addMethod(method)
                     .build();
 

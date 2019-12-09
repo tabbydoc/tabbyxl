@@ -20,5 +20,13 @@ import ru.icc.td.tabbyxl.model.CTable;
 
 import java.util.function.Consumer;
 
-public interface TableConsumer extends Consumer<CTable> {
+public interface TableConsumer extends Consumer<CTable>, Comparable<TableConsumer> {
+
+    int getOrder();
+
+    @Override
+    default int compareTo(TableConsumer other) {
+        return Integer.compare(this.getOrder(), other.getOrder());
+    }
 }
+

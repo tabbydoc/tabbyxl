@@ -623,13 +623,7 @@ public final class TabbyXL {
         System.out.println("Table processing is in progress");
         System.out.println();
 
-        Consumer<CTable> crl2jOption = (table) -> {
-            try {
-                crl2jEngine.processTable(table);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                e.printStackTrace();
-            }
-        };
+        Consumer<CTable> crl2jOption = (table) -> {crl2jEngine.processTable(table);};
 
         processTables(crl2jOption);
 

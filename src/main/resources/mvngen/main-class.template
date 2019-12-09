@@ -1,14 +1,12 @@
 import ru.icc.td.tabbyxl.DataLoader;
-import ru.icc.td.tabbyxl.crl2j.TableConsumer;
 import ru.icc.td.tabbyxl.model.CTable;
+import ru.icc.td.tabbyxl.crl2j.TableConsumer;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 class SpreadsheetTableCanonicalizer {
 
@@ -55,7 +53,7 @@ class SpreadsheetTableCanonicalizer {
         }
     }
 
-    private List<TableConsumer> consumers = new ArrayList<>();
+    private SortedSet<TableConsumer> consumers = new TreeSet<>();
 
     private SpreadsheetTableCanonicalizer() {
     }
@@ -79,8 +77,10 @@ class SpreadsheetTableCanonicalizer {
             // Load the table consumer class and create its instance
 
             Class clazz = Class.forName(className);
-            TableConsumer TableConsumer = (TableConsumer) clazz.newInstance();
-            consumers.add(TableConsumer);
+            if (clazz.isInterface()) continue;
+
+            TableConsumer tableConsumer = (TableConsumer) clazz.newInstance();
+            consumers.add(tableConsumer);
         }
     }
 

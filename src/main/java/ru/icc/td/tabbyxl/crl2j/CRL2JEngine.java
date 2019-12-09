@@ -22,6 +22,7 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.Tree;
 import org.apache.commons.lang.StringUtils;
+
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
@@ -31,10 +32,10 @@ import ru.icc.td.tabbyxl.model.CTable;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public final class CRL2JEngine {
 
@@ -46,8 +47,8 @@ public final class CRL2JEngine {
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
     }
 
-    private List<JavaFile> javaFiles;
-    private List<Class<TableConsumer>> classes;
+    private List<JavaFile> javaFiles = new ArrayList<>();
+    private SortedSet<TableConsumer> tableConsumers = new TreeSet<>();
 
     private String packageName;
 
@@ -68,43 +69,48 @@ public final class CRL2JEngine {
         ANTLRFileStream fileStream = new ANTLRFileStream(crlFile.getPath());
 
         // Tokenize CRL
+
         CRLLexer lexer = new CRLLexer(fileStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
         // Parse CRL
+
         CRLParser parser = new CRLParser(tokenStream);
 
         return (Tree) parser.crl().getTree();
     }
 
-    private List<JavaFile> translate(Tree ast) {
+    private void generateJavaFiles(Tree ast) {
 
         // Analyze and interpret AST to create a Ruleset model
+
         Ruleset ruleset = new Ruleset(ast);
 
         // Generate Java source code from the Ruleset model
+
         CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
-        return codeGenerator.generateJavaFiles();
+        javaFiles.addAll(codeGenerator.generateJavaFiles());
     }
 
-    private List<Class<TableConsumer>> compile(List<JavaFile> javaFiles) throws CharSequenceCompilerException {
-        int size = javaFiles.size();
-        List<Class<TableConsumer>> clazzes = new ArrayList<>(size);
+    private void createTableConsumers(List<JavaFile> javaFiles)
+            throws CharSequenceCompilerException, IllegalAccessException, InstantiationException {
 
         for (JavaFile javaFile : javaFiles) {
             String className = javaFile.packageName + '.' + javaFile.typeSpec.name;
             Class<TableConsumer>[] prototype = new Class[]{TableConsumer.class};
             String sourceCode = javaFile.toString();
             Class<TableConsumer> clazz = compiler.compile(className, sourceCode, null, prototype);
-            clazzes.add(clazz);
+
+            TableConsumer instance = clazz.newInstance();
+            tableConsumers.add(instance);
         }
 
-        return clazzes;
     }
 
     public void loadRules(File crlFile) throws IOException, RecognitionException {
 
         // Parse the CRL ruleset to AST
+
         Tree ast = parse(crlFile);
 
         if (false) {
@@ -114,8 +120,9 @@ public final class CRL2JEngine {
             System.out.println();
         }
 
-        // Translate AST to Java source code:
-        javaFiles = translate(ast);
+        // Interpret AST to create Java files
+
+        generateJavaFiles(ast);
 
         if (true) {
             System.out.println("This Java source code was generated from the ruleset");
@@ -129,28 +136,24 @@ public final class CRL2JEngine {
             }
         }
 
-        // Compile Java source code to Java classes
+        // Compile Java files to Java classes and create their instances
+
         try {
-            classes = compile(javaFiles);
+            createTableConsumers(javaFiles);
         } catch (CharSequenceCompilerException e) {
             System.err.println("The generated java files could not be compiled");
-
             e.printStackTrace();
-            //System.exit(-1);
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
         }
+
     }
 
     public List<JavaFile> getJavaFiles() {
         return javaFiles;
     }
 
-    public void processTable(CTable table)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-
-        for (Class<TableConsumer> clazz : classes) {
-            Constructor<TableConsumer> constructor = clazz.getConstructor();
-            TableConsumer consumer = constructor.newInstance();
-            consumer.accept(table);
-        }
+    public void processTable(CTable table) {
+        tableConsumers.forEach(tc -> tc.accept(table));
     }
 }

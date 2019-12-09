@@ -136,7 +136,7 @@ public final class MvnProjectGenerator {
 
         // Get the path to the tabbyxl classes
 
-        String path = null;
+        String path;
         try {
             path = new File(THIS_CLASS.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
         } catch (URISyntaxException e) {
