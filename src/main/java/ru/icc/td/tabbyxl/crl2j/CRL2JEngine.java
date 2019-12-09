@@ -16,7 +16,6 @@
 
 package ru.icc.td.tabbyxl.crl2j;
 
-import com.squareup.javapoet.JavaFile;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -30,12 +29,10 @@ import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
 import ru.icc.td.tabbyxl.crl2j.parsing.TreeUtils;
 import ru.icc.td.tabbyxl.model.CTable;
 
+import javax.tools.JavaFileObject;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public final class CRL2JEngine {
 
@@ -47,7 +44,7 @@ public final class CRL2JEngine {
         compiler = new CharSequenceCompiler(ClassLoader.getSystemClassLoader(), null);
     }
 
-    private List<JavaFile> javaFiles = new ArrayList<>();
+    private Map<String, JavaFileObject> sourceCodeUnits;
     private SortedSet<TableConsumer> tableConsumers = new TreeSet<>();
 
     private String packageName;
@@ -89,20 +86,25 @@ public final class CRL2JEngine {
         // Generate Java source code from the Ruleset model
 
         CodeGenerator codeGenerator = new CodeGenerator(getPackageName(), ruleset);
-        javaFiles.addAll(codeGenerator.generateJavaFiles());
+        sourceCodeUnits = codeGenerator.generateSourceCode();
     }
 
-    private void createTableConsumers(List<JavaFile> javaFiles)
-            throws CharSequenceCompilerException, IllegalAccessException, InstantiationException {
+    private void createTableConsumers(Map<String, JavaFileObject> sourceCodeUnits) throws CharSequenceCompilerException {
+        try {
 
-        for (JavaFile javaFile : javaFiles) {
-            String className = javaFile.packageName + '.' + javaFile.typeSpec.name;
-            Class<TableConsumer>[] prototype = new Class[]{TableConsumer.class};
-            String sourceCode = javaFile.toString();
-            Class<TableConsumer> clazz = compiler.compile(className, sourceCode, null, prototype);
+            for (String qualifiedClassName : sourceCodeUnits.keySet()) {
+                Class<TableConsumer>[] prototype = new Class[]{TableConsumer.class};
+                JavaFileObject sourceCodeUnit = sourceCodeUnits.get(qualifiedClassName);
+                CharSequence sourceCode = sourceCodeUnit.getCharContent(true);
+                Class<TableConsumer> clazz = compiler.compile(qualifiedClassName, sourceCode, null, prototype);
 
-            TableConsumer instance = clazz.newInstance();
-            tableConsumers.add(instance);
+                TableConsumer instance = clazz.newInstance();
+                tableConsumers.add(instance);
+            }
+
+        } catch (IOException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+            System.exit(-1);
         }
 
     }
@@ -129,8 +131,8 @@ public final class CRL2JEngine {
             System.out.println(filledLine);
             System.out.println();
 
-            for (JavaFile javaFile : javaFiles) {
-                System.out.println(javaFile.toString());
+            for (JavaFileObject sourceCodeUnit : sourceCodeUnits.values()) {
+                System.out.println(sourceCodeUnit.getCharContent(true));
                 System.out.println(filledLine);
                 System.out.println();
             }
@@ -139,18 +141,15 @@ public final class CRL2JEngine {
         // Compile Java files to Java classes and create their instances
 
         try {
-            createTableConsumers(javaFiles);
+            createTableConsumers(sourceCodeUnits);
         } catch (CharSequenceCompilerException e) {
             System.err.println("The generated java files could not be compiled");
             e.printStackTrace();
-        } catch (IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
         }
-
     }
 
-    public List<JavaFile> getJavaFiles() {
-        return javaFiles;
+    public Map<String, JavaFileObject> getSourceCodeUnits() {
+        return sourceCodeUnits;
     }
 
     public void processTable(CTable table) {

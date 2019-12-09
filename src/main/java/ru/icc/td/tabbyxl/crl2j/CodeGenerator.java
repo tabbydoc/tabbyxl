@@ -26,6 +26,8 @@ import ru.icc.td.tabbyxl.model.style.CStyle;
 import java.lang.reflect.Field;
 import java.util.*;
 import javax.lang.model.element.Modifier;
+import javax.tools.JavaFileObject;
+
 import static java.lang.reflect.Modifier.isStatic;
 
 import com.squareup.javapoet.*;
@@ -48,8 +50,6 @@ final class CodeGenerator {
         classes.add(CBorder.class);
         classes.add(CColor.class);
         classes.add(CFont.class);
-
-        // TODO Add here all classes we need to use (Maybe the style classes such as CStyle, CFont?)
 
         for (Class clazz : classes) {
             for (Field field : clazz.getDeclaredFields()) {
@@ -77,19 +77,24 @@ final class CodeGenerator {
         this.ruleset = ruleset;
     }
 
-    List<JavaFile> generateJavaFiles() {
+    Map<String, JavaFileObject> generateSourceCode() {
         List<Rule> rules = ruleset.getRules();
 
         if (rules.isEmpty()) return null;
 
-        List<JavaFile> sourceCode = new ArrayList<>();
+        // The insertion-order is preferable for logging
+        Map<String, JavaFileObject> sourceCodeUnits = new LinkedHashMap<>();
 
         for (Rule rule : rules) {
-            JavaFile ruleClassCode = new ForRule(rule).createJavaFile();
-            sourceCode.add(ruleClassCode);
+            JavaFile javaFile = new ForRule(rule).createJavaFile();
+
+            String qualifiedClassName = javaFile.packageName + '.' + javaFile.typeSpec.name;
+            JavaFileObject sourceCodeUnit = javaFile.toJavaFileObject();
+
+            sourceCodeUnits.put(qualifiedClassName, sourceCodeUnit);
         }
 
-        return sourceCode;
+        return sourceCodeUnits;
     }
 
     private final class ForRule {

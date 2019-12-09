@@ -16,18 +16,16 @@
 
 package ru.icc.td.tabbyxl.crl2j.mvngen;
 
-import com.squareup.javapoet.*;
 import org.antlr.runtime.RecognitionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2JEngine;
 
+import javax.tools.JavaFileObject;
 import java.io.*;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import java.nio.file.*;
+import java.util.Map;
 import java.util.Properties;
 
 public final class MvnProjectGenerator {
@@ -46,7 +44,7 @@ public final class MvnProjectGenerator {
 
         // Generate source code of the table consumers
 
-        List<JavaFile> javaFiles = generateJavaFiles(crlFile);
+        Map<String, JavaFileObject> sourceCodeUnits = generateSourceCode(crlFile);
         System.out.println("The source code was generated");
 
         // Create or clean the project directory
@@ -56,16 +54,17 @@ public final class MvnProjectGenerator {
             System.out.println("The project directory was created");
         } else {
             FileUtils.cleanDirectory(projectPath.toFile());
-            System.out.println("The project directory was clean");
+            System.out.println("The project directory was cleaned");
         }
+
         // Create the source code directory
 
         Path sourceCodePath = projectPath.resolve("src").resolve("main").resolve("java");
-        Files.createDirectories(sourceCodePath);
+        Files.createDirectories(sourceCodePath.resolve(packageName));
 
         // Write the generated source code of the table consumers
 
-        writeTableConsumerFiles(javaFiles, sourceCodePath);
+        writeSourceCodeFiles(sourceCodeUnits, sourceCodePath);
         System.out.println("The source code was written in java files");
 
         // Add main-class to the project
@@ -81,19 +80,33 @@ public final class MvnProjectGenerator {
         System.out.printf("Your project was created successfully in \"%s\"", projectPath);
     }
 
-    private static List<JavaFile> generateJavaFiles(File crlFile) throws IOException, RecognitionException {
+    private static Map<String, JavaFileObject> generateSourceCode(File crlFile) throws IOException, RecognitionException {
 
         // Generate source code of the table consumers from rules
 
         final CRL2JEngine crl2jEngine = new CRL2JEngine(packageName);
         crl2jEngine.loadRules(crlFile);
 
-        return crl2jEngine.getJavaFiles();
+        return crl2jEngine.getSourceCodeUnits();
     }
 
-    private static void writeTableConsumerFiles(List<JavaFile> javaFiles, Path sourceCodePath) throws IOException {
-        for (JavaFile javaFile : javaFiles)
-            javaFile.writeTo(sourceCodePath);
+    private static void writeSourceCodeFiles(Map<String, JavaFileObject> sourceCodeUnits, Path sourceCodePath) {
+        try {
+            for (String qualifiedClassName : sourceCodeUnits.keySet()) {
+
+                JavaFileObject sourceCodeUnit = sourceCodeUnits.get(qualifiedClassName);
+                String sourceCode = sourceCodeUnit.getCharContent(true).toString();
+
+                File sourceCodeFile = sourceCodePath.resolve(sourceCodeUnit.getName()).toFile();
+                BufferedWriter writer = new BufferedWriter(new FileWriter(sourceCodeFile, false));
+                writer.write(sourceCode);
+
+                writer.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     private static void writeMainClassFile(Path sourceCodePath) throws IOException {
