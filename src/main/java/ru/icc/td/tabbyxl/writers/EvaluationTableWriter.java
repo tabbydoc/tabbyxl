@@ -29,7 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
-public final class EvaluationExcelWriter extends BasicExcelWriter
+public final class EvaluationTableWriter extends BasicTableWriter
 {
     @Override
     protected Workbook writeToWorkbook(CTable table)
@@ -149,7 +149,7 @@ public final class EvaluationExcelWriter extends BasicExcelWriter
         return workbook;
     }
 
-    public EvaluationExcelWriter(File outputFile) {
+    public EvaluationTableWriter(File outputFile) {
         super(outputFile);
     }
 

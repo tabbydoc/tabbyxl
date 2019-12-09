@@ -25,9 +25,9 @@ import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
 import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
 import ru.icc.td.tabbyxl.util.StatisticsManager;
-import ru.icc.td.tabbyxl.writers.Writer;
-import ru.icc.td.tabbyxl.writers.DebugWriter;
-import ru.icc.td.tabbyxl.writers.EvaluationExcelWriter;
+import ru.icc.td.tabbyxl.writers.TableWriter;
+import ru.icc.td.tabbyxl.writers.DebugTableWriter;
+import ru.icc.td.tabbyxl.writers.EvaluationTableWriter;
 
 import javax.rules.*;
 import javax.rules.admin.LocalRuleExecutionSetProvider;
@@ -685,15 +685,15 @@ public final class TabbyXL {
                 Path outPath = outputDirectory.resolve(outFileName);
 
                 // Write output to Excel
-                Writer writer;
+                TableWriter tableWriter;
                 File outFile = outPath.toFile();
 
                 final boolean useDebug = false;
                 if (useDebug)
-                    writer = new DebugWriter(outFile);
+                    tableWriter = new DebugTableWriter(outFile);
                 else
-                    writer = new EvaluationExcelWriter(outFile);
-                writer.write(table);
+                    tableWriter = new EvaluationTableWriter(outFile);
+                tableWriter.write(table);
 
                 tableNo++;
             }

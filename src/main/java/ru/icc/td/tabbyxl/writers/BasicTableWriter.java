@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class BasicExcelWriter extends Writer {
+public class BasicTableWriter extends TableWriter {
 
     protected Workbook writeToWorkbook(CTable table) {
         Workbook workbook = new XSSFWorkbook();
@@ -96,7 +96,7 @@ public class BasicExcelWriter extends Writer {
         fileOut.close();
     }
 
-    public BasicExcelWriter(File outputFile) {
+    public BasicTableWriter(File outputFile) {
         super(outputFile);
     }
 }

@@ -21,13 +21,9 @@ import ru.icc.td.tabbyxl.model.CTable;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class Writer
+public abstract class TableWriter
 {
     protected File outputFile;
-
-    public File getOutputFile() {
-        return outputFile;
-    }
 
     public void setOutputFile(File outputFile) {
         this.outputFile = outputFile;
@@ -35,7 +31,7 @@ public abstract class Writer
 
     public abstract void write(CTable table) throws IOException;
 
-    public Writer(File outputFile)
+    public TableWriter(File outputFile)
     {
         setOutputFile(outputFile);
     }
