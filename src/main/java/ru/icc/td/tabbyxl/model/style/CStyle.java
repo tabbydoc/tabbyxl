@@ -16,7 +16,7 @@
 
 package ru.icc.td.tabbyxl.model.style;
 
-public class CStyle
+public final class CStyle
 {
     private boolean hidden;
 

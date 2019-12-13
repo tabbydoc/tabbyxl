@@ -49,8 +49,9 @@
 #Cell merging
 [consequence][] merge {cell1:\S+} with {cell2:\S+} = {cell1}.merge({cell2}); retract({cell1});
 
-#Cell marking
+#Cell tagging
 [consequence][] set mark {string_expression} to {cell:\S+} = {cell}.setMark({string_expression});
+[consequence][] set tag {string_expression} to {cell:\S+} = {cell}.setTag({string_expression});
 
 #Entry creating 
 [consequence][] new entry {cell:\S+} as {string_expression} = insert({cell}.newEntry({string_expression}));

@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
-public class EvalView {
+final class EvalView {
     private int numOfGroundTruthEntries;
     private int numOfResultEntries;
     private int numOfCorrectEntries;

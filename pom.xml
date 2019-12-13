@@ -2,15 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.icc.td.tabbyxl</groupId>
     <artifactId>TabbyXL</artifactId>
-    <version>1.0.4</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <build>
+
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -20,6 +23,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -43,23 +47,31 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
+
         <resources>
+
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+
         </resources>
+
     </build>
 
     <properties>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <drools.version>7.7.0.Final</drools.version>
         <drools-jsr94.version>7.2.0.Final</drools-jsr94.version>
         <poi.version>3.12</poi.version>
+
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -89,6 +101,7 @@
             <artifactId>drools-compiler</artifactId>
             <version>${drools.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-jsr94</artifactId>
@@ -100,6 +113,7 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -111,6 +125,7 @@
             <artifactId>commons-cli</artifactId>
             <version>1.2</version>
         </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -122,11 +137,13 @@
             <artifactId>j-text-utils</artifactId>
             <version>0.3.4</version>
         </dependency>
+
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.16</version>
         </dependency>
+
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr-runtime</artifactId>
@@ -137,12 +154,6 @@
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>3.0.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
         </dependency>
 
         <dependency>
@@ -159,10 +170,11 @@
         </dependency>
 
         <dependency>
-            <groupId>edu.stanford.nlp</groupId>
-            <artifactId>stanford-pos-tagger</artifactId>
-            <version>3.9.2</version>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+            <version>1.11.1</version>
         </dependency>
 
     </dependencies>
+
 </project>

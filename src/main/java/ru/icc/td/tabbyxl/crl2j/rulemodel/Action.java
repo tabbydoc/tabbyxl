@@ -1,30 +1,42 @@
+/*
+ * Copyright 2019 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ru.icc.td.tabbyxl.crl2j.rulemodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Action {
+public final class Action {
 
-    public enum Type {
-        split, setText, setIndent, setMark, setValue, newEntry, newLabel, merge, addLabel, setCategory, setParent, group, update
+    private String methodName;
+    private List<Expression> operands = new ArrayList<>();
+
+    public String getMethodName() {
+        return methodName;
     }
 
-    private Type type;
-    private List<Operand> operands = new ArrayList<>();
-
-    public Type  getType() {
-        return type;
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public List<Operand> getOperands() {
+    public List<Expression> getOperands() {
         return operands;
     }
 
-    public void setOperands(List<Operand> operands) {
+    public void setOperands(List<Expression> operands) {
         this.operands = operands;
     }
 }

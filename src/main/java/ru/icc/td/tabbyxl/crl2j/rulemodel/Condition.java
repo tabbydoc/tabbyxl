@@ -1,23 +1,35 @@
+/*
+ * Copyright 2019 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ru.icc.td.tabbyxl.crl2j.rulemodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Condition {
+public final class Condition {
 
-    public enum ConditionType {
-        ForAll, NotExist
-    }
-
-    public enum DataType {
-        CCell, CLabel, CEntry, CCategory
+    public enum Quantifier {
+        FOR_ALL, NOT_EXIST
     }
 
     private int id;
-    private ConditionType conditionType;
-    private DataType dataType;
+    private Quantifier quantifier;
+    private Class queriedType;
     private String identifier;
-    private List<Constraint> constraints = new ArrayList<>();
+    private List<Expression> constraints = new ArrayList<>();
     private List<Assignment> assignments = new ArrayList<>();
 
     public int getId() {
@@ -28,16 +40,20 @@ public class Condition {
         this.id = id;
     }
 
-    public void setConditionType(ConditionType conditionType) {
-        this.conditionType = conditionType;
+    public Quantifier getQuantifier() {
+        return quantifier;
     }
 
-    public void setDataType(DataType dataType) {
-        this.dataType = dataType;
+    public void setQuantifier(Quantifier quantifier) {
+        this.quantifier = quantifier;
     }
 
-    public DataType getDataType() {
-        return dataType;
+    public void setQueriedType(Class queriedType) {
+        this.queriedType = queriedType;
+    }
+
+    public Class getQueriedType() {
+        return queriedType;
     }
 
     public void setIdentifier(String identifier) {
@@ -48,11 +64,11 @@ public class Condition {
         return identifier;
     }
 
-    public void addConstraint(Constraint constraint) {
+    public void addConstraint(Expression constraint) {
         this.constraints.add(constraint);
     }
 
-    public List<Constraint> getConstraints() {
+    public List<Expression> getConstraints() {
         return constraints;
     }
 
@@ -64,7 +80,4 @@ public class Condition {
         return assignments;
     }
 
-    public boolean isNotExistsCondition() {
-        return (conditionType == ConditionType.NotExist ? true : false);
-    }
 }

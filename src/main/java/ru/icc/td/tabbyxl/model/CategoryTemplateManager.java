@@ -24,106 +24,95 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CategoryTemplateManager
-{
+public final class CategoryTemplateManager {
     private static Yaml yaml;
 
-    static
-    {
-        Constructor constructor = new Constructor( CategoryTemplate.class );
-        TypeDescription typeDesc = new TypeDescription( CategoryTemplate.class );
-        typeDesc.putListPropertyType( "constraints", String.class );
-        typeDesc.putListPropertyType( "labels", String.class );
+    static {
+        Constructor constructor = new Constructor(CategoryTemplate.class);
+        TypeDescription typeDesc = new TypeDescription(CategoryTemplate.class);
+        typeDesc.putListPropertyType("constraints", String.class);
+        typeDesc.putListPropertyType("labels", String.class);
         constructor.addTypeDescription(typeDesc);
-        yaml = new Yaml( constructor );
+        yaml = new Yaml(constructor);
     }
 
     private final List<CategoryTemplate> templates = new ArrayList<CategoryTemplate>();
 
-    public void load( File categoryDescFile ) throws IOException
-    {
-        Reader reader = new FileReader( categoryDescFile );
+    public void load(File categoryDescFile) throws IOException {
+        Reader reader = new FileReader(categoryDescFile);
 
-        for ( Object template : yaml.loadAll( reader ) )
-            templates.add( (CategoryTemplate) template );
+        for (Object template : yaml.loadAll(reader))
+            templates.add((CategoryTemplate) template);
 
 
         reader.close();
     }
 
-    public void createCategories( CTable table )
-    {
+    public void createCategories(CTable table) {
         final LocalCategoryBox localCategoryBox = table.getLocalCategoryBox();
-        for ( CategoryTemplate desc : templates)
-        {
-            CCategory category = localCategoryBox.newCategory( desc.getName() );
+        for (CategoryTemplate desc : templates) {
+            CCategory category = localCategoryBox.newCategory(desc.getName());
 
-            for ( String constraint : desc.getConstraints() )
-                category.addConstraint( constraint );
+            for (String constraint : desc.getConstraints())
+                category.addConstraint(constraint);
 
-            for ( String labelValue : desc.getLabels() )
-                category.newLabel( labelValue );
+            for (String labelValue : desc.getLabels())
+                category.newLabel(labelValue);
         }
     }
 
-    public boolean hasAtLeastOneCategoryTemplate()
-    {
+    public boolean hasAtLeastOneCategoryTemplate() {
         return templates.size() > 0;
     }
 
     private static final CategoryTemplateManager INSTANCE = new CategoryTemplateManager();
 
-    private CategoryTemplateManager() {}
+    private CategoryTemplateManager() {
+    }
 
-    public static CategoryTemplateManager getInstance()
-    {
+    public static CategoryTemplateManager getInstance() {
         return INSTANCE;
     }
 
-    public void release()
-    {
+    public void release() {
         templates.clear();
     }
 
-    public static class CategoryTemplate
-    {
+    public static class CategoryTemplate {
         private String name;
 
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
-        public void setName( String name )
-        {
+        public void setName(String name) {
             this.name = name;
         }
 
         private List<String> constraints;
 
-        public List<String> getConstraints()
-        {
+        public List<String> getConstraints() {
             return constraints;
         }
 
-        public void setConstraints( List<String> constraints )
-        {
+        public void setConstraints(List<String> constraints) {
             this.constraints = constraints;
         }
 
         private List<String> labels;
 
-        public List<String> getLabels()
-        {
+        public List<String> getLabels() {
             return labels;
         }
 
-        public void setLabels( List<String> labels )
-        {
+        public void setLabels(List<String> labels) {
             this.labels = labels;
         }
 
-        public CategoryTemplate() {};
+        public CategoryTemplate() {
+        }
+
+        ;
     }
 
 }

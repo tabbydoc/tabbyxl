@@ -1,60 +1,58 @@
-import ru.icc.td.tabbyxl.model.*
-
 rule #1
     when
-        cell $corner: cl == 1, rt == 1, blank
-        cell $c: rb <= $corner.rb, cl > $corner.cr, ! blank, ! marked
+        cell corner: cl == 1, rt == 1
+        cell c: rb <= corner.rb, cl > corner.cr
     then
-        set mark "@ColLabel" to $c
-        new label $c
+        set tag "head" to c
+        new label c
 end
 
 rule #2
     when
-        cell $corner: cl == 1, rt == 1, blank
-        cell $c: cr <= $corner.cr, rt > $corner.rb, ! blank, ! marked
+        cell corner: cl == 1, rt == 1
+        cell c: cr <= corner.cr, rt > corner.rb
     then
-        set mark "@RowLabel" to $c
-        new label $c
+        set tag "stub" to c
+        new label c
 end
 
 rule #3
     when
-        cell $corner: cl == 1, rt == 1, blank
-        cell $c: cl > $corner.cr, rt > $corner.rb, ! marked
+        cell corner: cl == 1, rt == 1
+        cell c: cl > corner.cr, rt > corner.rb
     then
-        set mark "@Entry" to $c
-        new entry $c
+        set tag "body" to c
+        new entry c
 end
 
 rule #4
     when
-        cell $c1: mark == "@RowLabel"
-        cell $c2: mark == "@RowLabel", cl == $c1.cl, cr == $c1.cr
+        cell c1: tag == "stub"
+        cell c2: tag == "stub", cl == c1.cl, cr == c1.cr
     then
-        group $c1.label with $c2.label
+        group c1.label with c2.label
 end
 
 rule #5
     when
-        cell $c1: mark == "@ColLabel"
-        cell $c2: mark == "@ColLabel", rt == $c1.rt, rb == $c1.rb
+        cell c1: tag == "head"
+        cell c2: tag == "head", rt == c1.rt, rb == c1.rb
     then
-        group $c1.label with $c2.label
+        group c1.label with c2.label
 end
 
 rule #6
     when
-        cell $c1: mark == "@RowLabel"
-        cell $c2: mark == "@Entry", rt >= $c1.rt, rb <= $c1.rb
+        cell c1: tag == "stub"
+        cell c2: tag == "body", rt >= c1.rt, rb <= c1.rb
     then
-        add label $c1.label to $c2.entry
+        add label c1.label to c2.entry
 end
 
 rule #7
     when
-        cell $c1: mark == "@ColLabel"
-        cell $c2: mark == "@Entry", cl >= $c1.cl, cr <= $c1.cr
+        cell c1: tag == "head"
+        cell c2: tag == "body", cl >= c1.cl, cr <= c1.cr
     then
-        add label $c1.label to $c2.entry
+        add label c1.label to c2.entry
 end

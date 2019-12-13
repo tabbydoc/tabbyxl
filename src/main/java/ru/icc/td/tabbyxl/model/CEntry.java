@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-18 Alexey O. Shigarov (shigarov@gmail.com)
+ * Copyright 2015-19 Alexey O. Shigarov (shigarov@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,95 +16,76 @@
 
 package ru.icc.td.tabbyxl.model;
 
+import ru.icc.td.tabbyxl.model.exception.EntryAssociatingException;
+
 import java.util.*;
 
-public final class CEntry extends CValue
-{
+public final class CEntry extends CItem {
     private Map<CCategory, CLabel> labels = new HashMap<CCategory, CLabel>();
 
-    public Iterator<CLabel> getLabels()
-    {
+    public Iterator<CLabel> getLabels() {
         return labels.values().iterator();
     }
 
     private Set<CLabel> candidates = new HashSet<CLabel>();
 
-    public int numOfLabels()
-    {
+    public int numOfLabels() {
         return labels.size();
     }
 
-    void categoryActivated( CLabel label )
-    {
-        if ( candidates.contains( label ) )
-        {
-            addLabel( label );
-            candidates.remove( label );
+    void categoryActivated(CLabel label) {
+        if (candidates.contains(label)) {
+            addLabel(label);
+            candidates.remove(label);
         }
     }
 
-    public void addLabel( CLabel label )
-    {
-        if ( null == label )
-            throw new NullPointerException( "The adding label cannot be null" );
+    public void addLabel(CLabel label) {
+        if (null == label)
+            throw new NullPointerException("The adding label cannot be null");
 
         CCategory category = label.getCategory();
 
-        if ( null == category )
-        {
-            if ( candidates.add( label ) )
-            {
-                label.addListener( this );
-            }
-            else
-            {
+        if (null == category) {
+            if (candidates.add(label)) {
+                label.addListener(this);
+            } else {
                 // TODO generating the warning: "The label candidate set already contains this label"
             }
-        }
-        else
-        {
-            if ( labels.containsKey( category ) )
-            {
-                CLabel addedLabel = labels.get( category );
-                throw new EntryAssociatingException( this, label, addedLabel, category );
-            }
-            else
-            {
-                labels.put( category, label );
+        } else {
+            if (labels.containsKey(category)) {
+                CLabel addedLabel = labels.get(category);
+                throw new EntryAssociatingException(this, label, addedLabel, category);
+            } else {
+                labels.put(category, label);
             }
         }
     }
 
-    public void addLabel(String labelValue, CCategory category )
-    {
-        CLabel label  = category.findLabel( labelValue );
+    public void addLabel(String labelValue, CCategory category) {
+        CLabel label = category.findLabel(labelValue);
 
-        if ( label == null )
-        {
-            label = category.newLabel( labelValue );
+        if (label == null) {
+            label = category.newLabel(labelValue);
         }
         addLabel(label);
     }
 
-    public void addLabel( String labelValue, String categoryName )
-    {
+    public void addLabel(String labelValue, String categoryName) {
         LocalCategoryBox localCategoryBox = getOwner().getLocalCategoryBox();
 
-        CCategory category = localCategoryBox.findCategory( categoryName );
-        if ( category == null )
-        {
-            category = localCategoryBox.newCategory( categoryName );
+        CCategory category = localCategoryBox.findCategory(categoryName);
+        if (category == null) {
+            category = localCategoryBox.newCategory(categoryName);
         }
-        addLabel( labelValue, category );
+        addLabel(labelValue, category);
     }
 
-    public CEntry( CTable owner, CCell cell, String value )
-    {
-        super( owner, cell, value );
+    public CEntry(CTable owner, CCell cell, String value) {
+        super(owner, cell, value);
     }
 
-    public String trace()
-    {
+    public String trace() {
         final String separator = "; ";
         final StringBuilder sb = new StringBuilder();
 
@@ -117,11 +98,10 @@ public final class CEntry extends CValue
 
         sb.append("labels={");
         Iterator<CLabel> labels = this.labels.values().iterator();
-        while ( labels.hasNext() )
-        {
+        while (labels.hasNext()) {
             CLabel label = labels.next();
             sb.append('"').append(label.getValue()).append('"');
-            if ( labels.hasNext() )
+            if (labels.hasNext())
                 sb.append(", ");
         }
         sb.append("}");

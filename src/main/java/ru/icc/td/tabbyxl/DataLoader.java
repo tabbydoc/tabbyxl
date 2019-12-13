@@ -22,12 +22,13 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.*;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.model.CellType;
+import ru.icc.td.tabbyxl.model.TypeTag;
 import ru.icc.td.tabbyxl.model.style.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
 public final class DataLoader {
     private File sourceWorkbookFile;
@@ -174,6 +175,8 @@ public final class DataLoader {
         table.setSrcStartCellRef(cellRef.formatAsString());
         cellRef = new CellReference(endPnt.r, endPnt.c);
         table.setSrcEndCellRef(cellRef.formatAsString());
+
+        recoverCellBorders(table);
 
         return table;
     }
@@ -381,7 +384,7 @@ public final class DataLoader {
 
     private void fillCell(CCell cell, Cell excelCell) {
         String rawTextualContent = null;
-        CellType cellType = null;
+        TypeTag typeTag = null;
 
         String text = null;
         if (withoutSuperscript) {
@@ -401,36 +404,36 @@ public final class DataLoader {
         switch (excelCell.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
                 if (DateUtil.isCellDateFormatted(excelCell)) {
-                    cellType = CellType.DATE;
+                    typeTag = TypeTag.DATE;
                 } else {
-                    cellType = CellType.NUMERIC;
+                    typeTag = TypeTag.NUMERIC;
                 }
                 break;
 
             case Cell.CELL_TYPE_STRING:
-                cellType = CellType.STRING;
+                typeTag = TypeTag.STRING;
                 break;
 
             case Cell.CELL_TYPE_BOOLEAN:
-                cellType = CellType.BOOLEAN;
+                typeTag = TypeTag.BOOLEAN;
                 break;
 
             case Cell.CELL_TYPE_FORMULA:
-                cellType = CellType.FORMULA;
+                typeTag = TypeTag.FORMULA;
                 break;
 
             case Cell.CELL_TYPE_BLANK:
-                cellType = CellType.BLANK;
+                typeTag = TypeTag.BLANK;
                 break;
 
             case Cell.CELL_TYPE_ERROR:
-                cellType = CellType.ERROR;
+                typeTag = TypeTag.ERROR;
                 break;
         }
 
         cell.setId(this.cellCount);
 
-        cell.setType(cellType);
+        cell.setTypeTag(typeTag);
 
         int height = excelCell.getRow().getHeight();
         cell.setHeight(height);
@@ -440,7 +443,7 @@ public final class DataLoader {
 
         CellStyle excelCellStyle = excelCell.getCellStyle();
         CStyle cellStyle = cell.getStyle();
-        System.out.printf("cell = %s%n", cell.getText());
+        //System.out.printf("cell = %s%n", cell.getText());
         fillCellStyle(cellStyle, excelCellStyle);
 
         String reference = new CellReference(excelCell).formatAsString();
@@ -617,6 +620,115 @@ public final class DataLoader {
         if (underline == Font.U_DOUBLE || underline == Font.U_DOUBLE_ACCOUNTING)
             font.setDoubleUnderline(true);
     }
+
+    private static void recoverCellBorders(CTable table) {
+        int numOfCols = table.numOfCols();
+        int numOfRows = table.numOfRows();
+
+        CCell[][] cellMatrix = new CCell[numOfCols + 1][numOfRows + 1];
+
+        Iterator<CCell> cells = table.getCells();
+
+        while (cells.hasNext()) {
+            CCell cell = cells.next();
+            for (int i = cell.getCl(); i <= cell.getCr(); i++) {
+                for (int j = cell.getRt(); j <= cell.getRb(); j++) {
+                    cellMatrix[i][j] = cell;
+                }
+            }
+        }
+
+        cells = table.getCells();
+
+        while (cells.hasNext()) {
+            CCell cell = cells.next();
+            CStyle sty = cell.getStyle();
+            CCell neighbor;
+            CStyle neighborSty;
+            BorderType recoveredBorderType;
+
+            // Left
+            CBorder leftBorder = sty.getLeftBorder();
+            if (leftBorder.getType() == BorderType.NONE && cell.getCl() > 1) {
+                recoveredBorderType = BorderType.NONE;
+
+                for (int j = cell.getRt(); j <= cell.getRb(); j++) {
+                    neighbor = cellMatrix[cell.getCl() - 1][j];
+                    if (null == neighbor) continue;
+
+                    neighborSty = neighbor.getStyle();
+
+                    recoveredBorderType = neighborSty.getRightBorder().getType();
+                    if (recoveredBorderType == BorderType.NONE)
+                        break;
+                }
+
+                if (recoveredBorderType != BorderType.NONE)
+                    leftBorder.setType(recoveredBorderType);
+            }
+
+            // Right
+            CBorder rightBorder = sty.getRightBorder();
+            if (rightBorder.getType() == BorderType.NONE && cell.getCr() < numOfCols) {
+                recoveredBorderType = BorderType.NONE;
+
+                for (int j = cell.getRt(); j <= cell.getRb(); j++) {
+                    neighbor = cellMatrix[cell.getCr() + 1][j];
+                    if (null == neighbor) continue;
+
+                    neighborSty = neighbor.getStyle();
+
+                    recoveredBorderType = neighborSty.getLeftBorder().getType();
+                    if (recoveredBorderType == BorderType.NONE)
+                        break;
+                }
+
+                if (recoveredBorderType != BorderType.NONE)
+                    rightBorder.setType(recoveredBorderType);
+            }
+
+            // Top
+            CBorder topBorder = sty.getTopBorder();
+            if (topBorder.getType() == BorderType.NONE && cell.getRt() > 1) {
+                recoveredBorderType = BorderType.NONE;
+
+                for (int i = cell.getCl(); i <= cell.getCr(); i++) {
+                    neighbor = cellMatrix[i][cell.getRt() - 1];
+                    if (null == neighbor) continue;
+
+                    neighborSty = neighbor.getStyle();
+
+                    recoveredBorderType = neighborSty.getBottomBorder().getType();
+                    if (recoveredBorderType == BorderType.NONE)
+                        break;
+                }
+
+                if (recoveredBorderType != BorderType.NONE)
+                    topBorder.setType(recoveredBorderType);
+            }
+
+            // Bottom
+            CBorder bottomBorder = sty.getBottomBorder();
+            if (bottomBorder.getType() == BorderType.NONE && cell.getRb() < numOfRows) {
+                recoveredBorderType = BorderType.NONE;
+
+                for (int i = cell.getCl(); i <= cell.getCr(); i++) {
+                    neighbor = cellMatrix[i][cell.getRb() + 1];
+                    if (null == neighbor) continue;
+
+                    neighborSty = neighbor.getStyle();
+
+                    recoveredBorderType = neighborSty.getTopBorder().getType();
+                    if (recoveredBorderType == BorderType.NONE)
+                        break;
+                }
+
+                if (recoveredBorderType != BorderType.NONE)
+                    bottomBorder.setType(recoveredBorderType);
+            }
+        }
+    }
+
 
     private static final DataLoader INSTANCE = new DataLoader();
 

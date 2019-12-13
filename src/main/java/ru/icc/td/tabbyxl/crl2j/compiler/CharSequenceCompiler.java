@@ -1,19 +1,3 @@
-/*
- * Copyright 2018 Alexey O. Shigarov (shigarov@icc.ru) and Vasiliy V. Khristyuk
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package ru.icc.td.tabbyxl.crl2j.compiler;
 
 import javax.tools.*;
@@ -23,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CharSequenceCompiler<T> {
-    private static final String JAVA_EXTENSION = ".java";
+public final class CharSequenceCompiler<T> {
+    private static final String JAVA_EXT = ".java";
 
     private ClassLoaderImpl classLoader;
 
@@ -67,7 +51,7 @@ public class CharSequenceCompiler<T> {
                                          Class<?>... types) throws CharSequenceCompilerException, ClassCastException
     {
         if(diagnosticList != null) diagnostics = diagnosticList;
-        else diagnostics = new DiagnosticCollector<JavaFileObject>();
+        else diagnostics = new DiagnosticCollector<>();
 
         Map<String, CharSequence> classes = new HashMap<>(1);
         classes.put(qualifiedClassName, source);
@@ -93,7 +77,7 @@ public class CharSequenceCompiler<T> {
                 String packageName = dotPos == -1 ? "" : fullClassName.substring(0, dotPos);
                 FileObjectImpl source = new FileObjectImpl(className, javaSource);
                 sources.add(source);
-                fileManagerImpl.putFileForInput(StandardLocation.SOURCE_PATH, packageName, className + JAVA_EXTENSION, source);
+                fileManagerImpl.putFileForInput(StandardLocation.SOURCE_PATH, packageName, className + JAVA_EXT, source);
             }
         }
 
