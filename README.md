@@ -3,7 +3,7 @@
 A software platform for rule-based transformation spreadsheet data from arbitrary to relational tables.
 
 ## Version
-1.0.4
+1.1.0
 
 ## Building with Apache Maven
 
@@ -24,7 +24,7 @@ mvn clean install
 You may test the newly compiled and packaged JAR file with the following command:
 
 ```bash
-java -jar target/TabbyXL-1.0.4-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.crl -output examples/results
+java -jar target/TabbyXL-1.1.0-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.crl -output examples/results
 ```
 
 or run the testing script
@@ -53,7 +53,7 @@ Exception in thread "main" java.lang.IllegalStateException
 *If you see this message, then, please, check that you run `java` included in JDK. You also can try to use `"%JAVA_HOME%/bin/java"` instead of `java` as follows.*
 
 ```bash
-"%JAVA_HOME%/bin/java" -jar target/TabbyXL-1.0.4-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.crl -output examples/results
+"%JAVA_HOME%/bin/java" -jar target/TabbyXL-1.1.0-jar-with-dependencies.jar -input examples/data/smpl.xlsx -ruleset examples/rules/smpl.crl -output examples/results
 ```
 
 If the program prints at the end something like this
@@ -79,7 +79,7 @@ then it works.
 In order to run the executable JAR, you may use the following command with parameters  
 
 ```
-java -jar target/TabbyXL-1.0.4-jar-with-dependencies.jar <params>
+java -jar target/TabbyXL-1.1.0-jar-with-dependencies.jar <params>
 
 Params:
 -input <path>                      specify a path to an input excel workbook (*.xlsx)
@@ -107,6 +107,7 @@ Only two parameters are mandatory
 * Alexey O. Shigarov
 * Vasiliy V. Khristyuk
 * Andrey A. Mikhailov
+* Viacheslav V. Paramonov
 
 ## License
 Apache License, Version 2.0
