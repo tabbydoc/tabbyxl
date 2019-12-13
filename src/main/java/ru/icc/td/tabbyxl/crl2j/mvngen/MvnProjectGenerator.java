@@ -68,17 +68,16 @@ public final class MvnProjectGenerator {
 
         // Write the generated source code of the table consumers
 
-        writeSourceCodeFiles(sourceCodeUnits, sourceCodePath);
+        writeSourceCode(sourceCodeUnits, sourceCodePath);
         System.out.println("The source code was written in java files");
 
-        // Add main-class to the project
+        // Create main-class and add it to the project
 
-        JavaFileObject mainClassFile = generateMainClassFile(sourceCodeUnits);
-        writeMainClassFile(mainClassFile, sourceCodePath);
-        //writeMainClassFile(sourceCodePath);
+        JavaFileObject mainClassFile = generateMainClassSourceCode(sourceCodeUnits);
+        writeMainClassSourceCode(mainClassFile, sourceCodePath);
         System.out.println("The main-class was added");
 
-        // Add pom file to the project
+        // Create pom-file and add it to the project
 
         writePomFile(projectPath);
         System.out.println("The pom file was added");
@@ -86,17 +85,21 @@ public final class MvnProjectGenerator {
         System.out.printf("Your project was created successfully in \"%s\"", projectPath);
     }
 
-    private static Map<String, JavaFileObject> generateSourceCode(File crlFile) throws IOException, RecognitionException {
+    private static Map<String, JavaFileObject> generateSourceCode(File crlFile) throws RecognitionException {
 
         // Generate source code of the table consumers from rules
 
         final CRL2JEngine crl2jEngine = new CRL2JEngine(packageName);
-        crl2jEngine.loadRules(crlFile);
-
+        try {
+            crl2jEngine.loadRules(crlFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
         return crl2jEngine.getSourceCodeUnits();
     }
 
-    private static void writeSourceCodeFiles(Map<String, JavaFileObject> sourceCodeUnits, Path sourceCodePath) {
+    private static void writeSourceCode(Map<String, JavaFileObject> sourceCodeUnits, Path sourceCodePath) {
         try {
             for (String qualifiedClassName : sourceCodeUnits.keySet()) {
 
@@ -115,7 +118,7 @@ public final class MvnProjectGenerator {
         }
     }
 
-    private static JavaFileObject generateMainClassFile(Map<String, JavaFileObject> sourceCodeUnits) {
+    private static JavaFileObject generateMainClassSourceCode(Map<String, JavaFileObject> sourceCodeUnits) {
 
         CodeBlock codeBlock = CodeBlock
                 .builder()
@@ -164,10 +167,10 @@ public final class MvnProjectGenerator {
         return mainClassFile.toJavaFileObject();
     }
 
-    private static void writeMainClassFile(JavaFileObject mainClassContent, Path sourceCodePath) {
+    private static void writeMainClassSourceCode(JavaFileObject mainClassSourceCode, Path sourceCodePath) {
         try {
-            String sourceCode = mainClassContent.getCharContent(true).toString();
-            File sourceCodeFile = sourceCodePath.resolve(mainClassContent.getName()).toFile();
+            String sourceCode = mainClassSourceCode.getCharContent(true).toString();
+            File sourceCodeFile = sourceCodePath.resolve(mainClassSourceCode.getName()).toFile();
             BufferedWriter writer = new BufferedWriter(new FileWriter(sourceCodeFile, false));
             writer.write(sourceCode);
             writer.close();
