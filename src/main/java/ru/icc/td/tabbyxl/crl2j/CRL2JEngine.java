@@ -26,7 +26,7 @@ import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
 import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
-import ru.icc.td.tabbyxl.crl2j.parsing.TreeUtils;
+import ru.icc.td.tabbyxl.crl2j.parsing.ASTPrinter;
 import ru.icc.td.tabbyxl.model.CTable;
 
 import javax.tools.JavaFileObject;
@@ -117,7 +117,7 @@ public final class CRL2JEngine {
 
         if (false) {
             System.out.println("This AST was produced from the ruleset");
-            System.out.println(TreeUtils.trace(ast));
+            System.out.println(ASTPrinter.trace(ast));
             System.out.println(filledLine);
             System.out.println();
         }

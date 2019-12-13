@@ -22,7 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 
-public final class TreeUtils {
+public final class ASTPrinter {
 
     private static final char FIRST_CHAR, MIDDLE_CHAR, LAST_CHAR;
 
