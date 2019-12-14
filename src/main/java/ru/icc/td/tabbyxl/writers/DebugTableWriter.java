@@ -59,7 +59,7 @@ public final class DebugTableWriter extends BasicTableWriter {
         Sheet sheet3 = workbook.createSheet("USER-DEFINED TAGS");
         BiConsumer<CItem, Cell> setCellValByTag = (item, excelCell) -> {
             CCell cell = item.getCell();
-            String tag = cell.getMark();
+            String tag = cell.getTag();
             excelCell.setCellValue(tag);
         };
         writeCanonicalForm(sheet3, cf, setCellValByTag);

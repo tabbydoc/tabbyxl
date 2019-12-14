@@ -149,7 +149,8 @@ public final class CCell extends COwned implements Cloneable {
     //  an amount of spaces in the beginning of the excel cell's text
     private int spaceIndent;
 
-    // This return typeTag should be int, short typeTag leads to the exception "Exception jitting".
+    // Note that the return type of this method should be "int",
+    // "short" type leads to the exception "Exception jitting".
     public int getSpaceIndent() {
         return spaceIndent;
     }
@@ -189,27 +190,32 @@ public final class CCell extends COwned implements Cloneable {
         this.typeTag = typeTag;
     }
 
-    private String mark;
+    private String tag;
 
-    public String getMark() {
-        return mark;
+    public String getTag() {
+        return tag;
     }
 
+    // TODO Remove this temporal method after upgrading CRL.g and CRL-parser
     public void setMark(String mark) {
-        if (null == mark)
-            throw new NullPointerException("The mark cannot be null");
-
-        if (mark.isEmpty())
-            throw new IllegalArgumentException("The mark cannot be empty");
-
-        this.mark = mark;
-        marked = true;
+        setTag(mark);
     }
 
-    private boolean marked;
+    public void setTag(String tag) {
+        if (null == tag)
+            throw new NullPointerException("The tag cannot be null");
 
-    public boolean isMarked() {
-        return marked;
+        if (tag.isEmpty())
+            throw new IllegalArgumentException("The tag cannot be empty");
+
+        this.tag = tag;
+        tagged = true;
+    }
+
+    private boolean tagged;
+
+    public boolean isTagged() {
+        return tagged;
     }
 
     private boolean ignored;
@@ -224,7 +230,7 @@ public final class CCell extends COwned implements Cloneable {
 
     private CLabel label;
 
-    private List<CLabel> labels = new ArrayList<CLabel>();
+    private List<CLabel> labels = new ArrayList<>();
 
     private void setLabel(CLabel label) {
         if (null == this.label)
@@ -420,9 +426,8 @@ public final class CCell extends COwned implements Cloneable {
     }
 
     public String trace() {
-        String tags = String.format("{%s, \"%s\", %s}", typeTag, mark, nerTag);
+        String tags = String.format("{%s, %s, \"%s\"}", typeTag, nerTag, tag);
         return String.format("cell=\"%s\"; address=\"%s\"; tags=%s", text, address(), tags);
-        //return String.format( "%s%n%s%n%s%n", text, tags, style.trace() );
     }
 
     private String provenance;
@@ -461,13 +466,4 @@ public final class CCell extends COwned implements Cloneable {
         return nerTag;
     }
 
-    private String tag;
-
-    public String getTag() {
-        return getMark();
-    }
-
-    public void setTag(String tag) {
-        this.setMark(tag);
-    }
 }

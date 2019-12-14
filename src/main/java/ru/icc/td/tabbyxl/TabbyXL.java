@@ -133,7 +133,7 @@ public final class TabbyXL {
         File file = new File(rulesetFileParam);
         if (file.exists()) {
             if (file.canRead()) {
-                // Note that to need to set <code>useRuleEngine</code> before parsing rule file param
+                // Note that to need to set <code>useRuleEngine</code> before parser rule file param
                 if (!useRuleEngine) {
                     String fileExtension = FilenameUtils.getExtension(file.getName());
                     if (!fileExtension.equalsIgnoreCase("crl")) {
@@ -173,18 +173,18 @@ public final class TabbyXL {
                     try {
                         Files.createDirectory(outputDirectory);
                     } catch (IOException e) {
-                        System.err.println("The parsing directory does not exist and cannot be created");
+                        System.err.println("The parser directory does not exist and cannot be created");
                         e.printStackTrace();
                         System.exit(1);
                     }
                 }
                 return outputDirectory;
             } catch (InvalidPathException e) {
-                System.err.println("The parsing directory path is invalid");
+                System.err.println("The parser directory path is invalid");
                 e.printStackTrace();
             }
         } else {
-            // Creating default parsing directory
+            // Creating default parser directory
             String defaultOutputDirectoryPath = inputExcelFile.getParent();
             return Paths.get(defaultOutputDirectoryPath);
         }
@@ -357,7 +357,7 @@ public final class TabbyXL {
         Option useShortNamesOpt = OptionBuilder
                 .withArgName("true|false")
                 .hasArg()
-                .withDescription("specify true to use short names (just sheet names) for parsing files (false used by default)")
+                .withDescription("specify true to use short names (just sheet names) for parser files (false used by default)")
                 .create("useShortNames");
 
         Option debuggingModeOpt = OptionBuilder
@@ -413,7 +413,7 @@ public final class TabbyXL {
             String sheetIndexesParam = cmd.getOptionValue(sheetIndexesOpt.getOpt());
             sheetIndexes = parseSheetIndexesParam(sheetIndexesParam);
 
-            // Note that to need to set <code>useRuleEngine</code> before parsing rule file param
+            // Note that to need to set <code>useRuleEngine</code> before parser rule file param
             String ruleEngineConfigFileParam = cmd.getOptionValue(ruleEngineConfigOpt.getOpt());
             useRuleEngine = parseRuleEngineConfigFileParam(ruleEngineConfigFileParam);
 
