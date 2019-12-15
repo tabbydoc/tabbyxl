@@ -74,7 +74,7 @@ scope {
 }
 	:	('no' { $condition::quantifier = "NOT_EXIST"; })?
 		query 
-		( ident = ID { $condition::id = $ident.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
+		( idntfr = ID { $condition::id = $idntfr.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
 		(
 		':' 
 		( (constraint (',' constraint)* (',' assignment)? ) | assignment )
