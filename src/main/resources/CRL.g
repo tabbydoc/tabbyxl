@@ -65,21 +65,21 @@ rule
 	
 condition 
 scope { 
-	String typeTag;
+	String quantifier;
 	String id; 
 }
 @init { 
-	$condition::typeTag = "FOR_ALL";
+	$condition::quantifier = "FOR_ALL";
 	$condition::id = null;
 }
-	:	('no' { $condition::typeTag = "NOT_EXIST"; })?
+	:	('no' { $condition::quantifier = "NOT_EXIST"; })?
 		query 
-		( ident = ID { $condition::id = $ident.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
+		( idntfr = ID { $condition::id = $idntfr.text; } )? { $condition::id = ( ($condition::id == null)? "null":$condition::id ); } 
 		(
 		':' 
 		( (constraint (',' constraint)* (',' assignment)? ) | assignment )
 		)? EOL
-		-> ^( CONDITION TYPE[$condition::typeTag] query IDENTIFIER[$condition::id] ^(CONSTRAINTS ^(CONSTRAINT constraint)*) ^(ASSIGNMENT assignment?) )
+		-> ^( CONDITION TYPE[$condition::quantifier] query IDENTIFIER[$condition::id] ^(CONSTRAINTS ^(CONSTRAINT constraint)*) ^(ASSIGNMENT assignment?) )
 	;
 	
 query
@@ -103,7 +103,7 @@ expression
 	;
 
 action 	
-	:	set_mark
+	:	set_tag
 		|set_text
 		|set_indent
 		|split
@@ -123,9 +123,9 @@ operand
 	:	( STRING | ESC_SEQ | ~('to'|'with'|'as'|'of'|EOL))+
 	;
 
-set_mark
-	:	('set mark'|'set tag') op1 = operand 'to' op2 = operand EOL
-		-> ^(ACTION["setMark"] ^(OPERAND $op2) ^(OPERAND $op1))
+set_tag
+	:	'set tag' op1 = operand 'to' op2 = operand EOL
+		-> ^(ACTION["setTag"] ^(OPERAND $op2) ^(OPERAND $op1))
 	;
 	
 set_text

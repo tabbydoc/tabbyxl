@@ -24,9 +24,9 @@ import org.apache.commons.lang.StringUtils;
 
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompiler;
 import ru.icc.td.tabbyxl.crl2j.compiler.CharSequenceCompilerException;
-import ru.icc.td.tabbyxl.crl2j.parsing.CRLLexer;
-import ru.icc.td.tabbyxl.crl2j.parsing.CRLParser;
-import ru.icc.td.tabbyxl.crl2j.parsing.ASTPrinter;
+import ru.icc.td.tabbyxl.crl2j.parser.CRLLexer;
+import ru.icc.td.tabbyxl.crl2j.parser.CRLParser;
+import ru.icc.td.tabbyxl.crl2j.parser.ASTPrinter;
 import ru.icc.td.tabbyxl.model.CTable;
 
 import javax.tools.JavaFileObject;

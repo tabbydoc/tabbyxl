@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.icc.td.tabbyxl.crl2j.parsing;
+package ru.icc.td.tabbyxl.crl2j.parser;
 
 import org.antlr.runtime.tree.Tree;
 
