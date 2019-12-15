@@ -196,11 +196,6 @@ public final class CCell extends COwned implements Cloneable {
         return tag;
     }
 
-    // TODO Remove this temporal method after upgrading CRL.g and CRL-parser
-    public void setMark(String mark) {
-        setTag(mark);
-    }
-
     public void setTag(String tag) {
         if (null == tag)
             throw new NullPointerException("The tag cannot be null");
