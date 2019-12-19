@@ -1,4 +1,4 @@
-// $ANTLR null D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g 2019-12-15 11:53:22
+// $ANTLR null D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g 2019-12-19 19:22:38
 
 package ru.icc.td.tabbyxl.crl2j.parser;
 
@@ -48,7 +48,6 @@ public class CRLLexer extends Lexer {
 	public static final int T__69=69;
 	public static final int T__70=70;
 	public static final int T__71=71;
-	public static final int T__72=72;
 	public static final int ACTION=4;
 	public static final int ACTIONS=5;
 	public static final int ASSIGNMENT=6;
@@ -832,10 +831,10 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = T__70;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:47:7: ( 'update' )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:47:9: 'update'
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:47:7: ( 'when' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:47:9: 'when'
 			{
-			match("update"); 
+			match("when"); 
 
 			}
 
@@ -853,29 +852,8 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = T__71;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:48:7: ( 'when' )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:48:9: 'when'
-			{
-			match("when"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__71"
-
-	// $ANTLR start "T__72"
-	public final void mT__72() throws RecognitionException {
-		try {
-			int _type = T__72;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:49:7: ( 'with' )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:49:9: 'with'
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:48:7: ( 'with' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:48:9: 'with'
 			{
 			match("with"); 
 
@@ -888,15 +866,15 @@ public class CRLLexer extends Lexer {
 			// do for sure before leaving
 		}
 	}
-	// $ANTLR end "T__72"
+	// $ANTLR end "T__71"
 
 	// $ANTLR start "ID"
 	public final void mID() throws RecognitionException {
 		try {
 			int _type = ID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:198:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '$' )* )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:198:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '$' )*
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '$' )* )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '$' )*
 			{
 			if ( input.LA(1)=='$'||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 				input.consume();
@@ -906,7 +884,7 @@ public class CRLLexer extends Lexer {
 				recover(mse);
 				throw mse;
 			}
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:198:35: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '$' )*
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:35: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '$' )*
 			loop1:
 			while (true) {
 				int alt1=2;
@@ -951,10 +929,10 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = INT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:201:5: ( ( '0' .. '9' )+ )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:201:7: ( '0' .. '9' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:195:5: ( ( '0' .. '9' )+ )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:195:7: ( '0' .. '9' )+
 			{
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:201:7: ( '0' .. '9' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:195:7: ( '0' .. '9' )+
 			int cnt2=0;
 			loop2:
 			while (true) {
@@ -1003,14 +981,14 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = FLOAT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:5: ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:199:5: ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT )
 			int alt9=3;
 			alt9 = dfa9.predict(input);
 			switch (alt9) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:9: ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:199:9: ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
 					{
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:9: ( '0' .. '9' )+
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:199:9: ( '0' .. '9' )+
 					int cnt3=0;
 					loop3:
 					while (true) {
@@ -1044,7 +1022,7 @@ public class CRLLexer extends Lexer {
 					}
 
 					match('.'); 
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:25: ( '0' .. '9' )*
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:199:25: ( '0' .. '9' )*
 					loop4:
 					while (true) {
 						int alt4=2;
@@ -1073,7 +1051,7 @@ public class CRLLexer extends Lexer {
 						}
 					}
 
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:37: ( EXPONENT )?
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:199:37: ( EXPONENT )?
 					int alt5=2;
 					int LA5_0 = input.LA(1);
 					if ( (LA5_0=='E'||LA5_0=='e') ) {
@@ -1081,7 +1059,7 @@ public class CRLLexer extends Lexer {
 					}
 					switch (alt5) {
 						case 1 :
-							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:37: EXPONENT
+							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:199:37: EXPONENT
 							{
 							mEXPONENT(); 
 
@@ -1093,10 +1071,10 @@ public class CRLLexer extends Lexer {
 					}
 					break;
 				case 2 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:206:9: '.' ( '0' .. '9' )+ ( EXPONENT )?
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:200:9: '.' ( '0' .. '9' )+ ( EXPONENT )?
 					{
 					match('.'); 
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:206:13: ( '0' .. '9' )+
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:200:13: ( '0' .. '9' )+
 					int cnt6=0;
 					loop6:
 					while (true) {
@@ -1129,7 +1107,7 @@ public class CRLLexer extends Lexer {
 						cnt6++;
 					}
 
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:206:25: ( EXPONENT )?
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:200:25: ( EXPONENT )?
 					int alt7=2;
 					int LA7_0 = input.LA(1);
 					if ( (LA7_0=='E'||LA7_0=='e') ) {
@@ -1137,7 +1115,7 @@ public class CRLLexer extends Lexer {
 					}
 					switch (alt7) {
 						case 1 :
-							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:206:25: EXPONENT
+							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:200:25: EXPONENT
 							{
 							mEXPONENT(); 
 
@@ -1149,9 +1127,9 @@ public class CRLLexer extends Lexer {
 					}
 					break;
 				case 3 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:207:9: ( '0' .. '9' )+ EXPONENT
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:201:9: ( '0' .. '9' )+ EXPONENT
 					{
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:207:9: ( '0' .. '9' )+
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:201:9: ( '0' .. '9' )+
 					int cnt8=0;
 					loop8:
 					while (true) {
@@ -1204,7 +1182,7 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:211:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '/*' ( options {greedy=false; } : . )* '*/' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '/*' ( options {greedy=false; } : . )* '*/' )
 			int alt13=2;
 			int LA13_0 = input.LA(1);
 			if ( (LA13_0=='/') ) {
@@ -1238,11 +1216,11 @@ public class CRLLexer extends Lexer {
 
 			switch (alt13) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:211:9: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:9: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 					{
 					match("//"); 
 
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:211:14: (~ ( '\\n' | '\\r' ) )*
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:14: (~ ( '\\n' | '\\r' ) )*
 					loop10:
 					while (true) {
 						int alt10=2;
@@ -1271,7 +1249,7 @@ public class CRLLexer extends Lexer {
 						}
 					}
 
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:211:28: ( '\\r' )?
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:28: ( '\\r' )?
 					int alt11=2;
 					int LA11_0 = input.LA(1);
 					if ( (LA11_0=='\r') ) {
@@ -1279,7 +1257,7 @@ public class CRLLexer extends Lexer {
 					}
 					switch (alt11) {
 						case 1 :
-							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:211:28: '\\r'
+							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:205:28: '\\r'
 							{
 							match('\r'); 
 							}
@@ -1292,11 +1270,11 @@ public class CRLLexer extends Lexer {
 					}
 					break;
 				case 2 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:212:9: '/*' ( options {greedy=false; } : . )* '*/'
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:206:9: '/*' ( options {greedy=false; } : . )* '*/'
 					{
 					match("/*"); 
 
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:212:14: ( options {greedy=false; } : . )*
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:206:14: ( options {greedy=false; } : . )*
 					loop12:
 					while (true) {
 						int alt12=2;
@@ -1317,7 +1295,7 @@ public class CRLLexer extends Lexer {
 
 						switch (alt12) {
 						case 1 :
-							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:212:42: .
+							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:206:42: .
 							{
 							matchAny(); 
 							}
@@ -1349,8 +1327,8 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:215:5: ( ( ' ' | '\\t' ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:215:9: ( ' ' | '\\t' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:209:5: ( ( ' ' | '\\t' ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:209:9: ( ' ' | '\\t' )
 			{
 			if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
 				input.consume();
@@ -1377,11 +1355,11 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:221:5: ( '\"' ( ESC_SEQ |~ ( '\\\\' | '\"' ) )* '\"' )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:221:8: '\"' ( ESC_SEQ |~ ( '\\\\' | '\"' ) )* '\"'
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:215:5: ( '\"' ( ESC_SEQ |~ ( '\\\\' | '\"' ) )* '\"' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:215:8: '\"' ( ESC_SEQ |~ ( '\\\\' | '\"' ) )* '\"'
 			{
 			match('\"'); 
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:221:12: ( ESC_SEQ |~ ( '\\\\' | '\"' ) )*
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:215:12: ( ESC_SEQ |~ ( '\\\\' | '\"' ) )*
 			loop14:
 			while (true) {
 				int alt14=3;
@@ -1395,14 +1373,14 @@ public class CRLLexer extends Lexer {
 
 				switch (alt14) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:221:14: ESC_SEQ
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:215:14: ESC_SEQ
 					{
 					mESC_SEQ(); 
 
 					}
 					break;
 				case 2 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:221:24: ~ ( '\\\\' | '\"' )
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:215:24: ~ ( '\\\\' | '\"' )
 					{
 					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '!')||(input.LA(1) >= '#' && input.LA(1) <= '[')||(input.LA(1) >= ']' && input.LA(1) <= '\uFFFF') ) {
 						input.consume();
@@ -1437,11 +1415,11 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = CHAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:224:5: ( '\\'' ( ESC_SEQ |~ ( '\\'' | '\\\\' ) ) '\\'' )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:224:8: '\\'' ( ESC_SEQ |~ ( '\\'' | '\\\\' ) ) '\\''
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:218:5: ( '\\'' ( ESC_SEQ |~ ( '\\'' | '\\\\' ) ) '\\'' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:218:8: '\\'' ( ESC_SEQ |~ ( '\\'' | '\\\\' ) ) '\\''
 			{
 			match('\''); 
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:224:13: ( ESC_SEQ |~ ( '\\'' | '\\\\' ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:218:13: ( ESC_SEQ |~ ( '\\'' | '\\\\' ) )
 			int alt15=2;
 			int LA15_0 = input.LA(1);
 			if ( (LA15_0=='\\') ) {
@@ -1459,14 +1437,14 @@ public class CRLLexer extends Lexer {
 
 			switch (alt15) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:224:15: ESC_SEQ
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:218:15: ESC_SEQ
 					{
 					mESC_SEQ(); 
 
 					}
 					break;
 				case 2 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:224:25: ~ ( '\\'' | '\\\\' )
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:218:25: ~ ( '\\'' | '\\\\' )
 					{
 					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '&')||(input.LA(1) >= '(' && input.LA(1) <= '[')||(input.LA(1) >= ']' && input.LA(1) <= '\uFFFF') ) {
 						input.consume();
@@ -1498,10 +1476,10 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = OPERATOR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:228:2: ( ( '=' | '>' | '<' | '&' | '|' | '+' | '-' | '*' | '/' | '%' | '!' )+ )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:228:4: ( '=' | '>' | '<' | '&' | '|' | '+' | '-' | '*' | '/' | '%' | '!' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:222:2: ( ( '=' | '>' | '<' | '&' | '|' | '+' | '-' | '*' | '/' | '%' | '!' )+ )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:222:4: ( '=' | '>' | '<' | '&' | '|' | '+' | '-' | '*' | '/' | '%' | '!' )+
 			{
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:228:4: ( '=' | '>' | '<' | '&' | '|' | '+' | '-' | '*' | '/' | '%' | '!' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:222:4: ( '=' | '>' | '<' | '&' | '|' | '+' | '-' | '*' | '/' | '%' | '!' )+
 			int cnt16=0;
 			loop16:
 			while (true) {
@@ -1550,7 +1528,7 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = BRACKET;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:232:2: ( '(' | ')' | '[' | ']' | '{' | '}' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:226:2: ( '(' | ')' | '[' | ']' | '{' | '}' )
 			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:
 			{
 			if ( (input.LA(1) >= '(' && input.LA(1) <= ')')||input.LA(1)=='['||input.LA(1)==']'||input.LA(1)=='{'||input.LA(1)=='}' ) {
@@ -1577,10 +1555,10 @@ public class CRLLexer extends Lexer {
 		try {
 			int _type = EOL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:236:6: ( ( ( '\\r' )? '\\n' )+ )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:236:8: ( ( '\\r' )? '\\n' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:230:6: ( ( ( '\\r' )? '\\n' )+ )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:230:8: ( ( '\\r' )? '\\n' )+
 			{
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:236:8: ( ( '\\r' )? '\\n' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:230:8: ( ( '\\r' )? '\\n' )+
 			int cnt18=0;
 			loop18:
 			while (true) {
@@ -1592,9 +1570,9 @@ public class CRLLexer extends Lexer {
 
 				switch (alt18) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:236:9: ( '\\r' )? '\\n'
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:230:9: ( '\\r' )? '\\n'
 					{
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:236:9: ( '\\r' )?
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:230:9: ( '\\r' )?
 					int alt17=2;
 					int LA17_0 = input.LA(1);
 					if ( (LA17_0=='\r') ) {
@@ -1602,7 +1580,7 @@ public class CRLLexer extends Lexer {
 					}
 					switch (alt17) {
 						case 1 :
-							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:236:10: '\\r'
+							// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:230:10: '\\r'
 							{
 							match('\r'); 
 							}
@@ -1636,8 +1614,8 @@ public class CRLLexer extends Lexer {
 	// $ANTLR start "EXPONENT"
 	public final void mEXPONENT() throws RecognitionException {
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:241:10: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:241:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:235:10: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:235:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
 			{
 			if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
 				input.consume();
@@ -1647,7 +1625,7 @@ public class CRLLexer extends Lexer {
 				recover(mse);
 				throw mse;
 			}
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:241:22: ( '+' | '-' )?
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:235:22: ( '+' | '-' )?
 			int alt19=2;
 			int LA19_0 = input.LA(1);
 			if ( (LA19_0=='+'||LA19_0=='-') ) {
@@ -1670,7 +1648,7 @@ public class CRLLexer extends Lexer {
 
 			}
 
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:241:33: ( '0' .. '9' )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:235:33: ( '0' .. '9' )+
 			int cnt20=0;
 			loop20:
 			while (true) {
@@ -1715,7 +1693,7 @@ public class CRLLexer extends Lexer {
 	// $ANTLR start "HEX_DIGIT"
 	public final void mHEX_DIGIT() throws RecognitionException {
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:244:11: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:238:11: ( ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' ) )
 			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:
 			{
 			if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'F')||(input.LA(1) >= 'a' && input.LA(1) <= 'f') ) {
@@ -1738,7 +1716,7 @@ public class CRLLexer extends Lexer {
 	// $ANTLR start "ESC_SEQ"
 	public final void mESC_SEQ() throws RecognitionException {
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:248:5: ( '\\\\' ( 'b' | 'f' | 't' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | OCTAL_ESC )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:242:5: ( '\\\\' ( 'b' | 'f' | 't' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | OCTAL_ESC )
 			int alt21=3;
 			int LA21_0 = input.LA(1);
 			if ( (LA21_0=='\\') ) {
@@ -1791,7 +1769,7 @@ public class CRLLexer extends Lexer {
 
 			switch (alt21) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:248:9: '\\\\' ( 'b' | 'f' | 't' | '\\\"' | '\\'' | '\\\\' )
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:242:9: '\\\\' ( 'b' | 'f' | 't' | '\\\"' | '\\'' | '\\\\' )
 					{
 					match('\\'); 
 					if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='t' ) {
@@ -1805,14 +1783,14 @@ public class CRLLexer extends Lexer {
 					}
 					break;
 				case 2 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:249:9: UNICODE_ESC
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:243:9: UNICODE_ESC
 					{
 					mUNICODE_ESC(); 
 
 					}
 					break;
 				case 3 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:250:9: OCTAL_ESC
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:244:9: OCTAL_ESC
 					{
 					mOCTAL_ESC(); 
 
@@ -1830,7 +1808,7 @@ public class CRLLexer extends Lexer {
 	// $ANTLR start "OCTAL_ESC"
 	public final void mOCTAL_ESC() throws RecognitionException {
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:255:5: ( '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:249:5: ( '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) ( '0' .. '7' ) | '\\\\' ( '0' .. '7' ) )
 			int alt22=3;
 			int LA22_0 = input.LA(1);
 			if ( (LA22_0=='\\') ) {
@@ -1888,7 +1866,7 @@ public class CRLLexer extends Lexer {
 
 			switch (alt22) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:255:9: '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:249:9: '\\\\' ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
 					{
 					match('\\'); 
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '3') ) {
@@ -1918,7 +1896,7 @@ public class CRLLexer extends Lexer {
 					}
 					break;
 				case 2 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:256:9: '\\\\' ( '0' .. '7' ) ( '0' .. '7' )
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:250:9: '\\\\' ( '0' .. '7' ) ( '0' .. '7' )
 					{
 					match('\\'); 
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '7') ) {
@@ -1940,7 +1918,7 @@ public class CRLLexer extends Lexer {
 					}
 					break;
 				case 3 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:257:9: '\\\\' ( '0' .. '7' )
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:251:9: '\\\\' ( '0' .. '7' )
 					{
 					match('\\'); 
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '7') ) {
@@ -1965,8 +1943,8 @@ public class CRLLexer extends Lexer {
 	// $ANTLR start "UNICODE_ESC"
 	public final void mUNICODE_ESC() throws RecognitionException {
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:262:5: ( '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:262:9: '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:256:5: ( '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:256:9: '\\\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
 			{
 			match('\\'); 
 			match('u'); 
@@ -1989,8 +1967,8 @@ public class CRLLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:8: ( T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | ID | INT | FLOAT | COMMENT | WS | STRING | CHAR | OPERATOR | BRACKET | EOL )
-		int alt23=48;
+		// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:8: ( T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | ID | INT | FLOAT | COMMENT | WS | STRING | CHAR | OPERATOR | BRACKET | EOL )
+		int alt23=47;
 		alt23 = dfa23.predict(input);
 		switch (alt23) {
 			case 1 :
@@ -2253,77 +2231,70 @@ public class CRLLexer extends Lexer {
 				}
 				break;
 			case 38 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:232: T__72
-				{
-				mT__72(); 
-
-				}
-				break;
-			case 39 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:238: ID
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:232: ID
 				{
 				mID(); 
 
 				}
 				break;
-			case 40 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:241: INT
+			case 39 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:235: INT
 				{
 				mINT(); 
 
 				}
 				break;
-			case 41 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:245: FLOAT
+			case 40 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:239: FLOAT
 				{
 				mFLOAT(); 
 
 				}
 				break;
-			case 42 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:251: COMMENT
+			case 41 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:245: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
-			case 43 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:259: WS
+			case 42 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:253: WS
 				{
 				mWS(); 
 
 				}
 				break;
-			case 44 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:262: STRING
+			case 43 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:256: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
-			case 45 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:269: CHAR
+			case 44 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:263: CHAR
 				{
 				mCHAR(); 
 
 				}
 				break;
-			case 46 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:274: OPERATOR
+			case 45 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:268: OPERATOR
 				{
 				mOPERATOR(); 
 
 				}
 				break;
-			case 47 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:283: BRACKET
+			case 46 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:277: BRACKET
 				{
 				mBRACKET(); 
 
 				}
 				break;
-			case 48 :
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:291: EOL
+			case 47 :
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:1:285: EOL
 				{
 				mEOL(); 
 
@@ -2387,84 +2358,80 @@ public class CRLLexer extends Lexer {
 		}
 		@Override
 		public String getDescription() {
-			return "204:1: FLOAT : ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT );";
+			return "198:1: FLOAT : ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT );";
 		}
 	}
 
 	static final String DFA23_eotS =
-		"\2\uffff\1\36\2\uffff\17\24\1\uffff\1\65\1\32\11\uffff\1\24\1\71\10\24"+
-		"\1\103\1\104\5\24\1\112\3\24\1\uffff\2\32\1\24\1\uffff\2\24\1\125\6\24"+
-		"\2\uffff\5\24\1\uffff\3\24\1\32\1\uffff\2\32\1\uffff\1\24\1\147\1\uffff"+
-		"\5\24\1\uffff\2\24\1\uffff\1\24\1\170\1\24\1\172\1\173\1\117\1\24\1\175"+
-		"\1\uffff\1\24\1\177\1\u0080\1\24\1\u0083\1\u0084\2\uffff\1\u0086\6\uffff"+
-		"\1\u0089\1\uffff\1\24\2\uffff\1\24\1\uffff\1\24\2\uffff\1\24\1\u008e\2"+
-		"\uffff\1\u008f\4\uffff\1\u0090\1\24\1\u0093\4\uffff\1\24\1\u0095\1\uffff"+
-		"\1\24\1\uffff\1\u0097\1\uffff";
+		"\2\uffff\1\35\2\uffff\16\23\1\uffff\1\63\1\31\11\uffff\1\23\1\67\10\23"+
+		"\1\101\1\102\5\23\1\110\2\23\1\uffff\2\31\1\23\1\uffff\2\23\1\122\6\23"+
+		"\2\uffff\5\23\1\uffff\2\23\1\31\1\uffff\2\31\1\uffff\1\23\1\143\1\uffff"+
+		"\5\23\1\uffff\2\23\1\uffff\1\23\1\164\1\165\1\166\1\114\1\23\1\170\1\uffff"+
+		"\1\23\1\172\1\173\1\23\1\176\1\177\2\uffff\1\u0081\6\uffff\1\u0084\3\uffff"+
+		"\1\23\1\uffff\1\23\2\uffff\1\23\1\u0088\2\uffff\1\u0089\4\uffff\1\23\1"+
+		"\u008c\3\uffff\1\23\1\u008e\1\uffff\1\23\1\uffff\1\u0090\1\uffff";
 	static final String DFA23_eofS =
-		"\u0098\uffff";
+		"\u0091\uffff";
 	static final String DFA23_minS =
 		"\1\11\1\uffff\1\52\2\uffff\1\144\1\141\1\156\1\162\1\155\1\141\2\145\1"+
-		"\146\1\162\1\165\1\145\1\150\1\160\1\150\1\uffff\1\56\1\52\11\uffff\1"+
-		"\144\1\44\1\164\1\154\1\144\1\157\1\160\1\142\1\162\1\167\2\44\1\151\1"+
-		"\154\1\164\1\154\1\145\1\44\1\144\1\145\1\164\1\uffff\2\0\1\40\1\uffff"+
-		"\1\145\1\154\1\44\1\162\1\165\1\157\1\145\1\147\1\40\2\uffff\1\156\1\145"+
-		"\1\40\1\151\1\156\1\uffff\1\141\1\156\1\150\1\0\1\uffff\2\0\1\uffff\1"+
-		"\147\1\44\1\uffff\1\151\1\160\1\162\1\154\2\145\1\164\1\40\1\143\1\164"+
-		"\1\44\1\164\2\44\1\41\1\157\1\44\1\uffff\1\145\2\44\1\164\2\44\2\uffff"+
-		"\1\44\4\uffff\1\141\1\uffff\1\44\1\uffff\1\145\2\uffff\1\162\1\uffff\1"+
-		"\163\2\uffff\1\40\1\44\2\uffff\1\44\4\uffff\1\44\1\151\1\44\4\uffff\1"+
-		"\145\1\44\1\uffff\1\163\1\uffff\1\44\1\uffff";
+		"\146\1\162\1\165\1\145\2\150\1\uffff\1\56\1\52\11\uffff\1\144\1\44\1\164"+
+		"\1\154\1\144\1\157\1\160\1\142\1\162\1\167\2\44\1\151\1\154\1\164\1\154"+
+		"\1\145\1\44\1\145\1\164\1\uffff\2\0\1\40\1\uffff\1\145\1\154\1\44\1\162"+
+		"\1\165\1\157\1\145\1\147\1\40\2\uffff\1\156\1\145\1\40\1\151\1\156\1\uffff"+
+		"\1\156\1\150\1\0\1\uffff\2\0\1\uffff\1\147\1\44\1\uffff\1\151\1\160\1"+
+		"\162\1\154\2\145\1\164\1\40\1\143\1\164\3\44\1\41\1\157\1\44\1\uffff\1"+
+		"\145\2\44\1\164\2\44\2\uffff\1\44\4\uffff\1\141\1\uffff\1\44\3\uffff\1"+
+		"\162\1\uffff\1\163\2\uffff\1\40\1\44\2\uffff\1\44\4\uffff\1\151\1\44\3"+
+		"\uffff\1\145\1\44\1\uffff\1\163\1\uffff\1\44\1\uffff";
 	static final String DFA23_maxS =
 		"\1\175\1\uffff\1\71\2\uffff\1\163\1\145\1\156\1\162\1\155\1\141\1\145"+
-		"\1\157\1\146\1\162\1\165\1\160\1\157\1\160\1\151\1\uffff\1\145\1\57\11"+
-		"\uffff\1\144\1\172\1\164\1\154\1\164\1\157\1\160\1\142\1\162\1\167\2\172"+
-		"\1\151\1\154\1\164\1\154\1\145\1\172\1\144\1\145\1\164\1\uffff\2\uffff"+
-		"\1\40\1\uffff\1\145\1\154\1\172\1\162\1\165\1\157\1\145\1\147\1\40\2\uffff"+
-		"\1\156\1\145\1\40\1\151\1\156\1\uffff\1\141\1\156\1\150\1\uffff\1\uffff"+
-		"\2\uffff\1\uffff\1\147\1\172\1\uffff\1\171\1\160\1\162\1\154\1\145\1\154"+
-		"\1\164\1\40\1\166\1\164\1\172\1\164\2\172\1\174\1\157\1\172\1\uffff\1"+
-		"\145\2\172\1\164\2\172\2\uffff\1\172\4\uffff\1\145\1\uffff\1\172\1\uffff"+
-		"\1\145\2\uffff\1\162\1\uffff\1\163\2\uffff\1\40\1\172\2\uffff\1\172\4"+
-		"\uffff\1\172\1\171\1\172\4\uffff\1\145\1\172\1\uffff\1\163\1\uffff\1\172"+
-		"\1\uffff";
+		"\1\157\1\146\1\162\1\165\1\160\1\157\1\151\1\uffff\1\145\1\57\11\uffff"+
+		"\1\144\1\172\1\164\1\154\1\164\1\157\1\160\1\142\1\162\1\167\2\172\1\151"+
+		"\1\154\1\164\1\154\1\145\1\172\1\145\1\164\1\uffff\2\uffff\1\40\1\uffff"+
+		"\1\145\1\154\1\172\1\162\1\165\1\157\1\145\1\147\1\40\2\uffff\1\156\1"+
+		"\145\1\40\1\151\1\156\1\uffff\1\156\1\150\1\uffff\1\uffff\2\uffff\1\uffff"+
+		"\1\147\1\172\1\uffff\1\171\1\160\1\162\1\154\1\145\1\154\1\164\1\40\1"+
+		"\166\1\164\3\172\1\174\1\157\1\172\1\uffff\1\145\2\172\1\164\2\172\2\uffff"+
+		"\1\172\4\uffff\1\145\1\uffff\1\172\3\uffff\1\162\1\uffff\1\163\2\uffff"+
+		"\1\40\1\172\2\uffff\1\172\4\uffff\1\171\1\172\3\uffff\1\145\1\172\1\uffff"+
+		"\1\163\1\uffff\1\172\1\uffff";
 	static final String DFA23_acceptS =
-		"\1\uffff\1\1\1\uffff\1\4\1\5\17\uffff\1\47\2\uffff\1\53\1\54\1\55\1\56"+
-		"\1\57\1\60\1\3\1\2\1\51\25\uffff\1\50\3\uffff\1\7\11\uffff\1\26\1\27\5"+
-		"\uffff\1\43\4\uffff\1\52\2\uffff\1\6\2\uffff\1\14\21\uffff\1\12\6\uffff"+
-		"\1\24\1\25\1\uffff\1\32\1\33\1\34\1\35\1\uffff\1\40\1\uffff\1\42\1\uffff"+
-		"\1\45\1\46\1\uffff\1\13\1\uffff\1\16\1\17\2\uffff\1\21\1\23\1\uffff\1"+
-		"\30\1\36\1\37\1\41\3\uffff\1\20\1\22\1\31\1\44\2\uffff\1\15\1\uffff\1"+
-		"\11\1\uffff\1\10";
+		"\1\uffff\1\1\1\uffff\1\4\1\5\16\uffff\1\46\2\uffff\1\52\1\53\1\54\1\55"+
+		"\1\56\1\57\1\3\1\2\1\50\24\uffff\1\47\3\uffff\1\7\11\uffff\1\26\1\27\5"+
+		"\uffff\1\43\3\uffff\1\51\2\uffff\1\6\2\uffff\1\14\20\uffff\1\12\6\uffff"+
+		"\1\24\1\25\1\uffff\1\32\1\33\1\34\1\35\1\uffff\1\40\1\uffff\1\42\1\44"+
+		"\1\45\1\uffff\1\13\1\uffff\1\16\1\17\2\uffff\1\21\1\23\1\uffff\1\30\1"+
+		"\36\1\37\1\41\2\uffff\1\20\1\22\1\31\2\uffff\1\15\1\uffff\1\11\1\uffff"+
+		"\1\10";
 	static final String DFA23_specialS =
-		"\66\uffff\1\3\1\2\26\uffff\1\4\1\uffff\1\1\1\0\106\uffff}>";
+		"\64\uffff\1\4\1\1\25\uffff\1\0\1\uffff\1\3\1\2\102\uffff}>";
 	static final String[] DFA23_transitionS = {
-			"\1\27\1\34\2\uffff\1\34\22\uffff\1\27\1\32\1\30\1\uffff\1\24\2\32\1\31"+
-			"\2\33\2\32\1\1\1\32\1\2\1\26\12\25\1\3\1\4\3\32\2\uffff\32\24\1\33\1"+
-			"\uffff\1\33\1\uffff\1\24\1\uffff\1\5\1\24\1\6\1\24\1\7\1\24\1\10\1\24"+
-			"\1\11\2\24\1\12\1\13\1\14\1\15\1\16\1\24\1\17\1\20\1\21\1\22\1\24\1\23"+
-			"\3\24\1\33\1\32\1\33",
+			"\1\26\1\33\2\uffff\1\33\22\uffff\1\26\1\31\1\27\1\uffff\1\23\2\31\1\30"+
+			"\2\32\2\31\1\1\1\31\1\2\1\25\12\24\1\3\1\4\3\31\2\uffff\32\23\1\32\1"+
+			"\uffff\1\32\1\uffff\1\23\1\uffff\1\5\1\23\1\6\1\23\1\7\1\23\1\10\1\23"+
+			"\1\11\2\23\1\12\1\13\1\14\1\15\1\16\1\23\1\17\1\20\1\21\2\23\1\22\3\23"+
+			"\1\32\1\31\1\32",
 			"",
-			"\1\35\5\uffff\12\37",
+			"\1\34\5\uffff\12\36",
 			"",
 			"",
-			"\1\40\16\uffff\1\41",
-			"\1\42\3\uffff\1\43",
+			"\1\37\16\uffff\1\40",
+			"\1\41\3\uffff\1\42",
+			"\1\43",
 			"\1\44",
 			"\1\45",
 			"\1\46",
 			"\1\47",
-			"\1\50",
-			"\1\51\11\uffff\1\52",
+			"\1\50\11\uffff\1\51",
+			"\1\52",
 			"\1\53",
 			"\1\54",
-			"\1\55",
-			"\1\56\12\uffff\1\57",
-			"\1\60\6\uffff\1\61",
-			"\1\62",
-			"\1\63\1\64",
+			"\1\55\12\uffff\1\56",
+			"\1\57\6\uffff\1\60",
+			"\1\61\1\62",
 			"",
-			"\1\37\1\uffff\12\25\13\uffff\1\37\37\uffff\1\37",
-			"\1\67\4\uffff\1\66",
+			"\1\36\1\uffff\12\24\13\uffff\1\36\37\uffff\1\36",
+			"\1\65\4\uffff\1\64",
 			"",
 			"",
 			"",
@@ -2474,134 +2441,128 @@ public class CRLLexer extends Lexer {
 			"",
 			"",
 			"",
+			"\1\66",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			"\1\70",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\72",
-			"\1\73",
-			"\1\74\17\uffff\1\75",
+			"\1\71",
+			"\1\72\17\uffff\1\73",
+			"\1\74",
+			"\1\75",
 			"\1\76",
 			"\1\77",
 			"\1\100",
-			"\1\101",
-			"\1\102",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"\1\103",
+			"\1\104",
 			"\1\105",
 			"\1\106",
 			"\1\107",
-			"\1\110",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			"\1\111",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\113",
-			"\1\114",
-			"\1\115",
+			"\1\112",
 			"",
-			"\41\117\1\116\3\117\2\116\3\117\2\116\1\117\1\116\1\117\1\116\14\117"+
-			"\3\116\75\117\1\116\uff83\117",
-			"\41\117\1\121\3\117\2\121\3\117\1\120\1\121\1\117\1\121\1\117\1\121"+
-			"\14\117\3\121\75\117\1\121\uff83\117",
-			"\1\122",
+			"\41\114\1\113\3\114\2\113\3\114\2\113\1\114\1\113\1\114\1\113\14\114"+
+			"\3\113\75\114\1\113\uff83\114",
+			"\41\114\1\116\3\114\2\116\3\114\1\115\1\116\1\114\1\116\1\114\1\116"+
+			"\14\114\3\116\75\114\1\116\uff83\114",
+			"\1\117",
 			"",
+			"\1\120",
+			"\1\121",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			"\1\123",
 			"\1\124",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
+			"\1\125",
 			"\1\126",
 			"\1\127",
 			"\1\130",
+			"",
+			"",
 			"\1\131",
 			"\1\132",
 			"\1\133",
-			"",
-			"",
 			"\1\134",
 			"\1\135",
+			"",
 			"\1\136",
 			"\1\137",
-			"\1\140",
+			"\41\114\1\113\3\114\2\113\3\114\2\113\1\114\1\113\1\114\1\113\14\114"+
+			"\3\113\75\114\1\113\uff83\114",
+			"",
+			"\41\114\1\116\3\114\2\116\3\114\1\115\1\116\1\114\1\116\1\114\1\140"+
+			"\14\114\3\116\75\114\1\116\uff83\114",
+			"\41\114\1\116\3\114\2\116\3\114\1\115\1\116\1\114\1\116\1\114\1\116"+
+			"\14\114\3\116\75\114\1\116\uff83\114",
 			"",
 			"\1\141",
-			"\1\142",
-			"\1\143",
-			"\41\117\1\116\3\117\2\116\3\117\2\116\1\117\1\116\1\117\1\116\14\117"+
-			"\3\116\75\117\1\116\uff83\117",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\22\23\1\142"+
+			"\7\23",
 			"",
-			"\41\117\1\121\3\117\2\121\3\117\1\120\1\121\1\117\1\121\1\117\1\144"+
-			"\14\117\3\121\75\117\1\121\uff83\117",
-			"\41\117\1\121\3\117\2\121\3\117\1\120\1\121\1\117\1\121\1\117\1\121"+
-			"\14\117\3\121\75\117\1\121\uff83\117",
-			"",
-			"\1\145",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\22\24\1\146"+
-			"\7\24",
-			"",
-			"\1\150\17\uffff\1\151",
-			"\1\152",
-			"\1\153",
+			"\1\144\17\uffff\1\145",
+			"\1\146",
+			"\1\147",
+			"\1\150",
+			"\1\151",
+			"\1\152\6\uffff\1\153",
 			"\1\154",
 			"\1\155",
-			"\1\156\6\uffff\1\157",
-			"\1\160",
-			"\1\161",
-			"\1\162\5\uffff\1\163\6\uffff\1\164\3\uffff\1\165\1\uffff\1\166",
+			"\1\156\5\uffff\1\157\6\uffff\1\160\3\uffff\1\161\1\uffff\1\162",
+			"\1\163",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"\1\116\3\uffff\2\116\3\uffff\1\115\1\116\1\uffff\1\116\1\uffff\1\116"+
+			"\14\uffff\3\116\75\uffff\1\116",
 			"\1\167",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"",
 			"\1\171",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\121\3\uffff\2\121\3\uffff\1\120\1\121\1\uffff\1\121\1\uffff\1\121"+
-			"\14\uffff\3\121\75\uffff\1\121",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			"\1\174",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"",
-			"\1\176",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\u0081",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\22\24\1\u0082"+
-			"\7\24",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\22\23\1\175"+
+			"\7\23",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			"",
 			"",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\5\24\1\u0085"+
-			"\24\24",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\5\23\1\u0080"+
+			"\24\23",
 			"",
 			"",
 			"",
 			"",
-			"\1\u0087\3\uffff\1\u0088",
+			"\1\u0082\3\uffff\1\u0083",
 			"",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"",
-			"\1\u008a",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			"",
 			"",
-			"\1\u008b",
 			"",
-			"\1\u008c",
+			"\1\u0085",
+			"",
+			"\1\u0086",
+			"",
+			"",
+			"\1\u0087",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"",
+			"",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"",
+			"",
+			"",
+			"",
+			"\1\u008a\17\uffff\1\u008b",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
+			"",
 			"",
 			"",
 			"\1\u008d",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			"",
+			"\1\u008f",
 			"",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"",
-			"",
-			"",
-			"",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\u0091\17\uffff\1\u0092",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"",
-			"",
-			"",
-			"",
-			"\1\u0094",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"",
-			"\1\u0096",
-			"",
-			"\1\24\13\uffff\12\24\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
+			"\1\23\13\uffff\12\23\7\uffff\32\23\4\uffff\1\23\1\uffff\32\23",
 			""
 	};
 
@@ -2636,7 +2597,7 @@ public class CRLLexer extends Lexer {
 		}
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | ID | INT | FLOAT | COMMENT | WS | STRING | CHAR | OPERATOR | BRACKET | EOL );";
+			return "1:1: Tokens : ( T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | ID | INT | FLOAT | COMMENT | WS | STRING | CHAR | OPERATOR | BRACKET | EOL );";
 		}
 		@Override
 		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
@@ -2644,51 +2605,51 @@ public class CRLLexer extends Lexer {
 			int _s = s;
 			switch ( s ) {
 					case 0 : 
-						int LA23_81 = input.LA(1);
+						int LA23_75 = input.LA(1);
 						s = -1;
-						if ( (LA23_81=='*') ) {s = 80;}
-						else if ( (LA23_81=='!'||(LA23_81 >= '%' && LA23_81 <= '&')||LA23_81=='+'||LA23_81=='-'||LA23_81=='/'||(LA23_81 >= '<' && LA23_81 <= '>')||LA23_81=='|') ) {s = 81;}
-						else if ( ((LA23_81 >= '\u0000' && LA23_81 <= ' ')||(LA23_81 >= '\"' && LA23_81 <= '$')||(LA23_81 >= '\'' && LA23_81 <= ')')||LA23_81==','||LA23_81=='.'||(LA23_81 >= '0' && LA23_81 <= ';')||(LA23_81 >= '?' && LA23_81 <= '{')||(LA23_81 >= '}' && LA23_81 <= '\uFFFF')) ) {s = 79;}
-						else s = 26;
+						if ( ((LA23_75 >= '\u0000' && LA23_75 <= ' ')||(LA23_75 >= '\"' && LA23_75 <= '$')||(LA23_75 >= '\'' && LA23_75 <= ')')||LA23_75==','||LA23_75=='.'||(LA23_75 >= '0' && LA23_75 <= ';')||(LA23_75 >= '?' && LA23_75 <= '{')||(LA23_75 >= '}' && LA23_75 <= '\uFFFF')) ) {s = 76;}
+						else if ( (LA23_75=='!'||(LA23_75 >= '%' && LA23_75 <= '&')||(LA23_75 >= '*' && LA23_75 <= '+')||LA23_75=='-'||LA23_75=='/'||(LA23_75 >= '<' && LA23_75 <= '>')||LA23_75=='|') ) {s = 75;}
+						else s = 25;
 						if ( s>=0 ) return s;
 						break;
 
 					case 1 : 
-						int LA23_80 = input.LA(1);
+						int LA23_53 = input.LA(1);
 						s = -1;
-						if ( (LA23_80=='/') ) {s = 100;}
-						else if ( (LA23_80=='*') ) {s = 80;}
-						else if ( (LA23_80=='!'||(LA23_80 >= '%' && LA23_80 <= '&')||LA23_80=='+'||LA23_80=='-'||(LA23_80 >= '<' && LA23_80 <= '>')||LA23_80=='|') ) {s = 81;}
-						else if ( ((LA23_80 >= '\u0000' && LA23_80 <= ' ')||(LA23_80 >= '\"' && LA23_80 <= '$')||(LA23_80 >= '\'' && LA23_80 <= ')')||LA23_80==','||LA23_80=='.'||(LA23_80 >= '0' && LA23_80 <= ';')||(LA23_80 >= '?' && LA23_80 <= '{')||(LA23_80 >= '}' && LA23_80 <= '\uFFFF')) ) {s = 79;}
-						else s = 26;
+						if ( (LA23_53=='*') ) {s = 77;}
+						else if ( (LA23_53=='!'||(LA23_53 >= '%' && LA23_53 <= '&')||LA23_53=='+'||LA23_53=='-'||LA23_53=='/'||(LA23_53 >= '<' && LA23_53 <= '>')||LA23_53=='|') ) {s = 78;}
+						else if ( ((LA23_53 >= '\u0000' && LA23_53 <= ' ')||(LA23_53 >= '\"' && LA23_53 <= '$')||(LA23_53 >= '\'' && LA23_53 <= ')')||LA23_53==','||LA23_53=='.'||(LA23_53 >= '0' && LA23_53 <= ';')||(LA23_53 >= '?' && LA23_53 <= '{')||(LA23_53 >= '}' && LA23_53 <= '\uFFFF')) ) {s = 76;}
+						else s = 25;
 						if ( s>=0 ) return s;
 						break;
 
 					case 2 : 
-						int LA23_55 = input.LA(1);
+						int LA23_78 = input.LA(1);
 						s = -1;
-						if ( (LA23_55=='*') ) {s = 80;}
-						else if ( (LA23_55=='!'||(LA23_55 >= '%' && LA23_55 <= '&')||LA23_55=='+'||LA23_55=='-'||LA23_55=='/'||(LA23_55 >= '<' && LA23_55 <= '>')||LA23_55=='|') ) {s = 81;}
-						else if ( ((LA23_55 >= '\u0000' && LA23_55 <= ' ')||(LA23_55 >= '\"' && LA23_55 <= '$')||(LA23_55 >= '\'' && LA23_55 <= ')')||LA23_55==','||LA23_55=='.'||(LA23_55 >= '0' && LA23_55 <= ';')||(LA23_55 >= '?' && LA23_55 <= '{')||(LA23_55 >= '}' && LA23_55 <= '\uFFFF')) ) {s = 79;}
-						else s = 26;
+						if ( (LA23_78=='*') ) {s = 77;}
+						else if ( (LA23_78=='!'||(LA23_78 >= '%' && LA23_78 <= '&')||LA23_78=='+'||LA23_78=='-'||LA23_78=='/'||(LA23_78 >= '<' && LA23_78 <= '>')||LA23_78=='|') ) {s = 78;}
+						else if ( ((LA23_78 >= '\u0000' && LA23_78 <= ' ')||(LA23_78 >= '\"' && LA23_78 <= '$')||(LA23_78 >= '\'' && LA23_78 <= ')')||LA23_78==','||LA23_78=='.'||(LA23_78 >= '0' && LA23_78 <= ';')||(LA23_78 >= '?' && LA23_78 <= '{')||(LA23_78 >= '}' && LA23_78 <= '\uFFFF')) ) {s = 76;}
+						else s = 25;
 						if ( s>=0 ) return s;
 						break;
 
 					case 3 : 
-						int LA23_54 = input.LA(1);
+						int LA23_77 = input.LA(1);
 						s = -1;
-						if ( (LA23_54=='!'||(LA23_54 >= '%' && LA23_54 <= '&')||(LA23_54 >= '*' && LA23_54 <= '+')||LA23_54=='-'||LA23_54=='/'||(LA23_54 >= '<' && LA23_54 <= '>')||LA23_54=='|') ) {s = 78;}
-						else if ( ((LA23_54 >= '\u0000' && LA23_54 <= ' ')||(LA23_54 >= '\"' && LA23_54 <= '$')||(LA23_54 >= '\'' && LA23_54 <= ')')||LA23_54==','||LA23_54=='.'||(LA23_54 >= '0' && LA23_54 <= ';')||(LA23_54 >= '?' && LA23_54 <= '{')||(LA23_54 >= '}' && LA23_54 <= '\uFFFF')) ) {s = 79;}
-						else s = 26;
+						if ( (LA23_77=='/') ) {s = 96;}
+						else if ( (LA23_77=='*') ) {s = 77;}
+						else if ( (LA23_77=='!'||(LA23_77 >= '%' && LA23_77 <= '&')||LA23_77=='+'||LA23_77=='-'||(LA23_77 >= '<' && LA23_77 <= '>')||LA23_77=='|') ) {s = 78;}
+						else if ( ((LA23_77 >= '\u0000' && LA23_77 <= ' ')||(LA23_77 >= '\"' && LA23_77 <= '$')||(LA23_77 >= '\'' && LA23_77 <= ')')||LA23_77==','||LA23_77=='.'||(LA23_77 >= '0' && LA23_77 <= ';')||(LA23_77 >= '?' && LA23_77 <= '{')||(LA23_77 >= '}' && LA23_77 <= '\uFFFF')) ) {s = 76;}
+						else s = 25;
 						if ( s>=0 ) return s;
 						break;
 
 					case 4 : 
-						int LA23_78 = input.LA(1);
+						int LA23_52 = input.LA(1);
 						s = -1;
-						if ( ((LA23_78 >= '\u0000' && LA23_78 <= ' ')||(LA23_78 >= '\"' && LA23_78 <= '$')||(LA23_78 >= '\'' && LA23_78 <= ')')||LA23_78==','||LA23_78=='.'||(LA23_78 >= '0' && LA23_78 <= ';')||(LA23_78 >= '?' && LA23_78 <= '{')||(LA23_78 >= '}' && LA23_78 <= '\uFFFF')) ) {s = 79;}
-						else if ( (LA23_78=='!'||(LA23_78 >= '%' && LA23_78 <= '&')||(LA23_78 >= '*' && LA23_78 <= '+')||LA23_78=='-'||LA23_78=='/'||(LA23_78 >= '<' && LA23_78 <= '>')||LA23_78=='|') ) {s = 78;}
-						else s = 26;
+						if ( (LA23_52=='!'||(LA23_52 >= '%' && LA23_52 <= '&')||(LA23_52 >= '*' && LA23_52 <= '+')||LA23_52=='-'||LA23_52=='/'||(LA23_52 >= '<' && LA23_52 <= '>')||LA23_52=='|') ) {s = 75;}
+						else if ( ((LA23_52 >= '\u0000' && LA23_52 <= ' ')||(LA23_52 >= '\"' && LA23_52 <= '$')||(LA23_52 >= '\'' && LA23_52 <= ')')||LA23_52==','||LA23_52=='.'||(LA23_52 >= '0' && LA23_52 <= ';')||(LA23_52 >= '?' && LA23_52 <= '{')||(LA23_52 >= '}' && LA23_52 <= '\uFFFF')) ) {s = 76;}
+						else s = 25;
 						if ( s>=0 ) return s;
 						break;
 			}

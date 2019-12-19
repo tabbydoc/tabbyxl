@@ -228,7 +228,7 @@ final class CodeGenerator {
 
             // Generate code blocks for the case of for-all-condition
 
-            if (currentCondition.getQuantifier() == Condition.Quantifier.FOR_ALL) {
+            if (currentCondition.getQuantifier() == Condition.Quantifier.EXIST) {
 
                 // Add while-block
 

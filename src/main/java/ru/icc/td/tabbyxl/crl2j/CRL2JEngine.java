@@ -74,7 +74,7 @@ public final class CRL2JEngine {
 
         CRLParser parser = new CRLParser(tokenStream);
 
-        return (Tree) parser.crl().getTree();
+        return (Tree) parser.ruleset().getTree();
     }
 
     private void generateJavaFiles(Tree ast) {
