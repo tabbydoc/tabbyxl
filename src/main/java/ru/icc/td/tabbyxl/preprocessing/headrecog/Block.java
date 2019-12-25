@@ -1,7 +1,6 @@
-package ru.icc.td.tabbyxl.preprocessing.headrecog;
+package ru.icc.cells.identHead;
 
-import ru.icc.td.tabbyxl.model.CCell;
-
+import ru.icc.cells.ssdc.model.CCell;
 
 public class Block {
     private int top, bottom, left, right;
@@ -63,6 +62,52 @@ public class Block {
         if (cCell.getRb() > bottom) bottom = cCell.getRb();
         if (cCell.getCr() > right) right = cCell.getCr() +1;
 
+    }
+
+    public boolean concatBlock(Block block){
+        if ((top == block.top) || (bottom == block.bottom)){
+            //Horisintal block concatination
+            if (((left <=block.left) && (right+1 >= block.left)) || (left >= block.left) && (left <= block.right+1)){
+                if (left > block.left)
+                    left = block.left;
+                if (right< block.right)
+                    right = block.right;
+                return true;
+            }
+            if ((left == block.left) || (right == block.right)){
+                //Vertical concatination
+                if(((block.top <= top) && (block.bottom+1 >= top)) || ((block.top<=bottom) && (block.bottom+1>=bottom))){
+                    if (top > block.top)
+                        top = block.top;
+                    if (bottom < block.bottom)
+                        bottom = block.bottom;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public CCell mergeWithCell(CCell cell){
+        if ( null == cell )
+            throw new NullPointerException( "The merging cell is null" );
+        if (null == this)
+            throw new NullPointerException( "The merging block is null" );
+
+        int l = Math.min( left, cell.getCl() );
+        int t = Math.min( top, cell.getRt() );
+        int r = Math.max( right, cell.getCr() );
+        int b = Math.max( bottom, cell.getRb() );
+
+        cell.setCl(l);
+        cell.setRt( t );
+        cell.setCr( r );
+        cell.setRb( b );
+        return cell;
+    }
+
+    public String getBlockInfo(){
+        return String.format("Block(t:%s; l:%s; b:%s; r:%s)", this.top, this.left, this.bottom, this.right);
     }
 
 }
