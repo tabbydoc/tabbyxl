@@ -16,17 +16,35 @@
 
 package ru.icc.td.tabbyxl.preprocessing.ner;
 
+import edu.stanford.nlp.pipeline.CoreDocument;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.NerTag;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
-import edu.stanford.nlp.simple.Document;
-import edu.stanford.nlp.simple.Sentence;
-
-import java.util.List;
+import java.util.Properties;
 
 public final class NerPreprocessor implements Preprocessor {
+
+    private static final StanfordCoreNLP pipeline;
+
+    static {
+        // Set up pipeline properties
+        Properties props = new Properties();
+        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner");
+
+        props.setProperty("ssplit.isOneSentence", "true");
+        props.setProperty("ner.useSUTime", "false");
+
+        // Disable fine grained ner
+        props.setProperty("ner.applyFineGrained", "false");
+
+        // Set up pipeline
+        pipeline = new StanfordCoreNLP(props);
+    }
+
     @Override
     public void process(CTable table) {
         // Extracting named entity from each cell
@@ -52,24 +70,18 @@ public final class NerPreprocessor implements Preprocessor {
     private NerTag recognizeNamedEntity(String text) {
         if (null == text || text.isEmpty()) return null;
 
-        Document doc = new Document(text);
+        // If the sentence is too long then skip running the annotator
+        if (text.length() > 100) return NerTag.NONE;
 
-        int count = 0;
+        CoreDocument doc = new CoreDocument(text);
+        pipeline.annotate(doc);
 
-        for (Sentence sent : doc.sentences()) {
-            List<String> tags = sent.nerTags();
+        String tag = doc.tokens().get(0).ner();
 
-            if (null == tags) continue;
-            else count += tags.size();
-
-            if (count > 1) return NerTag.NONE;
-
-            try {
-                return NerTag.valueOf(tags.get(0));
-            } catch (IllegalArgumentException e) {
-                return NerTag.NONE;
-            }
+        try {
+            return NerTag.valueOf(tag);
+        } catch (IllegalArgumentException e) {
+            return NerTag.NONE;
         }
-        return null;
     }
 }

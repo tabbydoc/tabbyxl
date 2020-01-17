@@ -688,7 +688,9 @@ public final class TabbyXL {
                 TableWriter tableWriter;
                 File outFile = outPath.toFile();
 
-                final boolean useDebug = false;
+                final boolean useDebug = false; // Comment me to use debug table writing
+                //final boolean useDebug = true; // Uncomment me to use debug table writing
+
                 if (useDebug)
                     tableWriter = new DebugTableWriter(outFile);
                 else
@@ -707,8 +709,9 @@ public final class TabbyXL {
         //TODO add here the use of HeadrecogPreprocessor
         if (false)
             headrecog.process(table);
-        if (useNer)
+        if (useNer) {
             ner.process(table);
+        }
     }
 
     private TabbyXL() {

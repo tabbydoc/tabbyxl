@@ -35,18 +35,6 @@ public enum NerTag {
     DURATION,
     SET,
 
-    EMAIL,
-    URL,
-    CITY,
-    STATE_OR_PROVINCE,
-    COUNTRY,
-    NATIONALITY,
-    RELIGION,
-    TITLE,
-    IDEOLOGY,
-    CRIMINAL_CHARGE,
-    CAUSE_OF_DEATH,
-
     // A class of named entities for all rest cases
 
     NONE;
