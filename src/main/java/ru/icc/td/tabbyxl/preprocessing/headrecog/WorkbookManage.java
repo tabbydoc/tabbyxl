@@ -1,9 +1,9 @@
-package ru.icc.cells.identHead;
+package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
 import org.apache.poi.ss.formula.functions.Value;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import ru.icc.cells.ssdc.model.CCell;
+import ru.icc.td.tabbyxl.model.CCell;
 
 import java.io.File;
 import java.io.FileNotFoundException;
