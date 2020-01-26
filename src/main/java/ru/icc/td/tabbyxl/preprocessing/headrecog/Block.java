@@ -1,16 +1,19 @@
-package ru.icc.cells.identHead;
+package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
-import ru.icc.cells.ssdc.model.CCell;
+import ru.icc.td.tabbyxl.model.CCell;
+import ru.icc.td.tabbyxl.model.style.CBorder;
+import ru.icc.td.tabbyxl.model.style.CStyle;
 
 public class Block {
     private int top, bottom, left, right;
-    private boolean isLabel = false;
-
+    private String label = null;
+    private CStyle cStyle;
     Block(CCell cCell){
         top = cCell.getRt();
         bottom = cCell.getRb();
         left = cCell.getCl();
         right = cCell.getCr();
+        cStyle = cCell.getStyle();
     }
 
     Block(int top, int bottom, int left, int right){
@@ -18,6 +21,38 @@ public class Block {
         this.bottom = bottom;
         this.left = left;
         this.right = right;
+        cStyle = new CStyle();
+    }
+
+    public void setText(String label){ this.label=label; }
+
+    public String getText(){ return this.label; }
+
+    public boolean hasText(){
+        if ((this.label == null) || (this.label.equals("")))
+            return false;
+        else
+            return true;
+    }
+
+    public CStyle getcStyle() {
+        return cStyle;
+    }
+
+    public void setcStyle(CStyle cStyle) {
+        this.cStyle = cStyle;
+    }
+     public void setLeftBorderStyle(CBorder leftBorderStyle){
+        cStyle.setLeftBorder(leftBorderStyle);
+     }
+    public void setRightBorderStyle(CBorder rightBorderStyle){
+        cStyle.setRightBorder(rightBorderStyle);
+    }
+    public void setTopBorderStyle(CBorder topBorderStyle){
+        cStyle.setTopBorder(topBorderStyle);
+    }
+    public void setBottomBorderStyle(CBorder bottomBorderStyle){
+        cStyle.setBottomBorder(bottomBorderStyle);
     }
 
     public void setTop(int top) {
@@ -36,9 +71,6 @@ public class Block {
         this.right = right;
     }
 
-    public void setLabel(boolean label) {
-        isLabel = label;
-    }
     public int getTop(){
         return top;
     }
@@ -54,8 +86,6 @@ public class Block {
     public int getRight() {
         return right;
     }
-
-    public boolean getIsLabel(){return isLabel; }
 
     public void increaseBlockSize(CCell cCell){
         if (cCell == null) return;
@@ -89,6 +119,7 @@ public class Block {
     }
 
     public CCell mergeWithCell(CCell cell){
+        String text;
         if ( null == cell )
             throw new NullPointerException( "The merging cell is null" );
         if (null == this)
@@ -98,11 +129,14 @@ public class Block {
         int t = Math.min( top, cell.getRt() );
         int r = Math.max( right, cell.getCr() );
         int b = Math.max( bottom, cell.getRb() );
-
+        text = (cell.getText().trim() + " " + this.getText().trim()).trim();
         cell.setCl(l);
         cell.setRt( t );
         cell.setCr( r );
         cell.setRb( b );
+        cell.setText(text);
+        this.setRightBorderStyle(cell.getStyle().getLeftBorder());
+        cell.setStyle(this.cStyle);
         return cell;
     }
 
