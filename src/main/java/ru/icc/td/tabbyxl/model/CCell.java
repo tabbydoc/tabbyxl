@@ -116,6 +116,7 @@ public final class CCell extends COwned implements Cloneable {
         return this.style;
     }
 
+    public void setStyle(CStyle style){this.style = style; }
     // a source raw text (a text) from the excel cell
     private String rawText;
 
