@@ -16,12 +16,34 @@
 
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import ru.icc.td.tabbyxl.DataLoader;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
 public class HeadrecogPreprocessor implements Preprocessor {
+    private int rowLetterToInt(String col) {
+        //Get number of Excel column by letter name
+        int number = 0;
+        col = col.toUpperCase();
+        for (int i = 0; i < col.length(); i++) {
+            number = number * 26 + (col.charAt(i) - ('A' - 1));
+        }
+        return number;
+    }
+
     @Override
     public void process(CTable table) {
         // TODO recovering the physical structure of a header by some visual features
+
+        if (true){
+            //Debug mode
+
+            System.out.println("-------Start-----" + table.getSrcStartCellRef());
+
+
+
+
+        }
     }
 }
