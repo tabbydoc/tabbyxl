@@ -21,6 +21,9 @@ import ru.icc.td.tabbyxl.DataLoader;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class HeadrecogPreprocessor implements Preprocessor {
     private int rowLetterToInt(String col) {
         //Get number of Excel column by letter name
@@ -30,6 +33,21 @@ public class HeadrecogPreprocessor implements Preprocessor {
             number = number * 26 + (col.charAt(i) - ('A' - 1));
         }
         return number;
+    }
+
+    private int[] cellsInIntArray(String col){
+        int divPos;
+        int result[] = new int[2];
+        Pattern p = Pattern.compile("\\d+");
+        Matcher m = p.matcher(col);
+        if (m.find()) {
+            divPos = m.start();
+            if (divPos < 1)
+                throw new IllegalArgumentException("Incorrect coordinates of Excel cell");
+            result[0] = rowLetterToInt(col.substring(0, divPos));
+            result[1] = Integer.parseInt(col.substring(divPos));
+        }
+        return result;
     }
 
     @Override
