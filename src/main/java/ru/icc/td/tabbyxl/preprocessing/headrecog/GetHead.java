@@ -79,7 +79,7 @@ public class GetHead {
 
 
     public void analyzeHead(){
-        CellCoordNode cellCoordNode;
+        //CellCoordNode cellCoordNode;
         CCell cCell, tmpCell;
         Block headBlock;
         int b,r;
