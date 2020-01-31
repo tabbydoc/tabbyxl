@@ -17,10 +17,16 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.icc.td.tabbyxl.DataLoader;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,14 +56,32 @@ public class HeadrecogPreprocessor implements Preprocessor {
         return result;
     }
 
+    private Workbook getWorkbook(File srcFile) throws IOException {
+        Workbook workbook;
+        FileInputStream fin = new FileInputStream(srcFile);
+        workbook = new XSSFWorkbook(fin);
+        return workbook;
+    }
+
     @Override
     public void process(CTable table) {
         // TODO recovering the physical structure of a header by some visual features
-
+        Workbook workbook;
+        GetHead head;
+        String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
+        int srcStartCell[];
         if (true){
             //Debug mode
+            try {
+                workbook = getWorkbook(table.getSrcWorkbookFile());
+                srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
+                head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), pathToSave);
 
-            System.out.println("-------Start-----" + table.getSrcStartCellRef());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("-------Start-----" + cellsInIntArray(table.getSrcStartCellRef())[1]);
 
 
 

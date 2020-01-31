@@ -17,9 +17,10 @@ public final class WorkbookManage {
     private Workbook workbook;
     private String sheetName =".";
 
-    public WorkbookManage(Workbook workbook, String sheetName){
+    public WorkbookManage(Workbook workbook, String sheetName, String pathToSave){
         this.workbook = workbook;
         this.sheetName = sheetName;
+        this.pathToSave = pathToSave;
     }
     //Merge area
     public boolean mergeCells(Block blockToMerge, CellPoint cellShift, int cnt){

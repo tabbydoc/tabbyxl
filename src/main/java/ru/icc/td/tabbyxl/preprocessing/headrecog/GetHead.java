@@ -15,21 +15,26 @@ import java.util.*;
 public class GetHead {
     CTable table;
     int hB =0, hR = 0;
+    boolean isDebug;
     CellPoint cellShift;
     WorkbookManage workbookManage;
     enum CellParam { WIDTH, HEIGHT, BOTH}
 
     private int tmpC =0;
 
-
-    public GetHead(CTable inputTable, int [] shift, Workbook workbook, String sheetName){
+    public GetHead(CTable inputTable, int [] shift, Workbook workbook, String sheetName, String pathToSave){
+        new GetHead(inputTable, shift, workbook, sheetName, pathToSave, false);
+    }
+    public GetHead(CTable inputTable, int [] shift, Workbook workbook, String sheetName, String pathToSave, boolean isDebug){
         int c=0, cId;
         table = inputTable;
         cellShift = new CellPoint(shift);
         hR = table.numOfCols();
-        workbookManage = new WorkbookManage(workbook, sheetName);
-        System.out.println("GetHead constructor in the progress");
-        System.out.println(String.format("%s sheet is processing", sheetName));
+        this.isDebug = isDebug;
+
+        if (isDebug)
+            workbookManage = new WorkbookManage(workbook, sheetName, pathToSave);
+
         //First cell determine the border of the header
         CCell cell = getCellByCoord(1, 1);
 
@@ -37,11 +42,12 @@ public class GetHead {
             hB = cell.getRb();
         else
             hB = getHeaderLine();
-
-        System.out.printf("Head bottom = %d\n", hB);
-        System.out.printf("Head right = %d\n", hR);
-        System.out.printf("Value '%s'\n", getCellByCoord(1,1).getText());
-
+        if (isDebug) {
+            System.out.println(String.format("%s sheet is processing", sheetName));
+            System.out.printf("Head bottom = %d\n", hB);
+            System.out.printf("Head right = %d\n", hR);
+            System.out.printf("Value '%s'\n", getCellByCoord(1, 1).getText());
+        }
     }
 
     private boolean isBorder(CCell cell, boolean isBottom){
@@ -142,7 +148,8 @@ public class GetHead {
             if (block != null) {
                 cCell = block.mergeWithCell(cCell);
                 //Reflect new cells in Excel document
-                workbookManage.mergeCells(new Block(cCell), cellShift, tmpC++);
+                if (isDebug)
+                    workbookManage.mergeCells(new Block(cCell), cellShift, tmpC++);
             }
         }
 
@@ -383,7 +390,8 @@ public class GetHead {
 
         }
         //Expansion in width
-        workbookManage.mergeCells(new Block(cCell), cellShift, tmpC++);
+        if (isDebug)
+            workbookManage.mergeCells(new Block(cCell), cellShift, tmpC++);
 
         return  cCell;
     }
