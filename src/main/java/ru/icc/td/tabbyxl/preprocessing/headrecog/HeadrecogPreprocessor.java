@@ -69,14 +69,18 @@ public class HeadrecogPreprocessor implements Preprocessor {
         Workbook workbook;
         GetHead head;
         String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
+        String fileToSave = "res.xlsx";
         int srcStartCell[];
         if (true){
             //Debug mode
             try {
                 workbook = getWorkbook(table.getSrcWorkbookFile());
                 srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
-                head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), pathToSave);
-
+                head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), pathToSave, true);
+                if (head != null){
+                    head.analyzeHead();
+                    head.saveWorkbook(String.format("%s%s_%s", pathToSave, table.getSrcSheetName(), fileToSave));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -221,7 +221,7 @@ public class GetHead {
     }
 
     private CCell expByHeight(CCell emptyCell, int bottomBorder){
-        CCell nextCell, tmpCell = emptyCell;
+        CCell nextCell;
         String cellVal, nexCelVal;
 
         if (emptyCell == null)
