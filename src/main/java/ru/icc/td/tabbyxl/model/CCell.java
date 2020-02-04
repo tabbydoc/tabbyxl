@@ -358,8 +358,11 @@ public final class CCell extends COwned implements Cloneable {
         if (getOwner() != cell.getOwner())
             throw new IllegalArgumentException();
 
+        //TODO Remove this redundant condition
+        /*
         if (getOwner().containsCell(cell))
             throw new IllegalArgumentException();
+        */
 
         if (!canMerge(cell))
             return null;
