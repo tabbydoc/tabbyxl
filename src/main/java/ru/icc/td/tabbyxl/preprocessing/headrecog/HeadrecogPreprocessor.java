@@ -50,8 +50,8 @@ public class HeadrecogPreprocessor implements Preprocessor {
             divPos = m.start();
             if (divPos < 1)
                 throw new IllegalArgumentException("Incorrect coordinates of Excel cell");
-            result[0] = rowLetterToInt(col.substring(0, divPos));
-            result[1] = Integer.parseInt(col.substring(divPos));
+            result[0] = rowLetterToInt(col.substring(0, divPos)) -1;
+            result[1] = Integer.parseInt(col.substring(divPos)) -1;
         }
         return result;
     }
