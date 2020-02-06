@@ -8,7 +8,7 @@ public class Block {
     private int top, bottom, left, right;
     private String label = null;
     private CStyle cStyle;
-    Block(CCell cCell){
+    public Block(CCell cCell){
         top = cCell.getRt();
         bottom = cCell.getRb();
         left = cCell.getCl();
@@ -16,7 +16,7 @@ public class Block {
         cStyle = cCell.getStyle();
     }
 
-    Block(int top, int bottom, int left, int right){
+    public  Block(int top, int bottom, int left, int right){
         this.top = top;
         this.bottom = bottom;
         this.left = left;
