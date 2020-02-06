@@ -10,7 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK;
 import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING;
+
 
 public final class WorkbookManage {
     private String pathToSave;
@@ -52,7 +54,7 @@ public final class WorkbookManage {
                             (reg.getLastRow() <= endCell ) && (reg.getLastColumn() <= endCol) ){
                         isMerge = true; //There is a merge region in the area
                         row = sheet.getRow(reg.getFirstRow());
-                        cell = row.getCell(reg.getFirstColumn());
+                        cell = row.getCell(reg.getFirstColumn(), Row.CREATE_NULL_AS_BLANK);
                         if (! cell.getStringCellValue().equals(""))
                             val = (val.isEmpty()) ?  cell.getStringCellValue().trim() : val.trim() + " " + cell.getStringCellValue().trim();
                         //cellStyle = cell.getCellStyle();
@@ -66,7 +68,9 @@ public final class WorkbookManage {
                 for (int r = startCell; r <= endCell; r ++)
                     for (int c = startCol; c <= endCol; c ++){
                         row = sheet.getRow(r);
-                        cell = row.getCell(c);
+                        cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
+                        if (cell == null)
+                            System.out.println("!!!!");
                         cell.setCellType(CELL_TYPE_STRING); //!!!! Convert type to String
                         if ((! cell.getStringCellValue().equals("")) && (!cell.getStringCellValue().trim().equals(val))) {
                             val = (val.isEmpty()) ? cell.getStringCellValue().trim() : val + " " + cell.getStringCellValue().trim();
@@ -77,7 +81,7 @@ public final class WorkbookManage {
 
 
             row = sheet.getRow(startCell);
-            cell = row.getCell(startCol);
+            cell = row.getCell(startCol, Row.CREATE_NULL_AS_BLANK);
             cell.setCellValue(val.trim());
 
             if (cellStyle != null) {
@@ -87,8 +91,6 @@ public final class WorkbookManage {
             cellStyle.setBorderRight(borderRight);
             cell.setCellStyle(cellStyle);
             }
-            if ((startCell ==8 ) && (startCol == 7))
-                System.out.println("!!!!!");
             sheet.addMergedRegion(new CellRangeAddress(startCell,  endCell, startCol, endCol));
 
 
@@ -131,7 +133,7 @@ public final class WorkbookManage {
         Cell cell;
         Row row;
         row = sheet.getRow( r );
-        cell = row.getCell( c );
+        cell = row.getCell( c, Row.CREATE_NULL_AS_BLANK );
         return cell.getCellStyle().getBorderTop();
     }
 
@@ -139,7 +141,7 @@ public final class WorkbookManage {
         Cell cell;
         Row row;
         row = sheet.getRow( r );
-        cell = row.getCell( c );
+        cell = row.getCell( c , Row.CREATE_NULL_AS_BLANK);
         return cell.getCellStyle().getBorderBottom();
     }
 
@@ -147,7 +149,7 @@ public final class WorkbookManage {
         Cell cell;
         Row row;
         row = sheet.getRow( r );
-        cell = row.getCell( c );
+        cell = row.getCell( c, Row.CREATE_NULL_AS_BLANK );
         return cell.getCellStyle().getBorderLeft();
     }
 
@@ -155,7 +157,7 @@ public final class WorkbookManage {
         Cell cell;
         Row row;
         row = sheet.getRow( r );
-        cell = row.getCell( c );
+        cell = row.getCell( c , Row.CREATE_NULL_AS_BLANK);
         return cell.getCellStyle().getBorderRight();
     }
 
