@@ -1,12 +1,10 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
-
-import org.apache.poi.ss.formula.functions.Value;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import ru.icc.td.tabbyxl.model.CCell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -25,6 +23,15 @@ public final class WorkbookManage {
         this.pathToSave = pathToSave;
     }
     //Merge area
+    private String concatCellsValue(String curVal, Cell cell){
+        DataFormatter df = new DataFormatter();
+        String cellValue, val = "";
+        cellValue = df.formatCellValue(cell).trim();
+        val = (curVal.isEmpty()) ?  cellValue : curVal.trim() + " " + cellValue;
+        cell.setCellType(CELL_TYPE_STRING);
+        return val;
+    }
+
     public boolean mergeCells(Block blockToMerge, CellPoint cellShift, int cnt){
         try {
             short borderTop = 0, borderLeft = 0, borderBottom = 0, borderRight = 0;
@@ -35,7 +42,7 @@ public final class WorkbookManage {
             int startCell = blockToMerge.getTop() + cellShift.r - 1;
             int endCell = blockToMerge.getBottom() + cellShift.r - 1;
             CellRangeAddress reg;
-            boolean isMerge = false;
+            boolean isMerge;
             String val = "";
             Cell cell;
             Row row;
@@ -45,64 +52,46 @@ public final class WorkbookManage {
             borderLeft = getBorderLeft(sheet, startCol, startCell);
             borderRight = getBorderRight(sheet, endCol, startCell);
 
+            for (int r = startCell; r <= endCell; r ++)
+                for (int c = startCol; c <= endCol; c ++){
+                    row = sheet.getRow(r);
+                    cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
+                    val = concatCellsValue(val, cell);
+                    cell.setCellValue("");
+                    cell.setCellType(CELL_TYPE_BLANK);
+                }
+
             do {
                 isMerge = false;
-                val = "";
+                //val = "";
                 for (int r = 0; r < sheet.getNumMergedRegions(); r ++){
                     reg = sheet.getMergedRegion(r);
                     if ((reg.getFirstRow() >= startCell ) && (reg.getFirstColumn() >= startCol) &&
                             (reg.getLastRow() <= endCell ) && (reg.getLastColumn() <= endCol) ){
                         isMerge = true; //There is a merge region in the area
-                        row = sheet.getRow(reg.getFirstRow());
-                        cell = row.getCell(reg.getFirstColumn(), Row.CREATE_NULL_AS_BLANK);
-                        if (! cell.getStringCellValue().equals(""))
-                            val = (val.isEmpty()) ?  cell.getStringCellValue().trim() : val.trim() + " " + cell.getStringCellValue().trim();
-                        //cellStyle = cell.getCellStyle();
                         sheet.removeMergedRegion(r);
                     }
                 }
 
             }while (isMerge != false);
 
-            if (! isMerge){
-                for (int r = startCell; r <= endCell; r ++)
-                    for (int c = startCol; c <= endCol; c ++){
-                        row = sheet.getRow(r);
-                        cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
-                        if (cell == null)
-                            System.out.println("!!!!");
-                        cell.setCellType(CELL_TYPE_STRING); //!!!! Convert type to String
-                        if ((! cell.getStringCellValue().equals("")) && (!cell.getStringCellValue().trim().equals(val))) {
-                            val = (val.isEmpty()) ? cell.getStringCellValue().trim() : val + " " + cell.getStringCellValue().trim();
-                            //cellStyle = cell.getCellStyle();
-                        }
-                    }
+            int mergedRegion = sheet.addMergedRegion(new CellRangeAddress(startCell,  endCell, startCol, endCol));
+            if (mergedRegion > 0) {
+                //Set value to new merged cell
+                row = sheet.getRow(startCell);
+                cell = row.getCell(startCol, Row.CREATE_NULL_AS_BLANK);
+                cell.setCellType(CELL_TYPE_STRING);
+                cell.setCellValue(val);
+
+                if (cellStyle != null) {
+                    cellStyle.setBorderTop(borderTop);
+                    cellStyle.setBorderBottom(borderBottom);
+                    cellStyle.setBorderLeft(borderLeft);
+                    cellStyle.setBorderRight(borderRight);
+                    //cell.setCellStyle(cellStyle);
+                }
+
             }
-
-
-            row = sheet.getRow(startCell);
-            cell = row.getCell(startCol, Row.CREATE_NULL_AS_BLANK);
-            cell.setCellValue(val.trim());
-
-            if (cellStyle != null) {
-            cellStyle.setBorderTop(borderTop);
-            cellStyle.setBorderBottom(borderBottom);
-            cellStyle.setBorderLeft(borderLeft);
-            cellStyle.setBorderRight(borderRight);
-            cell.setCellStyle(cellStyle);
-            }
-            sheet.addMergedRegion(new CellRangeAddress(startCell,  endCell, startCol, endCol));
-
-
-            //----Code for test only----
-            /*
-            if (cnt == 2){
-                saveWorkbook(String.format("E:\\devel\\cells\\identHead\\testData\\test%s.xlsx", cnt));
-                System.out.print("1111");
-                System.exit(0);
-            }
-            */
-            //---End of code for test-----
 
             return true;
         }
