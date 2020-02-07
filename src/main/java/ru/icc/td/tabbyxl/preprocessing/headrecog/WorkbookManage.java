@@ -1,8 +1,6 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-
 import java.io.File;
 
 import java.io.FileOutputStream;
@@ -34,9 +32,9 @@ public final class WorkbookManage {
 
     public boolean mergeCells(Block blockToMerge, CellPoint cellShift, int cnt){
         try {
+            DataFormat fmt = workbook.createDataFormat();
             short borderTop = 0, borderLeft = 0, borderBottom = 0, borderRight = 0;
             Sheet sheet = workbook.getSheet(sheetName);
-
             int startCol = blockToMerge.getLeft() + cellShift.c - 1;
             int endCol = blockToMerge.getRight() + cellShift.c - 1;
             int startCell = blockToMerge.getTop() + cellShift.r - 1;
@@ -46,7 +44,9 @@ public final class WorkbookManage {
             String val = "";
             Cell cell;
             Row row;
-            CellStyle cellStyle = null;
+            CellStyle cellStyle;
+
+
             borderTop = getBorderTop(sheet, startCol, startCell);
             borderBottom = getborderBottom(sheet, startCol, endCell);
             borderLeft = getBorderLeft(sheet, startCol, startCell);
@@ -72,7 +72,6 @@ public final class WorkbookManage {
                         sheet.removeMergedRegion(r);
                     }
                 }
-
             }while (isMerge != false);
 
             int mergedRegion = sheet.addMergedRegion(new CellRangeAddress(startCell,  endCell, startCol, endCol));
@@ -82,13 +81,24 @@ public final class WorkbookManage {
                 cell = row.getCell(startCol, Row.CREATE_NULL_AS_BLANK);
                 cell.setCellType(CELL_TYPE_STRING);
                 cell.setCellValue(val);
+                cellStyle = cell.getCellStyle();
+                cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+                //TODO Check the follow block
+                /*
+                cellStyle.setBorderLeft(cell.getCellStyle().getBorderLeft());
+                cellStyle.setBorderRight(cell.getCellStyle().getBorderRight());
+                cellStyle.setBorderTop(cell.getCellStyle().getBorderTop());
+                cellStyle.setBorderBottom(cell.getCellStyle().getBorderBottom());
+                */
 
                 if (cellStyle != null) {
                     cellStyle.setBorderTop(borderTop);
                     cellStyle.setBorderBottom(borderBottom);
                     cellStyle.setBorderLeft(borderLeft);
                     cellStyle.setBorderRight(borderRight);
-                    //cell.setCellStyle(cellStyle);
+                    cellStyle.setDataFormat(
+                            fmt.getFormat("@"));
+                    cell.setCellStyle(cellStyle);
                 }
 
             }

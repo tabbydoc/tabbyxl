@@ -247,6 +247,7 @@ public class GetHead {
             nextCell.setText(cellVal);
             emptyCell = nextCell;
         } while(emptyCell.getRb() < bottomBorder);
+        //TODO Check the necessity of call
         cellTransofrm(emptyCell, new Block(emptyCell));
         return emptyCell;
     }
