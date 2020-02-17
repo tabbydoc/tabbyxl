@@ -87,9 +87,8 @@ public class HeadrecogPreprocessor implements Preprocessor {
 
             System.out.println("-------Start-----" + cellsInIntArray(table.getSrcStartCellRef())[1]);
 
-
-
-
         }
+
+
     }
 }

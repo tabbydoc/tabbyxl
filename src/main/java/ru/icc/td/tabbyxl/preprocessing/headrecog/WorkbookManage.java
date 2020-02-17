@@ -83,27 +83,26 @@ public final class WorkbookManage {
                 cell.setCellValue(val);
                 cellStyle = cell.getCellStyle();
                 cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-                //TODO Check the follow block
-                /*
-                cellStyle.setBorderLeft(cell.getCellStyle().getBorderLeft());
-                cellStyle.setBorderRight(cell.getCellStyle().getBorderRight());
-                cellStyle.setBorderTop(cell.getCellStyle().getBorderTop());
-                cellStyle.setBorderBottom(cell.getCellStyle().getBorderBottom());
-                */
 
                 if (cellStyle != null) {
-                    cellStyle.setBorderTop(borderTop);
-                    cellStyle.setBorderBottom(borderBottom);
-                    cellStyle.setBorderLeft(borderLeft);
-                    cellStyle.setBorderRight(borderRight);
+                    //TODO Check the nessesity of Borders
+                    //cellStyle.setBorderTop(borderTop);
+                    //cellStyle.setBorderBottom(borderBottom);
+                    //cellStyle.setBorderLeft(borderLeft);
+                    //cellStyle.setBorderRight(borderRight);
                     cellStyle.setDataFormat(
                             fmt.getFormat("@"));
                     cell.setCellStyle(cellStyle);
+
                 }
+
+
 
             }
 
             return true;
+
+
         }
         catch (Exception e){
             System.out.println(String.format("Cell merge error: %s", e.getMessage()));
