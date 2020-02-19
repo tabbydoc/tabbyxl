@@ -275,7 +275,7 @@ public class GetHead {
             if( (curCell.getRb() == hB) && (direction)) direction = false;
 
             if (direction == true){
-                newCell = getCellByCoord(curCell.getCl(), curCell.getRb()+1);
+                newCell = getRightCell(curCell);//getCellByCoord(curCell.getCl(), curCell.getRb()+1);
                 if (newCell == null) return;
                 //if (! isLabel(newCell))
                     newCell = expCell(newCell,block.getRight(),block.getBottom());
@@ -614,14 +614,44 @@ public class GetHead {
          */
         Block block = null;
         CCell newCell = cCell, tmpCell;
-        boolean newCellLbl;
+        final boolean initCellLabel = lbl; // Label of left cell in block
+        boolean newCellLabel, f=false;
+        int bottomLine;
         String blockText="";
         Deque<CCell> blockDeque = new ArrayDeque<CCell>();
         if (cCell == null)
             return null;
         do{
+            //TODO Check the corectness of exttension on tabe 0001
+            bottomLine = newCell.getRb();
             newCell = expByHeight(newCell, bottomBorder);
-            newCellLbl = isLabel(newCell);
+            if (bottomLine == newCell.getRb())
+                break;
+            if (newCell.getCr() < rightBorder){
+                //Cell may be extend to right
+                newCellLabel = isLabel(newCell);
+                if (initCellLabel == true){
+                    if (newCellLabel == false){
+                        blockDeque.add(newCell);
+                    }
+                    else {
+                       break;
+                    };
+                } else {
+                    blockDeque.add(newCell);
+                    if (newCellLabel == true){
+                        if (f==false)
+                                f=true;
+                        else break;
+                    }
+                }
+                newCell = getRightCell(newCell);
+            }
+
+
+
+            /*
+            //Old code. Need to correction
             if ((newCell.getRb() == bottomBorder) &&
                (newCell.getCr()<= rightBorder)){
 
@@ -643,13 +673,20 @@ public class GetHead {
                 }
             }
             else break;
-        }while(newCell != null);
-        //There are some cells in the deque
+             */
+        }while((newCell != null) && (newCell.getRb() <= bottomBorder));
+
+        if (f == true){
+            if (isLabel(blockDeque.pollLast()) == true)
+                while (isLabel(blockDeque.peekLast()) == false){
+                    blockDeque.pollLast();
+                }
+        }
         if (blockDeque.size()>0) {
             for (CCell c:blockDeque
                  ) {
                 if (! c.getText().trim().isEmpty())
-                    blockText = blockText.concat(" " + c.getText());
+                    blockText = blockText.concat(" " + c.getText().trim());
             }
             block = new Block(blockDeque.peekFirst().getRt(), blockDeque.peekFirst().getRb(), blockDeque.peekFirst().getCl(), blockDeque.peekLast().getCr());
             block.setLeftBorderStyle(blockDeque.peekFirst().getStyle().getLeftBorder());
