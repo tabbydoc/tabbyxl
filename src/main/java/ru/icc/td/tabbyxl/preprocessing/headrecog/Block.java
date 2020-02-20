@@ -90,7 +90,7 @@ public class Block {
     public void increaseBlockSize(CCell cCell){
         if (cCell == null) return;
         if (cCell.getRb() > bottom) bottom = cCell.getRb();
-        if (cCell.getCr() > right) right = cCell.getCr() +1;
+        if (cCell.getCr() > right) right = cCell.getCr();
 
     }
 
@@ -138,6 +138,13 @@ public class Block {
         this.setRightBorderStyle(cell.getStyle().getLeftBorder());
         cell.setStyle(this.cStyle);
         return cell;
+    }
+
+
+    public boolean compareWith(Block block){
+        if ((this.left == block.left) && (this.right == block.right) &&
+                (this.top == block.top) && (this.bottom == block.bottom)) return true;
+        else return false;
     }
 
     public String getBlockInfo(){
