@@ -750,10 +750,12 @@ public class GetHead {
                  );
 
         if (f == true){
-            if ((blockDeque.size() > 1) && (isLabel(blockDeque.pollLast()) == true))
+            if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)){
+                blockDeque.pollLast();
                 while (isLabel(blockDeque.peekLast()) == false){
                     blockDeque.pollLast();
                 }
+            }
         }
         if (blockDeque.size()>0) {
             for (CCell c:blockDeque
