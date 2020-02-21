@@ -45,8 +45,6 @@ public final class WorkbookManage {
             Cell cell;
             Row row;
             CellStyle cellStyle;
-
-
             borderTop = getBorderTop(sheet, startCol, startCell);
             borderBottom = getborderBottom(sheet, startCol, endCell);
             borderLeft = getBorderLeft(sheet, startCol, startCell);
@@ -99,7 +97,6 @@ public final class WorkbookManage {
 
 
             }
-
             return true;
 
 

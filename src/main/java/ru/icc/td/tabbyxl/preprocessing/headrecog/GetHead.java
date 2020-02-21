@@ -424,16 +424,18 @@ public class GetHead {
                         cCell = neighborCellB;
                     }
                 }
-                rightCell = expByHeight(getRightCell(cCell));
-                if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() == BorderType.NONE) && (cCell.getRb() == rightCell.getRb())) {
-                    if (cCell.getCr() < block.getRight()) {
-                        Block bl = checkForExtension(rightCell, cCell.getRb(), block.getRight(), isLabel(cCell));
-                        if (bl != null) {
-                            neighborCellR = bl.mergeWithCell(cCell);
-                            if ((neighborCellR != null) && (cCell.getCr() < neighborCellR.getCr())) {
-                                f = true;
-                                cCell = neighborCellB;
+                if (! isRightBorder(cCell)) {
+                    rightCell = expByHeight(getRightCell(cCell));
+                    if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() == BorderType.NONE) && (cCell.getRb() == rightCell.getRb())) {
+                        if (cCell.getCr() < block.getRight()) {
+                            Block bl = checkForExtension(rightCell, cCell.getRb(), block.getRight(), isLabel(cCell));
+                            if (bl != null) {
+                                neighborCellR = bl.mergeWithCell(cCell);
+                                if ((neighborCellR != null) && (cCell.getCr() < neighborCellR.getCr())) {
+                                    f = true;
+                                    cCell = neighborCellB;
 
+                                }
                             }
                         }
                     }
