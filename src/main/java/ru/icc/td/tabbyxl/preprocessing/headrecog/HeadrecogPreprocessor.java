@@ -68,8 +68,8 @@ public class HeadrecogPreprocessor implements Preprocessor {
         // TODO recovering the physical structure of a header by some visual features
         Workbook workbook;
         GetHead head;
-        //String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
-        String pathToSave = "D:\\Dev\\OutDataset\\";
+        String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
+        //String pathToSave = "D:\\Dev\\OutDataset\\";
         String fileToSave = "res.xlsx";
         int srcStartCell[];
         if (true){
