@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.icc.td.tabbyxl.DataLoader;
+import ru.icc.td.tabbyxl.TabbyXL;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
@@ -65,9 +66,16 @@ public class HeadrecogPreprocessor implements Preprocessor {
 
     @Override
     public void process(CTable table) {
+        /*
+        multiSheets variable options: 0 - create new file for each sheet;
+                                      1 - each sheet will be read and analyse in "fileToSave" workbook
+         */
         // TODO recovering the physical structure of a header by some visual features
         Workbook workbook;
         GetHead head;
+        byte multiSheets = 1;
+        boolean firstSheet = true;
+        File fileToOpen;
         String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
         //String pathToSave = "D:\\Dev\\OutDataset\\";
         String fileToSave = "res.xlsx";
@@ -75,12 +83,22 @@ public class HeadrecogPreprocessor implements Preprocessor {
         if (true){
             //Debug mode
             try {
-                workbook = getWorkbook(table.getSrcWorkbookFile());
+                if (multiSheets == 0){
+                    fileToOpen = table.getSrcWorkbookFile();
+                }
+                else
+                    fileToOpen = new File(pathToSave + fileToSave);
+
+
+                workbook = getWorkbook(fileToOpen);
                 srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
                 head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), pathToSave, true);
                 if (head != null){
                     head.analyzeHead();
-                    head.saveWorkbook(String.format("%s%s_%s", pathToSave, table.getSrcSheetName(), fileToSave));
+                    if (multiSheets == 0)
+                        head.saveWorkbook(String.format("%s%s_%s", pathToSave, table.getSrcSheetName(), fileToSave));
+                    else
+                        head.saveWorkbook(String.format("%s%s", pathToSave, fileToSave));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
