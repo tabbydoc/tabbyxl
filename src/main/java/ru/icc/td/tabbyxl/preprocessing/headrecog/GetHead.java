@@ -677,63 +677,12 @@ public class GetHead {
 
 
     }
-    private Block checkForExtension_(CCell cCell, int bottomBorder, int rightBorder, boolean lbl){
-
-        boolean hasRightBorder = false; //Variable for the case if current cell hasn't BORDER but cell by right hand side - has.
-        boolean rightCellLbl;
-        CCell rightCell;
-        if (cCell == null) //No data
-            return null;
-
-        Block emptyBlock = new Block(cCell);
-        CCell newCell = cCell;
-        if (cCell.getRb()<bottomBorder)
-            do {
-                newCell = getLowerCell(emptyBlock);
-                //------Should be checked-------
-
-                //---End of should be checked---
-                rightCellLbl =isLabel(newCell);
-                if (!
-                        ((! lbl) && (! rightCellLbl)) || //Both cells haven't text
-                        ((! lbl) && (rightCellLbl)) ||   //Current cell hasn't text, but right has
-                        ((lbl) && (! rightCellLbl) && (isRightBorder(newCell))) //Current cell has label, right - hasn't but border after right cell
-
-                )
-                    return null;
-
-                emptyBlock.increaseBlockSize(newCell);
-            } while((newCell != null) && (isLabel(newCell) == false) && (newCell.getRb()+1 <= bottomBorder));
-
-        //Check logic!!!!!
-        if (isLabel(newCell) == true)
-            return null;
-
-        if (newCell == null)
-           newCell = cCell;
-
-        rightCell = getRightCell(newCell);
-        if((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() != BorderType.NONE))
-            hasRightBorder = true;
-
-
-
-        if ((newCell.getRb() == bottomBorder) && (newCell.getCr() + 1 < rightBorder + 1) &&
-                (( newCell.getStyle().getRightBorder().getType() == BorderType.NONE ) && (hasRightBorder == false))){
-            newCell = getRightCell(cCell);
-            if ((newCell != null) ){
-                Block tmpBlock = checkForExtension(newCell, bottomBorder, rightBorder, isLabel(cCell));
-                if (tmpBlock != null)
-                   emptyBlock.concatBlock(tmpBlock);
-            }
-        }
-        return emptyBlock; //temporary for return value
-    }
 
     private boolean isRightBorder(CCell curCell){
         CCell rightCell;
         if (curCell == null) return false;
-        if (curCell.getStyle().getRightBorder().getType() != BorderType.NONE)
+
+        if((curCell.getStyle().getRightBorder().getType() != BorderType.NONE) || (curCell.getCr() == hR))
             return true;
         rightCell = getRightCell(curCell);
         if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() != BorderType.NONE))
