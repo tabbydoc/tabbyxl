@@ -1,6 +1,7 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
@@ -37,11 +38,13 @@ public class GetHead {
 
         //First cell determine the border of the header
         CCell cell = getCellByCoord(1, 1);
-
+        /*
         if (cell.getRb() != cell.getRt())
             hB = cell.getRb();
         else
             hB = getHeaderLine();
+        */
+        hB = getBottomBorder(cell);
         if (isDebug) {
             System.out.println(String.format("%s sheet is processing", sheetName));
             System.out.printf("Head bottom = %d\n", hB);
@@ -276,6 +279,7 @@ public class GetHead {
         if (block == null) {
             block = new Block(topCell);
             block.setBottom(hB);
+            block.setText(topCell.getText());
         }
         topCell = expCell(topCell,block.getRight(), block.getBottom());
         blockItems.push(topCell);
@@ -610,7 +614,6 @@ public class GetHead {
         if (cCell == null)
             return null;
         do{
-            //TODO Check the corectness of exttension on tabe 0001
             cellBlock = new Block(newCell);
             if (newCell.getCr() <= rightBorder){
                 //Cell may be extend to right
@@ -632,7 +635,7 @@ public class GetHead {
                 }
 
                 newCell = getRightCell(newCell);
-                if (newCell == null) break;
+                if ((newCell == null) || (newCell.getCr() > rightBorder)) break;
                 tmpCell = expByHeight(newCell, bottomBorder);
                 if (tmpCell.getRb() == cellBlock.getBottom())
                     newCell = tmpCell;
@@ -737,6 +740,17 @@ public class GetHead {
             return true;
         return false;
 
+    }
+
+    private int getBottomBorder(CCell curCell){
+        CCell lowerCell =curCell;
+        do {
+            if (lowerCell.getStyle().getBottomBorder().getType() != BorderType.NONE)
+                return lowerCell.getRb();
+            lowerCell = getLowerCell(lowerCell);
+
+        } while ((lowerCell != null) && (lowerCell.getRb() < table.numOfRows()));
+        return curCell.getRb();
     }
 
 }
