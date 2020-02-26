@@ -81,6 +81,7 @@ public final class WorkbookManage {
                 cell.setCellValue(val);
                 cellStyle = cell.getCellStyle();
                 cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+                cellStyle.setWrapText(true);
 
                 if (cellStyle != null) {
                     //TODO Check the nessesity of Borders
