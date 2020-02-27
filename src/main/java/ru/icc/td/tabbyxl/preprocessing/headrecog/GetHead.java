@@ -8,6 +8,7 @@ import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.style.BorderType;
 import ru.icc.td.tabbyxl.model.style.CBorder;
 import ru.icc.td.tabbyxl.model.style.CStyle;
+import ru.icc.td.tabbyxl.model.style.HorzAlignment;
 
 import java.io.IOException;
 import java.util.*;
@@ -613,43 +614,50 @@ public class GetHead {
         Deque<CCell> blockDeque = new ArrayDeque<CCell>();
         if (cCell == null)
             return null;
-        do{
-            cellBlock = new Block(newCell);
-            if (newCell.getCr() <= rightBorder){
-                //Cell may be extend to right
-                newCellLabel = isLabel(newCell);
-                if (initCellLabel == true){
-                    if (newCellLabel == false){
+        if (((lbl) && (newCell != null) && (isLabel(newCell))) || (newCell == null))
+            return null;
+        if (isRightBorder(newCell)) {
+            blockDeque.add(newCell);
+        }
+        else {
+            do {
+                cellBlock = new Block(newCell);
+                if (newCell.getCr() <= rightBorder) {
+                    //Cell may be extend to right
+                    newCellLabel = isLabel(newCell);
+                    if (initCellLabel == true) {
+                        if (newCellLabel == false) {
+                            blockDeque.add(newCell);
+                        } else {
+                            break;
+                        }
+                        ;
+                    } else {
                         blockDeque.add(newCell);
+                        if (newCellLabel == true) {
+                            if ((f == false) && (newCell.getCr() < rightBorder))
+                                f = true;
+                            else break;
+                        }
                     }
-                    else {
-                       break;
-                    };
-                } else {
-                    blockDeque.add(newCell);
-                    if (newCellLabel == true){
-                        if ((f==false) && (newCell.getCr() < rightBorder))
-                                f=true;
-                        else break;
+
+                    newCell = getRightCell(newCell);
+                    if ((newCell == null) || (newCell.getCr() > rightBorder)) break;
+                    tmpCell = expByHeight(newCell, bottomBorder);
+                    if (tmpCell.getRb() == cellBlock.getBottom())
+                        newCell = tmpCell;
+                    else
+                        break;
+                    if (isRightBorder(newCell)) {
+                        blockDeque.add(newCell);
+                        break;
                     }
                 }
 
-                newCell = getRightCell(newCell);
-                if ((newCell == null) || (newCell.getCr() > rightBorder)) break;
-                tmpCell = expByHeight(newCell, bottomBorder);
-                if (tmpCell.getRb() == cellBlock.getBottom())
-                    newCell = tmpCell;
-                else
-                    break;
-                if (isRightBorder(newCell)){
-                    blockDeque.add(newCell);
-                    break;
-                }
-            }
-
-        }while((newCell != null) && (newCell.getRb() <= bottomBorder) &&
-                (newCell.getCr() <= rightBorder) && ( ! cellBlock.compareWith(new Block(newCell)) )
-                 );
+            } while ((newCell != null) && (newCell.getRb() <= bottomBorder) &&
+                    (newCell.getCr() <= rightBorder) && (!cellBlock.compareWith(new Block(newCell)))
+            );
+        }
 
         if (f == true){
             if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)){
@@ -670,6 +678,8 @@ public class GetHead {
             block.setRightBorderStyle(blockDeque.peekLast().getStyle().getRightBorder());
             block.setTopBorderStyle(blockDeque.peekFirst().getStyle().getTopBorder());
             block.setBottomBorderStyle(blockDeque.peekFirst().getStyle().getBottomBorder());
+            if ( block.getRight() - block.getLeft() > 5 )
+                block.setHAlignment(HorzAlignment.FILL);
             block.setText(blockText.trim());
         }
         return block;
