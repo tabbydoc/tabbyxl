@@ -3,6 +3,7 @@ package ru.icc.td.tabbyxl.preprocessing.headrecog;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.style.CBorder;
 import ru.icc.td.tabbyxl.model.style.CStyle;
+import ru.icc.td.tabbyxl.model.style.HorzAlignment;
 
 public class Block {
     private int top, bottom, left, right;
@@ -42,7 +43,7 @@ public class Block {
     public void setcStyle(CStyle cStyle) {
         this.cStyle = cStyle;
     }
-     public void setLeftBorderStyle(CBorder leftBorderStyle){
+    public void setLeftBorderStyle(CBorder leftBorderStyle){
         cStyle.setLeftBorder(leftBorderStyle);
      }
     public void setRightBorderStyle(CBorder rightBorderStyle){
@@ -54,6 +55,7 @@ public class Block {
     public void setBottomBorderStyle(CBorder bottomBorderStyle){
         cStyle.setBottomBorder(bottomBorderStyle);
     }
+    public void setHAlignment(HorzAlignment hAligment) {cStyle.setHorzAlignment(hAligment);}
 
     public void setTop(int top) {
         this.top = top;

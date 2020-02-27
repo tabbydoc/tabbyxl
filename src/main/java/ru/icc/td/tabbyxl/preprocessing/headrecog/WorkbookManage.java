@@ -82,6 +82,8 @@ public final class WorkbookManage {
                 cellStyle = cell.getCellStyle();
                 cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
                 cellStyle.setWrapText(true);
+                if (endCol-startCol > 5)
+                    cellStyle.setAlignment(CellStyle.ALIGN_FILL);
 
                 if (cellStyle != null) {
                     //TODO Check the nessesity of Borders
