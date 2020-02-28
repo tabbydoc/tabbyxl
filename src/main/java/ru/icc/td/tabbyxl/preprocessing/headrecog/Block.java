@@ -15,6 +15,7 @@ public class Block {
         left = cCell.getCl();
         right = cCell.getCr();
         cStyle = cCell.getStyle();
+        label = cCell.getText();
     }
 
     public  Block(int top, int bottom, int left, int right){
@@ -25,7 +26,7 @@ public class Block {
         cStyle = new CStyle();
     }
 
-    public void setText(String label){ this.label=label; }
+    public void setText(String label){ this.label=label.trim(); }
 
     public String getText(){ return this.label; }
 
