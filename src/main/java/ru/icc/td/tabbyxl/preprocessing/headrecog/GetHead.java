@@ -121,7 +121,7 @@ public class GetHead {
 
             else{
                 block = null;
-                cCell = expByHeight(cCell); //cCell
+                cCell = expByHeight(cCell); //cCell Check the necessity of this operation
                 if (! isRightBorder(cCell)) {
                     CCell rc = getRightCell(cCell);
                     block = checkForExtension(rc, cCell.getRb(), hR, isLabel(cCell));
@@ -148,12 +148,13 @@ public class GetHead {
     }
 
     private CCell expCell(CCell cCell, int rightBorder, int bottomBorder) {
-        Block block;
+        Block block, blockToCompare;
         CCell tmpCell;
         if (cCell == null)
             return cCell;
+        blockToCompare = new Block(cCell);
         cCell = expByHeight(cCell, bottomBorder);
-        if (! isRightBorder(cCell)){
+        if ((! isRightBorder(cCell)) && (cCell.getCr() < rightBorder)){
             tmpCell = getRightCell(cCell);
             block = checkForExtension(tmpCell, cCell.getRb(), rightBorder, isLabel(cCell));
             if (block != null) {
@@ -164,12 +165,14 @@ public class GetHead {
                         cCell=expCell(cCell, rightBorder, bottomBorder);
                 }
 
-                //Reflect new cells in Excel document
-                if (isDebug)
-                    workbookManage.mergeCells(new Block(cCell), cellShift, tmpC++);
             }
         }
-
+        //Reflect new cells in Excel document
+        if (isDebug) {
+            block = new Block(cCell);
+            if (! blockToCompare.compareWith(block))
+                workbookManage.mergeCells(block, cellShift, tmpC++);
+        }
         return cCell;
     }
 
@@ -373,9 +376,6 @@ public class GetHead {
 
 
             } while (f);
-        }
-        else{
-
         }
         //Expansion in width
         if (isDebug)
