@@ -390,6 +390,9 @@ final class CodeGenerator {
                 Action action = actions.next();
 
                 List<Expression> operands = action.getOperands();
+                if (operands.isEmpty()) {
+                    System.err.println("No operands of the action: " + action.toString());
+                }
                 String caller = generateNormalizedExpression(operands.get(0).getTokens(), "");
 
                 code
