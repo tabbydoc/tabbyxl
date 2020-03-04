@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CEntry;
 import ru.icc.td.tabbyxl.model.CLabel;
 import ru.icc.td.tabbyxl.model.CTable;
@@ -74,7 +75,13 @@ public final class EvaluationTableWriter extends BasicTableWriter
             {
                 CLabel label = labels.next();
                 String value = label.getValue();
-                String provenance = label.getCell().getProvenance();
+                CCell cell = label.getCell();
+                String provenance;
+                if (null != cell) {
+                    provenance = label.getCell().getProvenance();
+                } else {
+                    provenance = null;
+                }
                 value = String.format("\"%s [%s]\"", value, provenance);
                 sb.append(value);
                 if ( labels.hasNext() )
