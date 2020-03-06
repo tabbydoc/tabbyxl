@@ -441,6 +441,8 @@ public final class DataLoader {
         CellStyle excelCellStyle = excelCell.getCellStyle();
         CStyle cellStyle = cell.getStyle();
         //System.out.printf("cell = %s%n", cell.getText());
+
+
         fillCellStyle(cellStyle, excelCellStyle);
 
         String reference = new CellReference(excelCell).formatAsString();

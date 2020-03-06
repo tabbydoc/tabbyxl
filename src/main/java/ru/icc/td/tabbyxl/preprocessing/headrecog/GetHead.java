@@ -703,8 +703,11 @@ public class GetHead {
 
     private int getBottomBorder(CCell curCell){
         CCell lowerCell =curCell;
+        int borderPos = -1;
         boolean lbl = isLabel(lowerCell);
         do {
+            if (lowerCell.getStyle().getBottomBorder().getType() != BorderType.NONE)
+                borderPos = lowerCell.getRb();
             if ((lowerCell.getStyle().getBottomBorder().getType() != BorderType.NONE) && lbl)
                 return lowerCell.getRb();
             lowerCell = getLowerCell(lowerCell);
@@ -712,6 +715,8 @@ public class GetHead {
                 lbl = isLabel(lowerCell);
 
         } while ((lowerCell != null) && (lowerCell.getRb() < table.numOfRows()));
+        if (borderPos != -1)
+            return borderPos;
         return curCell.getRb();
     }
 
