@@ -66,7 +66,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <drools.version>7.7.0.Final</drools.version>
         <drools-jsr94.version>7.2.0.Final</drools-jsr94.version>
-        <poi.version>3.12</poi.version>
+        <poi.version>3.15</poi.version>
 
     </properties>
 
