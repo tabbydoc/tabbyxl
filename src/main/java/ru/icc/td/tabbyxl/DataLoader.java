@@ -16,6 +16,7 @@
 
 package ru.icc.td.tabbyxl;
 
+import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
@@ -210,8 +211,13 @@ public final class DataLoader {
     }
 
     private String getFormatCellValue(Cell excelCell) {
-        formulaEvaluator.evaluate(excelCell);
-        return formatter.formatCellValue(excelCell, formulaEvaluator);
+        try {
+            formulaEvaluator.evaluate(excelCell);
+            return formatter.formatCellValue(excelCell, formulaEvaluator);
+        } catch (FormulaParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private CPoint findRefPoint(Sheet sheet, int startRow) {
