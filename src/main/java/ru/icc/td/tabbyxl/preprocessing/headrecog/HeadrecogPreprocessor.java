@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class HeadrecogPreprocessor implements Preprocessor {
+
     private int rowLetterToInt(String col) {
         //Get number of Excel column by letter name
         int number = 0;
@@ -63,10 +64,14 @@ public final class HeadrecogPreprocessor implements Preprocessor {
     @Override
     public void process(CTable table) {
         /*
-        multiSheets variable options: 0 - create new file for each sheet;
-                                      1 - each sheet will be read and analyse in "fileToSave" workbook
-         */
-        // TODO recovering the physical structure of a header by some visual features
+        This process corrects a cell structure in the table header by using cell borders visually highlighted.
+        The results of the table header correction can be as a modified table written in a debugging workbook.
+
+        You can use two options to output debugging workbooks:
+        Use <multiSheets = 0> to write each debugging sheet to a separate workbook.
+        Use <multiSheets = 1> to write all debugging sheets in one workbook.
+        */
+
         Workbook workbook;
         GetHead head;
         byte multiSheets = 1;
@@ -79,7 +84,7 @@ public final class HeadrecogPreprocessor implements Preprocessor {
         if (true){
             //Debug mode
             try {
-                if (multiSheets == 0){
+                if (multiSheets == 0) {
                     fileToOpen = table.getSrcWorkbookFile();
                 }
                 else
@@ -89,8 +94,10 @@ public final class HeadrecogPreprocessor implements Preprocessor {
                 workbook = getWorkbook(fileToOpen);
                 srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
                 head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), pathToSave, true);
-                if (head != null){
+
+                if (head != null) {
                     head.analyzeHead();
+
                     if (multiSheets == 0)
                         head.saveWorkbook(String.format("%s%s_%s", pathToSave, table.getSrcSheetName(), fileToSave));
                     else
@@ -101,9 +108,7 @@ public final class HeadrecogPreprocessor implements Preprocessor {
             }
 
             System.out.println("-------Start-----" + cellsInIntArray(table.getSrcStartCellRef())[1]);
-
         }
-
 
     }
 }
