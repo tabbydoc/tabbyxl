@@ -707,7 +707,7 @@ public final class TabbyXL {
 
     private static void preprocessTable(CTable table) {
         //TODO add here the use of HeadrecogPreprocessor
-        if (false)
+        if (true)
             headrecog.process(table);
         if (useNer) {
             ner.process(table);

@@ -16,12 +16,102 @@
 
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import ru.icc.td.tabbyxl.DataLoader;
+import ru.icc.td.tabbyxl.TabbyXL;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
+<<<<<<< HEAD
 public final class HeadrecogPreprocessor implements Preprocessor {
+=======
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class HeadrecogPreprocessor implements Preprocessor {
+    private int rowLetterToInt(String col) {
+        //Get number of Excel column by letter name
+        int number = 0;
+        col = col.toUpperCase();
+        for (int i = 0; i < col.length(); i++) {
+            number = number * 26 + (col.charAt(i) - ('A' - 1));
+        }
+        return number;
+    }
+
+    private int[] cellsInIntArray(String col){
+        int divPos;
+        int result[] = new int[2];
+        Pattern p = Pattern.compile("\\d+");
+        Matcher m = p.matcher(col);
+        if (m.find()) {
+            divPos = m.start();
+            if (divPos < 1)
+                throw new IllegalArgumentException("Incorrect coordinates of Excel cell");
+            result[0] = rowLetterToInt(col.substring(0, divPos)) -1;
+            result[1] = Integer.parseInt(col.substring(divPos)) -1;
+        }
+        return result;
+    }
+
+    private Workbook getWorkbook(File srcFile) throws IOException {
+        Workbook workbook;
+        FileInputStream fin = new FileInputStream(srcFile);
+        workbook = new XSSFWorkbook(fin);
+        return workbook;
+    }
+
+>>>>>>> origin/plugins
     @Override
     public void process(CTable table) {
+        /*
+        multiSheets variable options: 0 - create new file for each sheet;
+                                      1 - each sheet will be read and analyse in "fileToSave" workbook
+         */
         // TODO recovering the physical structure of a header by some visual features
+        Workbook workbook;
+        GetHead head;
+        byte multiSheets = 1;
+        boolean firstSheet = true;
+        File fileToOpen;
+        String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
+        //String pathToSave = "D:\\Dev\\OutDataset\\";
+        String fileToSave = "res.xlsx";
+        int srcStartCell[];
+        if (true){
+            //Debug mode
+            try {
+                if (multiSheets == 0){
+                    fileToOpen = table.getSrcWorkbookFile();
+                }
+                else
+                    fileToOpen = new File(pathToSave + fileToSave);
+
+
+                workbook = getWorkbook(fileToOpen);
+                srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
+                head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), pathToSave, true);
+                if (head != null){
+                    head.analyzeHead();
+                    if (multiSheets == 0)
+                        head.saveWorkbook(String.format("%s%s_%s", pathToSave, table.getSrcSheetName(), fileToSave));
+                    else
+                        head.saveWorkbook(String.format("%s%s", pathToSave, fileToSave));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("-------Start-----" + cellsInIntArray(table.getSrcStartCellRef())[1]);
+
+        }
+
+
     }
 }
