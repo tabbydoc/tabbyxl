@@ -509,9 +509,11 @@ public final class DataLoader {
         XSSFColor fgColor = (XSSFColor) excelCellStyle.getFillForegroundColorColor();
 
         if (null != fgColor && 64 != fgColor.getIndexed()) {
-            String color = fgColor.getARGBHex();
+            //String color = fgColor.getARGBHex();
+            byte[] color = fgColor.getRgbWithTint();
+
             if (null != color) {
-                color = color.substring(2);
+                //color = color.substring(2);
                 cellStyle.setFgColor(new CColor(color));
             }
         }
