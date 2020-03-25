@@ -449,7 +449,7 @@ public final class DataLoader {
 
         CellStyle excelCellStyle = excelCell.getCellStyle();
         CStyle cellStyle = cell.getStyle();
-        //System.out.printf("cell = %s%n", cell.getText());
+
         fillCellStyle(cellStyle, excelCellStyle);
 
         String reference = new CellReference(excelCell).formatAsString();
@@ -460,11 +460,8 @@ public final class DataLoader {
 
     private void fillCellStyle(CStyle cellStyle, CellStyle excelCellStyle) {
         Font excelFont = workbook.getFontAt(excelCellStyle.getFontIndex());
-        // TODO: Change this to <code> CFont newFont(excelFont) </code>
-        //CFont font = new CFont();
-        //cellStyle.setFont( font );
-        CFont font = cellStyle.getFont();
 
+        CFont font = cellStyle.getFont();
         fillFont(font, excelFont);
 
         cellStyle.setHidden(excelCellStyle.getHidden());
@@ -509,11 +506,10 @@ public final class DataLoader {
         XSSFColor fgColor = (XSSFColor) excelCellStyle.getFillForegroundColorColor();
 
         if (null != fgColor && 64 != fgColor.getIndexed()) {
-            //String color = fgColor.getARGBHex();
-            byte[] color = fgColor.getRgbWithTint();
+            // Excel uses ARGB
+            byte[] color = fgColor.getRGBWithTint();
 
             if (null != color) {
-                //color = color.substring(2);
                 cellStyle.setFgColor(new CColor(color));
             }
         }

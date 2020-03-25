@@ -17,24 +17,17 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.icc.td.tabbyxl.DataLoader;
-import ru.icc.td.tabbyxl.TabbyXL;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
-<<<<<<< HEAD
-public final class HeadrecogPreprocessor implements Preprocessor {
-=======
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HeadrecogPreprocessor implements Preprocessor {
+public final class HeadrecogPreprocessor implements Preprocessor {
     private int rowLetterToInt(String col) {
         //Get number of Excel column by letter name
         int number = 0;
@@ -67,7 +60,6 @@ public class HeadrecogPreprocessor implements Preprocessor {
         return workbook;
     }
 
->>>>>>> origin/plugins
     @Override
     public void process(CTable table) {
         /*
