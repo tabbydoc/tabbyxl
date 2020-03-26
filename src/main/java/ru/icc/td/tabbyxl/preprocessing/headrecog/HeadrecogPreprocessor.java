@@ -39,17 +39,17 @@ public final class HeadrecogPreprocessor implements Preprocessor {
         return number;
     }
 
-    private int[] cellsInIntArray(String col){
+    private int[] cellsInIntArray(String col) {
         int divPos;
-        int result[] = new int[2];
+        int[] result = new int[2];
         Pattern p = Pattern.compile("\\d+");
         Matcher m = p.matcher(col);
         if (m.find()) {
             divPos = m.start();
             if (divPos < 1)
                 throw new IllegalArgumentException("Incorrect coordinates of Excel cell");
-            result[0] = rowLetterToInt(col.substring(0, divPos)) -1;
-            result[1] = Integer.parseInt(col.substring(divPos)) -1;
+            result[0] = rowLetterToInt(col.substring(0, divPos)) - 1;
+            result[1] = Integer.parseInt(col.substring(divPos)) - 1;
         }
         return result;
     }
@@ -77,17 +77,16 @@ public final class HeadrecogPreprocessor implements Preprocessor {
         byte multiSheets = 1;
         boolean firstSheet = true;
         File fileToOpen;
-        String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
+        String pathToSave = "D:/yd/data/tabbyxl/hrecog/saus200/data/";
         //String pathToSave = "D:\\Dev\\OutDataset\\";
-        String fileToSave = "res.xlsx";
-        int srcStartCell[];
-        if (true){
+        String fileToSave = "tables.xlsx";
+        int[] srcStartCell;
+        if (true) {
             //Debug mode
             try {
                 if (multiSheets == 0) {
                     fileToOpen = table.getSrcWorkbookFile();
-                }
-                else
+                } else
                     fileToOpen = new File(pathToSave + fileToSave);
 
 
