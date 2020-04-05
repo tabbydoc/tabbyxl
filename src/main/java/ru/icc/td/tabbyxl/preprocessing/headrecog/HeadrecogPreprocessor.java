@@ -16,8 +16,6 @@
 
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
@@ -26,6 +24,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public final class HeadrecogPreprocessor implements Preprocessor {
 
