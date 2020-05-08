@@ -27,14 +27,19 @@ public final class WorkbookManage {
         String cellValue, val = "";
         cellValue = df.formatCellValue(cell).trim();
         val = (curVal.isEmpty()) ? cellValue : curVal.trim() + " " + cellValue;
-        cell.setCellType(CELL_TYPE_STRING);
+        //cell.setCellType(CELL_TYPE_STRING);
         return val;
     }
 
     public boolean mergeCells(Block blockToMerge, CellPoint cellShift, int cnt) {
         try {
+            //If one cell then nothing to merge
+            if ((blockToMerge.getLeft() == blockToMerge.getRight()) &&
+                    (blockToMerge.getTop() == blockToMerge.getBottom()))
+                return true;
+
             DataFormat fmt = workbook.createDataFormat();
-            short borderTop = 0, borderLeft = 0, borderBottom = 0, borderRight = 0;
+            //short borderTop = 0, borderLeft = 0, borderBottom = 0, borderRight = 0;
             Sheet sheet = workbook.getSheet(sheetName);
 
             int startCol = blockToMerge.getLeft() + cellShift.c - 1;
@@ -47,10 +52,12 @@ public final class WorkbookManage {
             Cell cell;
             Row row;
             CellStyle cellStyle;
+            /*
             borderTop = getBorderTop(sheet, startCol, startCell);
             borderBottom = getborderBottom(sheet, startCol, endCell);
             borderLeft = getBorderLeft(sheet, startCol, startCell);
             borderRight = getBorderRight(sheet, endCol, startCell);
+             */
 
             for (int r = startCell; r <= endCell; r++)
                 for (int c = startCol; c <= endCol; c++) {
@@ -58,7 +65,7 @@ public final class WorkbookManage {
                     cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
                     val = concatCellsValue(val, cell);
                     cell.setCellValue("");
-                    cell.setCellType(CELL_TYPE_BLANK);
+                    //cell.setCellType(CELL_TYPE_BLANK);
                 }
 
             do {
@@ -79,7 +86,7 @@ public final class WorkbookManage {
                 //Set value to new merged cell
                 row = sheet.getRow(startCell);
                 cell = row.getCell(startCol, Row.CREATE_NULL_AS_BLANK);
-                cell.setCellType(CELL_TYPE_STRING);
+                //cell.setCellType(CELL_TYPE_STRING);
                 cell.setCellValue(val);
                 cellStyle = cell.getCellStyle();
                 cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
