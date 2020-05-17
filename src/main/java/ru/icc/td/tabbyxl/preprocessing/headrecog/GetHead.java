@@ -63,6 +63,7 @@ public class GetHead {
             borderType = cell.getStyle().getBottomBorder().getType();
         else
             borderType = cell.getStyle().getTopBorder().getType();
+
         if (borderType == BorderType.NONE)
             return false;
         else
@@ -99,6 +100,8 @@ public class GetHead {
         do{
             //Get top level block borders
             cCell = getCellByCoord(curCellLeft, 1);
+            if ((cCell.getRt() == 1) && (cCell.getCl() ==7))
+                System.out.println("!!!!!!");
             if (cCell == null)
                 break;
             cCell = expCell(cCell, hR, hB);
@@ -246,6 +249,8 @@ public class GetHead {
 
         if (emptyCell == null)
             return null;
+        if ( emptyCell.getRb() >= hB )
+            return emptyCell;
         //If bottom border of block doesn't set
         if (bottomBorder == -1 )
             bottomBorder = hB;
@@ -605,6 +610,7 @@ public class GetHead {
             rightBorder - maximim right extension border
             lbl - does the initial cell has label
          */
+
         Block block = null, cellBlock;
         CCell newCell = expByHeight(cCell, bottomBorder), tmpCell;
         final boolean initCellLabel = lbl; // Label of left cell in block
@@ -635,14 +641,14 @@ public class GetHead {
                     } else {
                         blockDeque.add(newCell);
                         if (newCellLabel == true) {
-                            if ((f == false) && (newCell.getCr() < rightBorder))
+                            if ((f == false) && (newCell.getCr() <= rightBorder))
                                 f = true;
                             else break;
                         }
                     }
 
                     newCell = getRightCell(newCell);
-                    if ((newCell == null) || (newCell.getCr() > rightBorder)) break;
+                    if ((newCell == null) || (newCell.getCr() >= rightBorder)) break;
                     tmpCell = expByHeight(newCell, bottomBorder);
                     if (tmpCell.getRb() == cellBlock.getBottom())
                         newCell = tmpCell;

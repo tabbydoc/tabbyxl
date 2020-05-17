@@ -26,12 +26,17 @@ public final class WorkbookManage {
         String cellValue, val = "";
         cellValue = df.formatCellValue(cell).trim();
         val = (curVal.isEmpty()) ?  cellValue : curVal.trim() + " " + cellValue;
-        cell.setCellType(CELL_TYPE_STRING);
+        //cell.setCellType(CELL_TYPE_STRING);
         return val;
     }
 
     public boolean mergeCells(Block blockToMerge, CellPoint cellShift, int cnt){
         try {
+            //If one cell then nothing to merge
+            if ((blockToMerge.getLeft() == blockToMerge.getRight()) &&
+                    (blockToMerge.getTop() == blockToMerge.getBottom()))
+                return true;
+
             DataFormat fmt = workbook.createDataFormat();
             short borderTop = 0, borderLeft = 0, borderBottom = 0, borderRight = 0;
             Sheet sheet = workbook.getSheet(sheetName);

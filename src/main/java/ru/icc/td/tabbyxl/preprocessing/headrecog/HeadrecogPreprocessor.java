@@ -76,7 +76,7 @@ public class HeadrecogPreprocessor implements Preprocessor {
         byte multiSheets = 1;
         boolean firstSheet = true;
         File fileToOpen;
-        String pathToSave = "E:\\devel\\cells\\identHead\\testData\\";
+        String pathToSave = "C:\\devel\\dataset\\data\\";
         //String pathToSave = "D:\\Dev\\OutDataset\\";
         String fileToSave = "res.xlsx";
         int srcStartCell[];
