@@ -7,9 +7,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK;
-import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING;
-
 public final class WorkbookManage {
     private String pathToSave;
     private Workbook workbook;
@@ -85,7 +82,7 @@ public final class WorkbookManage {
             if (mergedRegion > 0) {
                 //Set value to new merged cell
                 row = sheet.getRow(startCell);
-                cell = row.getCell(startCol, Row.CREATE_NULL_AS_BLANK);
+                cell = row.getCell(startCol, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                 //cell.setCellType(CELL_TYPE_STRING);
                 cell.setCellValue(val);
                 cellStyle = cell.getCellStyle();

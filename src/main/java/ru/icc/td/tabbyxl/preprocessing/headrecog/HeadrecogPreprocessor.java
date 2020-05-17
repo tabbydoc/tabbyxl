@@ -78,11 +78,11 @@ public final class HeadrecogPreprocessor implements Preprocessor {
         byte multiSheets = 1;
         boolean firstSheet = true;
         File fileToOpen;
-        String pathToSave = "D:/yd/data/tabbyxl/hrecog/saus200/data/";
+        String pathToSave = "C:\\devel\\dataset\\data\\";
         //String pathToSave = "D:\\Dev\\OutDataset\\";
-        String fileToSave = "tables.xlsx";
-        int[] srcStartCell;
-        if (true) {
+        String fileToSave = "res.xlsx";
+        int srcStartCell[];
+        if (true){
             //Debug mode
             try {
                 if (multiSheets == 0) {
