@@ -19,3 +19,6 @@ examples/results/*
 # IDEA project files
 *.iml
 .idea
+
+# Backup files
+*.bak
