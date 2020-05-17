@@ -582,19 +582,20 @@ public class GetHead {
 
     }
 
-    private Block checkForExtension(CCell cCell, int bottomBorder, int rightBorder, boolean lbl) {
+    private Block checkForExtension(CCell cCell, int bottomBorder, int rightBorder, boolean lbl){
         /*Cerate block to merge with cell
             cCell - right hand cell
             bottomBorder - block border. All righter cells must have this border
             rightBorder - maximim right extension border
             lbl - does the initial cell has label
          */
+
         Block block = null, cellBlock;
         CCell newCell = expByHeight(cCell, bottomBorder), tmpCell;
         final boolean initCellLabel = lbl; // Label of left cell in block
-        boolean newCellLabel, f = false;
+        boolean newCellLabel, f=false;
         int bottomLine;
-        String blockText = "";
+        String blockText="";
         Deque<CCell> blockDeque = new ArrayDeque<CCell>();
         if (cCell == null)
             return null;
@@ -602,7 +603,8 @@ public class GetHead {
             return null;
         if (isRightBorder(newCell)) {
             blockDeque.add(newCell);
-        } else {
+        }
+        else {
             do {
                 cellBlock = new Block(newCell);
                 if (newCell.getCr() <= rightBorder) {
@@ -614,17 +616,18 @@ public class GetHead {
                         } else {
                             break;
                         }
+                        ;
                     } else {
                         blockDeque.add(newCell);
                         if (newCellLabel == true) {
-                            if ((f == false) && (newCell.getCr() < rightBorder))
+                            if ((f == false) && (newCell.getCr() <= rightBorder))
                                 f = true;
                             else break;
                         }
                     }
 
                     newCell = getRightCell(newCell);
-                    if ((newCell == null) || (newCell.getCr() > rightBorder)) break;
+                    if ((newCell == null) || (newCell.getCr() >= rightBorder)) break;
                     tmpCell = expByHeight(newCell, bottomBorder);
                     if (tmpCell.getRb() == cellBlock.getBottom())
                         newCell = tmpCell;
@@ -641,18 +644,18 @@ public class GetHead {
             );
         }
 
-        if (f == true) {
-            if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)) {
+        if (f == true){
+            if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)){
                 blockDeque.pollLast();
-                while (isLabel(blockDeque.peekLast()) == false) {
+                while (isLabel(blockDeque.peekLast()) == false){
                     blockDeque.pollLast();
                 }
             }
         }
-        if (blockDeque.size() > 0) {
-            for (CCell c : blockDeque
+        if (blockDeque.size()>0) {
+            for (CCell c:blockDeque
             ) {
-                if (!c.getText().trim().isEmpty())
+                if (! c.getText().trim().isEmpty())
                     blockText = blockText.concat(" " + c.getText().trim());
             }
             block = new Block(blockDeque.peekFirst().getRt(), blockDeque.peekFirst().getRb(), blockDeque.peekFirst().getCl(), blockDeque.peekLast().getCr());
@@ -660,11 +663,12 @@ public class GetHead {
             block.setRightBorderStyle(blockDeque.peekLast().getStyle().getRightBorder());
             block.setTopBorderStyle(blockDeque.peekFirst().getStyle().getTopBorder());
             block.setBottomBorderStyle(blockDeque.peekFirst().getStyle().getBottomBorder());
-            if (block.getRight() - block.getLeft() > 5)
+            if ( block.getRight() - block.getLeft() > 5 )
                 block.setHAlignment(HorzAlignment.FILL);
             block.setText(blockText.trim());
         }
         return block;
+
 
 
     }
