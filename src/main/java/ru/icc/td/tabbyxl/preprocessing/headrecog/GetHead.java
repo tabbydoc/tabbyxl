@@ -100,8 +100,6 @@ public class GetHead {
         do{
             //Get top level block borders
             cCell = getCellByCoord(curCellLeft, 1);
-            if ((cCell.getRt() == 1) && (cCell.getCl() ==7))
-                System.out.println("!!!!!!");
             if (cCell == null)
                 break;
             cCell = expCell(cCell, hR, hB);
@@ -165,7 +163,7 @@ public class GetHead {
                 if (! isLabel(cCell)) {
                     tmpCell = getLowerCell(cCell);
                     if (tmpCell.getCr() == cCell.getCr())
-                        cCell=expCell(cCell, rightBorder, bottomBorder);
+                        cCell = expCell(cCell, rightBorder, bottomBorder);
                 }
 
             }
@@ -187,7 +185,6 @@ public class GetHead {
     private CCell expByWidth(CCell emptyCell, int rightBorder){
         CCell nextCell, tmpCell = emptyCell;
         boolean next = true;
-
         if (emptyCell.getStyle().getRightBorder().getType() != BorderType.NONE)
             next = false;
 
@@ -627,6 +624,7 @@ public class GetHead {
         }
         else {
             do {
+                //TODO Optimize logic of cells extension
                 cellBlock = new Block(newCell);
                 if (newCell.getCr() <= rightBorder) {
                     //Cell may be extend to right
@@ -648,7 +646,11 @@ public class GetHead {
                     }
 
                     newCell = getRightCell(newCell);
-                    if ((newCell == null) || (newCell.getCr() >= rightBorder)) break;
+                    if ((newCell == null) || (newCell.getCr() >= rightBorder)) {
+                        if   ((newCell != null) && (newCell.getCr() == rightBorder))
+                            blockDeque.add(newCell);
+                        break;
+                    }
                     tmpCell = expByHeight(newCell, bottomBorder);
                     if (tmpCell.getRb() == cellBlock.getBottom())
                         newCell = tmpCell;
