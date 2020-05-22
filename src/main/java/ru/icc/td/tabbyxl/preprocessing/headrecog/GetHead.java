@@ -607,11 +607,12 @@ public class GetHead {
             rightBorder - maximim right extension border
             lbl - does the initial cell has label
          */
-
+        if ((cCell != null) && (cCell.getCl() == 8))
+            System.out.println("!!!!!");
         Block block = null, cellBlock;
         CCell newCell = expByHeight(cCell, bottomBorder), tmpCell;
         final boolean initCellLabel = lbl; // Label of left cell in block
-        boolean newCellLabel, f=false;
+        boolean newCellLabel = false, f=false;
         int bottomLine;
         String blockText="";
         Deque<CCell> blockDeque = new ArrayDeque<CCell>();
@@ -647,8 +648,11 @@ public class GetHead {
 
                     newCell = getRightCell(newCell);
                     if ((newCell == null) || (newCell.getCr() >= rightBorder)) {
-                        if   ((newCell != null) && (newCell.getCr() == rightBorder))
+                        if   ((newCell != null) && (newCell.getCr() == rightBorder)) {
+                            if ((initCellLabel == true) && (isLabel(newCell)) && (blockDeque.size() == 1))
+                                break;
                             blockDeque.add(newCell);
+                        }
                         break;
                     }
                     tmpCell = expByHeight(newCell, bottomBorder);
@@ -667,7 +671,7 @@ public class GetHead {
             );
         }
 
-        if (f == true){
+        if ( f == true ){
             if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)){
                 blockDeque.pollLast();
                 while (isLabel(blockDeque.peekLast()) == false){
