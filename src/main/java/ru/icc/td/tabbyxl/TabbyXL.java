@@ -702,13 +702,13 @@ public final class TabbyXL {
         }
     }
 
-    private static final Preprocessor headrecog = new HeadrecogPreprocessor();
+    //private static final Preprocessor headrecog = new HeadrecogPreprocessor();
     private static final Preprocessor ner = new NerPreprocessor();
 
     private static void preprocessTable(CTable table) {
         //TODO add here the use of HeadrecogPreprocessor
-        if (true)
-            headrecog.process(table);
+        //if (true)
+        //    headrecog.process(table);
         if (useNer) {
             ner.process(table);
         }
