@@ -22,6 +22,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.apache.poi.ss.usermodel.CellType.*;
+import static org.apache.poi.ss.usermodel.CellType.NUMERIC;
+
 public class EvalBox {
     Eval entryEval;
     Eval labelEval;
@@ -94,15 +97,15 @@ public class EvalBox {
         String value = null;
 
         switch (excelCell.getCachedFormulaResultType()) {
-            case Cell.CELL_TYPE_NUMERIC:
+            case NUMERIC:
                 value = Double.toString(excelCell.getNumericCellValue());
                 break;
 
-            case Cell.CELL_TYPE_STRING:
+            case STRING:
                 value = excelCell.getStringCellValue();
                 break;
 
-            case Cell.CELL_TYPE_BOOLEAN:
+            case BOOLEAN:
                 value = Boolean.toString(excelCell.getBooleanCellValue());
                 break;
         }
@@ -114,29 +117,29 @@ public class EvalBox {
         String value = null;
 
         switch (excelCell.getCellType()) {
-            case Cell.CELL_TYPE_NUMERIC:
+            case NUMERIC:
                 if (DateUtil.isCellDateFormatted(excelCell))
                     value = excelCell.getStringCellValue();
                 else
                     value = Double.toString(excelCell.getNumericCellValue());
                 break;
 
-            case Cell.CELL_TYPE_STRING:
+            case STRING:
                 value = excelCell.getRichStringCellValue().getString();
                 break;
 
-            case Cell.CELL_TYPE_BOOLEAN:
+            case BOOLEAN:
                 value = Boolean.toString(excelCell.getBooleanCellValue());
                 break;
 
-            case Cell.CELL_TYPE_FORMULA:
+            case FORMULA:
                 value = extractCellFormulaValue(excelCell);
                 break;
 
-            case Cell.CELL_TYPE_BLANK:
+            case BLANK:
                 break;
 
-            case Cell.CELL_TYPE_ERROR:
+            case ERROR:
                 break;
         }
         return value;
