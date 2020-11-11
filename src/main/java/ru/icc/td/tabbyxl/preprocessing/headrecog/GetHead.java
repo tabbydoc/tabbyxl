@@ -2,6 +2,7 @@ package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
@@ -730,6 +731,33 @@ public class GetHead {
         if (borderPos != -1)
             return borderPos;
         return curCell.getRb();
+    }
+
+    private boolean mergeIsPossible(CCell cell1, CCell cell2){
+        //Function estimate the possibility of cells merging
+        CStyle c1Style =cell1.getStyle(),
+               c2Style = cell2.getStyle();
+        //Choose direction
+        if ( (cell1.getCl() == cell2.getCl()) && (cell1.getCr() == cell2.getCr()) ) {
+            //Merging in vertical direction
+            if ((c1Style.getBottomBorder().getType() != BorderType.NONE) || (c2Style.getTopBorder().getType() != BorderType.NONE))
+                return false;
+        }
+        else if ((cell1.getRt() == cell2.getRt()) && (cell1.getRb() == cell2.getRb())){
+            //Merging in horizontal direction
+            if ((c1Style.getRightBorder().getType() != BorderType.NONE) || (c2Style.getLeftBorder().getType() != BorderType.NONE))
+                return false;
+        }
+        else
+            //Different size. Merging is impossible
+            return false;
+        //Check styles information
+        if (c1Style.getFgColor() != c2Style.getFgColor())
+            return false;
+        if (c1Style.getBgColor() != c2Style.getBgColor())
+            return false;
+
+        return true;
     }
 
 }
