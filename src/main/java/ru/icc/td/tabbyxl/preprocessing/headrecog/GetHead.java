@@ -261,7 +261,7 @@ public class GetHead {
             nextCell = getCellByCoord(emptyCell.getCl(), emptyCell.getRb() + 1);
             if (nextCell == null)
                 return emptyCell;
-            if (emptyCell.getCr() != nextCell.getCr()) {
+            if ((emptyCell.getHeight() != nextCell.getHeight()) || (emptyCell.getCr() != nextCell.getCr())) {
                 return emptyCell; //if width of lower cell doesn't equial that current
             }
             //Cells are equial, may be merged
