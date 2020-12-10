@@ -244,7 +244,7 @@ public class GetHead {
     private CCell expByHeight(CCell emptyCell, int bottomBorder){
         CCell nextCell;
         String cellVal, nexCelVal;
-
+        int cellsCount=0;
         if (emptyCell == null)
             return null;
         if ( emptyCell.getRb() >= hB )
@@ -255,13 +255,16 @@ public class GetHead {
         //If impossible to increase height
         if (emptyCell.getRb() == hB)
             return emptyCell;
+        cellsCount = (emptyCell.getRb() - emptyCell.getRt());
         do{
             if ((emptyCell.getRb() == bottomBorder) || (emptyCell.getStyle().getBottomBorder().getType() != BorderType.NONE))
                 return  emptyCell;
             nextCell = getCellByCoord(emptyCell.getCl(), emptyCell.getRb() + 1);
             if (nextCell == null)
                 return emptyCell;
-            if ((emptyCell.getHeight() != nextCell.getHeight()) || (emptyCell.getCr() != nextCell.getCr())) {
+            //Rewrite height
+            //if (!(equals(emptyCell, nextCell, CellParam.HEIGHT)) || (emptyCell.getCr() != nextCell.getCr())) {
+            if (!(cellsCount == (emptyCell.getRb() - emptyCell.getRt())) || (emptyCell.getCr() != nextCell.getCr())) {
                 return emptyCell; //if width of lower cell doesn't equial that current
             }
             //Cells are equial, may be merged
@@ -396,11 +399,21 @@ public class GetHead {
         boolean resultW = false, resultH = false;
         if ((cell1 == null) || (cell2 == null))
             return false;
-        if ((cell1.getCl() == cell2.getCl()) && (cell1.getCr() == cell2.getCr())) resultW = true;
-        if (cellParam == CellParam.WIDTH) return resultW;
-        if ((cell1.getRt() == cell2.getRt()) && (cell1.getRb() == cell2.getRb())) resultH = true;
-        if (cellParam == CellParam.HEIGHT) return resultH;
-        return resultH & resultW;
+
+        if ((cell1.getCr() - cell1.getCl()) == (cell2.getCl() - cell2.getCr()))
+            resultW = true;
+        if ((cell1.getRb() - cell1.getRt()) == (cell2.getRb() - cell2.getRt()))
+            resultH = true;
+        if (cellParam == CellParam.BOTH)
+            return resultH & resultW;
+        if (cellParam == CellParam.WIDTH)
+            return resultW;
+        if (cellParam == CellParam.HEIGHT)
+            return resultH;
+        return false;
+
+
+
     }
 
     public CCell getCellByCoord(int l, int t){
