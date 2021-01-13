@@ -244,11 +244,13 @@ public class GetHead {
     private CCell expByHeight(CCell emptyCell, int bottomBorder){
         CCell nextCell;
         String cellVal, nexCelVal;
-        int cellsCount=0;
+        int cellsCount;
         if (emptyCell == null)
             return null;
         if ( emptyCell.getRb() >= hB )
             return emptyCell;
+        if((emptyCell.getCl()==4) )
+                System.out.println("-1234-");
         //If bottom border of block doesn't set
         if (bottomBorder == -1 )
             bottomBorder = hB;
@@ -264,7 +266,9 @@ public class GetHead {
                 return emptyCell;
             //Rewrite height
             //if (!(equals(emptyCell, nextCell, CellParam.HEIGHT)) || (emptyCell.getCr() != nextCell.getCr())) {
-            if (!(cellsCount == (emptyCell.getRb() - emptyCell.getRt())) || (emptyCell.getCr() != nextCell.getCr())) {
+            boolean diffMerge =  ( (nextCell.isBlank() != emptyCell.isBlank()) || (emptyCell.isBlank() && nextCell.isBlank()) );
+            if (( !(cellsCount == (nextCell.getRb() - nextCell.getRt())) && (! diffMerge) ) || (emptyCell.getCr() != nextCell.getCr())) {
+                System.out.println((nextCell.isBlank() != emptyCell.isBlank()));
                 return emptyCell; //if width of lower cell doesn't equial that current
             }
             //Cells are equial, may be merged
