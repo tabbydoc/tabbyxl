@@ -249,8 +249,6 @@ public class GetHead {
             return null;
         if ( emptyCell.getRb() >= hB )
             return emptyCell;
-        if((emptyCell.getCl()==4) )
-                System.out.println("-1234-");
         //If bottom border of block doesn't set
         if (bottomBorder == -1 )
             bottomBorder = hB;
@@ -266,11 +264,25 @@ public class GetHead {
                 return emptyCell;
             //Rewrite height
             //if (!(equals(emptyCell, nextCell, CellParam.HEIGHT)) || (emptyCell.getCr() != nextCell.getCr())) {
+            boolean isLeft = emptyCell.getCl() == 1;
             boolean diffMerge =  ( (nextCell.isBlank() != emptyCell.isBlank()) || (emptyCell.isBlank() && nextCell.isBlank()) );
-            if (( !(cellsCount == (nextCell.getRb() - nextCell.getRt())) && (! diffMerge) ) || (emptyCell.getCr() != nextCell.getCr())) {
-                System.out.println((nextCell.isBlank() != emptyCell.isBlank()));
+            boolean eqSize = emptyCell.getCr() == nextCell.getCr();
+            boolean eqCells = cellsCount == (nextCell.getRb() - nextCell.getRt());
+
+            if (! (((eqCells || ((eqCells == false) && ( isLeft == false) )) || diffMerge) && eqSize))
+                return emptyCell;
+
+            //if ((((! eqCells)  ) && (! diffMerge)) || (! eqSize)  )
+            //    return emptyCell;
+
+
+
+/*
+            if (( !(cellsCount == (nextCell.getRb() - nextCell.getRt())) && ( diffMerge) ) || (emptyCell.getCr() != nextCell.getCr())) {
                 return emptyCell; //if width of lower cell doesn't equial that current
             }
+
+ */
             //Cells are equial, may be merged
             cellVal = String.format("%s %s",emptyCell.getText().trim(), nextCell.getText().trim()).trim() ;
             nextCell.merge(emptyCell);
@@ -305,6 +317,8 @@ public class GetHead {
                 newCell = getCellByCoord(curCell.getCl(), curCell.getRb()+1); //Get lower cell
                 if (newCell == null) return;
                 System.out.print(String.format("Cell was (l:%s, r:%s, t:%s, b:%s) become", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb() ));
+                if ((newCell.getCl() == 2) && (newCell.getRt() == 3))
+                    System.out.println(123);
                 newCell = expCell(newCell, block.getRight(), block.getBottom());
                 System.out.println(String.format("(l:%s, r:%s, t:%s, b:%s) -", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb() ));
 
