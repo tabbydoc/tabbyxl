@@ -175,6 +175,8 @@ public class GetHead {
             if (! blockToCompare.compareWith(block))
                 workbookManage.mergeCells(block, cellShift, tmpC++);
         }
+
+
         return cCell;
     }
 
@@ -402,6 +404,7 @@ public class GetHead {
             } while (f);
         }
         //Expansion in width
+
         if (isDebug)
             workbookManage.mergeCells(new Block(cCell), cellShift, tmpC++);
 

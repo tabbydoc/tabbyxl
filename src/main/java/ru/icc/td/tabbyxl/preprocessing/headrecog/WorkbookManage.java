@@ -54,7 +54,7 @@ public final class WorkbookManage {
             int endCell = blockToMerge.getBottom() + cellShift.r - 1;
             CellRangeAddress reg;
             boolean isMerge;
-            String val = "";
+            String val ="";
             Cell cell;
             Row row;
             CellStyle cellStyle;
@@ -85,9 +85,9 @@ public final class WorkbookManage {
                     }
                 }
             }while (isMerge != false);
-
-            int mergedRegion = sheet.addMergedRegion(new CellRangeAddress(startCell,  endCell, startCol, endCol));
-            if (mergedRegion > 0) {
+            CellRangeAddress cellAddresses = new CellRangeAddress(startCell,  endCell, startCol, endCol);
+            int mergedRegion = sheet.addMergedRegion(cellAddresses);
+            if (mergedRegion >= 0) {
                 //Set value to new merged cell
                 row = sheet.getRow(startCell);
                 cell = row.getCell(startCol, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);

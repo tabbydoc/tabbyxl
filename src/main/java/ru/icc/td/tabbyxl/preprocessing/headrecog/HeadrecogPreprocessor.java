@@ -73,7 +73,7 @@ public class HeadrecogPreprocessor implements Preprocessor {
         // TODO recovering the physical structure of a header by some visual features
         Workbook workbook;
         GetHead head;
-        final byte multiSheets = 0;
+        final byte multiSheets = 1;
         boolean firstSheet = true;
         File fileToOpen;
         //String pathToSave = "C:\\devel\\dataset\\data\\";
