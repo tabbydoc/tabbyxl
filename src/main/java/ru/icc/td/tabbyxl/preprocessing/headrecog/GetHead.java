@@ -126,7 +126,7 @@ public class GetHead {
                 cCell = expByHeight(cCell); //cCell Check the necessity of this operation
                 if (! isRightBorder(cCell)) {
                     CCell rc = getRightCell(cCell);
-                    block = checkForExtension(rc, cCell.getRb(), hR, isLabel(cCell));
+                    block = checkForExtension(rc, cCell.getRb(), hR, isLabel(cCell), cCell.getStyle().getBottomBorder());
                     if (block != null) {
                         cCell = cellTransofrm(cCell, block);
                     }
@@ -158,7 +158,7 @@ public class GetHead {
         cCell = expByHeight(cCell, bottomBorder);
         if ((! isRightBorder(cCell)) && (cCell.getCr() < rightBorder)){
             tmpCell = getRightCell(cCell);
-            block = checkForExtension(tmpCell, cCell.getRb(), rightBorder, isLabel(cCell));
+            block = checkForExtension(tmpCell, cCell.getRb(), rightBorder, isLabel(cCell), cCell.getStyle().getBottomBorder());
             if (block != null) {
                 cCell = block.mergeWithCell(cCell);
                 if (! isLabel(cCell)) {
@@ -190,7 +190,6 @@ public class GetHead {
         boolean next = true;
         if (emptyCell.getStyle().getRightBorder().getType() != BorderType.NONE)
             next = false;
-
         while (next){
             if ((emptyCell.getCr()+1)> rightBorder)
                 break;
@@ -205,7 +204,7 @@ public class GetHead {
                 next = false;
             //Check right cell to extend to height
             if (( emptyCell.getRb() > nextCell.getRb() ) ){
-                Block block = checkForExtension(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell));
+                Block block = checkForExtension(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell), nextCell.getStyle().getBottomBorder());
                 if (block != null) {
                     //cellTransofrm(emptyCell, block);
                     emptyCell = block.mergeWithCell(emptyCell);
@@ -385,7 +384,7 @@ public class GetHead {
                     rightCell = expByHeight(getRightCell(cCell));
                     if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() == BorderType.NONE) && (cCell.getRb() == rightCell.getRb())) {
                         if (cCell.getCr() < block.getRight()) {
-                            Block bl = checkForExtension(rightCell, cCell.getRb(), block.getRight(), isLabel(cCell));
+                            Block bl = checkForExtension(rightCell, cCell.getRb(), block.getRight(), isLabel(cCell), cCell.getStyle().getBottomBorder());
                             if (bl != null) {
                                 neighborCellR = bl.mergeWithCell(cCell);
                                 if ((neighborCellR != null) && (cCell.getCr() < neighborCellR.getCr())) {
@@ -635,21 +634,21 @@ public class GetHead {
         return cCell;
 
     }
-    private Block checkForExtension(CCell cCell, int bottomBorder, int rightBorder, boolean lbl){
+    private Block checkForExtension(CCell cCell, int bottomBorder, int rightBorder, boolean lbl, CBorder bBorder){
         /*Cerate block to merge with cell
             cCell - right hand cell
             bottomBorder - block border. All righter cells must have this border
             rightBorder - maximim right extension border
             lbl - does the initial cell has label
          */
-        if ((cCell != null) && (cCell.getCl() == 8))
-            System.out.println("!!!!!");
         Block block = null, cellBlock;
         CCell newCell = expByHeight(cCell, bottomBorder), tmpCell;
         final boolean initCellLabel = lbl; // Label of left cell in block
         boolean newCellLabel = false, f=false;
         int bottomLine;
         String blockText="";
+        if (! newCell.getStyle().getBottomBorder().getType().equals(bBorder.getType()))
+            return null;
         Deque<CCell> blockDeque = new ArrayDeque<CCell>();
         if (cCell == null)
             return null;
@@ -691,7 +690,7 @@ public class GetHead {
                         break;
                     }
                     tmpCell = expByHeight(newCell, bottomBorder);
-                    if (tmpCell.getRb() == cellBlock.getBottom())
+                    if ((tmpCell.getRb() == cellBlock.getBottom()) && (tmpCell.getStyle().getBottomBorder().getType().equals(bBorder.getType())))
                         newCell = tmpCell;
                     else
                         break;
@@ -793,5 +792,7 @@ public class GetHead {
 
         return true;
     }
+
+
 
 }

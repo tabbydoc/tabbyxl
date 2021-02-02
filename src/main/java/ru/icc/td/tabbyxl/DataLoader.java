@@ -16,6 +16,7 @@
 
 package ru.icc.td.tabbyxl;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
@@ -456,7 +457,7 @@ public final class DataLoader {
     }
 
     private void fillCellStyle(CStyle cellStyle, CellStyle excelCellStyle) {
-        Font excelFont = workbook.getFontAt(excelCellStyle.getFontIndexAsInt());
+        Font excelFont = workbook.getFontAt(excelCellStyle.getFontIndex());
         // TODO: Change this to <code> CFont newFont(excelFont) </code>
         //CFont font = new CFont();
         //cellStyle.setFont( font );
