@@ -187,6 +187,8 @@ public class GetHead {
 
     private CCell expByWidth(CCell emptyCell, int rightBorder){
         CCell nextCell, tmpCell = emptyCell;
+        if (emptyCell == null)
+            return  null;
         boolean next = true;
         if (emptyCell.getStyle().getRightBorder().getType() != BorderType.NONE)
             next = false;
@@ -260,15 +262,23 @@ public class GetHead {
         do{
             if ((emptyCell.getRb() == bottomBorder) || (emptyCell.getStyle().getBottomBorder().getType() != BorderType.NONE))
                 return  emptyCell;
-            nextCell = getCellByCoord(emptyCell.getCl(), emptyCell.getRb() + 1);
+            nextCell = expByWidth(getCellByCoord(emptyCell.getCl(), emptyCell.getRb() + 1), emptyCell.getCr());
             if (nextCell == null)
                 return emptyCell;
+
             //Rewrite height
             //if (!(equals(emptyCell, nextCell, CellParam.HEIGHT)) || (emptyCell.getCr() != nextCell.getCr())) {
             boolean isLeft = emptyCell.getCl() == 1;
             boolean diffMerge =  ( (nextCell.isBlank() != emptyCell.isBlank()) || (emptyCell.isBlank() && nextCell.isBlank()) );
             boolean eqSize = emptyCell.getCr() == nextCell.getCr();
             boolean eqCells = cellsCount == (nextCell.getRb() - nextCell.getRt());
+            /*
+            if ((emptyCell.getRt() == 1) && (emptyCell.getRb() == 3) && (emptyCell.getCl() == 2)){
+                CCell temp = expByWidth(nextCell, emptyCell.getCr());
+                System.out.println(String.format("cell(%s, %s, %s, %s)", temp.getCl(), temp.getCr(), temp.getRt(), temp.getRb()));
+                System.out.println("!!!!");
+            }
+            */
 
             if (! (((eqCells || ((eqCells == false) && ( isLeft == false) )) || diffMerge) && eqSize))
                 return emptyCell;
