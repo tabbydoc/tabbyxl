@@ -1,8 +1,6 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
@@ -24,6 +22,9 @@ public class GetHead {
     boolean isDebug;
     CellPoint cellShift;
     WorkbookManage workbookManage;
+
+    enum CellParam {WIDTH, HEIGHT, BOTH}
+
     private int tmpC = 0;
 
     public GetHead(CTable inputTable, int[] shift, Workbook workbook, String sheetName, String pathToSave) {
@@ -88,6 +89,7 @@ public class GetHead {
         } while (res == 0);
         return res;
     }
+
 
     public void analyzeHead() {
         //CellCoordNode cellCoordNode;
@@ -172,9 +174,9 @@ public class GetHead {
                 workbookManage.mergeCells(block, cellShift, tmpC++);
         }
 
-
         return cCell;
     }
+
 
     private CCell expByWidth(CCell emptyCell) {
         return expByWidth(emptyCell, emptyCell.getCr() + 1);
@@ -183,12 +185,12 @@ public class GetHead {
     private CCell expByWidth(CCell emptyCell, int rightBorder) {
         CCell nextCell, tmpCell = emptyCell;
         if (emptyCell == null)
-            return  null;
+            return null;
         boolean next = true;
         if (emptyCell.getStyle().getRightBorder().getType() != BorderType.NONE)
             next = false;
-        while (next){
-            if ((emptyCell.getCr()+1)> rightBorder)
+        while (next) {
+            if ((emptyCell.getCr() + 1) > rightBorder)
                 break;
             nextCell = getCellByCoord(emptyCell.getCr() + 1, emptyCell.getRt());
             if (nextCell == null)
@@ -200,14 +202,13 @@ public class GetHead {
             if (nextCell.getCr() >= rightBorder)
                 next = false;
             //Check right cell to extend to height
-            if (( emptyCell.getRb() > nextCell.getRb() ) ){
+            if ((emptyCell.getRb() > nextCell.getRb())) {
                 Block block = checkForExtension(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell), nextCell.getStyle().getBottomBorder());
                 if (block != null) {
                     //cellTransofrm(emptyCell, block);
                     emptyCell = block.mergeWithCell(emptyCell);
                     System.out.print(String.format("-Some block( %s, %s, %s, %s)-", block.getLeft(), block.getRight(), block.getTop(), block.getBottom()));
                 }
-
 
             }
 
@@ -223,7 +224,6 @@ public class GetHead {
                 } else
                     next = false;
             } else next = false;
-
         }
 
         if (!emptyCell.equals(tmpCell))
@@ -242,7 +242,7 @@ public class GetHead {
         int cellsCount;
         if (emptyCell == null)
             return null;
-        if ( emptyCell.getRb() >= hB )
+        if (emptyCell.getRb() >= hB)
             return emptyCell;
         //If bottom border of block doesn't set
         if (bottomBorder == -1)
@@ -251,9 +251,9 @@ public class GetHead {
         if (emptyCell.getRb() == hB)
             return emptyCell;
         cellsCount = (emptyCell.getRb() - emptyCell.getRt());
-        do{
+        do {
             if ((emptyCell.getRb() == bottomBorder) || (emptyCell.getStyle().getBottomBorder().getType() != BorderType.NONE))
-                return  emptyCell;
+                return emptyCell;
             nextCell = expByWidth(getCellByCoord(emptyCell.getCl(), emptyCell.getRb() + 1), emptyCell.getCr());
             if (nextCell == null)
                 return emptyCell;
@@ -261,7 +261,7 @@ public class GetHead {
             //Rewrite height
             //if (!(equals(emptyCell, nextCell, CellParam.HEIGHT)) || (emptyCell.getCr() != nextCell.getCr())) {
             boolean isLeft = emptyCell.getCl() == 1;
-            boolean diffMerge =  ( (nextCell.isBlank() != emptyCell.isBlank()) || (emptyCell.isBlank() && nextCell.isBlank()) );
+            boolean diffMerge = ((nextCell.isBlank() != emptyCell.isBlank()) || (emptyCell.isBlank() && nextCell.isBlank()));
             boolean eqSize = emptyCell.getCr() == nextCell.getCr();
             boolean eqCells = cellsCount == (nextCell.getRb() - nextCell.getRt());
             /*
@@ -272,7 +272,7 @@ public class GetHead {
             }
             */
 
-            if (! (((eqCells || ((eqCells == false) && ( isLeft == false) )) || diffMerge) && eqSize))
+            if (!(((eqCells || ((eqCells == false) && (isLeft == false))) || diffMerge) && eqSize))
                 return emptyCell;
 
             //if ((((! eqCells)  ) && (! diffMerge)) || (! eqSize)  )
@@ -319,7 +319,7 @@ public class GetHead {
             if (direction) {
                 newCell = getCellByCoord(curCell.getCl(), curCell.getRb() + 1); //Get lower cell
                 if (newCell == null) return;
-                System.out.print(String.format("Cell was (l:%s, r:%s, t:%s, b:%s) become", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb() ));
+                System.out.print(String.format("Cell was (l:%s, r:%s, t:%s, b:%s) become", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
                 if ((newCell.getCl() == 2) && (newCell.getRt() == 3))
                     System.out.println(123);
                 newCell = expCell(newCell, block.getRight(), block.getBottom());
@@ -349,15 +349,15 @@ public class GetHead {
                     direction = true;
                 }
             }
-
-
         }
-
     }
 
     private boolean isLabel(CCell cell) {
         if (cell == null) return false;
-        return !cell.getText().isEmpty();
+        if (cell.getText().isEmpty())
+            return false;
+        else
+            return true;
     }
 
     private CCell cellTransofrm(CCell cCell, Block block) {
@@ -409,6 +409,7 @@ public class GetHead {
         return cCell;
     }
 
+
     private boolean equal(CCell cell1, CCell cell2) {
         return equals(cell1, cell2, CellParam.BOTH);
     }
@@ -429,9 +430,6 @@ public class GetHead {
         if (cellParam == CellParam.HEIGHT)
             return resultH;
         return false;
-
-
-
     }
 
     public CCell getCellByCoord(int l, int t) {
@@ -519,6 +517,7 @@ public class GetHead {
                 tmpCell = null;
         boolean next = true;
         int ul = resCell.getRt();
+        ;
         do {
             if (resCell.getRb() + 1 <= bottomBorder) {
                 if (resCell.getStyle().getBottomBorder().getType() != BorderType.NONE) {
@@ -553,6 +552,7 @@ public class GetHead {
                 cellTop = tmpCell.getRb() + 1;
 
             }
+            ;
         }
 
         return curCell;
@@ -615,6 +615,7 @@ public class GetHead {
         } while (true);
     }
 
+
     private CCell mergeToLeft(CCell cCell) {
         CCell leftCell;
         //Check the text existance in the cell
@@ -631,7 +632,8 @@ public class GetHead {
         return cCell;
 
     }
-    private Block checkForExtension(CCell cCell, int bottomBorder, int rightBorder, boolean lbl, CBorder bBorder){
+
+    private Block checkForExtension(CCell cCell, int bottomBorder, int rightBorder, boolean lbl, CBorder bBorder) {
         /*Cerate block to merge with cell
             cCell - right hand cell
             bottomBorder - block border. All righter cells must have this border
@@ -641,10 +643,10 @@ public class GetHead {
         Block block = null, cellBlock;
         CCell newCell = expByHeight(cCell, bottomBorder), tmpCell;
         final boolean initCellLabel = lbl; // Label of left cell in block
-        boolean newCellLabel = false, f=false;
+        boolean newCellLabel = false, f = false;
         int bottomLine;
-        String blockText="";
-        if (! newCell.getStyle().getBottomBorder().getType().equals(bBorder.getType()))
+        String blockText = "";
+        if (!newCell.getStyle().getBottomBorder().getType().equals(bBorder.getType()))
             return null;
         Deque<CCell> blockDeque = new ArrayDeque<CCell>();
         if (cCell == null)
@@ -653,8 +655,7 @@ public class GetHead {
             return null;
         if (isRightBorder(newCell)) {
             blockDeque.add(newCell);
-        }
-        else {
+        } else {
             do {
                 //TODO Optimize logic of cells extension
                 cellBlock = new Block(newCell);
@@ -679,7 +680,7 @@ public class GetHead {
 
                     newCell = getRightCell(newCell);
                     if ((newCell == null) || (newCell.getCr() >= rightBorder)) {
-                        if   ((newCell != null) && (newCell.getCr() == rightBorder)) {
+                        if ((newCell != null) && (newCell.getCr() == rightBorder)) {
                             if ((initCellLabel == true) && (isLabel(newCell)) && (blockDeque.size() == 1))
                                 break;
                             blockDeque.add(newCell);
@@ -702,18 +703,18 @@ public class GetHead {
             );
         }
 
-        if ( f == true ){
-            if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)){
+        if (f == true) {
+            if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)) {
                 blockDeque.pollLast();
-                while (isLabel(blockDeque.peekLast()) == false){
+                while (isLabel(blockDeque.peekLast()) == false) {
                     blockDeque.pollLast();
                 }
             }
         }
-        if (blockDeque.size()>0) {
-            for (CCell c:blockDeque
+        if (blockDeque.size() > 0) {
+            for (CCell c : blockDeque
             ) {
-                if (! c.getText().trim().isEmpty())
+                if (!c.getText().trim().isEmpty())
                     blockText = blockText.concat(" " + c.getText().trim());
             }
             block = new Block(blockDeque.peekFirst().getRt(), blockDeque.peekFirst().getRb(), blockDeque.peekFirst().getCl(), blockDeque.peekLast().getCr());
@@ -721,12 +722,11 @@ public class GetHead {
             block.setRightBorderStyle(blockDeque.peekLast().getStyle().getRightBorder());
             block.setTopBorderStyle(blockDeque.peekFirst().getStyle().getTopBorder());
             block.setBottomBorderStyle(blockDeque.peekFirst().getStyle().getBottomBorder());
-            if ( block.getRight() - block.getLeft() > 5 )
+            if (block.getRight() - block.getLeft() > 5)
                 block.setHAlignment(HorzAlignment.FILL);
             block.setText(blockText.trim());
         }
         return block;
-
 
 
     }
@@ -738,7 +738,9 @@ public class GetHead {
         if ((curCell.getStyle().getRightBorder().getType() != BorderType.NONE) || (curCell.getCr() == hR))
             return true;
         rightCell = getRightCell(curCell);
-        return (rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() != BorderType.NONE);
+        if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() != BorderType.NONE))
+            return true;
+        return false;
 
     }
 
@@ -761,22 +763,20 @@ public class GetHead {
         return curCell.getRb();
     }
 
-    private boolean mergeIsPossible(CCell cell1, CCell cell2){
+    private boolean mergeIsPossible(CCell cell1, CCell cell2) {
         //Function estimate the possibility of cells merging
-        CStyle c1Style =cell1.getStyle(),
-               c2Style = cell2.getStyle();
+        CStyle c1Style = cell1.getStyle(),
+                c2Style = cell2.getStyle();
         //Choose direction
-        if ( (cell1.getCl() == cell2.getCl()) && (cell1.getCr() == cell2.getCr()) ) {
+        if ((cell1.getCl() == cell2.getCl()) && (cell1.getCr() == cell2.getCr())) {
             //Merging in vertical direction
             if ((c1Style.getBottomBorder().getType() != BorderType.NONE) || (c2Style.getTopBorder().getType() != BorderType.NONE))
                 return false;
-        }
-        else if ((cell1.getRt() == cell2.getRt()) && (cell1.getRb() == cell2.getRb())){
+        } else if ((cell1.getRt() == cell2.getRt()) && (cell1.getRb() == cell2.getRb())) {
             //Merging in horizontal direction
             if ((c1Style.getRightBorder().getType() != BorderType.NONE) || (c2Style.getLeftBorder().getType() != BorderType.NONE))
                 return false;
-        }
-        else
+        } else
             //Different size. Merging is impossible
             return false;
         //Check styles information
@@ -787,7 +787,6 @@ public class GetHead {
 
         return true;
     }
-
 
 
 }

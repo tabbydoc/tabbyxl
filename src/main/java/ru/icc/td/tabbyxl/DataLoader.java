@@ -456,7 +456,7 @@ public final class DataLoader {
 
         fillCellStyle(cellStyle, excelCellStyle);
 
-        String reference = new CellReference(excelCell).formatAsString();
+        String reference = new CellReference(excelCell).formatAsString(false);
         cell.setProvenance(reference);
 
         this.cellCount++;

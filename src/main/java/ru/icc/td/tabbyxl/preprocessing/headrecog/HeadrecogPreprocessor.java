@@ -99,10 +99,12 @@ public final class HeadrecogPreprocessor implements Preprocessor {
                 if (head != null) {
                     head.analyzeHead();
 
+                    /*
                     if (multiSheets == 0)
                         head.saveWorkbook(String.format("%s%s_%s", pathToSave, table.getSrcSheetName(), fileToSave));
                     else
                         head.saveWorkbook(String.format("%s%s", pathToSave, fileToSave));
+                    */
                 }
             } catch (IOException e) {
                 e.printStackTrace();
