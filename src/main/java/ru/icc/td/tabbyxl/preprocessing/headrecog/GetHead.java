@@ -102,6 +102,7 @@ public class GetHead {
         do {
             //Get top level block borders
             cCell = getCellByCoord(curCellLeft, 1);
+            System.out.println(cCell.getStyle().getFgColor());
             if (cCell == null)
                 break;
             cCell = expCell(cCell, hR, hB);
