@@ -30,6 +30,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public final class HeadrecogPreprocessor implements Preprocessor {
 
+    private File outputFile;
+
     private int rowLetterToInt(String col) {
         //Get number of Excel column by letter name
         int number = 0;
@@ -75,43 +77,33 @@ public final class HeadrecogPreprocessor implements Preprocessor {
 
         Workbook workbook;
         GetHead head;
-        final byte multiSheets = 1;
-        boolean firstSheet = true;
-        File fileToOpen;
-        //String pathToSave = "C:\\devel\\dataset\\data\\";
-        String pathToSave = "E:\\devel\\cells\\identHead\\testData\\out\\";
-        //String pathToSave = "D:\\Dev\\OutDataset\\";
-        String fileToSave = "/tables.xlsx";
         int srcStartCell[];
-        if (true){
-            //Debug mode
-            try {
-                if (multiSheets == 0) {
-                    fileToOpen = table.getSrcWorkbookFile();
-                } else
-                    fileToOpen = new File(pathToSave + fileToSave);
+        try {
 
+            workbook = getWorkbook(outputFile);
+            String outputDirPath = outputFile.getParentFile().toString();
 
-                workbook = getWorkbook(fileToOpen);
-                srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
-                head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), pathToSave, true);
+            srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
+            head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), outputDirPath, true);
 
-                if (head != null) {
-                    head.analyzeHead();
-
-                    /*
-                    if (multiSheets == 0)
-                        head.saveWorkbook(String.format("%s%s_%s", pathToSave, table.getSrcSheetName(), fileToSave));
-                    else
-                        head.saveWorkbook(String.format("%s%s", pathToSave, fileToSave));
-                    */
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (head != null) {
+                head.analyzeHead();
+                head.saveWorkbook(outputFile.getAbsolutePath());
             }
-
-            System.out.println("-------Start-----" + cellsInIntArray(table.getSrcStartCellRef())[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        System.out.println("Done");
+        System.out.println("====================================================================");
+        System.out.println();
+    }
+
+    public void setFileToOpen(File outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public File getOutputFile() {
+        return outputFile;
     }
 }
