@@ -31,6 +31,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import static org.apache.poi.ss.usermodel.CellType.STRING;
+import static org.apache.poi.ss.usermodel.HorizontalAlignment.*;
+import static org.apache.poi.ss.usermodel.HorizontalAlignment.DISTRIBUTED;
+
 public final class DataLoader {
     private File sourceWorkbookFile;
     private Workbook workbook;
@@ -125,7 +129,7 @@ public final class DataLoader {
 
             for (int j = refColAdr; j <= endColAdr; j++) {
                 // TODO: Check the case when <code> excelCell == null </code>
-                excelCell = row.getCell(j, Row.CREATE_NULL_AS_BLANK);
+                excelCell = row.getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
                 int colAdr = excelCell.getColumnIndex() - refColAdr + 1;
                 int rowAdr = excelCell.getRowIndex() - refRowAdr + 1;
@@ -246,15 +250,15 @@ public final class DataLoader {
         String value = null;
 
         switch (excelCell.getCachedFormulaResultType()) {
-            case Cell.CELL_TYPE_NUMERIC:
+            case NUMERIC:
                 value = Double.toString(excelCell.getNumericCellValue());
                 break;
 
-            case Cell.CELL_TYPE_STRING:
+            case STRING:
                 value = excelCell.getStringCellValue();
                 break;
 
-            case Cell.CELL_TYPE_BOOLEAN:
+            case BOOLEAN:
                 value = Boolean.toString(excelCell.getBooleanCellValue());
                 break;
         }
@@ -266,30 +270,30 @@ public final class DataLoader {
         String value = null;
 
         switch (excelCell.getCellType()) {
-            case Cell.CELL_TYPE_NUMERIC:
+            case NUMERIC:
                 if (DateUtil.isCellDateFormatted(excelCell))
                     value = "DATE"; // TODO: Check this magic value
                 else
                     value = Double.toString(excelCell.getNumericCellValue());
                 break;
 
-            case Cell.CELL_TYPE_STRING:
+            case STRING:
                 value = excelCell.getRichStringCellValue().getString();
                 break;
 
-            case Cell.CELL_TYPE_BOOLEAN:
+            case BOOLEAN:
                 value = Boolean.toString(excelCell.getBooleanCellValue());
                 break;
 
-            case Cell.CELL_TYPE_FORMULA:
+            case FORMULA:
                 //value = excelCell.getCellFormula();
                 value = extractCellFormulaValue(excelCell);
                 break;
 
-            case Cell.CELL_TYPE_BLANK:
+            case BLANK:
                 break;
 
-            case Cell.CELL_TYPE_ERROR:
+            case ERROR:
                 break;
         }
         return value;
@@ -299,7 +303,7 @@ public final class DataLoader {
     private FormulaEvaluator formulaEvaluator;
 
     private boolean hasSuperscriptText(Cell excelCell) {
-        if (excelCell.getCellType() != Cell.CELL_TYPE_STRING) return false;
+        if (excelCell.getCellType() != STRING) return false;
 
         RichTextString richTextString = excelCell.getRichStringCellValue();
         if (null == richTextString) return false;
@@ -330,7 +334,7 @@ public final class DataLoader {
     }
 
     private String getNotSuperscriptText(Cell excelCell) {
-        if (excelCell.getCellType() != Cell.CELL_TYPE_STRING) return null;
+        if (excelCell.getCellType() != STRING) return null;
         RichTextString richTextString = excelCell.getRichStringCellValue();
         if (null == richTextString) return null;
 
@@ -408,7 +412,7 @@ public final class DataLoader {
         cell.setRawText(rawTextualContent);
 
         switch (excelCell.getCellType()) {
-            case Cell.CELL_TYPE_NUMERIC:
+            case NUMERIC:
                 if (DateUtil.isCellDateFormatted(excelCell)) {
                     typeTag = TypeTag.DATE;
                 } else {
@@ -416,23 +420,23 @@ public final class DataLoader {
                 }
                 break;
 
-            case Cell.CELL_TYPE_STRING:
+            case STRING:
                 typeTag = TypeTag.STRING;
                 break;
 
-            case Cell.CELL_TYPE_BOOLEAN:
+            case BOOLEAN:
                 typeTag = TypeTag.BOOLEAN;
                 break;
 
-            case Cell.CELL_TYPE_FORMULA:
+            case FORMULA:
                 typeTag = TypeTag.FORMULA;
                 break;
 
-            case Cell.CELL_TYPE_BLANK:
+            case BLANK:
                 typeTag = TypeTag.BLANK;
                 break;
 
-            case Cell.CELL_TYPE_ERROR:
+            case ERROR:
                 typeTag = TypeTag.ERROR;
                 break;
         }
@@ -522,84 +526,87 @@ public final class DataLoader {
         return new CColor("#000000");
     }
 
-    private BorderType convertBorderType(short originalExcelBorderType) {
-        if (originalExcelBorderType < 0 || originalExcelBorderType > 13)
+    private BorderType convertBorderType(BorderStyle originalExcelBorderType) {
+        if ((originalExcelBorderType.getCode() < 0) || (originalExcelBorderType.getCode() > 13))
             return null;
 
         switch (originalExcelBorderType) {
-            case CellStyle.BORDER_NONE:
+            case NONE:
                 return BorderType.NONE;
-            case CellStyle.BORDER_THIN:
+            case THIN:
                 return BorderType.THIN;
-            case CellStyle.BORDER_MEDIUM:
+            case MEDIUM:
                 return BorderType.MEDIUM;
-            case CellStyle.BORDER_DASHED:
+            case DASHED:
                 return BorderType.DASHED;
-            case CellStyle.BORDER_HAIR:
+            case HAIR:
                 return BorderType.HAIR;
-            case CellStyle.BORDER_THICK:
+            case THICK:
                 return BorderType.THICK;
-            case CellStyle.BORDER_DOUBLE:
+            case DOUBLE:
                 return BorderType.DOUBLE;
-            case CellStyle.BORDER_DOTTED:
+            case DOTTED:
                 return BorderType.DOTTED;
-            case CellStyle.BORDER_MEDIUM_DASHED:
+            case MEDIUM_DASHED:
                 return BorderType.MEDIUM_DASHED;
-            case CellStyle.BORDER_DASH_DOT:
+            case DASH_DOT:
                 return BorderType.DASH_DOT;
-            case CellStyle.BORDER_MEDIUM_DASH_DOT:
+            case MEDIUM_DASH_DOT:
                 return BorderType.MEDIUM_DASH_DOT;
-            case CellStyle.BORDER_DASH_DOT_DOT:
+            case DASH_DOT_DOT:
                 return BorderType.DASH_DOT_DOT;
-            case CellStyle.BORDER_MEDIUM_DASH_DOT_DOT:
+            case MEDIUM_DASH_DOT_DOT:
                 return BorderType.MEDIUM_DASH_DOT_DOT;
-            case CellStyle.BORDER_SLANTED_DASH_DOT:
+            case SLANTED_DASH_DOT:
                 return BorderType.SLANTED_DASH_DOT;
             default:
                 return null;
         }
     }
 
-    private HorzAlignment getHorzAlignment(short originalExcelHorzAlignment) {
-        if (originalExcelHorzAlignment < 0 || originalExcelHorzAlignment > 6)
+    private HorzAlignment getHorzAlignment(HorizontalAlignment originalExcelHorzAlignment) {
+        if (originalExcelHorzAlignment.getCode() < 0 || originalExcelHorzAlignment.getCode() > 6)
             return null;
 
         switch (originalExcelHorzAlignment) {
-            case CellStyle.ALIGN_GENERAL:
+            case GENERAL:
                 return HorzAlignment.GENERAL;
-            case CellStyle.ALIGN_LEFT:
+            case LEFT:
                 return HorzAlignment.LEFT;
-            case CellStyle.ALIGN_CENTER:
+            case CENTER:
                 return HorzAlignment.CENTER;
-            case CellStyle.ALIGN_RIGHT:
+            case RIGHT:
                 return HorzAlignment.RIGHT;
-            case CellStyle.ALIGN_FILL:
+            case FILL:
                 return HorzAlignment.FILL;
-            case CellStyle.ALIGN_JUSTIFY:
+            case JUSTIFY:
                 return HorzAlignment.JUSTIFY;
-            case CellStyle.ALIGN_CENTER_SELECTION:
+            case CENTER_SELECTION:
                 return HorzAlignment.CENTER_SELECTION;
             default:
                 return null;
         }
     }
 
-    private VertAlignment getVertAlignment(short originalExcelVertAlignment) {
-        if (originalExcelVertAlignment < 0 || originalExcelVertAlignment > 3)
+    private VertAlignment getVertAlignment(VerticalAlignment originalExcelVertAlignment) {
+        if (originalExcelVertAlignment.getCode() < 0 || originalExcelVertAlignment.getCode() > 3)
             return null;
 
         switch (originalExcelVertAlignment) {
-            case CellStyle.VERTICAL_TOP:
+            case TOP:
                 return VertAlignment.TOP;
-            case CellStyle.VERTICAL_CENTER:
+            case CENTER:
                 return VertAlignment.CENTER;
-            case CellStyle.VERTICAL_BOTTOM:
+            case BOTTOM:
                 return VertAlignment.BOTTOM;
-            case CellStyle.VERTICAL_JUSTIFY:
+            case JUSTIFY:
                 return VertAlignment.JUSTIFY;
+            case DISTRIBUTED:
+                break;
             default:
                 return null;
         }
+        return null;
     }
 
     private void fillFont(CFont font, Font excelFont) {
@@ -611,9 +618,12 @@ public final class DataLoader {
         font.setHeight(excelFont.getFontHeight());
         font.setHeightInPoints(excelFont.getFontHeightInPoints());
 
+        /*
         short boldWeight = excelFont.getBoldweight();
         if (boldWeight >= 700)
             font.setBold(true);
+        */
+        font.setBold(excelFont.getBold());
 
         font.setItalic(excelFont.getItalic());
         font.setStrikeout(excelFont.getStrikeout());

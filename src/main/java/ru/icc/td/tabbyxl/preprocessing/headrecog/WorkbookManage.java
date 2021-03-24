@@ -7,6 +7,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static org.apache.poi.ss.usermodel.CellType.BLANK;
+import static org.apache.poi.ss.usermodel.CellType.STRING;
+import static org.apache.poi.ss.usermodel.HorizontalAlignment.CENTER;
+import static org.apache.poi.ss.usermodel.HorizontalAlignment.FILL;
+
+//import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_BLANK;
+//import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING;
+
+
 public final class WorkbookManage {
     private String pathToSave;
     private Workbook workbook;
@@ -23,7 +32,7 @@ public final class WorkbookManage {
         DataFormatter df = new DataFormatter();
         String cellValue, val = "";
         cellValue = df.formatCellValue(cell).trim();
-        val = (curVal.isEmpty()) ? cellValue : curVal.trim() + " " + cellValue;
+        val = (curVal.isEmpty()) ?  cellValue : curVal.trim() + " " + cellValue;
         //cell.setCellType(CELL_TYPE_STRING);
         return val;
     }
@@ -36,7 +45,10 @@ public final class WorkbookManage {
                 return true;
 
             DataFormat fmt = workbook.createDataFormat();
-            //short borderTop = 0, borderLeft = 0, borderBottom = 0, borderRight = 0;
+            BorderStyle borderTop = BorderStyle.NONE;
+            BorderStyle borderLeft = BorderStyle.NONE;
+            BorderStyle borderBottom = BorderStyle.NONE;
+            BorderStyle borderRight = BorderStyle.NONE;
             Sheet sheet = workbook.getSheet(sheetName);
 
             int startCol = blockToMerge.getLeft() + cellShift.c - 1;
@@ -45,7 +57,7 @@ public final class WorkbookManage {
             int endCell = blockToMerge.getBottom() + cellShift.r - 1;
             CellRangeAddress reg;
             boolean isMerge;
-            String val = "";
+            String val ="";
             Cell cell;
             Row row;
             CellStyle cellStyle;
@@ -59,10 +71,11 @@ public final class WorkbookManage {
             for (int r = startCell; r <= endCell; r++)
                 for (int c = startCol; c <= endCol; c++) {
                     row = sheet.getRow(r);
-                    cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
+                    cell = row.getCell(c, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                     val = concatCellsValue(val, cell);
                     cell.setCellValue("");
-                    //cell.setCellType(CELL_TYPE_BLANK);
+                    cell.setBlank();
+
                 }
 
             do {
@@ -76,20 +89,20 @@ public final class WorkbookManage {
                         sheet.removeMergedRegion(r);
                     }
                 }
-            } while (isMerge != false);
-
-            int mergedRegion = sheet.addMergedRegion(new CellRangeAddress(startCell, endCell, startCol, endCol));
-            if (mergedRegion > 0) {
+            }while (isMerge != false);
+            CellRangeAddress cellAddresses = new CellRangeAddress(startCell,  endCell, startCol, endCol);
+            int mergedRegion = sheet.addMergedRegion(cellAddresses);
+            if (mergedRegion >= 0) {
                 //Set value to new merged cell
                 row = sheet.getRow(startCell);
                 cell = row.getCell(startCol, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                //cell.setCellType(CELL_TYPE_STRING);
+                //cell.setCellType(STRING); //Depricated method
                 cell.setCellValue(val);
                 cellStyle = cell.getCellStyle();
-                cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+                cellStyle.setAlignment(CENTER);
                 cellStyle.setWrapText(true);
-                if (endCol - startCol > 5)
-                    cellStyle.setAlignment(CellStyle.ALIGN_FILL);
+                if (endCol-startCol > 5)
+                    cellStyle.setAlignment(FILL);
 
                 if (cellStyle != null) {
                     //TODO Check the nessesity of Borders
@@ -132,35 +145,35 @@ public final class WorkbookManage {
     }
 
 
-    private short getBorderTop(Sheet sheet, int c, int r) {
+    private BorderStyle getBorderTop(Sheet sheet, int c, int r){
         Cell cell;
         Row row;
-        row = sheet.getRow(r);
-        cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
+        row = sheet.getRow( r );
+        cell = row.getCell( c, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK );
         return cell.getCellStyle().getBorderTop();
     }
 
-    private short getborderBottom(Sheet sheet, int c, int r) {
+    private  BorderStyle getborderBottom(Sheet sheet, int c, int r){
         Cell cell;
         Row row;
-        row = sheet.getRow(r);
-        cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
+        row = sheet.getRow( r );
+        cell = row.getCell( c , Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
         return cell.getCellStyle().getBorderBottom();
     }
 
-    private short getBorderLeft(Sheet sheet, int c, int r) {
+    private BorderStyle getBorderLeft(Sheet sheet, int c, int r){
         Cell cell;
         Row row;
-        row = sheet.getRow(r);
-        cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
+        row = sheet.getRow( r );
+        cell = row.getCell( c, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK );
         return cell.getCellStyle().getBorderLeft();
     }
 
-    private short getBorderRight(Sheet sheet, int c, int r) {
+    private BorderStyle getBorderRight(Sheet sheet, int c, int r){
         Cell cell;
         Row row;
-        row = sheet.getRow(r);
-        cell = row.getCell(c, Row.CREATE_NULL_AS_BLANK);
+        row = sheet.getRow( r );
+        cell = row.getCell( c , Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
         return cell.getCellStyle().getBorderRight();
     }
 

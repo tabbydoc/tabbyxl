@@ -75,10 +75,11 @@ public final class HeadrecogPreprocessor implements Preprocessor {
 
         Workbook workbook;
         GetHead head;
-        byte multiSheets = 1;
+        final byte multiSheets = 1;
         boolean firstSheet = true;
         File fileToOpen;
-        String pathToSave = "D:/yd/data/tabbyxl/hrecog/saus200/data";
+        //String pathToSave = "C:\\devel\\dataset\\data\\";
+        String pathToSave = "E:\\devel\\cells\\identHead\\testData\\out\\";
         //String pathToSave = "D:\\Dev\\OutDataset\\";
         String fileToSave = "/tables.xlsx";
         int srcStartCell[];
