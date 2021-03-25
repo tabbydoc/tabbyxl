@@ -22,11 +22,12 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.NerTag;
+import ru.icc.td.tabbyxl.model.TypeTag;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
 import java.util.Properties;
 
-public final class NerPreprocessor implements Preprocessor {
+public final class NERecogPreprocessor implements Preprocessor {
 
     private static final StanfordCoreNLP pipeline;
 
@@ -45,6 +46,12 @@ public final class NerPreprocessor implements Preprocessor {
         pipeline = new StanfordCoreNLP(props);
     }
 
+    private boolean withRecoveringMissingTypes;
+
+    public NERecogPreprocessor(boolean withRecoveringMissingTypes) {
+        this.withRecoveringMissingTypes = withRecoveringMissingTypes;
+    }
+
     @Override
     public void process(CTable table) {
         // Extracting named entity from each cell
@@ -60,6 +67,11 @@ public final class NerPreprocessor implements Preprocessor {
             String text = cell.getText();
             NerTag nerTag = recognizeNamedEntity(text);
             cell.setNerTag(nerTag);
+
+            if (withRecoveringMissingTypes) {
+                TypeTag recognizedTypeTag = toTypeTag(cell.getNerTag());
+                cell.setTypeTag(recognizedTypeTag);
+            }
         }
 
         System.out.println();
@@ -84,4 +96,13 @@ public final class NerPreprocessor implements Preprocessor {
             return NerTag.NONE;
         }
     }
+
+    private TypeTag toTypeTag(NerTag nerTag) {
+        switch (nerTag) {
+            case NUMBER : return TypeTag.NUMERIC;
+            case DATE : return TypeTag.DATE;
+            default: return TypeTag.STRING;
+        }
+    }
+
 }

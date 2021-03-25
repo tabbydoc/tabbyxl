@@ -514,11 +514,10 @@ public class GetHead {
     }
 
     private CCell checkLower(CCell curCell, int bottomBorder) {
-        CCell resCell = curCell,
-                tmpCell = null;
+        CCell resCell = curCell, tmpCell = null;
         boolean next = true;
         int ul = resCell.getRt();
-        ;
+
         do {
             if (resCell.getRb() + 1 <= bottomBorder) {
                 if (resCell.getStyle().getBottomBorder().getType() != BorderType.NONE) {
@@ -541,7 +540,6 @@ public class GetHead {
 
             } else break;
 
-
         } while (next);
 
         if (next == false) {
@@ -551,9 +549,7 @@ public class GetHead {
                 tmpCell = getCellByCoord(curCell.getCl(), cellTop);
                 curCell = curCell.merge(tmpCell);
                 cellTop = tmpCell.getRb() + 1;
-
             }
-            ;
         }
 
         return curCell;
@@ -583,8 +579,6 @@ public class GetHead {
                     cellStyle = resCell.getStyle();
                     cellStyle.setRightBorder(cB);
                     resCell.setStyle(cellStyle); //Need to add method to CCell class
-
-
                 }
 
                 cellTransofrm(resCell, new Block(resCell)); //Was added for test
@@ -611,11 +605,8 @@ public class GetHead {
                 return curCell.getRb();
             curCell = tmpCell;
             //Check text
-
-
         } while (true);
     }
-
 
     private CCell mergeToLeft(CCell cCell) {
         CCell leftCell;
@@ -631,7 +622,6 @@ public class GetHead {
         if ((cCell.getRt() == leftCell.getRt()) && (cCell.getRb() == leftCell.getRb()))
             cCell = leftCell.merge(cCell);
         return cCell;
-
     }
 
     private Block checkForExtension(CCell cCell, int bottomBorder, int rightBorder, boolean lbl, CBorder bBorder) {
@@ -669,7 +659,6 @@ public class GetHead {
                         } else {
                             break;
                         }
-                        ;
                     } else {
                         blockDeque.add(newCell);
                         if (newCellLabel == true) {
@@ -728,8 +717,6 @@ public class GetHead {
             block.setText(blockText.trim());
         }
         return block;
-
-
     }
 
     private boolean isRightBorder(CCell curCell) {
@@ -742,7 +729,6 @@ public class GetHead {
         if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() != BorderType.NONE))
             return true;
         return false;
-
     }
 
     private int getBottomBorder(CCell curCell) {

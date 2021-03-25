@@ -1,5 +1,5 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
-import org.apache.poi.hssf.usermodel.*;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -99,7 +99,7 @@ public final class WorkbookManage {
                     cellStyle.setAlignment(FILL);
 
                 if (cellStyle != null) {
-                    //TODO Check the nessesity of Borders
+                    //TODO Check the necessity of Borders
                     //cellStyle.setBorderTop(borderTop);
                     //cellStyle.setBorderBottom(borderBottom);
                     //cellStyle.setBorderLeft(borderLeft);
@@ -109,17 +109,13 @@ public final class WorkbookManage {
                     cell.setCellStyle(cellStyle);
 
                 }
-
-
             }
             return true;
-
 
         } catch (Exception e) {
             System.out.println(String.format("Cell merge error: %s", e.getMessage()));
             return false;
         }
-
     }
 
     public void saveWorkbook() throws IOException {
@@ -131,13 +127,9 @@ public final class WorkbookManage {
 
         try (FileOutputStream out = new FileOutputStream(new File(pathToSave))) {
             workbook.write(out);
-            System.out.println("test.xlsx written successfully on disk.");
-            out.close();
+            System.out.println("Changes were written successfully on disk");
         }
-
-
     }
-
 
     private BorderStyle getBorderTop(Sheet sheet, int c, int r){
         Cell cell;
@@ -147,7 +139,7 @@ public final class WorkbookManage {
         return cell.getCellStyle().getBorderTop();
     }
 
-    private  BorderStyle getborderBottom(Sheet sheet, int c, int r){
+    private  BorderStyle getBorderBottom(Sheet sheet, int c, int r){
         Cell cell;
         Row row;
         row = sheet.getRow( r );

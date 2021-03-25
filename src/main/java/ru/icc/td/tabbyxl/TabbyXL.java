@@ -21,9 +21,7 @@ import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2JEngine;
 import ru.icc.td.tabbyxl.model.*;
-import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
-import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
-import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
+import ru.icc.td.tabbyxl.preprocessing.ner.NERecogPreprocessor;
 import ru.icc.td.tabbyxl.util.StatisticsManager;
 import ru.icc.td.tabbyxl.writers.TableWriter;
 import ru.icc.td.tabbyxl.writers.DebugTableWriter;
@@ -650,7 +648,10 @@ public final class TabbyXL {
                 if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
                     categoryTemplateManager.createCategories(table);
 
-                preprocessTable(table);
+                // Assign a NER tag to each cell of the table
+                if (useNer) {
+                    ner.process(table);
+                }
 
                 Date startDate = new Date();
                 executionOption.accept(table);
@@ -702,17 +703,7 @@ public final class TabbyXL {
         }
     }
 
-    //private static final Preprocessor headrecog = new HeadrecogPreprocessor();
-    private static final Preprocessor ner = new NerPreprocessor();
-
-    private static void preprocessTable(CTable table) {
-        //TODO add here the use of HeadrecogPreprocessor
-        //if (true)
-        //    headrecog.process(table);
-        if (useNer) {
-            ner.process(table);
-        }
-    }
+    private static final NERecogPreprocessor ner = new NERecogPreprocessor(false);
 
     private TabbyXL() {
     }

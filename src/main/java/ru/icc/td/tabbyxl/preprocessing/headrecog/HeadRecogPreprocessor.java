@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public final class HeadrecogPreprocessor implements Preprocessor {
+public final class HeadRecogPreprocessor implements Preprocessor {
 
     private File outputFile;
 
@@ -95,7 +95,6 @@ public final class HeadrecogPreprocessor implements Preprocessor {
         }
 
         System.out.println("Done");
-        System.out.println("====================================================================");
         System.out.println();
     }
 

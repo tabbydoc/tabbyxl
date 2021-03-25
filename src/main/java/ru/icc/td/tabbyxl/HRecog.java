@@ -3,7 +3,7 @@ package ru.icc.td.tabbyxl;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
+import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadRecogPreprocessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class HeadRecog {
+public class HRecog {
 
     private static String input;
     private static String output;
     private static List<Integer> sheetIndexes;
 
     public static void main(String[] args) {
-        new HeadRecog().run(args);
+        new HRecog().run(args);
     }
 
     private void run (String[] args) {
@@ -52,7 +52,7 @@ public class HeadRecog {
                 }
             }
 
-            HeadrecogPreprocessor headrecogPreprocessor = new HeadrecogPreprocessor();
+            HeadRecogPreprocessor headrecogPreprocessor = new HeadRecogPreprocessor();
 
             if (output != null) {
                 File outputFile = new File(output);
