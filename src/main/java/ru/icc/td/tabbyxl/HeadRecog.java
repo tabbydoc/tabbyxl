@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class HRecog {
+public class HeadRecog {
 
     private static String input;
     private static String output;
     private static List<Integer> sheetIndexes;
 
     public static void main(String[] args) {
-        new HRecog().run(args);
+        new HeadRecog().run(args);
     }
 
     private void run (String[] args) {

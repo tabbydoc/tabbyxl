@@ -34,10 +34,10 @@ import java.util.Properties;
 public final class MvnProjectGenerator {
 
     private static final String groupId = "generated";
-    private static final String artifactId = "SpreadsheetTableExtractorApp";
+    private static final String artifactId = "MyExtractor";
 
     private static final String packageName = ""; // Do not change this initialization
-    private static final String mainClassName = "SpreadsheetTableExtractorApp";
+    private static final String mainClassName = "SpreadsheetDataExtractorApp";
 
     private static final Class THIS_CLASS = MvnProjectGenerator.class;
 
