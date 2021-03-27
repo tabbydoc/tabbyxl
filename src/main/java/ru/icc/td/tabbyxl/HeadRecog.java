@@ -3,7 +3,7 @@ package ru.icc.td.tabbyxl;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadRecogPreprocessor;
+import ru.icc.td.tabbyxl.preprocessing.headrecog.HeaderCellStructureCorrector;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,16 +30,16 @@ public class HeadRecog {
             File inputFile = new File(input);
 
             if (!inputFile.exists()) {
-                System.err.println("The input excel file does not exist");
+                System.err.println("The input Excel file does not exist");
                 System.exit(0);
             } else {
                 if (!inputFile.canRead()) {
-                    System.err.println("The input excel file cannot be read");
+                    System.err.println("The input Excel file cannot be read");
                     System.exit(0);
                 }
             }
 
-            System.out.println(String.format("Input excel file: %s", inputFile.getPath()));
+            System.out.println(String.format("Input Excel file: %s", inputFile.getPath()));
             //System.out.println();
 
             DataLoader loader = DataLoader.getInstance();
@@ -52,7 +52,7 @@ public class HeadRecog {
                 }
             }
 
-            HeadRecogPreprocessor headrecogPreprocessor = new HeadRecogPreprocessor();
+            HeaderCellStructureCorrector hcsc = new HeaderCellStructureCorrector();
 
             if (output != null) {
                 File outputFile = new File(output);
@@ -60,12 +60,12 @@ public class HeadRecog {
                     Files.createFile(outputFile.toPath());
                 }
                 FileUtils.copyFile(inputFile, outputFile);
-                headrecogPreprocessor.setFileToOpen(outputFile);
+                hcsc.setFileToOpen(outputFile);
             } else {
-                headrecogPreprocessor.setFileToOpen(inputFile);
+                hcsc.setFileToOpen(inputFile);
             }
 
-            System.out.println(String.format("Output file: %s", headrecogPreprocessor.getOutputFile().getPath()));
+            System.out.println(String.format("Output Excel file: %s", hcsc.getOutputFile().getPath()));
             System.out.println();
 
             for (int sheetNo: sheetIndexes) {
@@ -75,7 +75,7 @@ public class HeadRecog {
                     CTable table = loader.nextTable();
                     if (table == null) break;
 
-                    headrecogPreprocessor.process(table);
+                    hcsc.process(table);
                 }
             }
 

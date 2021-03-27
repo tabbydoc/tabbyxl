@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public final class HeadRecogPreprocessor implements Preprocessor {
+public final class HeaderCellStructureCorrector implements Preprocessor {
 
     private File outputFile;
 
