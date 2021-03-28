@@ -22,7 +22,7 @@ public class HeadRecog {
         new HeadRecog().run(args);
     }
 
-    private void run (String[] args) {
+    private void run(String[] args) {
 
         try {
             parseCmd(args);
@@ -40,35 +40,35 @@ public class HeadRecog {
             }
 
             System.out.println(String.format("Input Excel file: %s", inputFile.getPath()));
-            //System.out.println();
 
             DataLoader loader = DataLoader.getInstance();
             loader.loadWorkbook(inputFile);
 
             if (sheetIndexes == null) {
                 sheetIndexes = new ArrayList<>();
-                for (int i = 0; i < loader.numOfSheets(); i ++) {
+                for (int i = 0; i < loader.numOfSheets(); i++) {
                     sheetIndexes.add(i);
                 }
             }
 
-            HeaderCellStructureCorrector hcsc = new HeaderCellStructureCorrector();
+            HeaderCellStructureCorrector hcsc;
 
-            if (output != null) {
-                File outputFile = new File(output);
-                if (!outputFile.exists()) {
-                    Files.createFile(outputFile.toPath());
-                }
-                FileUtils.copyFile(inputFile, outputFile);
-                hcsc.setFileToOpen(outputFile);
-            } else {
-                hcsc.setFileToOpen(inputFile);
+            if (output == null) {
+                System.out.println("The output file is not defined");
+                System.exit(0);
             }
 
-            System.out.println(String.format("Output Excel file: %s", hcsc.getOutputFile().getPath()));
-            System.out.println();
+            File outputFile = new File(output);
+            if (!outputFile.exists()) {
+                Files.createFile(outputFile.toPath());
+            }
+            FileUtils.copyFile(inputFile, outputFile);
 
-            for (int sheetNo: sheetIndexes) {
+            hcsc = new HeaderCellStructureCorrector(outputFile);
+            System.out.printf("Output Excel file: %s%n", outputFile.getPath());
+
+            // Process tables
+            for (int sheetNo : sheetIndexes) {
                 loader.goToSheet(sheetNo);
 
                 while (true) {
@@ -78,6 +78,10 @@ public class HeadRecog {
                     hcsc.process(table);
                 }
             }
+
+            hcsc.saveWorkbook();
+
+            System.out.println();
 
         } catch (ParseException | IOException e) {
             e.printStackTrace();
@@ -128,7 +132,8 @@ public class HeadRecog {
         if (!cmd.hasOption(inputOpt.getOpt())) throw new ParseException("specify input excel file path");
         input = cmd.getOptionValue(inputOpt.getOpt());
 
-        if (cmd.hasOption(sheetIndexesOpt.getOpt())) sheetIndexes = parseSheetIndexesParam(cmd.getOptionValue(sheetIndexesOpt.getOpt()));
+        if (cmd.hasOption(sheetIndexesOpt.getOpt()))
+            sheetIndexes = parseSheetIndexesParam(cmd.getOptionValue(sheetIndexesOpt.getOpt()));
 
         if (cmd.hasOption(outputOpt.getOpt())) output = cmd.getOptionValue(outputOpt.getOpt());
     }

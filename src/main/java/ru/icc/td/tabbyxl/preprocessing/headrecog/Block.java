@@ -35,18 +35,6 @@ public class Block {
         this.label = label.trim();
     }
 
-    public boolean hasText() {
-        return (this.label != null) && (!this.label.equals(""));
-    }
-
-    public CStyle getcStyle() {
-        return cStyle;
-    }
-
-    public void setcStyle(CStyle cStyle) {
-        this.cStyle = cStyle;
-    }
-
     public void setLeftBorderStyle(CBorder leftBorderStyle) {
         cStyle.setLeftBorder(leftBorderStyle);
     }
@@ -71,10 +59,6 @@ public class Block {
         return top;
     }
 
-    public void setTop(int top) {
-        this.top = top;
-    }
-
     public int getBottom() {
         return bottom;
     }
@@ -85,10 +69,6 @@ public class Block {
 
     public int getLeft() {
         return left;
-    }
-
-    public void setLeft(int left) {
-        this.left = left;
     }
 
     public int getRight() {
@@ -104,30 +84,6 @@ public class Block {
         if (cCell.getRb() > bottom) bottom = cCell.getRb();
         if (cCell.getCr() > right) right = cCell.getCr();
 
-    }
-
-    public boolean concatBlock(Block block) {
-        if ((top == block.top) || (bottom == block.bottom)) {
-            //Horisintal block concatination
-            if (((left <= block.left) && (right + 1 >= block.left)) || (left >= block.left) && (left <= block.right + 1)) {
-                if (left > block.left)
-                    left = block.left;
-                if (right < block.right)
-                    right = block.right;
-                return true;
-            }
-            if ((left == block.left) || (right == block.right)) {
-                //Vertical concatination
-                if (((block.top <= top) && (block.bottom + 1 >= top)) || ((block.top <= bottom) && (block.bottom + 1 >= bottom))) {
-                    if (top > block.top)
-                        top = block.top;
-                    if (bottom < block.bottom)
-                        bottom = block.bottom;
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public CCell mergeWithCell(CCell cell) {
@@ -152,14 +108,9 @@ public class Block {
         return cell;
     }
 
-
     public boolean compareWith(Block block) {
         return (this.left == block.left) && (this.right == block.right) &&
                 (this.top == block.top) && (this.bottom == block.bottom);
-    }
-
-    public String getBlockInfo() {
-        return String.format("Block(t:%s; l:%s; b:%s; r:%s)", this.top, this.left, this.bottom, this.right);
     }
 
 }

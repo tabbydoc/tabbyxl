@@ -16,21 +16,27 @@
 
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 public final class HeaderCellStructureCorrector implements Preprocessor {
 
     private File outputFile;
+    private Workbook workbook;
+
+    public HeaderCellStructureCorrector(File outputFile) throws IOException {
+        this.outputFile = outputFile;
+        workbook = getWorkbook(outputFile);
+    }
 
     private int rowLetterToInt(String col) {
         //Get number of Excel column by letter name
@@ -75,34 +81,31 @@ public final class HeaderCellStructureCorrector implements Preprocessor {
         Use <multiSheets = 1> to write all debugging sheets in one workbook.
         */
 
-        Workbook workbook;
-        GetHead head;
+        //Workbook workbook;
+        HeadRecogAlgorithms head;
         int srcStartCell[];
+
+        String outputDirPath = outputFile.getParentFile().toString();
+
+        srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
+        head = new HeadRecogAlgorithms(table, srcStartCell, workbook, table.getSrcSheetName(), outputDirPath, true);
+
+        if (head != null)
+            head.analyzeHead();
+
+        System.out.println();
+    }
+
+    public void saveWorkbook() {
+        String path = outputFile.getAbsolutePath();
         try {
-
-            workbook = getWorkbook(outputFile);
-            String outputDirPath = outputFile.getParentFile().toString();
-
-            srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
-            head = new GetHead(table, srcStartCell, workbook, table.getSrcSheetName(), outputDirPath, true);
-
-            if (head != null) {
-                head.analyzeHead();
-                head.saveWorkbook(outputFile.getAbsolutePath());
+            try (FileOutputStream out = new FileOutputStream(new File(path))) {
+                workbook.write(out);
+                System.out.println("Changes were written successfully");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Done");
-        System.out.println();
     }
 
-    public void setFileToOpen(File outputFile) {
-        this.outputFile = outputFile;
-    }
-
-    public File getOutputFile() {
-        return outputFile;
-    }
 }

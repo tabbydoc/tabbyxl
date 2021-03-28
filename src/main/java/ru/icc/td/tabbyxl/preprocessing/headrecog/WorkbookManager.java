@@ -10,12 +10,12 @@ import java.io.IOException;
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.CENTER;
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.FILL;
 
-public final class WorkbookManage {
+public final class WorkbookManager {
     private String pathToSave;
     private Workbook workbook;
     private String sheetName = ".";
 
-    public WorkbookManage(Workbook workbook, String sheetName, String pathToSave) {
+    public WorkbookManager(Workbook workbook, String sheetName, String pathToSave) {
         this.workbook = workbook;
         this.sheetName = sheetName;
         this.pathToSave = pathToSave;
@@ -118,6 +118,7 @@ public final class WorkbookManage {
         }
     }
 
+    /*
     public void saveWorkbook() throws IOException {
         saveWorkbook(null);
     }
@@ -130,6 +131,7 @@ public final class WorkbookManage {
             System.out.println("Changes were written successfully on disk");
         }
     }
+    */
 
     private BorderStyle getBorderTop(Sheet sheet, int c, int r){
         Cell cell;
