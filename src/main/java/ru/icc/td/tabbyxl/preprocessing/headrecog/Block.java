@@ -88,8 +88,10 @@ final class Block {
 
     CCell mergeWithCell(CCell cell) {
         String text;
+
         if (null == cell)
             throw new NullPointerException("The merging cell is null");
+
         if (null == this)
             throw new NullPointerException("The merging block is null");
 

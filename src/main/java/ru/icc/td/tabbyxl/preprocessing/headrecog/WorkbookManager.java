@@ -51,14 +51,13 @@ final class WorkbookManager {
                     val = concatCellsValue(val, cell);
                     cell.setCellValue("");
                     cell.setBlank();
-
                 }
-
             do {
                 isMerge = false;
-                //val = "";
+
                 for (int r = 0; r < sheet.getNumMergedRegions(); r++) {
                     reg = sheet.getMergedRegion(r);
+
                     if ((reg.getFirstRow() >= startCell) && (reg.getFirstColumn() >= startCol) &&
                             (reg.getLastRow() <= endCell) && (reg.getLastColumn() <= endCol)) {
                         isMerge = true; //There is a merge region in the area
@@ -66,8 +65,10 @@ final class WorkbookManager {
                     }
                 }
             } while (isMerge != false);
+
             CellRangeAddress cellAddresses = new CellRangeAddress(startCell,  endCell, startCol, endCol);
             int mergedRegion = sheet.addMergedRegion(cellAddresses);
+
             if (mergedRegion >= 0) {
                 //Set value to new merged cell
                 row = sheet.getRow(startCell);
@@ -76,13 +77,13 @@ final class WorkbookManager {
                 cellStyle = cell.getCellStyle();
                 cellStyle.setAlignment(CENTER);
                 cellStyle.setWrapText(true);
+
                 if (endCol-startCol > 5)
                     cellStyle.setAlignment(FILL);
 
                 if (cellStyle != null) {
                     //TODO Check the necessity of Borders
                     cell.setCellStyle(cellStyle);
-
                 }
             }
             return true;

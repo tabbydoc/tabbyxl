@@ -28,16 +28,15 @@ import java.io.IOException;
 
 public final class HeadRecogPreprocessor implements Preprocessor {
 
-    private File outputFile;
+    private File output;
     private Workbook workbook;
 
-    public HeadRecogPreprocessor(File outputFile) throws IOException {
-        this.outputFile = outputFile;
-        workbook = getWorkbook(outputFile);
+    public HeadRecogPreprocessor(File output) throws IOException {
+        this.output = output;
+        workbook = createWorkbook(output);
     }
 
-
-    private Workbook getWorkbook(File srcFile) throws IOException {
+    private Workbook createWorkbook(File srcFile) throws IOException {
         Workbook workbook;
         FileInputStream fin = new FileInputStream(srcFile);
         workbook = new XSSFWorkbook(fin);
@@ -46,16 +45,14 @@ public final class HeadRecogPreprocessor implements Preprocessor {
 
     @Override
     public void process(CTable table) {
-        HeadRecogAlgorithms algo;
-
-        algo = new HeadRecogAlgorithms(table, workbook);
-        algo.analyze();
+        new HeadRecogAlgorithms(table, workbook).analyze();
     }
 
     public void saveWorkbook() {
-        String path = outputFile.getAbsolutePath();
+        String path = output.getAbsolutePath();
         try {
-            try (FileOutputStream out = new FileOutputStream(new File(path))) {
+            File file = new File(path);
+            try (FileOutputStream out = new FileOutputStream(file)) {
                 workbook.write(out);
                 System.out.println("All changes were written successfully");
             }
