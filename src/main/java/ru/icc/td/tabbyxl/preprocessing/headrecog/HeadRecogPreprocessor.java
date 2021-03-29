@@ -72,16 +72,6 @@ public final class HeadRecogPreprocessor implements Preprocessor {
 
     @Override
     public void process(CTable table) {
-        /*
-        This process corrects a cell structure in the table header by using cell borders visually highlighted.
-        The results of the table header correction can be as a modified table written in a debugging workbook.
-
-        You can use two options to output debugging workbooks:
-        Use <multiSheets = 0> to write each debugging sheet to a separate workbook.
-        Use <multiSheets = 1> to write all debugging sheets in one workbook.
-        */
-
-        //Workbook workbook;
         HeadRecogAlgorithms head;
         int srcStartCell[];
 

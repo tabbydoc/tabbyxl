@@ -29,7 +29,7 @@ public class HeadRecogAlgorithms {
         this.isDebug = isDebug;
 
         if (isDebug)
-            workbookManager = new WorkbookManager(workbook, sheetName, pathToSave);
+            workbookManager = new WorkbookManager(workbook, sheetName);
 
         //First cell determine the border of the header
         CCell cell = getCellByCoord(1, 1);
@@ -140,7 +140,6 @@ public class HeadRecogAlgorithms {
             if (nextCell == null)
                 return emptyCell;
             //Check
-            //nextCell = expByHeight(nextCell, emptyCell.getRb());
             if ((nextCell == null) || (nextCell.getStyle().getLeftBorder().getType() != BorderType.NONE))
                 return emptyCell;
             if (nextCell.getCr() >= rightBorder)
@@ -296,7 +295,6 @@ public class HeadRecogAlgorithms {
             do {
                 f = false;
                 if (cCell.getRb() < block.getBottom()) {
-                    //neighborCellB = expByHeight(cCell, block.getBottom());
                     neighborCellB = expCell(cCell, block.getRight(), block.getBottom());
                     if ((neighborCellB != null) && (cCell.getRb() < neighborCellB.getRb())) {
                         f = true;
@@ -320,8 +318,6 @@ public class HeadRecogAlgorithms {
                     }
                 } else
                     f = false;
-
-
             } while (f);
         }
         //Expansion in width
@@ -333,7 +329,6 @@ public class HeadRecogAlgorithms {
     }
 
     public CCell getCellByCoord(int l, int t) {
-        //if (t > hB ) t = hB;
         Iterator<CCell> cCellIterator = table.getCells();
         while (cCellIterator.hasNext()) {
             CCell cCell = cCellIterator.next();
