@@ -3,7 +3,7 @@ package ru.icc.td.tabbyxl;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
 import ru.icc.td.tabbyxl.model.CTable;
-import ru.icc.td.tabbyxl.preprocessing.headrecog.HeaderCellStructureCorrector;
+import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadRecogPreprocessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class HeadRecog {
                 }
             }
 
-            HeaderCellStructureCorrector hcsc;
+            HeadRecogPreprocessor hcsc;
 
             if (output == null) {
                 System.out.println("The output file is not defined");
@@ -64,7 +64,7 @@ public class HeadRecog {
             }
             FileUtils.copyFile(inputFile, outputFile);
 
-            hcsc = new HeaderCellStructureCorrector(outputFile);
+            hcsc = new HeadRecogPreprocessor(outputFile);
             System.out.printf("Output Excel file: %s%n", outputFile.getPath());
 
             // Process tables

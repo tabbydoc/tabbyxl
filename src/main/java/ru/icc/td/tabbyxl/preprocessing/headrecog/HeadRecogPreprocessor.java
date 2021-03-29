@@ -28,12 +28,12 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class HeaderCellStructureCorrector implements Preprocessor {
+public final class HeadRecogPreprocessor implements Preprocessor {
 
     private File outputFile;
     private Workbook workbook;
 
-    public HeaderCellStructureCorrector(File outputFile) throws IOException {
+    public HeadRecogPreprocessor(File outputFile) throws IOException {
         this.outputFile = outputFile;
         workbook = getWorkbook(outputFile);
     }

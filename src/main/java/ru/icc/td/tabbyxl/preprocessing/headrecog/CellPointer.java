@@ -4,10 +4,10 @@
 
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
-public final class CellPoint {
+final class CellPointer {
     int c, r;
 
-    public CellPoint(int[] shift) {
+    CellPointer(int[] shift) {
         this.c = shift[0];
         this.r = shift[1];
     }

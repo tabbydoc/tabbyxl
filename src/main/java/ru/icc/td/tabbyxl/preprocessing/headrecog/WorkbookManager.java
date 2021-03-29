@@ -3,10 +3,6 @@ package ru.icc.td.tabbyxl.preprocessing.headrecog;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.CENTER;
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.FILL;
 
@@ -31,7 +27,7 @@ public final class WorkbookManager {
         return val;
     }
 
-    public boolean mergeCells(Block blockToMerge, CellPoint cellShift, int cnt) {
+    public boolean mergeCells(Block blockToMerge, CellPointer cellShift, int cnt) {
         try {
             //If one cell then nothing to merge
             if ((blockToMerge.getLeft() == blockToMerge.getRight()) &&

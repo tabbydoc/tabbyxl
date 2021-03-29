@@ -5,12 +5,12 @@ import ru.icc.td.tabbyxl.model.style.CBorder;
 import ru.icc.td.tabbyxl.model.style.CStyle;
 import ru.icc.td.tabbyxl.model.style.HorzAlignment;
 
-public class Block {
+final class Block {
     private int top, bottom, left, right;
     private String label = null;
     private CStyle cStyle;
 
-    public Block(CCell cCell) {
+    Block(CCell cCell) {
         top = cCell.getRt();
         bottom = cCell.getRb();
         left = cCell.getCl();
@@ -19,7 +19,7 @@ public class Block {
         label = cCell.getText();
     }
 
-    public Block(int top, int bottom, int left, int right) {
+    Block(int top, int bottom, int left, int right) {
         this.top = top;
         this.bottom = bottom;
         this.left = left;
@@ -27,66 +27,66 @@ public class Block {
         cStyle = new CStyle();
     }
 
-    public String getText() {
+    String getText() {
         return this.label;
     }
 
-    public void setText(String label) {
+    void setText(String label) {
         this.label = label.trim();
     }
 
-    public void setLeftBorderStyle(CBorder leftBorderStyle) {
+    void setLeftBorderStyle(CBorder leftBorderStyle) {
         cStyle.setLeftBorder(leftBorderStyle);
     }
 
-    public void setRightBorderStyle(CBorder rightBorderStyle) {
+    void setRightBorderStyle(CBorder rightBorderStyle) {
         cStyle.setRightBorder(rightBorderStyle);
     }
 
-    public void setTopBorderStyle(CBorder topBorderStyle) {
+    void setTopBorderStyle(CBorder topBorderStyle) {
         cStyle.setTopBorder(topBorderStyle);
     }
 
-    public void setBottomBorderStyle(CBorder bottomBorderStyle) {
+    void setBottomBorderStyle(CBorder bottomBorderStyle) {
         cStyle.setBottomBorder(bottomBorderStyle);
     }
 
-    public void setHAlignment(HorzAlignment hAligment) {
+    void setHAlignment(HorzAlignment hAligment) {
         cStyle.setHorzAlignment(hAligment);
     }
 
-    public int getTop() {
+    int getTop() {
         return top;
     }
 
-    public int getBottom() {
+    int getBottom() {
         return bottom;
     }
 
-    public void setBottom(int bottom) {
+    void setBottom(int bottom) {
         this.bottom = bottom;
     }
 
-    public int getLeft() {
+    int getLeft() {
         return left;
     }
 
-    public int getRight() {
+    int getRight() {
         return right;
     }
 
-    public void setRight(int right) {
+    void setRight(int right) {
         this.right = right;
     }
 
-    public void increaseBlockSize(CCell cCell) {
+    void increaseBlockSize(CCell cCell) {
         if (cCell == null) return;
         if (cCell.getRb() > bottom) bottom = cCell.getRb();
         if (cCell.getCr() > right) right = cCell.getCr();
 
     }
 
-    public CCell mergeWithCell(CCell cell) {
+    CCell mergeWithCell(CCell cell) {
         String text;
         if (null == cell)
             throw new NullPointerException("The merging cell is null");
@@ -108,7 +108,7 @@ public class Block {
         return cell;
     }
 
-    public boolean compareWith(Block block) {
+    boolean compareWith(Block block) {
         return (this.left == block.left) && (this.right == block.right) &&
                 (this.top == block.top) && (this.bottom == block.bottom);
     }

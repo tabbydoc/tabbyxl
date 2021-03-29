@@ -1,6 +1,5 @@
 package ru.icc.td.tabbyxl.preprocessing.headrecog;
 
-
 import org.apache.poi.ss.usermodel.Workbook;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
@@ -18,14 +17,14 @@ public class HeadRecogAlgorithms {
     CTable table;
     int hB = 0, hR = 0;
     boolean isDebug;
-    CellPoint cellShift;
+    CellPointer cellShift;
     WorkbookManager workbookManager;
 
     private int tmpC = 0;
 
     public HeadRecogAlgorithms(CTable inputTable, int[] shift, Workbook workbook, String sheetName, String pathToSave, boolean isDebug) {
         table = inputTable;
-        cellShift = new CellPoint(shift);
+        cellShift = new CellPointer(shift);
         hR = table.numOfCols();
         this.isDebug = isDebug;
 
