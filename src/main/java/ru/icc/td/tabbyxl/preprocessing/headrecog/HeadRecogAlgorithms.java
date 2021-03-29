@@ -11,39 +11,66 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-
-public class HeadRecogAlgorithms {
+final class HeadRecogAlgorithms {
     CTable table;
     int hB = 0, hR = 0;
-    boolean isDebug;
+    boolean canWrite;
     CellPointer cellShift;
     WorkbookManager workbookManager;
 
     private int tmpC = 0;
 
-    public HeadRecogAlgorithms(CTable inputTable, int[] shift, Workbook workbook, String sheetName, String pathToSave, boolean isDebug) {
+    public HeadRecogAlgorithms(CTable inputTable, Workbook workbook) {
         table = inputTable;
+        String sheetName = table.getSrcSheetName();
+        int shift[] = cellsInIntArray(table.getSrcStartCellRef());
+
         cellShift = new CellPointer(shift);
         hR = table.numOfCols();
-        this.isDebug = isDebug;
+        canWrite = true;
 
-        if (isDebug)
+        if (canWrite)
             workbookManager = new WorkbookManager(workbook, sheetName);
 
         //First cell determine the border of the header
         CCell cell = getCellByCoord(1, 1);
 
         hB = getBottomBorder(cell);
-        if (isDebug) {
-            System.out.println(String.format("%s sheet is processing", sheetName));
-            System.out.printf("Head bottom = %d\n", hB);
-            System.out.printf("Head right = %d\n", hR);
-            System.out.printf("Value '%s'\n", getCellByCoord(1, 1).getText());
-        }
+        //System.out.println(String.format("Sheet: %s", sheetName));
+        //System.out.printf("Head bottom = %d\n", hB);
+        //System.out.printf("Head right = %d\n", hR);
+        //System.out.printf("Value '%s'\n", getCellByCoord(1, 1).getText());
     }
 
-    public void analyzeHead() {
+    private int rowLetterToInt(String col) {
+        //Get number of Excel column by letter name
+        int number = 0;
+        col = col.toUpperCase();
+        for (int i = 0; i < col.length(); i++) {
+            number = number * 26 + (col.charAt(i) - ('A' - 1));
+        }
+        return number;
+    }
+
+    private int[] cellsInIntArray(String col) {
+        int divPos;
+        int[] result = new int[2];
+        Pattern p = Pattern.compile("\\d+");
+        Matcher m = p.matcher(col);
+        if (m.find()) {
+            divPos = m.start();
+            if (divPos < 1)
+                throw new IllegalArgumentException("Incorrect coordinates of Excel cell");
+            result[0] = rowLetterToInt(col.substring(0, divPos)) - 1;
+            result[1] = Integer.parseInt(col.substring(divPos)) - 1;
+        }
+        return result;
+    }
+
+    public void analyze() {
         //CellCoordNode cellCoordNode;
         CCell cCell, tmpCell;
         Block headBlock;
@@ -53,7 +80,7 @@ public class HeadRecogAlgorithms {
         do {
             //Get top level block borders
             cCell = getCellByCoord(curCellLeft, 1);
-            System.out.println(cCell.getStyle().getFgColor());
+            //System.out.println(cCell.getStyle().getFgColor());
             if (cCell == null)
                 break;
             cCell = expCell(cCell, hR, hB);
@@ -84,11 +111,11 @@ public class HeadRecogAlgorithms {
 
                 }
                 //TODO replace operation to cellTransform
-                if ((block == null) && (isDebug))
+                if ((block == null) && (canWrite))
                     workbookManager.mergeCells(new Block(cCell), cellShift, tmpC++);
             }
 
-            System.out.println(String.format("Cell block(l:%s, r:%s, t:%s, b:%s) Value=%s", cCell.getCl(), cCell.getCr(), cCell.getRt(), cCell.getRb(), cCell.getText()));
+            //System.out.println(String.format("Cell block (l:%s, r:%s, t:%s, b:%s) Value = %s", cCell.getCl(), cCell.getCr(), cCell.getRt(), cCell.getRb(), cCell.getText()));
 
             if (cCell.getRb() < hB)
                 buildBlock(cCell);
@@ -117,7 +144,7 @@ public class HeadRecogAlgorithms {
             }
         }
         //Reflect new cells in Excel document
-        if (isDebug) {
+        if (canWrite) {
             block = new Block(cCell);
             if (!blockToCompare.compareWith(block))
                 workbookManager.mergeCells(block, cellShift, tmpC++);
@@ -148,9 +175,8 @@ public class HeadRecogAlgorithms {
             if ((emptyCell.getRb() > nextCell.getRb())) {
                 Block block = checkForExtension(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell), nextCell.getStyle().getBottomBorder());
                 if (block != null) {
-                    //cellTransofrm(emptyCell, block);
                     emptyCell = block.mergeWithCell(emptyCell);
-                    System.out.print(String.format("-Some block( %s, %s, %s, %s)-", block.getLeft(), block.getRight(), block.getTop(), block.getBottom()));
+                    //System.out.print(String.format("-Some block ( %s, %s, %s, %s)-", block.getLeft(), block.getRight(), block.getTop(), block.getBottom()));
                 }
             }
 
@@ -219,11 +245,11 @@ public class HeadRecogAlgorithms {
         return emptyCell;
     }
 
-    void buildBlock(CCell topCell) {
+    private void buildBlock(CCell topCell) {
         buildBlock(topCell, null);
     }
 
-    void buildBlock(CCell topCell, Block block) {
+    private void buildBlock(CCell topCell, Block block) {
         boolean direction = true; //true - go downwards; false - go upwards
         CCell curCell, newCell;
         Stack<CCell> blockItems = new Stack<>();
@@ -240,12 +266,11 @@ public class HeadRecogAlgorithms {
             if ((curCell.getRb() == hB) && (direction)) direction = false;
             if (direction) {
                 newCell = getCellByCoord(curCell.getCl(), curCell.getRb() + 1); //Get lower cell
+
                 if (newCell == null) return;
-                System.out.print(String.format("Cell was (l:%s, r:%s, t:%s, b:%s) become", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
-                if ((newCell.getCl() == 2) && (newCell.getRt() == 3))
-                    System.out.println(123);
+                //System.out.print(String.format("Cell (l:%s, r:%s, t:%s, b:%s) --> ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
                 newCell = expCell(newCell, block.getRight(), block.getBottom());
-                System.out.println(String.format("(l:%s, r:%s, t:%s, b:%s) -", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
+                //System.out.println(String.format("(l:%s, r:%s, t:%s, b:%s)", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
 
                 blockItems.push(newCell);
                 block.increaseBlockSize(newCell);
@@ -259,14 +284,14 @@ public class HeadRecogAlgorithms {
                     //sub column
                     newCell = getCellByCoord(newCell.getCr() + 1, newCell.getRt());
                     if (newCell == null) break;
-                    System.out.print(String.format("- cell_old(%s, %s, %s, %s) - ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
+                    //System.out.print(String.format("- cell_old (%s, %s, %s, %s) - ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
                     if ((newCell.getRb() == hB) && (newCell.getCr() == hR)) break;
                     curCell = expCell(newCell, block.getRight(), block.getBottom());
                     if (curCell.getRb() != newCell.getRb())
                         newCell = cellTransofrm(curCell, new Block(curCell));
                     else
                         newCell = curCell;
-                    System.out.println(String.format("- cell_new(%s, %s, %s, %s) - ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
+                    //System.out.println(String.format("- cell_new (%s, %s, %s, %s) - ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
                     blockItems.push(newCell);
                     direction = true;
                 }
@@ -322,13 +347,13 @@ public class HeadRecogAlgorithms {
         }
         //Expansion in width
 
-        if (isDebug)
+        if (canWrite)
             workbookManager.mergeCells(new Block(cCell), cellShift, tmpC++);
 
         return cCell;
     }
 
-    public CCell getCellByCoord(int l, int t) {
+    private CCell getCellByCoord(int l, int t) {
         Iterator<CCell> cCellIterator = table.getCells();
         while (cCellIterator.hasNext()) {
             CCell cCell = cCellIterator.next();
@@ -339,13 +364,13 @@ public class HeadRecogAlgorithms {
         return null;
     }
 
-    public CCell getLowerCell(CCell curCell) {
+    private CCell getLowerCell(CCell curCell) {
         int l = curCell.getCl();
         int t = curCell.getRb() + 1;
         return getCellByCoord(l, t);
     }
 
-    public CCell getRightCell(CCell curCell) {
+    private CCell getRightCell(CCell curCell) {
         int l = curCell.getCr() + 1;
         int t = curCell.getRt();
         return getCellByCoord(l, t);

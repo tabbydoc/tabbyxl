@@ -6,7 +6,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.CENTER;
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.FILL;
 
-public final class WorkbookManager {
+final class WorkbookManager {
     private Workbook workbook;
     private String sheetName = ".";
 
@@ -24,7 +24,7 @@ public final class WorkbookManager {
         return val;
     }
 
-    public boolean mergeCells(Block blockToMerge, CellPointer cellShift, int cnt) {
+    boolean mergeCells(Block blockToMerge, CellPointer cellShift, int cnt) {
         try {
             //If one cell then nothing to merge
             if ((blockToMerge.getLeft() == blockToMerge.getRight()) &&
@@ -65,7 +65,7 @@ public final class WorkbookManager {
                         sheet.removeMergedRegion(r);
                     }
                 }
-            }while (isMerge != false);
+            } while (isMerge != false);
             CellRangeAddress cellAddresses = new CellRangeAddress(startCell,  endCell, startCol, endCol);
             int mergedRegion = sheet.addMergedRegion(cellAddresses);
             if (mergedRegion >= 0) {

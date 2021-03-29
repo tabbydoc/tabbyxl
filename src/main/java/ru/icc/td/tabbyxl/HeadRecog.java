@@ -71,11 +71,15 @@ public class HeadRecog {
             for (int sheetNo : sheetIndexes) {
                 loader.goToSheet(sheetNo);
 
+                int tableNo = 0;
                 while (true) {
                     CTable table = loader.nextTable();
                     if (table == null) break;
 
                     hcsc.process(table);
+                    String sheetName = table.getSrcSheetName();
+                    System.out.printf("Table #%s in Sheet #%s (%s) was processed successfully%n", tableNo, sheetNo, sheetName);
+                    tableNo++;
                 }
             }
 

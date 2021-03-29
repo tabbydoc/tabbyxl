@@ -25,8 +25,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class HeadRecogPreprocessor implements Preprocessor {
 
@@ -38,30 +36,6 @@ public final class HeadRecogPreprocessor implements Preprocessor {
         workbook = getWorkbook(outputFile);
     }
 
-    private int rowLetterToInt(String col) {
-        //Get number of Excel column by letter name
-        int number = 0;
-        col = col.toUpperCase();
-        for (int i = 0; i < col.length(); i++) {
-            number = number * 26 + (col.charAt(i) - ('A' - 1));
-        }
-        return number;
-    }
-
-    private int[] cellsInIntArray(String col) {
-        int divPos;
-        int[] result = new int[2];
-        Pattern p = Pattern.compile("\\d+");
-        Matcher m = p.matcher(col);
-        if (m.find()) {
-            divPos = m.start();
-            if (divPos < 1)
-                throw new IllegalArgumentException("Incorrect coordinates of Excel cell");
-            result[0] = rowLetterToInt(col.substring(0, divPos)) - 1;
-            result[1] = Integer.parseInt(col.substring(divPos)) - 1;
-        }
-        return result;
-    }
 
     private Workbook getWorkbook(File srcFile) throws IOException {
         Workbook workbook;
@@ -72,18 +46,10 @@ public final class HeadRecogPreprocessor implements Preprocessor {
 
     @Override
     public void process(CTable table) {
-        HeadRecogAlgorithms head;
-        int srcStartCell[];
+        HeadRecogAlgorithms algo;
 
-        String outputDirPath = outputFile.getParentFile().toString();
-
-        srcStartCell = cellsInIntArray(table.getSrcStartCellRef());
-        head = new HeadRecogAlgorithms(table, srcStartCell, workbook, table.getSrcSheetName(), outputDirPath, true);
-
-        if (head != null)
-            head.analyzeHead();
-
-        System.out.println();
+        algo = new HeadRecogAlgorithms(table, workbook);
+        algo.analyze();
     }
 
     public void saveWorkbook() {
@@ -91,7 +57,7 @@ public final class HeadRecogPreprocessor implements Preprocessor {
         try {
             try (FileOutputStream out = new FileOutputStream(new File(path))) {
                 workbook.write(out);
-                System.out.println("Changes were written successfully");
+                System.out.println("All changes were written successfully");
             }
         } catch (IOException e) {
             e.printStackTrace();
