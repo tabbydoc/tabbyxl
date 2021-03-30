@@ -33,13 +33,13 @@ final class HeadRecogAlgorithms {
             workbookManager = new WorkbookManager(workbook, sheetName);
         }
 
-        //First cell determine the border of the header
+        // The first cell determines a bottom border of the header
         CCell cell = cellAt(1, 1);
         hB = getBottomBorder(cell);
     }
 
+    // Get a column number by its name
     private int rowLetterToInt(String col) {
-        //Get number of Excel column by letter name
         int number = 0;
         col = col.toUpperCase();
 
@@ -75,7 +75,6 @@ final class HeadRecogAlgorithms {
         int curCellLeft = 1;
 
         do {
-            //Get top level block borders
             cCell = cellAt(curCellLeft, 1);
 
             if (cCell == null)
@@ -84,7 +83,6 @@ final class HeadRecogAlgorithms {
             cCell = expandCell(cCell, hR, hB);
 
             if (!isLabel(cCell)) {
-                //Get lower cell size
                 headBlock = new Block(cCell);
 
                 if (!isLabel(cCell) && isVisible(lfBorder(cCell)) && cCell.getCr() < hR) {
@@ -121,7 +119,7 @@ final class HeadRecogAlgorithms {
             if (cCell.getRb() < hB)
                 buildBlock(cCell);
 
-            //Value for next cell
+            // Value for next cell
             curCellLeft = cCell.getCr() + 1;
         } while (curCellLeft <= hR);
     }
@@ -152,7 +150,7 @@ final class HeadRecogAlgorithms {
             }
         }
 
-        //Reflect new cells in Excel document
+        // Map new cells to the Excel workbook
         if (canWrite) {
             block = new Block(cCell);
 
@@ -182,14 +180,12 @@ final class HeadRecogAlgorithms {
             if (nextCell == null)
                 return emptyCell;
 
-            //Check
             if (nextCell == null || isVisible(lfBorder(nextCell)))
                 return emptyCell;
 
             if (nextCell.getCr() >= rightBorder)
                 next = false;
 
-            //Check right cell to extend to height
             if (emptyCell.getRb() > nextCell.getRb()) {
                 Block block = getExpansion(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell), btBorder(nextCell));
 
@@ -198,9 +194,9 @@ final class HeadRecogAlgorithms {
             }
 
             if (emptyCell.getRb() == nextCell.getRb()) {
-                //Check for vertical split
+                // Check for the vertical split
                 if (!isLabel(emptyCell)) {
-                    //It is possible to merge
+                    // Can merge
                     nextCell.merge(emptyCell);
                     emptyCell = nextCell;
 
@@ -232,11 +228,9 @@ final class HeadRecogAlgorithms {
         if (emptyCell.getRb() >= hB)
             return emptyCell;
 
-        //If bottom border of block doesn't set
         if (bottomBorder == -1)
             bottomBorder = hB;
 
-        //If impossible to increase height
         if (emptyCell.getRb() == hB)
             return emptyCell;
 
@@ -251,7 +245,6 @@ final class HeadRecogAlgorithms {
             if (nextCell == null)
                 return emptyCell;
 
-            //Rewrite height
             boolean isLeft = emptyCell.getCl() == 1;
             boolean diffMerge = (nextCell.isBlank() != emptyCell.isBlank() || emptyCell.isBlank() && nextCell.isBlank());
             boolean eqSize = emptyCell.getCr() == nextCell.getCr();
@@ -260,14 +253,12 @@ final class HeadRecogAlgorithms {
             if (!(((eqCells || (!eqCells && !isLeft)) || diffMerge) && eqSize))
                 return emptyCell;
 
-            //Cells are equial, may be merged
             cellVal = String.format("%s %s", emptyCell.getText().trim(), nextCell.getText().trim()).trim();
             nextCell.merge(emptyCell);
             nextCell.setText(cellVal);
             emptyCell = nextCell;
         } while (emptyCell.getRb() < bottomBorder);
 
-        //TODO Check the necessity of call
         transform(emptyCell, new Block(emptyCell));
         return emptyCell;
     }
@@ -291,14 +282,12 @@ final class HeadRecogAlgorithms {
         blockItems.push(topCell);
 
         while (!blockItems.empty()) {
-            //Do while there are some cells in block
             curCell = blockItems.peek();
 
             if (curCell.getRb() == hB && direction)
                 direction = false;
 
             if (direction) {
-                //Get the lower cell
                 newCell = cellAt(curCell.getCl(), curCell.getRb() + 1);
 
                 if (newCell == null)
@@ -320,7 +309,6 @@ final class HeadRecogAlgorithms {
                 curCell = blockItems.peek();
 
                 if (newCell.getCr() < curCell.getCr()) {
-                    //Sub column
                     newCell = cellAt(newCell.getCr() + 1, newCell.getRt());
 
                     if (newCell == null)
@@ -397,7 +385,6 @@ final class HeadRecogAlgorithms {
                     f = false;
             } while (f);
         }
-        //Expansion in width
 
         if (canWrite)
             workbookManager.mergeCells(new Block(cCell), cellShift);
@@ -432,15 +419,14 @@ final class HeadRecogAlgorithms {
 
     private Block getExpansion(CCell cCell, int bottomBorder, int rightBorder, boolean lbl, CBorder bBorder) {
         /*
-        Cerate block to merge with cell
-        cCell - right hand cell
-        bottomBorder - block border. All righter cells must have this border
-        rightBorder - maximim right extension border
-        lbl - does the initial cell has label
-         */
+            Create a block to merge with a cell
+            cCell - a right-hand cell
+            bottomBorder - a block border. The right cells should have this border
+            rightBorder - a maximum right border for the extension
+        */
         Block block = null, cellBlock;
         CCell newCell = expandByHeight(cCell, bottomBorder), tmpCell;
-        final boolean initCellLabel = lbl; // Label of left cell in block
+        final boolean initCellLabel = lbl;
         boolean newCellLabel = false, f = false;
 
         String blockText = "";
@@ -460,11 +446,9 @@ final class HeadRecogAlgorithms {
             blockDeque.add(newCell);
         } else {
             do {
-                //TODO Optimize logic of cells extension
                 cellBlock = new Block(newCell);
 
                 if (newCell.getCr() <= rightBorder) {
-                    //Cell may be extend to right
                     newCellLabel = isLabel(newCell);
 
                     if (initCellLabel) {
