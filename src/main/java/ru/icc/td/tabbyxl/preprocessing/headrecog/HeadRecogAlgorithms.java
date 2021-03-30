@@ -25,16 +25,15 @@ final class HeadRecogAlgorithms {
 
     public HeadRecogAlgorithms(CTable inputTable, Workbook workbook) {
         table = inputTable;
-        String sheetName = table.getSrcSheetName();
         int shift[] = cellsInIntArray(table.getSrcStartCellRef());
-
         cellShift = new CellPointer(shift);
         hR = table.numOfCols();
         canWrite = true;
 
-        if (canWrite)
+        if (canWrite) {
+            String sheetName = table.getSrcSheetName();
             workbookManager = new WorkbookManager(workbook, sheetName);
-
+        }
         //First cell determine the border of the header
         CCell cell = getCellByCoord(1, 1);
 
@@ -85,7 +84,6 @@ final class HeadRecogAlgorithms {
         do {
             //Get top level block borders
             cCell = getCellByCoord(curCellLeft, 1);
-            //System.out.println(cCell.getStyle().getFgColor());
 
             if (cCell == null)
                 break;
@@ -96,11 +94,11 @@ final class HeadRecogAlgorithms {
                 //Get lower cell size
                 headBlock = new Block(cCell);
 
-                if ((!isLabel(cCell)) && (cCell.getStyle().getLeftBorder().getType() != BorderType.NONE) && (cCell.getCr() < hR)) {
+                if (!isLabel(cCell) && isVisible(lfBorder(cCell)) && cCell.getCr() < hR) {
 
                     tmpCell = getCellByCoord(cCell.getCr() + 1, cCell.getRt());
 
-                    if ((tmpCell != null)) {
+                    if (tmpCell != null) {
                         cCell = expByHeight(cCell, tmpCell.getRb());
 
                         if (cCell.getRb() == tmpCell.getRb()) {
@@ -116,14 +114,14 @@ final class HeadRecogAlgorithms {
 
                 if (!isRightBorder(cCell)) {
                     CCell rc = getRightCell(cCell);
-                    block = checkForExtension(rc, cCell.getRb(), hR, isLabel(cCell), cCell.getStyle().getBottomBorder());
+                    block = checkForExtension(rc, cCell.getRb(), hR, isLabel(cCell), btBorder(cCell));
 
                     if (block != null) {
                         cCell = cellTransofrm(cCell, block);
                     }
                 }
 
-                if ((block == null) && (canWrite))
+                if (block == null && canWrite)
                     workbookManager.mergeCells(new Block(cCell), cellShift, tmpC++);
             }
 
@@ -147,9 +145,9 @@ final class HeadRecogAlgorithms {
         blockToCompare = new Block(cCell);
         cCell = expByHeight(cCell, bottomBorder);
 
-        if ((!isRightBorder(cCell)) && (cCell.getCr() < rightBorder)) {
+        if (!isRightBorder(cCell) && cCell.getCr() < rightBorder) {
             tmpCell = getRightCell(cCell);
-            block = checkForExtension(tmpCell, cCell.getRb(), rightBorder, isLabel(cCell), cCell.getStyle().getBottomBorder());
+            block = checkForExtension(tmpCell, cCell.getRb(), rightBorder, isLabel(cCell), btBorder(cCell));
 
             if (block != null) {
                 cCell = block.mergeWithCell(cCell);
@@ -182,7 +180,7 @@ final class HeadRecogAlgorithms {
 
         boolean next = true;
 
-        if (emptyCell.getStyle().getRightBorder().getType() != BorderType.NONE)
+        if (isVisible(rgBorder(emptyCell)))
             next = false;
 
         while (next) {
@@ -194,15 +192,15 @@ final class HeadRecogAlgorithms {
                 return emptyCell;
 
             //Check
-            if ((nextCell == null) || (nextCell.getStyle().getLeftBorder().getType() != BorderType.NONE))
+            if (nextCell == null || isVisible(lfBorder(nextCell)))
                 return emptyCell;
 
             if (nextCell.getCr() >= rightBorder)
                 next = false;
 
             //Check right cell to extend to height
-            if ((emptyCell.getRb() > nextCell.getRb())) {
-                Block block = checkForExtension(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell), nextCell.getStyle().getBottomBorder());
+            if (emptyCell.getRb() > nextCell.getRb()) {
+                Block block = checkForExtension(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell), btBorder(nextCell));
 
                 if (block != null) {
                     emptyCell = block.mergeWithCell(emptyCell);
@@ -217,7 +215,7 @@ final class HeadRecogAlgorithms {
                     nextCell.merge(emptyCell);
                     emptyCell = nextCell;
 
-                    if ((isLabel(emptyCell)) || (emptyCell.getStyle().getRightBorder().getType() != BorderType.NONE)) //Cell has text
+                    if (isLabel(emptyCell) || isVisible(rgBorder(emptyCell)))
                         next = false;
                 } else
                     next = false;
@@ -256,8 +254,9 @@ final class HeadRecogAlgorithms {
         cellsCount = (emptyCell.getRb() - emptyCell.getRt());
 
         do {
-            if ((emptyCell.getRb() == bottomBorder) || (emptyCell.getStyle().getBottomBorder().getType() != BorderType.NONE))
+            if (emptyCell.getRb() == bottomBorder || isVisible(btBorder(emptyCell)))
                 return emptyCell;
+
             nextCell = expByWidth(getCellByCoord(emptyCell.getCl(), emptyCell.getRb() + 1), emptyCell.getCr());
 
             if (nextCell == null)
@@ -265,7 +264,7 @@ final class HeadRecogAlgorithms {
 
             //Rewrite height
             boolean isLeft = emptyCell.getCl() == 1;
-            boolean diffMerge = ((nextCell.isBlank() != emptyCell.isBlank()) || (emptyCell.isBlank() && nextCell.isBlank()));
+            boolean diffMerge = (nextCell.isBlank() != emptyCell.isBlank() || emptyCell.isBlank() && nextCell.isBlank());
             boolean eqSize = emptyCell.getCr() == nextCell.getCr();
             boolean eqCells = cellsCount == (nextCell.getRb() - nextCell.getRt());
 
@@ -386,14 +385,14 @@ final class HeadRecogAlgorithms {
                 if (!isRightBorder(cCell)) {
                     rightCell = expByHeight(getRightCell(cCell));
 
-                    if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() == BorderType.NONE) && (cCell.getRb() == rightCell.getRb())) {
+                    if (rightCell != null && isVisible(lfBorder(rightCell)) && cCell.getRb() == rightCell.getRb()) {
                         if (cCell.getCr() < block.getRight()) {
-                            Block bl = checkForExtension(rightCell, cCell.getRb(), block.getRight(), isLabel(cCell), cCell.getStyle().getBottomBorder());
+                            Block bl = checkForExtension(rightCell, cCell.getRb(), block.getRight(), isLabel(cCell), btBorder(cCell));
 
                             if (bl != null) {
                                 neighborCellR = bl.mergeWithCell(cCell);
 
-                                if ((neighborCellR != null) && (cCell.getCr() < neighborCellR.getCr())) {
+                                if (neighborCellR != null && cCell.getCr() < neighborCellR.getCr()) {
                                     f = true;
                                     cCell = neighborCellB;
                                 }
@@ -418,7 +417,7 @@ final class HeadRecogAlgorithms {
         while (cCellIterator.hasNext()) {
             CCell cCell = cCellIterator.next();
 
-            if ((cCell.getCl() == l) && (cCell.getRt() == t)) {
+            if (cCell.getCl() == l && cCell.getRt() == t) {
                 return cCell;
             }
         }
@@ -455,12 +454,12 @@ final class HeadRecogAlgorithms {
         if (!newCell.getStyle().getBottomBorder().getType().equals(bBorder.getType()))
             return null;
 
-        Deque<CCell> blockDeque = new ArrayDeque<CCell>();
+        Deque<CCell> blockDeque = new ArrayDeque<>();
 
         if (cCell == null)
             return null;
 
-        if (((lbl) && (newCell != null) && (isLabel(newCell))) || (newCell == null))
+        if ((lbl && newCell != null && isLabel(newCell)) || newCell == null)
             return null;
 
         if (isRightBorder(newCell)) {
@@ -484,7 +483,7 @@ final class HeadRecogAlgorithms {
                         blockDeque.add(newCell);
 
                         if (newCellLabel == true) {
-                            if ((f == false) && (newCell.getCr() <= rightBorder))
+                            if (f == false && newCell.getCr() <= rightBorder)
                                 f = true;
                             else break;
                         }
@@ -492,9 +491,9 @@ final class HeadRecogAlgorithms {
 
                     newCell = getRightCell(newCell);
 
-                    if ((newCell == null) || (newCell.getCr() >= rightBorder)) {
-                        if ((newCell != null) && (newCell.getCr() == rightBorder)) {
-                            if ((initCellLabel == true) && (isLabel(newCell)) && (blockDeque.size() == 1))
+                    if (newCell == null || newCell.getCr() >= rightBorder) {
+                        if (newCell != null && newCell.getCr() == rightBorder) {
+                            if (initCellLabel == true && isLabel(newCell) && blockDeque.size() == 1)
                                 break;
 
                             blockDeque.add(newCell);
@@ -504,7 +503,7 @@ final class HeadRecogAlgorithms {
 
                     tmpCell = expByHeight(newCell, bottomBorder);
 
-                    if ((tmpCell.getRb() == cellBlock.getBottom()) && (tmpCell.getStyle().getBottomBorder().getType().equals(bBorder.getType())))
+                    if (tmpCell.getRb() == cellBlock.getBottom() && type(btBorder(tmpCell)).equals(bBorder.getType()))
                         newCell = tmpCell;
                     else
                         break;
@@ -514,13 +513,13 @@ final class HeadRecogAlgorithms {
                     }
                 }
 
-            } while ((newCell != null) && (newCell.getRb() <= bottomBorder) &&
-                    (newCell.getCr() <= rightBorder) && (!cellBlock.compareWith(new Block(newCell)))
+            } while (newCell != null && newCell.getRb() <= bottomBorder &&
+                    newCell.getCr() <= rightBorder && !cellBlock.compareWith(new Block(newCell))
             );
         }
 
         if (f == true) {
-            if ((blockDeque.size() > 1) && (isLabel(blockDeque.peekLast()) == true)) {
+            if (blockDeque.size() > 1 && isLabel(blockDeque.peekLast()) == true) {
                 blockDeque.pollLast();
 
                 while (isLabel(blockDeque.peekLast()) == false) {
@@ -535,11 +534,14 @@ final class HeadRecogAlgorithms {
                     blockText = blockText.concat(" " + c.getText().trim());
             }
 
-            block = new Block(blockDeque.peekFirst().getRt(), blockDeque.peekFirst().getRb(), blockDeque.peekFirst().getCl(), blockDeque.peekLast().getCr());
-            block.setLeftBorderStyle(blockDeque.peekFirst().getStyle().getLeftBorder());
-            block.setRightBorderStyle(blockDeque.peekLast().getStyle().getRightBorder());
-            block.setTopBorderStyle(blockDeque.peekFirst().getStyle().getTopBorder());
-            block.setBottomBorderStyle(blockDeque.peekFirst().getStyle().getBottomBorder());
+            CCell first = blockDeque.peekFirst();
+            CCell last = blockDeque.peekLast();
+
+            block = new Block(first.getRt(), first.getRb(), first.getCl(), last.getCr());
+            block.setLeftBorderStyle(lfBorder(first));
+            block.setRightBorderStyle(rgBorder(last));
+            block.setTopBorderStyle(tpBorder(first));
+            block.setBottomBorderStyle(btBorder(first));
 
             if (block.getRight() - block.getLeft() > 5)
                 block.setHAlignment(HorzAlignment.FILL);
@@ -554,12 +556,12 @@ final class HeadRecogAlgorithms {
 
         if (curCell == null) return false;
 
-        if ((curCell.getStyle().getRightBorder().getType() != BorderType.NONE) || (curCell.getCr() == hR))
+        if (isVisible(rgBorder(curCell)) || curCell.getCr() == hR)
             return true;
 
         rightCell = getRightCell(curCell);
 
-        if ((rightCell != null) && (rightCell.getStyle().getLeftBorder().getType() != BorderType.NONE))
+        if (rightCell != null && isVisible(lfBorder(rightCell)))
             return true;
 
         return false;
@@ -571,21 +573,46 @@ final class HeadRecogAlgorithms {
         boolean lbl = isLabel(lowerCell);
 
         do {
-            if (lowerCell.getStyle().getBottomBorder().getType() != BorderType.NONE)
+            if (isVisible(btBorder(lowerCell)))
                 borderPos = lowerCell.getRb();
 
-            if ((lowerCell.getStyle().getBottomBorder().getType() != BorderType.NONE) && lbl)
+            if (isVisible(btBorder(lowerCell)) && lbl)
                 return lowerCell.getRb();
+
             lowerCell = getLowerCell(lowerCell);
 
             if (!lbl)
                 lbl = isLabel(lowerCell);
-        } while ((lowerCell != null) && (lowerCell.getRb() < table.numOfRows()));
+        } while (lowerCell != null && lowerCell.getRb() < table.numOfRows());
 
         if (borderPos != -1)
             return borderPos;
 
         return curCell.getRb();
+    }
+
+    private static CBorder lfBorder(CCell cell) {
+        return cell.getStyle().getLeftBorder();
+    }
+
+    private static CBorder tpBorder(CCell cell) {
+        return cell.getStyle().getTopBorder();
+    }
+
+    private static CBorder rgBorder(CCell cell) {
+        return cell.getStyle().getRightBorder();
+    }
+
+    private static CBorder btBorder(CCell cell) {
+        return cell.getStyle().getBottomBorder();
+    }
+
+    private static BorderType type(CBorder border) {
+        return border.getType();
+    }
+
+    private static boolean isVisible(CBorder border) {
+        return border.getType() != BorderType.NONE;
     }
 
 }

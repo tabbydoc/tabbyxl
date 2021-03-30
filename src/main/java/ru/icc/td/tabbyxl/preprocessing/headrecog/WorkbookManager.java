@@ -44,7 +44,7 @@ final class WorkbookManager {
             Row row;
             CellStyle cellStyle;
 
-            for (int r = startCell; r <= endCell; r++)
+            for (int r = startCell; r <= endCell; r++) {
                 for (int c = startCol; c <= endCol; c++) {
                     row = sheet.getRow(r);
                     cell = row.getCell(c, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
@@ -52,6 +52,7 @@ final class WorkbookManager {
                     cell.setCellValue("");
                     cell.setBlank();
                 }
+            }
             do {
                 isMerge = false;
 
