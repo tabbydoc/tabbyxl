@@ -32,9 +32,9 @@ final class HeadRecogAlgorithms {
             String sheetName = table.getSrcSheetName();
             workbookManager = new WorkbookManager(workbook, sheetName);
         }
+
         //First cell determine the border of the header
         CCell cell = cellAt(1, 1);
-
         hB = getBottomBorder(cell);
     }
 
