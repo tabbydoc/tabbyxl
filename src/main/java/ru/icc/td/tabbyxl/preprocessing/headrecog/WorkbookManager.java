@@ -24,7 +24,7 @@ final class WorkbookManager {
         return val;
     }
 
-    boolean mergeCells(Block blockToMerge, CellPointer cellShift, int cnt) {
+    boolean mergeCells(Block blockToMerge, CellPointer cellShift) {
         try {
             //If one cell then nothing to merge
             if ((blockToMerge.getLeft() == blockToMerge.getRight()) &&
