@@ -49,9 +49,8 @@ final class HeadRecogAlgorithms {
         int number = 0;
         col = col.toUpperCase();
 
-        for (int i = 0; i < col.length(); i++) {
+        for (int i = 0; i < col.length(); i++)
             number = number * 26 + (col.charAt(i) - ('A' - 1));
-        }
 
         return number;
     }
@@ -234,7 +233,7 @@ final class HeadRecogAlgorithms {
 
     private CCell expByHeight(CCell emptyCell, int bottomBorder) {
         CCell nextCell;
-        String cellVal, nexCelVal;
+        String cellVal;
         int cellsCount;
 
         if (emptyCell == null)
@@ -268,7 +267,7 @@ final class HeadRecogAlgorithms {
             boolean eqSize = emptyCell.getCr() == nextCell.getCr();
             boolean eqCells = cellsCount == (nextCell.getRb() - nextCell.getRt());
 
-            if (!(((eqCells || ((eqCells == false) && (isLeft == false))) || diffMerge) && eqSize))
+            if (!(((eqCells || (!eqCells && !isLeft)) || diffMerge) && eqSize))
                 return emptyCell;
 
             //Cells are equial, may be merged
@@ -305,7 +304,8 @@ final class HeadRecogAlgorithms {
             //Do while there are some cells in block
             curCell = blockItems.peek();
 
-            if ((curCell.getRb() == hB) && (direction)) direction = false;
+            if (curCell.getRb() == hB && direction)
+                direction = false;
 
             if (direction) {
                 newCell = getCellByCoord(curCell.getCl(), curCell.getRb() + 1); //Get lower cell
@@ -323,17 +323,23 @@ final class HeadRecogAlgorithms {
             } else {
                 newCell = blockItems.pop();
 
-                if (blockItems.empty()) break;
+                if (blockItems.empty())
+                    break;
+
                 curCell = blockItems.peek();
 
                 if (newCell.getCr() < curCell.getCr()) {
                     //sub column
                     newCell = getCellByCoord(newCell.getCr() + 1, newCell.getRt());
 
-                    if (newCell == null) break;
+                    if (newCell == null)
+                        break;
+
                     //System.out.print(String.format("- cell_old (%s, %s, %s, %s) - ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
 
-                    if ((newCell.getRb() == hB) && (newCell.getCr() == hR)) break;
+                    if (newCell.getRb() == hB && newCell.getCr() == hR)
+                        break;
+
                     curCell = expCell(newCell, block.getRight(), block.getBottom());
 
                     if (curCell.getRb() != newCell.getRb())
@@ -473,8 +479,8 @@ final class HeadRecogAlgorithms {
                     //Cell may be extend to right
                     newCellLabel = isLabel(newCell);
 
-                    if (initCellLabel == true) {
-                        if (newCellLabel == false) {
+                    if (initCellLabel) {
+                        if (!newCellLabel) {
                             blockDeque.add(newCell);
                         } else {
                             break;
@@ -482,10 +488,11 @@ final class HeadRecogAlgorithms {
                     } else {
                         blockDeque.add(newCell);
 
-                        if (newCellLabel == true) {
-                            if (f == false && newCell.getCr() <= rightBorder)
+                        if (newCellLabel) {
+                            if (!f && newCell.getCr() <= rightBorder)
                                 f = true;
-                            else break;
+                            else
+                                break;
                         }
                     }
 
@@ -493,7 +500,7 @@ final class HeadRecogAlgorithms {
 
                     if (newCell == null || newCell.getCr() >= rightBorder) {
                         if (newCell != null && newCell.getCr() == rightBorder) {
-                            if (initCellLabel == true && isLabel(newCell) && blockDeque.size() == 1)
+                            if (initCellLabel && isLabel(newCell) && blockDeque.size() == 1)
                                 break;
 
                             blockDeque.add(newCell);
@@ -518,11 +525,11 @@ final class HeadRecogAlgorithms {
             );
         }
 
-        if (f == true) {
-            if (blockDeque.size() > 1 && isLabel(blockDeque.peekLast()) == true) {
+        if (f) {
+            if (blockDeque.size() > 1 && isLabel(blockDeque.peekLast())) {
                 blockDeque.pollLast();
 
-                while (isLabel(blockDeque.peekLast()) == false) {
+                while (!isLabel(blockDeque.peekLast())) {
                     blockDeque.pollLast();
                 }
             }
