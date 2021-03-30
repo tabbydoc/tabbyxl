@@ -15,12 +15,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 final class HeadRecogAlgorithms {
-    CTable table;
-    int hB = 0, hR = 0;
-    boolean canWrite;
-    CellPointer cellShift;
-    WorkbookManager workbookManager;
-
+    private CTable table;
+    private int hB = 0, hR = 0;
+    private boolean canWrite;
+    private CellPointer cellShift;
+    private WorkbookManager workbookManager;
     private int tmpC = 0;
 
     public HeadRecogAlgorithms(CTable inputTable, Workbook workbook) {
@@ -38,10 +37,6 @@ final class HeadRecogAlgorithms {
         CCell cell = getCellByCoord(1, 1);
 
         hB = getBottomBorder(cell);
-        //System.out.println(String.format("Sheet: %s", sheetName));
-        //System.out.printf("Head bottom = %d\n", hB);
-        //System.out.printf("Head right = %d\n", hR);
-        //System.out.printf("Value '%s'\n", getCellByCoord(1, 1).getText());
     }
 
     private int rowLetterToInt(String col) {
@@ -124,8 +119,6 @@ final class HeadRecogAlgorithms {
                     workbookManager.mergeCells(new Block(cCell), cellShift, tmpC++);
             }
 
-            //System.out.println(String.format("Cell block (l:%s, r:%s, t:%s, b:%s) Value = %s", cCell.getCl(), cCell.getCr(), cCell.getRt(), cCell.getRb(), cCell.getText()));
-
             if (cCell.getRb() < hB)
                 buildBlock(cCell);
 
@@ -201,10 +194,8 @@ final class HeadRecogAlgorithms {
             if (emptyCell.getRb() > nextCell.getRb()) {
                 Block block = checkForExtension(getRightCell(nextCell), emptyCell.getRb(), rightBorder, isLabel(nextCell), btBorder(nextCell));
 
-                if (block != null) {
+                if (block != null)
                     emptyCell = block.mergeWithCell(emptyCell);
-                    //System.out.print(String.format("-Some block ( %s, %s, %s, %s)-", block.getLeft(), block.getRight(), block.getTop(), block.getBottom()));
-                }
             }
 
             if (emptyCell.getRb() == nextCell.getRb()) {
@@ -308,12 +299,13 @@ final class HeadRecogAlgorithms {
                 direction = false;
 
             if (direction) {
-                newCell = getCellByCoord(curCell.getCl(), curCell.getRb() + 1); //Get lower cell
+                //Get the lower cell
+                newCell = getCellByCoord(curCell.getCl(), curCell.getRb() + 1);
 
-                if (newCell == null) return;
-                //System.out.print(String.format("Cell (l:%s, r:%s, t:%s, b:%s) --> ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
+                if (newCell == null)
+                    return;
+
                 newCell = expCell(newCell, block.getRight(), block.getBottom());
-                //System.out.println(String.format("(l:%s, r:%s, t:%s, b:%s)", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
 
                 blockItems.push(newCell);
                 block.increaseBlockSize(newCell);
@@ -329,13 +321,11 @@ final class HeadRecogAlgorithms {
                 curCell = blockItems.peek();
 
                 if (newCell.getCr() < curCell.getCr()) {
-                    //sub column
+                    //Sub column
                     newCell = getCellByCoord(newCell.getCr() + 1, newCell.getRt());
 
                     if (newCell == null)
                         break;
-
-                    //System.out.print(String.format("- cell_old (%s, %s, %s, %s) - ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
 
                     if (newCell.getRb() == hB && newCell.getCr() == hR)
                         break;
@@ -347,7 +337,6 @@ final class HeadRecogAlgorithms {
                     else
                         newCell = curCell;
 
-                    //System.out.println(String.format("- cell_new (%s, %s, %s, %s) - ", newCell.getCl(), newCell.getCr(), newCell.getRt(), newCell.getRb()));
                     blockItems.push(newCell);
                     direction = true;
                 }
