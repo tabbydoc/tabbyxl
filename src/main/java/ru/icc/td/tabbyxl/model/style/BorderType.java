@@ -16,6 +16,8 @@
 
 package ru.icc.td.tabbyxl.model.style;
 
+import ru.icc.td.tabbyxl.model.CCell;
+
 public enum BorderType
 {
     NONE,

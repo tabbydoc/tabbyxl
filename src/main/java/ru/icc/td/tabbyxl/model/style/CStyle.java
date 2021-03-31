@@ -136,6 +136,7 @@ public final class CStyle
         return this.bgColor.toHexRGBString();
     }
 
+
     public void setBgColor( CColor bgColor )
     {
         this.bgColor = bgColor;

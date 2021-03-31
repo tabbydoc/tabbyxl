@@ -37,8 +37,13 @@ public final class DebugTableWriter extends BasicTableWriter {
         Sheet sheet1 = workbook.createSheet("NER TAGS");
         BiConsumer<CItem, Cell> setCellValByNerTag = (item, excelCell) -> {
             CCell cell = item.getCell();
-            NerTag tag = cell.getNerTag();
-            String s = null == tag ? null : tag.toString();
+            String s;
+            if (null != cell){
+                NerTag tag = cell.getNerTag();
+                s = null == tag ? null : tag.toString();
+            } else {
+                s = null;
+            }
             excelCell.setCellValue(s);
         };
         writeCanonicalForm(sheet1, cf, setCellValByNerTag);
@@ -48,8 +53,13 @@ public final class DebugTableWriter extends BasicTableWriter {
         Sheet sheet2 = workbook.createSheet("TYPE TAGS");
         BiConsumer<CItem, Cell> setCellValByTypeTag = (item, excelCell) -> {
             CCell cell = item.getCell();
-            TypeTag tag = cell.getTypeTag();
-            String s = null == tag ? null : tag.toString();
+            String s;
+            if (null != cell) {
+                TypeTag tag = cell.getTypeTag();
+                s = null == tag ? null : tag.toString();
+            } else {
+                s = null;
+            }
             excelCell.setCellValue(s);
         };
         writeCanonicalForm(sheet2, cf, setCellValByTypeTag);
@@ -59,8 +69,13 @@ public final class DebugTableWriter extends BasicTableWriter {
         Sheet sheet3 = workbook.createSheet("USER-DEFINED TAGS");
         BiConsumer<CItem, Cell> setCellValByTag = (item, excelCell) -> {
             CCell cell = item.getCell();
-            String tag = cell.getTag();
-            excelCell.setCellValue(tag);
+            String s;
+            if (null != cell) {
+                s = cell.getTag();
+            } else {
+                s = null;
+            }
+            excelCell.setCellValue(s);
         };
         writeCanonicalForm(sheet3, cf, setCellValByTag);
 

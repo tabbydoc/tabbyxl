@@ -107,13 +107,18 @@ public final class CLabel extends CItem {
 
     private void addChild(CLabel child) {
         children.add(child);
+        setTerminal();
     }
 
-    // return true if the label nas no child label
-    private boolean terminal;
+    // this is true if the label nas no child label
+    private boolean terminal = true;
 
     public boolean isTerminal() {
-        return children.size() == 0;
+        return terminal;
+    }
+
+    private void setTerminal() {
+        terminal = children.size() == 0;
     }
 
     private boolean isDescendant(CLabel label) {

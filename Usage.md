@@ -2,7 +2,7 @@
 
 In order to run the executable JAR, you may use the following command with parameters  
 ```
-java -jar TabbyXL-1.1.0-jar-with-dependencies.jar <params>
+java -jar TabbyXL-1.1.1-jar-with-dependencies.jar <params>
 
 Params:
 -input <path>                      specify a path to an input excel workbook (*.xlsx)

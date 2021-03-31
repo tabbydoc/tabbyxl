@@ -21,6 +21,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import ru.icc.td.tabbyxl.model.CLabel;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.CItem;
 import ru.icc.td.tabbyxl.model.CanonicalForm;
@@ -42,7 +43,16 @@ public class BasicTableWriter extends TableWriter {
 
         Sheet sheet = workbook.createSheet("CANONICAL FORM");
         BiConsumer<CItem, Cell> setCellVal = (item, excelCell) -> {
-            excelCell.setCellValue(item.getValue());
+            String value = "";
+
+            if (item instanceof CLabel) {
+                CLabel label = (CLabel) item;
+                value = label.getCompoundValue();
+            } else {
+                value = item.getValue();
+            }
+
+            excelCell.setCellValue(value);
         };
 
         writeCanonicalForm(sheet, cf, setCellVal);

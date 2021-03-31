@@ -21,9 +21,7 @@ import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2JEngine;
 import ru.icc.td.tabbyxl.model.*;
-import ru.icc.td.tabbyxl.preprocessing.Preprocessor;
-import ru.icc.td.tabbyxl.preprocessing.headrecog.HeadrecogPreprocessor;
-import ru.icc.td.tabbyxl.preprocessing.ner.NerPreprocessor;
+import ru.icc.td.tabbyxl.preprocessing.ner.NERecogPreprocessor;
 import ru.icc.td.tabbyxl.util.StatisticsManager;
 import ru.icc.td.tabbyxl.writers.TableWriter;
 import ru.icc.td.tabbyxl.writers.DebugTableWriter;
@@ -87,7 +85,7 @@ public final class TabbyXL {
                 System.exit(0);
             }
         } else {
-            System.err.println("The input marked excel file does not exist");
+            System.err.println("The input excel file does not exist");
             System.exit(0);
         }
         return null;
@@ -650,7 +648,10 @@ public final class TabbyXL {
                 if (categoryTemplateManager.hasAtLeastOneCategoryTemplate())
                     categoryTemplateManager.createCategories(table);
 
-                preprocessTable(table);
+                // Assign a NER tag to each cell of the table
+                if (useNer) {
+                    ner.process(table);
+                }
 
                 Date startDate = new Date();
                 executionOption.accept(table);
@@ -688,7 +689,9 @@ public final class TabbyXL {
                 TableWriter tableWriter;
                 File outFile = outPath.toFile();
 
-                final boolean useDebug = false;
+                final boolean useDebug = false; // Comment me to use debug table writing
+                //final boolean useDebug = true; // Uncomment me to use debug table writing
+
                 if (useDebug)
                     tableWriter = new DebugTableWriter(outFile);
                 else
@@ -700,20 +703,8 @@ public final class TabbyXL {
         }
     }
 
-    private static final Preprocessor headrecog = new HeadrecogPreprocessor();
-    private static final Preprocessor ner = new NerPreprocessor();
-
-    private static void preprocessTable(CTable table) {
-        //TODO add here the use of HeadrecogPreprocessor
-        if (false)
-            headrecog.process(table);
-        if (useNer)
-            ner.process(table);
-    }
+    private static final NERecogPreprocessor ner = new NERecogPreprocessor(false);
 
     private TabbyXL() {
     }
 }
-
-
-

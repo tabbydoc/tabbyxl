@@ -38,7 +38,7 @@ package ru.icc.td.tabbyxl.crl2j.parsing;
 
 // parser
 
-crl
+ruleset
 	:	importing*
 		rule*
 		-> ^(IMPORTS importing*) ^(RULES rule*)
@@ -69,7 +69,7 @@ scope {
 	String id; 
 }
 @init { 
-	$condition::quantifier = "FOR_ALL";
+	$condition::quantifier = "EXIST";
 	$condition::id = null;
 }
 	:	('no' { $condition::quantifier = "NOT_EXIST"; })?
@@ -115,7 +115,6 @@ action
 		|group
 		|add_label
 		|new_label
-		|update
 		|print
 	;
 	
@@ -181,11 +180,6 @@ add_label
 new_label
 	:	'new label' op1 = operand ('as' op2 = operand)? EOL
 		-> ^(ACTION["newLabel"] ^(OPERAND $op1) ^(OPERAND $op2)?)
-	;
-	
-update
-	:	'update' operand EOL
-		->
 	;
 	
 print

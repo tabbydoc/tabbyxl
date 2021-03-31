@@ -1,4 +1,4 @@
-// $ANTLR null D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g 2019-12-15 11:53:22
+// $ANTLR null D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g 2019-12-19 19:22:38
 
 package ru.icc.td.tabbyxl.crl2j.parser;
 
@@ -26,7 +26,7 @@ public class CRLParser extends Parser {
 		"'import static'", "'label'", "'labels'", "'merge'", "'new entry'", "'new label'", 
 		"'no'", "'of'", "'print'", "'printf'", "'rule #'", "'set category'", "'set indent'", 
 		"'set parent'", "'set tag'", "'set text'", "'set value'", "'split'", "'then'", 
-		"'to'", "'update'", "'when'", "'with'"
+		"'to'", "'when'", "'with'"
 	};
 	public static final int EOF=-1;
 	public static final int T__35=35;
@@ -66,7 +66,6 @@ public class CRLParser extends Parser {
 	public static final int T__69=69;
 	public static final int T__70=70;
 	public static final int T__71=71;
-	public static final int T__72=72;
 	public static final int ACTION=4;
 	public static final int ACTIONS=5;
 	public static final int ASSIGNMENT=6;
@@ -126,17 +125,17 @@ public class CRLParser extends Parser {
 	@Override public String getGrammarFileName() { return "D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g"; }
 
 
-	public static class crl_return extends ParserRuleReturnScope {
+	public static class ruleset_return extends ParserRuleReturnScope {
 		CommonTree tree;
 		@Override
 		public CommonTree getTree() { return tree; }
 	};
 
 
-	// $ANTLR start "crl"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:41:1: crl : ( importing )* ( rule )* -> ^( IMPORTS ( importing )* ) ^( RULES ( rule )* ) ;
-	public final CRLParser.crl_return crl() throws RecognitionException {
-		CRLParser.crl_return retval = new CRLParser.crl_return();
+	// $ANTLR start "ruleset"
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:41:1: ruleset : ( importing )* ( rule )* -> ^( IMPORTS ( importing )* ) ^( RULES ( rule )* ) ;
+	public final CRLParser.ruleset_return ruleset() throws RecognitionException {
+		CRLParser.ruleset_return retval = new CRLParser.ruleset_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
@@ -164,7 +163,7 @@ public class CRLParser extends Parser {
 				case 1 :
 					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:42:4: importing
 					{
-					pushFollow(FOLLOW_importing_in_crl135);
+					pushFollow(FOLLOW_importing_in_ruleset135);
 					importing1=importing();
 					state._fsp--;
 					if (state.failed) return retval;
@@ -190,7 +189,7 @@ public class CRLParser extends Parser {
 				case 1 :
 					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:43:3: rule
 					{
-					pushFollow(FOLLOW_rule_in_crl140);
+					pushFollow(FOLLOW_rule_in_ruleset140);
 					rule2=rule();
 					state._fsp--;
 					if (state.failed) return retval;
@@ -268,7 +267,7 @@ public class CRLParser extends Parser {
 		}
 		return retval;
 	}
-	// $ANTLR end "crl"
+	// $ANTLR end "ruleset"
 
 
 	protected static class importing_scope {
@@ -475,8 +474,8 @@ public class CRLParser extends Parser {
 		RewriteRuleTokenStream stream_68=new RewriteRuleTokenStream(adaptor,"token 68");
 		RewriteRuleTokenStream stream_46=new RewriteRuleTokenStream(adaptor,"token 46");
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
+		RewriteRuleTokenStream stream_70=new RewriteRuleTokenStream(adaptor,"token 70");
 		RewriteRuleTokenStream stream_60=new RewriteRuleTokenStream(adaptor,"token 60");
-		RewriteRuleTokenStream stream_71=new RewriteRuleTokenStream(adaptor,"token 71");
 		RewriteRuleTokenStream stream_INT=new RewriteRuleTokenStream(adaptor,"token INT");
 		RewriteRuleSubtreeStream stream_condition=new RewriteRuleSubtreeStream(adaptor,"rule condition");
 		RewriteRuleSubtreeStream stream_action=new RewriteRuleSubtreeStream(adaptor,"rule action");
@@ -494,8 +493,8 @@ public class CRLParser extends Parser {
 			EOL9=(CommonToken)match(input,EOL,FOLLOW_EOL_in_rule241); if (state.failed) return retval; 
 			if ( state.backtracking==0 ) stream_EOL.add(EOL9);
 
-			string_literal10=(CommonToken)match(input,71,FOLLOW_71_in_rule245); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_71.add(string_literal10);
+			string_literal10=(CommonToken)match(input,70,FOLLOW_70_in_rule245); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_70.add(string_literal10);
 
 			EOL11=(CommonToken)match(input,EOL,FOLLOW_EOL_in_rule247); if (state.failed) return retval; 
 			if ( state.backtracking==0 ) stream_EOL.add(EOL11);
@@ -537,7 +536,7 @@ public class CRLParser extends Parser {
 			while (true) {
 				int alt7=2;
 				int LA7_0 = input.LA(1);
-				if ( (LA7_0==40||LA7_0==49||(LA7_0 >= 53 && LA7_0 <= 55)||(LA7_0 >= 58 && LA7_0 <= 59)||(LA7_0 >= 61 && LA7_0 <= 67)||LA7_0==70) ) {
+				if ( (LA7_0==40||LA7_0==49||(LA7_0 >= 53 && LA7_0 <= 55)||(LA7_0 >= 58 && LA7_0 <= 59)||(LA7_0 >= 61 && LA7_0 <= 67)) ) {
 					alt7=1;
 				}
 
@@ -704,7 +703,7 @@ public class CRLParser extends Parser {
 		RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
 
 		 
-			condition_stack.peek().quantifier = "FOR_ALL";
+			condition_stack.peek().quantifier = "EXIST";
 			condition_stack.peek().id = null;
 
 		try {
@@ -776,7 +775,7 @@ public class CRLParser extends Parser {
 						if ( (LA13_1==38) ) {
 							alt13=2;
 						}
-						else if ( ((LA13_1 >= ACTION && LA13_1 <= 37)||(LA13_1 >= 39 && LA13_1 <= 72)) ) {
+						else if ( ((LA13_1 >= ACTION && LA13_1 <= 37)||(LA13_1 >= 39 && LA13_1 <= 71)) ) {
 							alt13=1;
 						}
 
@@ -794,7 +793,7 @@ public class CRLParser extends Parser {
 						}
 
 					}
-					else if ( ((LA13_0 >= ACTION && LA13_0 <= CONSTRAINTS)||(LA13_0 >= ESC_SEQ && LA13_0 <= HEX_DIGIT)||(LA13_0 >= IDENTIFIER && LA13_0 <= WS)||(LA13_0 >= 36 && LA13_0 <= 37)||(LA13_0 >= 39 && LA13_0 <= 72)) ) {
+					else if ( ((LA13_0 >= ACTION && LA13_0 <= CONSTRAINTS)||(LA13_0 >= ESC_SEQ && LA13_0 <= HEX_DIGIT)||(LA13_0 >= IDENTIFIER && LA13_0 <= WS)||(LA13_0 >= 36 && LA13_0 <= 37)||(LA13_0 >= 39 && LA13_0 <= 71)) ) {
 						alt13=1;
 					}
 
@@ -826,12 +825,12 @@ public class CRLParser extends Parser {
 									int LA11_1 = input.LA(2);
 									if ( (LA11_1==ID) ) {
 										int LA11_3 = input.LA(3);
-										if ( ((LA11_3 >= ACTION && LA11_3 <= 37)||(LA11_3 >= 39 && LA11_3 <= 72)) ) {
+										if ( ((LA11_3 >= ACTION && LA11_3 <= 37)||(LA11_3 >= 39 && LA11_3 <= 71)) ) {
 											alt11=1;
 										}
 
 									}
-									else if ( ((LA11_1 >= ACTION && LA11_1 <= CONSTRAINTS)||(LA11_1 >= ESC_SEQ && LA11_1 <= HEX_DIGIT)||(LA11_1 >= IDENTIFIER && LA11_1 <= WS)||(LA11_1 >= 36 && LA11_1 <= 37)||(LA11_1 >= 39 && LA11_1 <= 72)) ) {
+									else if ( ((LA11_1 >= ACTION && LA11_1 <= CONSTRAINTS)||(LA11_1 >= ESC_SEQ && LA11_1 <= HEX_DIGIT)||(LA11_1 >= IDENTIFIER && LA11_1 <= WS)||(LA11_1 >= 36 && LA11_1 <= 37)||(LA11_1 >= 39 && LA11_1 <= 71)) ) {
 										alt11=1;
 									}
 
@@ -906,7 +905,7 @@ public class CRLParser extends Parser {
 			if ( state.backtracking==0 ) stream_EOL.add(EOL27);
 
 			// AST REWRITE
-			// elements: query, assignment, constraint
+			// elements: query, constraint, assignment
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1373,7 +1372,7 @@ public class CRLParser extends Parser {
 			while (true) {
 				int alt20=2;
 				int LA20_0 = input.LA(1);
-				if ( ((LA20_0 >= ACTION && LA20_0 <= CONSTRAINTS)||(LA20_0 >= ESC_SEQ && LA20_0 <= WS)||(LA20_0 >= 36 && LA20_0 <= 37)||(LA20_0 >= 39 && LA20_0 <= 72)) ) {
+				if ( ((LA20_0 >= ACTION && LA20_0 <= CONSTRAINTS)||(LA20_0 >= ESC_SEQ && LA20_0 <= WS)||(LA20_0 >= 36 && LA20_0 <= 37)||(LA20_0 >= 39 && LA20_0 <= 71)) ) {
 					alt20=1;
 				}
 
@@ -1382,7 +1381,7 @@ public class CRLParser extends Parser {
 					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:
 					{
 					set36=(CommonToken)input.LT(1);
-					if ( (input.LA(1) >= ACTION && input.LA(1) <= CONSTRAINTS)||(input.LA(1) >= ESC_SEQ && input.LA(1) <= WS)||(input.LA(1) >= 36 && input.LA(1) <= 37)||(input.LA(1) >= 39 && input.LA(1) <= 72) ) {
+					if ( (input.LA(1) >= ACTION && input.LA(1) <= CONSTRAINTS)||(input.LA(1) >= ESC_SEQ && input.LA(1) <= WS)||(input.LA(1) >= 36 && input.LA(1) <= 37)||(input.LA(1) >= 39 && input.LA(1) <= 71) ) {
 						input.consume();
 						if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set36));
 						state.errorRecovery=false;
@@ -1550,7 +1549,7 @@ public class CRLParser extends Parser {
 			while (true) {
 				int alt21=2;
 				int LA21_0 = input.LA(1);
-				if ( ((LA21_0 >= ACTION && LA21_0 <= CONSTRAINTS)||(LA21_0 >= ESC_SEQ && LA21_0 <= 72)) ) {
+				if ( ((LA21_0 >= ACTION && LA21_0 <= CONSTRAINTS)||(LA21_0 >= ESC_SEQ && LA21_0 <= 71)) ) {
 					alt21=1;
 				}
 
@@ -1559,7 +1558,7 @@ public class CRLParser extends Parser {
 					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:
 					{
 					set39=(CommonToken)input.LT(1);
-					if ( (input.LA(1) >= ACTION && input.LA(1) <= CONSTRAINTS)||(input.LA(1) >= ESC_SEQ && input.LA(1) <= 72) ) {
+					if ( (input.LA(1) >= ACTION && input.LA(1) <= CONSTRAINTS)||(input.LA(1) >= ESC_SEQ && input.LA(1) <= 71) ) {
 						input.consume();
 						if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set39));
 						state.errorRecovery=false;
@@ -1612,7 +1611,7 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "action"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:105:1: action : ( set_tag | set_text | set_indent | split | merge | new_entry | set_value | set_category | set_parent | group | add_label | new_label | update | print );
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:105:1: action : ( set_tag | set_text | set_indent | split | merge | new_entry | set_value | set_category | set_parent | group | add_label | new_label | print );
 	public final CRLParser.action_return action() throws RecognitionException {
 		CRLParser.action_return retval = new CRLParser.action_return();
 		retval.start = input.LT(1);
@@ -1631,13 +1630,12 @@ public class CRLParser extends Parser {
 		ParserRuleReturnScope group49 =null;
 		ParserRuleReturnScope add_label50 =null;
 		ParserRuleReturnScope new_label51 =null;
-		ParserRuleReturnScope update52 =null;
-		ParserRuleReturnScope print53 =null;
+		ParserRuleReturnScope print52 =null;
 
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:106:2: ( set_tag | set_text | set_indent | split | merge | new_entry | set_value | set_category | set_parent | group | add_label | new_label | update | print )
-			int alt22=14;
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:106:2: ( set_tag | set_text | set_indent | split | merge | new_entry | set_value | set_category | set_parent | group | add_label | new_label | print )
+			int alt22=13;
 			switch ( input.LA(1) ) {
 			case 64:
 				{
@@ -1699,15 +1697,10 @@ public class CRLParser extends Parser {
 				alt22=12;
 				}
 				break;
-			case 70:
-				{
-				alt22=13;
-				}
-				break;
 			case 58:
 			case 59:
 				{
-				alt22=14;
+				alt22=13;
 				}
 				break;
 			default:
@@ -1886,30 +1879,16 @@ public class CRLParser extends Parser {
 					}
 					break;
 				case 13 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:118:4: update
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:118:4: print
 					{
 					root_0 = (CommonTree)adaptor.nil();
 
 
-					pushFollow(FOLLOW_update_in_action639);
-					update52=update();
+					pushFollow(FOLLOW_print_in_action639);
+					print52=print();
 					state._fsp--;
 					if (state.failed) return retval;
-					if ( state.backtracking==0 ) adaptor.addChild(root_0, update52.getTree());
-
-					}
-					break;
-				case 14 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:119:4: print
-					{
-					root_0 = (CommonTree)adaptor.nil();
-
-
-					pushFollow(FOLLOW_print_in_action644);
-					print53=print();
-					state._fsp--;
-					if (state.failed) return retval;
-					if ( state.backtracking==0 ) adaptor.addChild(root_0, print53.getTree());
+					if ( state.backtracking==0 ) adaptor.addChild(root_0, print52.getTree());
 
 					}
 					break;
@@ -1943,31 +1922,31 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "operand"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:122:1: operand : ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+ ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:121:1: operand : ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+ ;
 	public final CRLParser.operand_return operand() throws RecognitionException {
 		CRLParser.operand_return retval = new CRLParser.operand_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
-		CommonToken set54=null;
+		CommonToken set53=null;
 
-		CommonTree set54_tree=null;
+		CommonTree set53_tree=null;
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:123:2: ( ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+ )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:123:4: ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:122:2: ( ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+ )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:122:4: ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+
 			{
 			root_0 = (CommonTree)adaptor.nil();
 
 
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:123:4: ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:122:4: ( STRING | ESC_SEQ |~ ( 'to' | 'with' | 'as' | 'of' | EOL ) )+
 			int cnt23=0;
 			loop23:
 			while (true) {
 				int alt23=2;
 				int LA23_0 = input.LA(1);
-				if ( ((LA23_0 >= ACTION && LA23_0 <= CONSTRAINTS)||(LA23_0 >= ESC_SEQ && LA23_0 <= 40)||(LA23_0 >= 42 && LA23_0 <= 56)||(LA23_0 >= 58 && LA23_0 <= 68)||(LA23_0 >= 70 && LA23_0 <= 71)) ) {
+				if ( ((LA23_0 >= ACTION && LA23_0 <= CONSTRAINTS)||(LA23_0 >= ESC_SEQ && LA23_0 <= 40)||(LA23_0 >= 42 && LA23_0 <= 56)||(LA23_0 >= 58 && LA23_0 <= 68)||LA23_0==70) ) {
 					alt23=1;
 				}
 
@@ -1975,10 +1954,10 @@ public class CRLParser extends Parser {
 				case 1 :
 					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:
 					{
-					set54=(CommonToken)input.LT(1);
-					if ( (input.LA(1) >= ACTION && input.LA(1) <= CONSTRAINTS)||(input.LA(1) >= ESC_SEQ && input.LA(1) <= 40)||(input.LA(1) >= 42 && input.LA(1) <= 56)||(input.LA(1) >= 58 && input.LA(1) <= 68)||(input.LA(1) >= 70 && input.LA(1) <= 71) ) {
+					set53=(CommonToken)input.LT(1);
+					if ( (input.LA(1) >= ACTION && input.LA(1) <= CONSTRAINTS)||(input.LA(1) >= ESC_SEQ && input.LA(1) <= 40)||(input.LA(1) >= 42 && input.LA(1) <= 56)||(input.LA(1) >= 58 && input.LA(1) <= 68)||input.LA(1)==70 ) {
 						input.consume();
-						if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set54));
+						if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set53));
 						state.errorRecovery=false;
 						state.failed=false;
 					}
@@ -2029,49 +2008,49 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "set_tag"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:126:1: set_tag : 'set tag' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:125:1: set_tag : 'set tag' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
 	public final CRLParser.set_tag_return set_tag() throws RecognitionException {
 		CRLParser.set_tag_return retval = new CRLParser.set_tag_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal54=null;
 		CommonToken string_literal55=null;
-		CommonToken string_literal56=null;
-		CommonToken EOL57=null;
+		CommonToken EOL56=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal54_tree=null;
 		CommonTree string_literal55_tree=null;
-		CommonTree string_literal56_tree=null;
-		CommonTree EOL57_tree=null;
+		CommonTree EOL56_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
 		RewriteRuleTokenStream stream_64=new RewriteRuleTokenStream(adaptor,"token 64");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:127:2: ( 'set tag' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:127:4: 'set tag' op1= operand 'to' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:126:2: ( 'set tag' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:126:4: 'set tag' op1= operand 'to' op2= operand EOL
 			{
-			string_literal55=(CommonToken)match(input,64,FOLLOW_64_in_set_tag690); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_64.add(string_literal55);
+			string_literal54=(CommonToken)match(input,64,FOLLOW_64_in_set_tag685); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_64.add(string_literal54);
 
-			pushFollow(FOLLOW_operand_in_set_tag696);
+			pushFollow(FOLLOW_operand_in_set_tag691);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal56=(CommonToken)match(input,69,FOLLOW_69_in_set_tag698); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_69.add(string_literal56);
+			string_literal55=(CommonToken)match(input,69,FOLLOW_69_in_set_tag693); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_69.add(string_literal55);
 
-			pushFollow(FOLLOW_operand_in_set_tag704);
+			pushFollow(FOLLOW_operand_in_set_tag699);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL57=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_tag706); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL57);
+			EOL56=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_tag701); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL56);
 
 			// AST REWRITE
 			// elements: op1, op2
@@ -2087,13 +2066,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 128:3: -> ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+			// 127:3: -> ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:128:6: ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:127:6: ^( ACTION[\"setTag\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "setTag"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:128:25: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:127:25: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2101,7 +2080,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:128:41: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:127:41: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2148,49 +2127,49 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "set_text"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:131:1: set_text : 'set text' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:130:1: set_text : 'set text' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
 	public final CRLParser.set_text_return set_text() throws RecognitionException {
 		CRLParser.set_text_return retval = new CRLParser.set_text_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal57=null;
 		CommonToken string_literal58=null;
-		CommonToken string_literal59=null;
-		CommonToken EOL60=null;
+		CommonToken EOL59=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal57_tree=null;
 		CommonTree string_literal58_tree=null;
-		CommonTree string_literal59_tree=null;
-		CommonTree EOL60_tree=null;
+		CommonTree EOL59_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
 		RewriteRuleTokenStream stream_65=new RewriteRuleTokenStream(adaptor,"token 65");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:132:2: ( 'set text' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:132:4: 'set text' op1= operand 'to' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:131:2: ( 'set text' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:131:4: 'set text' op1= operand 'to' op2= operand EOL
 			{
-			string_literal58=(CommonToken)match(input,65,FOLLOW_65_in_set_text741); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_65.add(string_literal58);
+			string_literal57=(CommonToken)match(input,65,FOLLOW_65_in_set_text736); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_65.add(string_literal57);
 
-			pushFollow(FOLLOW_operand_in_set_text747);
+			pushFollow(FOLLOW_operand_in_set_text742);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal59=(CommonToken)match(input,69,FOLLOW_69_in_set_text749); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_69.add(string_literal59);
+			string_literal58=(CommonToken)match(input,69,FOLLOW_69_in_set_text744); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_69.add(string_literal58);
 
-			pushFollow(FOLLOW_operand_in_set_text755);
+			pushFollow(FOLLOW_operand_in_set_text750);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL60=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_text757); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL60);
+			EOL59=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_text752); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL59);
 
 			// AST REWRITE
 			// elements: op2, op1
@@ -2206,13 +2185,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 133:3: -> ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+			// 132:3: -> ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:133:6: ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:132:6: ^( ACTION[\"setText\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "setText"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:133:26: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:132:26: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2220,7 +2199,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:133:42: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:132:42: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2267,49 +2246,49 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "set_indent"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:136:1: set_indent : 'set indent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:135:1: set_indent : 'set indent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
 	public final CRLParser.set_indent_return set_indent() throws RecognitionException {
 		CRLParser.set_indent_return retval = new CRLParser.set_indent_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal60=null;
 		CommonToken string_literal61=null;
-		CommonToken string_literal62=null;
-		CommonToken EOL63=null;
+		CommonToken EOL62=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal60_tree=null;
 		CommonTree string_literal61_tree=null;
-		CommonTree string_literal62_tree=null;
-		CommonTree EOL63_tree=null;
+		CommonTree EOL62_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
 		RewriteRuleTokenStream stream_62=new RewriteRuleTokenStream(adaptor,"token 62");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:137:2: ( 'set indent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:137:4: 'set indent' op1= operand 'to' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:136:2: ( 'set indent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:136:4: 'set indent' op1= operand 'to' op2= operand EOL
 			{
-			string_literal61=(CommonToken)match(input,62,FOLLOW_62_in_set_indent792); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_62.add(string_literal61);
+			string_literal60=(CommonToken)match(input,62,FOLLOW_62_in_set_indent787); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_62.add(string_literal60);
 
-			pushFollow(FOLLOW_operand_in_set_indent798);
+			pushFollow(FOLLOW_operand_in_set_indent793);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal62=(CommonToken)match(input,69,FOLLOW_69_in_set_indent800); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_69.add(string_literal62);
+			string_literal61=(CommonToken)match(input,69,FOLLOW_69_in_set_indent795); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_69.add(string_literal61);
 
-			pushFollow(FOLLOW_operand_in_set_indent806);
+			pushFollow(FOLLOW_operand_in_set_indent801);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL63=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_indent808); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL63);
+			EOL62=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_indent803); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL62);
 
 			// AST REWRITE
 			// elements: op2, op1
@@ -2325,13 +2304,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 138:3: -> ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+			// 137:3: -> ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:138:6: ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:137:6: ^( ACTION[\"setIndent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "setIndent"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:138:28: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:137:28: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2339,7 +2318,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:138:44: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:137:44: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2386,37 +2365,37 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "split"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:141:1: split : 'split' operand EOL -> ^( ACTION[\"split\"] ^( OPERAND operand ) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:140:1: split : 'split' operand EOL -> ^( ACTION[\"split\"] ^( OPERAND operand ) ) ;
 	public final CRLParser.split_return split() throws RecognitionException {
 		CRLParser.split_return retval = new CRLParser.split_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
-		CommonToken string_literal64=null;
-		CommonToken EOL66=null;
-		ParserRuleReturnScope operand65 =null;
+		CommonToken string_literal63=null;
+		CommonToken EOL65=null;
+		ParserRuleReturnScope operand64 =null;
 
-		CommonTree string_literal64_tree=null;
-		CommonTree EOL66_tree=null;
+		CommonTree string_literal63_tree=null;
+		CommonTree EOL65_tree=null;
 		RewriteRuleTokenStream stream_67=new RewriteRuleTokenStream(adaptor,"token 67");
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:142:2: ( 'split' operand EOL -> ^( ACTION[\"split\"] ^( OPERAND operand ) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:142:4: 'split' operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:141:2: ( 'split' operand EOL -> ^( ACTION[\"split\"] ^( OPERAND operand ) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:141:4: 'split' operand EOL
 			{
-			string_literal64=(CommonToken)match(input,67,FOLLOW_67_in_split843); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_67.add(string_literal64);
+			string_literal63=(CommonToken)match(input,67,FOLLOW_67_in_split838); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_67.add(string_literal63);
 
-			pushFollow(FOLLOW_operand_in_split845);
-			operand65=operand();
+			pushFollow(FOLLOW_operand_in_split840);
+			operand64=operand();
 			state._fsp--;
 			if (state.failed) return retval;
-			if ( state.backtracking==0 ) stream_operand.add(operand65.getTree());
-			EOL66=(CommonToken)match(input,EOL,FOLLOW_EOL_in_split847); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL66);
+			if ( state.backtracking==0 ) stream_operand.add(operand64.getTree());
+			EOL65=(CommonToken)match(input,EOL,FOLLOW_EOL_in_split842); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL65);
 
 			// AST REWRITE
 			// elements: operand
@@ -2430,13 +2409,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 143:3: -> ^( ACTION[\"split\"] ^( OPERAND operand ) )
+			// 142:3: -> ^( ACTION[\"split\"] ^( OPERAND operand ) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:143:6: ^( ACTION[\"split\"] ^( OPERAND operand ) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:142:6: ^( ACTION[\"split\"] ^( OPERAND operand ) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "split"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:143:25: ^( OPERAND operand )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:142:25: ^( OPERAND operand )
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2483,52 +2462,52 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "merge"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:146:1: merge : 'merge' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:145:1: merge : 'merge' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
 	public final CRLParser.merge_return merge() throws RecognitionException {
 		CRLParser.merge_return retval = new CRLParser.merge_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal66=null;
 		CommonToken string_literal67=null;
-		CommonToken string_literal68=null;
-		CommonToken EOL69=null;
+		CommonToken EOL68=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal66_tree=null;
 		CommonTree string_literal67_tree=null;
-		CommonTree string_literal68_tree=null;
-		CommonTree EOL69_tree=null;
+		CommonTree EOL68_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
-		RewriteRuleTokenStream stream_72=new RewriteRuleTokenStream(adaptor,"token 72");
+		RewriteRuleTokenStream stream_71=new RewriteRuleTokenStream(adaptor,"token 71");
 		RewriteRuleTokenStream stream_53=new RewriteRuleTokenStream(adaptor,"token 53");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:147:2: ( 'merge' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:147:4: 'merge' op1= operand 'with' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:146:2: ( 'merge' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:146:4: 'merge' op1= operand 'with' op2= operand EOL
 			{
-			string_literal67=(CommonToken)match(input,53,FOLLOW_53_in_merge875); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_53.add(string_literal67);
+			string_literal66=(CommonToken)match(input,53,FOLLOW_53_in_merge870); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_53.add(string_literal66);
 
-			pushFollow(FOLLOW_operand_in_merge881);
+			pushFollow(FOLLOW_operand_in_merge876);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal68=(CommonToken)match(input,72,FOLLOW_72_in_merge883); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_72.add(string_literal68);
+			string_literal67=(CommonToken)match(input,71,FOLLOW_71_in_merge878); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_71.add(string_literal67);
 
-			pushFollow(FOLLOW_operand_in_merge889);
+			pushFollow(FOLLOW_operand_in_merge884);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL69=(CommonToken)match(input,EOL,FOLLOW_EOL_in_merge891); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL69);
+			EOL68=(CommonToken)match(input,EOL,FOLLOW_EOL_in_merge886); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL68);
 
 			// AST REWRITE
-			// elements: op2, op1
+			// elements: op1, op2
 			// token labels: 
 			// rule labels: op2, op1, retval
 			// token list labels: 
@@ -2541,13 +2520,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 148:3: -> ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+			// 147:3: -> ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:148:6: ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:147:6: ^( ACTION[\"merge\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "merge"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:148:24: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:147:24: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2555,7 +2534,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:148:40: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:147:40: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2602,40 +2581,40 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "new_entry"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:151:1: new_entry : 'new entry' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:150:1: new_entry : 'new entry' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) ;
 	public final CRLParser.new_entry_return new_entry() throws RecognitionException {
 		CRLParser.new_entry_return retval = new CRLParser.new_entry_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal69=null;
 		CommonToken string_literal70=null;
-		CommonToken string_literal71=null;
-		CommonToken EOL72=null;
+		CommonToken EOL71=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal69_tree=null;
 		CommonTree string_literal70_tree=null;
-		CommonTree string_literal71_tree=null;
-		CommonTree EOL72_tree=null;
+		CommonTree EOL71_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
 		RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:2: ( 'new entry' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:4: 'new entry' op1= operand ( 'as' op2= operand )? EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:151:2: ( 'new entry' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:151:4: 'new entry' op1= operand ( 'as' op2= operand )? EOL
 			{
-			string_literal70=(CommonToken)match(input,54,FOLLOW_54_in_new_entry926); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_54.add(string_literal70);
+			string_literal69=(CommonToken)match(input,54,FOLLOW_54_in_new_entry921); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_54.add(string_literal69);
 
-			pushFollow(FOLLOW_operand_in_new_entry932);
+			pushFollow(FOLLOW_operand_in_new_entry927);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:30: ( 'as' op2= operand )?
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:151:30: ( 'as' op2= operand )?
 			int alt24=2;
 			int LA24_0 = input.LA(1);
 			if ( (LA24_0==41) ) {
@@ -2643,12 +2622,12 @@ public class CRLParser extends Parser {
 			}
 			switch (alt24) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:31: 'as' op2= operand
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:151:31: 'as' op2= operand
 					{
-					string_literal71=(CommonToken)match(input,41,FOLLOW_41_in_new_entry935); if (state.failed) return retval; 
-					if ( state.backtracking==0 ) stream_41.add(string_literal71);
+					string_literal70=(CommonToken)match(input,41,FOLLOW_41_in_new_entry930); if (state.failed) return retval; 
+					if ( state.backtracking==0 ) stream_41.add(string_literal70);
 
-					pushFollow(FOLLOW_operand_in_new_entry941);
+					pushFollow(FOLLOW_operand_in_new_entry936);
 					op2=operand();
 					state._fsp--;
 					if (state.failed) return retval;
@@ -2658,8 +2637,8 @@ public class CRLParser extends Parser {
 
 			}
 
-			EOL72=(CommonToken)match(input,EOL,FOLLOW_EOL_in_new_entry945); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL72);
+			EOL71=(CommonToken)match(input,EOL,FOLLOW_EOL_in_new_entry940); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL71);
 
 			// AST REWRITE
 			// elements: op1, op2
@@ -2675,13 +2654,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 153:3: -> ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
+			// 152:3: -> ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:153:6: ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:6: ^( ACTION[\"newEntry\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "newEntry"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:153:27: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:27: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2689,9 +2668,9 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:153:43: ( ^( OPERAND $op2) )?
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:43: ( ^( OPERAND $op2) )?
 				if ( stream_op2.hasNext() ) {
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:153:43: ^( OPERAND $op2)
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:152:43: ^( OPERAND $op2)
 					{
 					CommonTree root_2 = (CommonTree)adaptor.nil();
 					root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2741,52 +2720,52 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "set_value"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:156:1: set_value : 'set value' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:155:1: set_value : 'set value' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
 	public final CRLParser.set_value_return set_value() throws RecognitionException {
 		CRLParser.set_value_return retval = new CRLParser.set_value_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal72=null;
 		CommonToken string_literal73=null;
-		CommonToken string_literal74=null;
-		CommonToken EOL75=null;
+		CommonToken EOL74=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal72_tree=null;
 		CommonTree string_literal73_tree=null;
-		CommonTree string_literal74_tree=null;
-		CommonTree EOL75_tree=null;
+		CommonTree EOL74_tree=null;
 		RewriteRuleTokenStream stream_66=new RewriteRuleTokenStream(adaptor,"token 66");
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:157:2: ( 'set value' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:157:4: 'set value' op1= operand 'to' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:156:2: ( 'set value' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:156:4: 'set value' op1= operand 'to' op2= operand EOL
 			{
-			string_literal73=(CommonToken)match(input,66,FOLLOW_66_in_set_value981); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_66.add(string_literal73);
+			string_literal72=(CommonToken)match(input,66,FOLLOW_66_in_set_value976); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_66.add(string_literal72);
 
-			pushFollow(FOLLOW_operand_in_set_value987);
+			pushFollow(FOLLOW_operand_in_set_value982);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal74=(CommonToken)match(input,69,FOLLOW_69_in_set_value989); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_69.add(string_literal74);
+			string_literal73=(CommonToken)match(input,69,FOLLOW_69_in_set_value984); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_69.add(string_literal73);
 
-			pushFollow(FOLLOW_operand_in_set_value995);
+			pushFollow(FOLLOW_operand_in_set_value990);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL75=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_value997); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL75);
+			EOL74=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_value992); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL74);
 
 			// AST REWRITE
-			// elements: op2, op1
+			// elements: op1, op2
 			// token labels: 
 			// rule labels: op2, op1, retval
 			// token list labels: 
@@ -2799,13 +2778,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 158:3: -> ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+			// 157:3: -> ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:158:6: ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:157:6: ^( ACTION[\"setValue\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "setValue"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:158:27: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:157:27: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2813,7 +2792,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:158:43: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:157:43: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2860,49 +2839,49 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "set_category"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:161:1: set_category : 'set category' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:160:1: set_category : 'set category' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
 	public final CRLParser.set_category_return set_category() throws RecognitionException {
 		CRLParser.set_category_return retval = new CRLParser.set_category_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal75=null;
 		CommonToken string_literal76=null;
-		CommonToken string_literal77=null;
-		CommonToken EOL78=null;
+		CommonToken EOL77=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal75_tree=null;
 		CommonTree string_literal76_tree=null;
-		CommonTree string_literal77_tree=null;
-		CommonTree EOL78_tree=null;
+		CommonTree EOL77_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
 		RewriteRuleTokenStream stream_61=new RewriteRuleTokenStream(adaptor,"token 61");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:162:2: ( 'set category' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:162:4: 'set category' op1= operand 'to' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:161:2: ( 'set category' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:161:4: 'set category' op1= operand 'to' op2= operand EOL
 			{
-			string_literal76=(CommonToken)match(input,61,FOLLOW_61_in_set_category1032); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_61.add(string_literal76);
+			string_literal75=(CommonToken)match(input,61,FOLLOW_61_in_set_category1027); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_61.add(string_literal75);
 
-			pushFollow(FOLLOW_operand_in_set_category1038);
+			pushFollow(FOLLOW_operand_in_set_category1033);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal77=(CommonToken)match(input,69,FOLLOW_69_in_set_category1040); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_69.add(string_literal77);
+			string_literal76=(CommonToken)match(input,69,FOLLOW_69_in_set_category1035); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_69.add(string_literal76);
 
-			pushFollow(FOLLOW_operand_in_set_category1046);
+			pushFollow(FOLLOW_operand_in_set_category1041);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL78=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_category1048); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL78);
+			EOL77=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_category1043); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL77);
 
 			// AST REWRITE
 			// elements: op2, op1
@@ -2918,13 +2897,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 163:3: -> ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+			// 162:3: -> ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:163:6: ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:162:6: ^( ACTION[\"setCategory\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "setCategory"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:163:30: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:162:30: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2932,7 +2911,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:163:46: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:162:46: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -2979,49 +2958,49 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "set_parent"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:166:1: set_parent : 'set parent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:165:1: set_parent : 'set parent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) ;
 	public final CRLParser.set_parent_return set_parent() throws RecognitionException {
 		CRLParser.set_parent_return retval = new CRLParser.set_parent_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal78=null;
 		CommonToken string_literal79=null;
-		CommonToken string_literal80=null;
-		CommonToken EOL81=null;
+		CommonToken EOL80=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal78_tree=null;
 		CommonTree string_literal79_tree=null;
-		CommonTree string_literal80_tree=null;
-		CommonTree EOL81_tree=null;
+		CommonTree EOL80_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
 		RewriteRuleTokenStream stream_63=new RewriteRuleTokenStream(adaptor,"token 63");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:167:2: ( 'set parent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:167:4: 'set parent' op1= operand 'to' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:166:2: ( 'set parent' op1= operand 'to' op2= operand EOL -> ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:166:4: 'set parent' op1= operand 'to' op2= operand EOL
 			{
-			string_literal79=(CommonToken)match(input,63,FOLLOW_63_in_set_parent1083); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_63.add(string_literal79);
+			string_literal78=(CommonToken)match(input,63,FOLLOW_63_in_set_parent1078); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_63.add(string_literal78);
 
-			pushFollow(FOLLOW_operand_in_set_parent1089);
+			pushFollow(FOLLOW_operand_in_set_parent1084);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal80=(CommonToken)match(input,69,FOLLOW_69_in_set_parent1091); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_69.add(string_literal80);
+			string_literal79=(CommonToken)match(input,69,FOLLOW_69_in_set_parent1086); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_69.add(string_literal79);
 
-			pushFollow(FOLLOW_operand_in_set_parent1097);
+			pushFollow(FOLLOW_operand_in_set_parent1092);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL81=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_parent1099); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL81);
+			EOL80=(CommonToken)match(input,EOL,FOLLOW_EOL_in_set_parent1094); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL80);
 
 			// AST REWRITE
 			// elements: op2, op1
@@ -3037,13 +3016,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 168:3: -> ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+			// 167:3: -> ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:168:6: ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:167:6: ^( ACTION[\"setParent\"] ^( OPERAND $op2) ^( OPERAND $op1) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "setParent"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:168:28: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:167:28: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3051,7 +3030,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:168:44: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:167:44: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3098,52 +3077,52 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "group"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:171:1: group : 'group' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:170:1: group : 'group' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) ) ;
 	public final CRLParser.group_return group() throws RecognitionException {
 		CRLParser.group_return retval = new CRLParser.group_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal81=null;
 		CommonToken string_literal82=null;
-		CommonToken string_literal83=null;
-		CommonToken EOL84=null;
+		CommonToken EOL83=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal81_tree=null;
 		CommonTree string_literal82_tree=null;
-		CommonTree string_literal83_tree=null;
-		CommonTree EOL84_tree=null;
+		CommonTree EOL83_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_49=new RewriteRuleTokenStream(adaptor,"token 49");
-		RewriteRuleTokenStream stream_72=new RewriteRuleTokenStream(adaptor,"token 72");
+		RewriteRuleTokenStream stream_71=new RewriteRuleTokenStream(adaptor,"token 71");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:172:2: ( 'group' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:172:4: 'group' op1= operand 'with' op2= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:171:2: ( 'group' op1= operand 'with' op2= operand EOL -> ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:171:4: 'group' op1= operand 'with' op2= operand EOL
 			{
-			string_literal82=(CommonToken)match(input,49,FOLLOW_49_in_group1134); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_49.add(string_literal82);
+			string_literal81=(CommonToken)match(input,49,FOLLOW_49_in_group1129); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_49.add(string_literal81);
 
-			pushFollow(FOLLOW_operand_in_group1140);
+			pushFollow(FOLLOW_operand_in_group1135);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			string_literal83=(CommonToken)match(input,72,FOLLOW_72_in_group1142); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_72.add(string_literal83);
+			string_literal82=(CommonToken)match(input,71,FOLLOW_71_in_group1137); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_71.add(string_literal82);
 
-			pushFollow(FOLLOW_operand_in_group1148);
+			pushFollow(FOLLOW_operand_in_group1143);
 			op2=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op2.getTree());
-			EOL84=(CommonToken)match(input,EOL,FOLLOW_EOL_in_group1150); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL84);
+			EOL83=(CommonToken)match(input,EOL,FOLLOW_EOL_in_group1145); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL83);
 
 			// AST REWRITE
-			// elements: op1, op2
+			// elements: op2, op1
 			// token labels: 
 			// rule labels: op2, op1, retval
 			// token list labels: 
@@ -3156,13 +3135,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 173:3: -> ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) )
+			// 172:3: -> ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:173:6: ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:172:6: ^( ACTION[\"group\"] ^( OPERAND $op1) ^( OPERAND $op2) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "group"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:173:24: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:172:24: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3170,7 +3149,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:173:40: ^( OPERAND $op2)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:172:40: ^( OPERAND $op2)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3217,25 +3196,25 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "add_label"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:176:1: add_label : 'add label' op1= operand ( 'of' op2= operand )? 'to' op3= operand EOL -> ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:175:1: add_label : 'add label' op1= operand ( 'of' op2= operand )? 'to' op3= operand EOL -> ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) ;
 	public final CRLParser.add_label_return add_label() throws RecognitionException {
 		CRLParser.add_label_return retval = new CRLParser.add_label_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal84=null;
 		CommonToken string_literal85=null;
 		CommonToken string_literal86=null;
-		CommonToken string_literal87=null;
-		CommonToken EOL88=null;
+		CommonToken EOL87=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 		ParserRuleReturnScope op3 =null;
 
+		CommonTree string_literal84_tree=null;
 		CommonTree string_literal85_tree=null;
 		CommonTree string_literal86_tree=null;
-		CommonTree string_literal87_tree=null;
-		CommonTree EOL88_tree=null;
+		CommonTree EOL87_tree=null;
 		RewriteRuleTokenStream stream_57=new RewriteRuleTokenStream(adaptor,"token 57");
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_69=new RewriteRuleTokenStream(adaptor,"token 69");
@@ -3243,18 +3222,18 @@ public class CRLParser extends Parser {
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:2: ( 'add label' op1= operand ( 'of' op2= operand )? 'to' op3= operand EOL -> ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:4: 'add label' op1= operand ( 'of' op2= operand )? 'to' op3= operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:176:2: ( 'add label' op1= operand ( 'of' op2= operand )? 'to' op3= operand EOL -> ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:176:4: 'add label' op1= operand ( 'of' op2= operand )? 'to' op3= operand EOL
 			{
-			string_literal85=(CommonToken)match(input,40,FOLLOW_40_in_add_label1185); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_40.add(string_literal85);
+			string_literal84=(CommonToken)match(input,40,FOLLOW_40_in_add_label1180); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_40.add(string_literal84);
 
-			pushFollow(FOLLOW_operand_in_add_label1191);
+			pushFollow(FOLLOW_operand_in_add_label1186);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:30: ( 'of' op2= operand )?
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:176:30: ( 'of' op2= operand )?
 			int alt25=2;
 			int LA25_0 = input.LA(1);
 			if ( (LA25_0==57) ) {
@@ -3262,12 +3241,12 @@ public class CRLParser extends Parser {
 			}
 			switch (alt25) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:31: 'of' op2= operand
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:176:31: 'of' op2= operand
 					{
-					string_literal86=(CommonToken)match(input,57,FOLLOW_57_in_add_label1194); if (state.failed) return retval; 
-					if ( state.backtracking==0 ) stream_57.add(string_literal86);
+					string_literal85=(CommonToken)match(input,57,FOLLOW_57_in_add_label1189); if (state.failed) return retval; 
+					if ( state.backtracking==0 ) stream_57.add(string_literal85);
 
-					pushFollow(FOLLOW_operand_in_add_label1200);
+					pushFollow(FOLLOW_operand_in_add_label1195);
 					op2=operand();
 					state._fsp--;
 					if (state.failed) return retval;
@@ -3277,19 +3256,19 @@ public class CRLParser extends Parser {
 
 			}
 
-			string_literal87=(CommonToken)match(input,69,FOLLOW_69_in_add_label1204); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_69.add(string_literal87);
+			string_literal86=(CommonToken)match(input,69,FOLLOW_69_in_add_label1199); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_69.add(string_literal86);
 
-			pushFollow(FOLLOW_operand_in_add_label1210);
+			pushFollow(FOLLOW_operand_in_add_label1205);
 			op3=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op3.getTree());
-			EOL88=(CommonToken)match(input,EOL,FOLLOW_EOL_in_add_label1212); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL88);
+			EOL87=(CommonToken)match(input,EOL,FOLLOW_EOL_in_add_label1207); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL87);
 
 			// AST REWRITE
-			// elements: op3, op1, op2
+			// elements: op1, op3, op2
 			// token labels: 
 			// rule labels: op2, op1, op3, retval
 			// token list labels: 
@@ -3303,13 +3282,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 178:3: -> ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
+			// 177:3: -> ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:178:6: ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:6: ^( ACTION[\"addLabel\"] ^( OPERAND $op3) ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "addLabel"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:178:27: ^( OPERAND $op3)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:27: ^( OPERAND $op3)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3317,7 +3296,7 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:178:43: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:43: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3325,9 +3304,9 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:178:59: ( ^( OPERAND $op2) )?
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:59: ( ^( OPERAND $op2) )?
 				if ( stream_op2.hasNext() ) {
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:178:59: ^( OPERAND $op2)
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:177:59: ^( OPERAND $op2)
 					{
 					CommonTree root_2 = (CommonTree)adaptor.nil();
 					root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3377,40 +3356,40 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "new_label"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:181:1: new_label : 'new label' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:180:1: new_label : 'new label' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) ;
 	public final CRLParser.new_label_return new_label() throws RecognitionException {
 		CRLParser.new_label_return retval = new CRLParser.new_label_return();
 		retval.start = input.LT(1);
 
 		CommonTree root_0 = null;
 
+		CommonToken string_literal88=null;
 		CommonToken string_literal89=null;
-		CommonToken string_literal90=null;
-		CommonToken EOL91=null;
+		CommonToken EOL90=null;
 		ParserRuleReturnScope op1 =null;
 		ParserRuleReturnScope op2 =null;
 
+		CommonTree string_literal88_tree=null;
 		CommonTree string_literal89_tree=null;
-		CommonTree string_literal90_tree=null;
-		CommonTree EOL91_tree=null;
+		CommonTree EOL90_tree=null;
 		RewriteRuleTokenStream stream_55=new RewriteRuleTokenStream(adaptor,"token 55");
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:2: ( 'new label' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:4: 'new label' op1= operand ( 'as' op2= operand )? EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:181:2: ( 'new label' op1= operand ( 'as' op2= operand )? EOL -> ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:181:4: 'new label' op1= operand ( 'as' op2= operand )? EOL
 			{
-			string_literal89=(CommonToken)match(input,55,FOLLOW_55_in_new_label1255); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_55.add(string_literal89);
+			string_literal88=(CommonToken)match(input,55,FOLLOW_55_in_new_label1250); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_55.add(string_literal88);
 
-			pushFollow(FOLLOW_operand_in_new_label1261);
+			pushFollow(FOLLOW_operand_in_new_label1256);
 			op1=operand();
 			state._fsp--;
 			if (state.failed) return retval;
 			if ( state.backtracking==0 ) stream_operand.add(op1.getTree());
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:30: ( 'as' op2= operand )?
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:181:30: ( 'as' op2= operand )?
 			int alt26=2;
 			int LA26_0 = input.LA(1);
 			if ( (LA26_0==41) ) {
@@ -3418,12 +3397,12 @@ public class CRLParser extends Parser {
 			}
 			switch (alt26) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:31: 'as' op2= operand
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:181:31: 'as' op2= operand
 					{
-					string_literal90=(CommonToken)match(input,41,FOLLOW_41_in_new_label1264); if (state.failed) return retval; 
-					if ( state.backtracking==0 ) stream_41.add(string_literal90);
+					string_literal89=(CommonToken)match(input,41,FOLLOW_41_in_new_label1259); if (state.failed) return retval; 
+					if ( state.backtracking==0 ) stream_41.add(string_literal89);
 
-					pushFollow(FOLLOW_operand_in_new_label1270);
+					pushFollow(FOLLOW_operand_in_new_label1265);
 					op2=operand();
 					state._fsp--;
 					if (state.failed) return retval;
@@ -3433,8 +3412,8 @@ public class CRLParser extends Parser {
 
 			}
 
-			EOL91=(CommonToken)match(input,EOL,FOLLOW_EOL_in_new_label1274); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL91);
+			EOL90=(CommonToken)match(input,EOL,FOLLOW_EOL_in_new_label1269); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL90);
 
 			// AST REWRITE
 			// elements: op1, op2
@@ -3450,13 +3429,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 183:3: -> ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
+			// 182:3: -> ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:183:6: ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:6: ^( ACTION[\"newLabel\"] ^( OPERAND $op1) ( ^( OPERAND $op2) )? )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, "newLabel"), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:183:27: ^( OPERAND $op1)
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:27: ^( OPERAND $op1)
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3464,9 +3443,9 @@ public class CRLParser extends Parser {
 				adaptor.addChild(root_1, root_2);
 				}
 
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:183:43: ( ^( OPERAND $op2) )?
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:43: ( ^( OPERAND $op2) )?
 				if ( stream_op2.hasNext() ) {
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:183:43: ^( OPERAND $op2)
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:182:43: ^( OPERAND $op2)
 					{
 					CommonTree root_2 = (CommonTree)adaptor.nil();
 					root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3508,89 +3487,6 @@ public class CRLParser extends Parser {
 	// $ANTLR end "new_label"
 
 
-	public static class update_return extends ParserRuleReturnScope {
-		CommonTree tree;
-		@Override
-		public CommonTree getTree() { return tree; }
-	};
-
-
-	// $ANTLR start "update"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:186:1: update : 'update' operand EOL ->;
-	public final CRLParser.update_return update() throws RecognitionException {
-		CRLParser.update_return retval = new CRLParser.update_return();
-		retval.start = input.LT(1);
-
-		CommonTree root_0 = null;
-
-		CommonToken string_literal92=null;
-		CommonToken EOL94=null;
-		ParserRuleReturnScope operand93 =null;
-
-		CommonTree string_literal92_tree=null;
-		CommonTree EOL94_tree=null;
-		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
-		RewriteRuleTokenStream stream_70=new RewriteRuleTokenStream(adaptor,"token 70");
-		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
-
-		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:187:2: ( 'update' operand EOL ->)
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:187:4: 'update' operand EOL
-			{
-			string_literal92=(CommonToken)match(input,70,FOLLOW_70_in_update1310); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_70.add(string_literal92);
-
-			pushFollow(FOLLOW_operand_in_update1312);
-			operand93=operand();
-			state._fsp--;
-			if (state.failed) return retval;
-			if ( state.backtracking==0 ) stream_operand.add(operand93.getTree());
-			EOL94=(CommonToken)match(input,EOL,FOLLOW_EOL_in_update1314); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL94);
-
-			// AST REWRITE
-			// elements: 
-			// token labels: 
-			// rule labels: retval
-			// token list labels: 
-			// rule list labels: 
-			// wildcard labels: 
-			if ( state.backtracking==0 ) {
-			retval.tree = root_0;
-			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
-
-			root_0 = (CommonTree)adaptor.nil();
-			// 188:3: ->
-			{
-				root_0 = null;
-			}
-
-
-			retval.tree = root_0;
-			}
-
-			}
-
-			retval.stop = input.LT(-1);
-
-			if ( state.backtracking==0 ) {
-			retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
-			adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-			retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return retval;
-	}
-	// $ANTLR end "update"
-
-
 	public static class print_return extends ParserRuleReturnScope {
 		CommonTree tree;
 		@Override
@@ -3599,7 +3495,7 @@ public class CRLParser extends Parser {
 
 
 	// $ANTLR start "print"
-	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:191:1: print : name= ( 'print' | 'printf' ) operand EOL -> ^( ACTION[$name] ^( OPERAND operand ) ) ;
+	// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:185:1: print : name= ( 'print' | 'printf' ) operand EOL -> ^( ACTION[$name] ^( OPERAND operand ) ) ;
 	public final CRLParser.print_return print() throws RecognitionException {
 		CRLParser.print_return retval = new CRLParser.print_return();
 		retval.start = input.LT(1);
@@ -3607,21 +3503,21 @@ public class CRLParser extends Parser {
 		CommonTree root_0 = null;
 
 		CommonToken name=null;
-		CommonToken EOL96=null;
-		ParserRuleReturnScope operand95 =null;
+		CommonToken EOL92=null;
+		ParserRuleReturnScope operand91 =null;
 
 		CommonTree name_tree=null;
-		CommonTree EOL96_tree=null;
+		CommonTree EOL92_tree=null;
 		RewriteRuleTokenStream stream_EOL=new RewriteRuleTokenStream(adaptor,"token EOL");
 		RewriteRuleTokenStream stream_58=new RewriteRuleTokenStream(adaptor,"token 58");
 		RewriteRuleTokenStream stream_59=new RewriteRuleTokenStream(adaptor,"token 59");
 		RewriteRuleSubtreeStream stream_operand=new RewriteRuleSubtreeStream(adaptor,"rule operand");
 
 		try {
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:2: (name= ( 'print' | 'printf' ) operand EOL -> ^( ACTION[$name] ^( OPERAND operand ) ) )
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:4: name= ( 'print' | 'printf' ) operand EOL
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:186:2: (name= ( 'print' | 'printf' ) operand EOL -> ^( ACTION[$name] ^( OPERAND operand ) ) )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:186:4: name= ( 'print' | 'printf' ) operand EOL
 			{
-			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:11: ( 'print' | 'printf' )
+			// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:186:11: ( 'print' | 'printf' )
 			int alt27=2;
 			int LA27_0 = input.LA(1);
 			if ( (LA27_0==58) ) {
@@ -3640,17 +3536,17 @@ public class CRLParser extends Parser {
 
 			switch (alt27) {
 				case 1 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:12: 'print'
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:186:12: 'print'
 					{
-					name=(CommonToken)match(input,58,FOLLOW_58_in_print1335); if (state.failed) return retval; 
+					name=(CommonToken)match(input,58,FOLLOW_58_in_print1310); if (state.failed) return retval; 
 					if ( state.backtracking==0 ) stream_58.add(name);
 
 					}
 					break;
 				case 2 :
-					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:192:20: 'printf'
+					// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:186:20: 'printf'
 					{
-					name=(CommonToken)match(input,59,FOLLOW_59_in_print1337); if (state.failed) return retval; 
+					name=(CommonToken)match(input,59,FOLLOW_59_in_print1312); if (state.failed) return retval; 
 					if ( state.backtracking==0 ) stream_59.add(name);
 
 					}
@@ -3658,13 +3554,13 @@ public class CRLParser extends Parser {
 
 			}
 
-			pushFollow(FOLLOW_operand_in_print1340);
-			operand95=operand();
+			pushFollow(FOLLOW_operand_in_print1315);
+			operand91=operand();
 			state._fsp--;
 			if (state.failed) return retval;
-			if ( state.backtracking==0 ) stream_operand.add(operand95.getTree());
-			EOL96=(CommonToken)match(input,EOL,FOLLOW_EOL_in_print1342); if (state.failed) return retval; 
-			if ( state.backtracking==0 ) stream_EOL.add(EOL96);
+			if ( state.backtracking==0 ) stream_operand.add(operand91.getTree());
+			EOL92=(CommonToken)match(input,EOL,FOLLOW_EOL_in_print1317); if (state.failed) return retval; 
+			if ( state.backtracking==0 ) stream_EOL.add(EOL92);
 
 			// AST REWRITE
 			// elements: operand
@@ -3678,13 +3574,13 @@ public class CRLParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (CommonTree)adaptor.nil();
-			// 193:3: -> ^( ACTION[$name] ^( OPERAND operand ) )
+			// 187:3: -> ^( ACTION[$name] ^( OPERAND operand ) )
 			{
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:193:6: ^( ACTION[$name] ^( OPERAND operand ) )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:187:6: ^( ACTION[$name] ^( OPERAND operand ) )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.nil();
 				root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ACTION, name), root_1);
-				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:193:22: ^( OPERAND operand )
+				// D:\\Box Sync\\Codes\\tabbyxl\\src\\main\\resources\\CRL.g:187:22: ^( OPERAND operand )
 				{
 				CommonTree root_2 = (CommonTree)adaptor.nil();
 				root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPERAND, "OPERAND"), root_2);
@@ -3726,8 +3622,8 @@ public class CRLParser extends Parser {
 
 
 
-	public static final BitSet FOLLOW_importing_in_crl135 = new BitSet(new long[]{0x1004000000000002L});
-	public static final BitSet FOLLOW_rule_in_crl140 = new BitSet(new long[]{0x1000000000000002L});
+	public static final BitSet FOLLOW_importing_in_ruleset135 = new BitSet(new long[]{0x1004000000000002L});
+	public static final BitSet FOLLOW_rule_in_ruleset140 = new BitSet(new long[]{0x1000000000000002L});
 	public static final BitSet FOLLOW_50_in_importing179 = new BitSet(new long[]{0x0000000000100000L});
 	public static final BitSet FOLLOW_ID_in_importing185 = new BitSet(new long[]{0x000000B000004000L});
 	public static final BitSet FOLLOW_36_in_importing190 = new BitSet(new long[]{0x0000000000100000L});
@@ -3737,21 +3633,21 @@ public class CRLParser extends Parser {
 	public static final BitSet FOLLOW_EOL_in_importing213 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_60_in_rule235 = new BitSet(new long[]{0x0000000001000000L});
 	public static final BitSet FOLLOW_INT_in_rule239 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_rule241 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000080L});
-	public static final BitSet FOLLOW_71_in_rule245 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_rule241 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000040L});
+	public static final BitSet FOLLOW_70_in_rule245 = new BitSet(new long[]{0x0000000000004000L});
 	public static final BitSet FOLLOW_EOL_in_rule247 = new BitSet(new long[]{0x0119BC0000000000L,0x0000000000000010L});
 	public static final BitSet FOLLOW_condition_in_rule252 = new BitSet(new long[]{0x0119BC0000000000L,0x0000000000000010L});
 	public static final BitSet FOLLOW_68_in_rule257 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_rule259 = new BitSet(new long[]{0xECE2410000000000L,0x000000000000004FL});
-	public static final BitSet FOLLOW_action_in_rule264 = new BitSet(new long[]{0xECE2410000000000L,0x000000000000004FL});
+	public static final BitSet FOLLOW_EOL_in_rule259 = new BitSet(new long[]{0xECE2410000000000L,0x000000000000000FL});
+	public static final BitSet FOLLOW_action_in_rule264 = new BitSet(new long[]{0xECE2410000000000L,0x000000000000000FL});
 	public static final BitSet FOLLOW_46_in_rule269 = new BitSet(new long[]{0x0000000000004002L});
 	public static final BitSet FOLLOW_EOL_in_rule271 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_56_in_condition318 = new BitSet(new long[]{0x0019BC0000000000L});
 	public static final BitSet FOLLOW_query_in_condition326 = new BitSet(new long[]{0x0000004000104000L});
 	public static final BitSet FOLLOW_ID_in_condition337 = new BitSet(new long[]{0x0000004000004000L});
-	public static final BitSet FOLLOW_38_in_condition353 = new BitSet(new long[]{0xFFFFFFB7FFFFBFF0L,0x00000000000001FFL});
+	public static final BitSet FOLLOW_38_in_condition353 = new BitSet(new long[]{0xFFFFFFB7FFFFBFF0L,0x00000000000000FFL});
 	public static final BitSet FOLLOW_constraint_in_condition361 = new BitSet(new long[]{0x0000000800004000L});
-	public static final BitSet FOLLOW_35_in_condition364 = new BitSet(new long[]{0xFFFFFFB7FFFFBFF0L,0x00000000000001FFL});
+	public static final BitSet FOLLOW_35_in_condition364 = new BitSet(new long[]{0xFFFFFFB7FFFFBFF0L,0x00000000000000FFL});
 	public static final BitSet FOLLOW_constraint_in_condition366 = new BitSet(new long[]{0x0000000800004000L});
 	public static final BitSet FOLLOW_35_in_condition371 = new BitSet(new long[]{0x0000000000100000L});
 	public static final BitSet FOLLOW_assignment_in_condition373 = new BitSet(new long[]{0x0000000000004000L});
@@ -3766,7 +3662,7 @@ public class CRLParser extends Parser {
 	public static final BitSet FOLLOW_43_in_query481 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_42_in_query483 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_ID_in_assignment527 = new BitSet(new long[]{0x0000004000000000L});
-	public static final BitSet FOLLOW_38_in_assignment529 = new BitSet(new long[]{0xFFFFFFFFFFFFBFF0L,0x00000000000001FFL});
+	public static final BitSet FOLLOW_38_in_assignment529 = new BitSet(new long[]{0xFFFFFFFFFFFFBFF0L,0x00000000000000FFL});
 	public static final BitSet FOLLOW_expression_in_assignment531 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_set_tag_in_action579 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_set_text_in_action584 = new BitSet(new long[]{0x0000000000000002L});
@@ -3780,73 +3676,69 @@ public class CRLParser extends Parser {
 	public static final BitSet FOLLOW_group_in_action624 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_add_label_in_action629 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_new_label_in_action634 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_update_in_action639 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_print_in_action644 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_64_in_set_tag690 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_tag696 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_69_in_set_tag698 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_tag704 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_set_tag706 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_65_in_set_text741 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_text747 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_69_in_set_text749 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_text755 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_set_text757 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_62_in_set_indent792 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_indent798 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_69_in_set_indent800 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_indent806 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_set_indent808 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_67_in_split843 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_split845 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_split847 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_53_in_merge875 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_merge881 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000100L});
-	public static final BitSet FOLLOW_72_in_merge883 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_merge889 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_merge891 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_54_in_new_entry926 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_new_entry932 = new BitSet(new long[]{0x0000020000004000L});
-	public static final BitSet FOLLOW_41_in_new_entry935 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_new_entry941 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_new_entry945 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_66_in_set_value981 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_value987 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_69_in_set_value989 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_value995 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_set_value997 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_61_in_set_category1032 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_category1038 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_69_in_set_category1040 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_category1046 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_set_category1048 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_63_in_set_parent1083 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_parent1089 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_69_in_set_parent1091 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_set_parent1097 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_set_parent1099 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_49_in_group1134 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_group1140 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000100L});
-	public static final BitSet FOLLOW_72_in_group1142 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_group1148 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_group1150 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_40_in_add_label1185 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_add_label1191 = new BitSet(new long[]{0x0200000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_57_in_add_label1194 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_add_label1200 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-	public static final BitSet FOLLOW_69_in_add_label1204 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_add_label1210 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_add_label1212 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_55_in_new_label1255 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_new_label1261 = new BitSet(new long[]{0x0000020000004000L});
-	public static final BitSet FOLLOW_41_in_new_label1264 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_new_label1270 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_new_label1274 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_70_in_update1310 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_update1312 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_update1314 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_58_in_print1335 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_59_in_print1337 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x00000000000000DFL});
-	public static final BitSet FOLLOW_operand_in_print1340 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_EOL_in_print1342 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_print_in_action639 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_64_in_set_tag685 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_tag691 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_69_in_set_tag693 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_tag699 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_set_tag701 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_65_in_set_text736 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_text742 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_69_in_set_text744 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_text750 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_set_text752 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_62_in_set_indent787 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_indent793 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_69_in_set_indent795 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_indent801 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_set_indent803 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_67_in_split838 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_split840 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_split842 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_53_in_merge870 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_merge876 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000080L});
+	public static final BitSet FOLLOW_71_in_merge878 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_merge884 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_merge886 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_54_in_new_entry921 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_new_entry927 = new BitSet(new long[]{0x0000020000004000L});
+	public static final BitSet FOLLOW_41_in_new_entry930 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_new_entry936 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_new_entry940 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_66_in_set_value976 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_value982 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_69_in_set_value984 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_value990 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_set_value992 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_61_in_set_category1027 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_category1033 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_69_in_set_category1035 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_category1041 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_set_category1043 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_63_in_set_parent1078 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_parent1084 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_69_in_set_parent1086 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_set_parent1092 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_set_parent1094 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_49_in_group1129 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_group1135 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000080L});
+	public static final BitSet FOLLOW_71_in_group1137 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_group1143 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_group1145 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_40_in_add_label1180 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_add_label1186 = new BitSet(new long[]{0x0200000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_57_in_add_label1189 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_add_label1195 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+	public static final BitSet FOLLOW_69_in_add_label1199 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_add_label1205 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_add_label1207 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_55_in_new_label1250 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_new_label1256 = new BitSet(new long[]{0x0000020000004000L});
+	public static final BitSet FOLLOW_41_in_new_label1259 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_new_label1265 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_new_label1269 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_58_in_print1310 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_59_in_print1312 = new BitSet(new long[]{0xFDFFFDFFFFFFBFF0L,0x000000000000005FL});
+	public static final BitSet FOLLOW_operand_in_print1315 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_EOL_in_print1317 = new BitSet(new long[]{0x0000000000000002L});
 }

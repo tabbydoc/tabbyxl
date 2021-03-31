@@ -22,7 +22,7 @@ import java.util.List;
 public final class Condition {
 
     public enum Quantifier {
-        FOR_ALL, NOT_EXIST
+        EXIST, NOT_EXIST
     }
 
     private int id;

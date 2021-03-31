@@ -35,6 +35,26 @@ public final class CColor
         this.b = Integer.decode( hexB );
     }
 
+    public CColor ( byte[] rgbWithHint) {
+        super();
+
+        if (rgbWithHint[0] >= 0) {
+            this.r = rgbWithHint[0];
+        } else {
+            this.r = 256 + rgbWithHint[0];
+        }
+        if (rgbWithHint[1] >= 0) {
+            this.g = rgbWithHint[1];
+        } else {
+            this.g = 256 + rgbWithHint[1];
+        }
+        if (rgbWithHint[2] >= 0) {
+            this.b = rgbWithHint[2];
+        } else {
+            this.b = 256 + rgbWithHint[2];
+        }
+    }
+
     String toHexRGBString()
     {
         String hexR = Integer.toHexString( r );
