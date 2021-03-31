@@ -106,7 +106,6 @@ Only two parameters are mandatory
 
 * Alexey O. Shigarov
 * Vasiliy V. Khristyuk
-* Andrey A. Mikhailov
 * Viacheslav V. Paramonov
 
 ## License
