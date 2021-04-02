@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import ru.icc.td.tabbyxl.crl2j.CRL2JEngine;
 import ru.icc.td.tabbyxl.model.CTable;
+import ru.icc.td.tabbyxl.writers.EvaluationTableWriter;
 
 import javax.lang.model.element.Modifier;
 import javax.tools.JavaFileObject;
@@ -123,10 +124,17 @@ public final class MvnProjectGenerator {
         CodeBlock codeBlock = CodeBlock
                 .builder()
                 .addStatement("$T inputExcelFile = new File(args[0])", File.class)
+                .addStatement("$T outputDirectory = new File(args[1]).toPath()", Path.class)
                 .addStatement("$T tables = extr.extract(inputExcelFile)", CTable[].class)
                 .beginControlFlow("for ($T table : tables)", CTable.class)
                 .addStatement("System.out.println(table.trace())")
                 .addStatement("table.toCanonicalForm().print()")
+                .addStatement("$T sheetName = table.getSrcSheetName()", String.class)
+                .addStatement("$T outFileName = sheetName + \".xlsx\"", String.class)
+                .addStatement("$T outPath = outputDirectory.resolve(outFileName)", Path.class)
+                .addStatement("$T outFile = outPath.toFile()", File.class)
+                .addStatement("$T writer = new EvaluationTableWriter(outFile)", EvaluationTableWriter.class)
+                .addStatement("writer.write(table)")
                 .endControlFlow()
                 .build();
 
