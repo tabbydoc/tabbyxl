@@ -30,7 +30,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
-public final class EvaluationTableWriter extends BasicTableWriter
+public class EvaluationTableWriter extends BasicTableWriter
 {
     @Override
     protected Workbook writeToWorkbook(CTable table)

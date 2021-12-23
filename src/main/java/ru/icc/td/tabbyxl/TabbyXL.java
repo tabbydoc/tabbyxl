@@ -689,8 +689,8 @@ public final class TabbyXL {
                 TableWriter tableWriter;
                 File outFile = outPath.toFile();
 
-                final boolean useDebug = false; // Comment me to use debug table writing
-                //final boolean useDebug = true; // Uncomment me to use debug table writing
+                //final boolean useDebug = false; // Comment me to use debug table writing
+                final boolean useDebug = true; // Uncomment me to use debug table writing
 
                 if (useDebug)
                     tableWriter = new DebugTableWriter(outFile);

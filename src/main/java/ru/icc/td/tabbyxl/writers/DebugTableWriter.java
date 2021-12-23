@@ -24,7 +24,7 @@ import ru.icc.td.tabbyxl.model.*;
 import java.io.File;
 import java.util.function.BiConsumer;
 
-public final class DebugTableWriter extends BasicTableWriter {
+public final class DebugTableWriter extends EvaluationTableWriter {
 
     @Override
     protected Workbook writeToWorkbook(CTable table) {
