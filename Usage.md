@@ -16,11 +16,15 @@ Params:
 -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
 -ruleEngineConfig <path>           specify optionally a path to a configuration file (*.properties) of a rule engine you prefer to use (e.g. Drools, JESS)
                                    (CRL-to-Java translation is used by default instead of a rule engine)
+
 -help                              print this usage
+
+-googleSheetID                     specify a Google Sheets spreadsheet ID (this can be extracted from its URL)
+-googleSheetRange                  specify a range (e.g. "sheet1!A1:F5") in the Google Sheets spreadsheet specified by its ID
 ```
 
-Only two parameters are mandatory
-* `-input <path>`
+Mandatory parameters:
+* either `-input <path>` or `-googleSheetID <id>`
 * `-ruleset <path>`
 
 ## Authors

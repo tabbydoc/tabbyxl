@@ -10,6 +10,7 @@
 # Folders
 target
 out
+tokens
 examples/results/*
 
 #OS junk files

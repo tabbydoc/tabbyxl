@@ -23,6 +23,7 @@ import ru.icc.td.tabbyxl.crl2j.CRL2JEngine;
 import ru.icc.td.tabbyxl.model.*;
 import ru.icc.td.tabbyxl.preprocessing.ner.NERecogPreprocessor;
 import ru.icc.td.tabbyxl.util.StatisticsManager;
+import ru.icc.td.tabbyxl.writers.BasicTableWriter;
 import ru.icc.td.tabbyxl.writers.TableWriter;
 import ru.icc.td.tabbyxl.writers.DebugTableWriter;
 import ru.icc.td.tabbyxl.writers.EvaluationTableWriter;
@@ -60,6 +61,10 @@ public final class TabbyXL {
     private static String executingOptionName;
     private static boolean useNer;
 
+    // Support Google Sheets
+    private static String googleSheetID;
+    private static String googleSheetRange;
+
     // Statistics
 
     private static final StatisticsManager statisticsManager = StatisticsManager.getInstance();
@@ -75,6 +80,8 @@ public final class TabbyXL {
     private static final CategoryTemplateManager categoryTemplateManager = CategoryTemplateManager.getInstance();
 
     private static File parseInputExcelFileParam(String inputExcelFileParam) {
+        if (inputExcelFileParam == null) return null;
+
         File file = new File(inputExcelFileParam);
 
         if (file.exists()) {
@@ -88,6 +95,7 @@ public final class TabbyXL {
             System.err.println("The input excel file does not exist");
             System.exit(0);
         }
+
         return null;
     }
 
@@ -253,7 +261,8 @@ public final class TabbyXL {
         sb.append("Command line parameters:\r\n");
         char indent = '\t';
         try {
-            sb.append(indent).append(String.format("Excel file: \"%s\"%n", inputExcelFile.getCanonicalPath()));
+            if (null != inputExcelFile)
+                sb.append(indent).append(String.format("Excel file: \"%s\"%n", inputExcelFile.getCanonicalPath()));
             if (null != sheetIndexes) {
                 StringBuilder sb0 = new StringBuilder();
                 final char comma = ',';
@@ -267,6 +276,12 @@ public final class TabbyXL {
             } else {
                 // When sheetIndexes field is null, then all sheets in the input Excel workbook are processed
                 sb.append(indent).append("Sheets in processing: ALL\n");
+            }
+
+            if (googleSheetID != null) {
+                sb.append(indent).append(String.format("GoogleSheets Spreadsheet ID: \"%s\"%n", googleSheetID));
+                if (googleSheetRange != null)
+                    sb.append(indent).append(String.format("GoogleSheets Spreadsheet Range: \"%s\"%n", googleSheetRange));
             }
 
             if (null != catDirectory)
@@ -380,6 +395,19 @@ public final class TabbyXL {
                 .withDescription("print this message")
                 .create("help");
 
+        // Support Google Sheets
+        Option googleSheetIdOpt = OptionBuilder
+                .withArgName("id")
+                .hasArg()
+                .withDescription("specify a Google Sheets spreadsheet ID (this can be extracted from its URL)")
+                .create("googleSheetID");
+
+        Option googleSheetRangeOpt = OptionBuilder
+                .withArgName("range")
+                .hasArg()
+                .withDescription("specify a range (e.g. \"MySheet!A1:F5\") in the Google Sheets spreadsheet specified by its ID")
+                .create("googleSheetRange");
+
         Options options = new Options();
 
         options.addOption(inputExcelFileOpt);
@@ -394,6 +422,10 @@ public final class TabbyXL {
         options.addOption(ruleEngineConfigOpt);
         options.addOption(useNerOpt);
         options.addOption(helpOpt);
+
+        // Support Google Sheets
+        options.addOption(googleSheetIdOpt);
+        options.addOption(googleSheetRangeOpt);
 
         CommandLineParser clParser = new BasicParser();
 
@@ -438,6 +470,10 @@ public final class TabbyXL {
 
             String useNerParam = cmd.getOptionValue(useNerOpt.getOpt());
             useNer = parseUseNerParam(useNerParam);
+
+            // Support Google Sheets
+            googleSheetID = cmd.getOptionValue(googleSheetIdOpt.getOpt());
+            googleSheetRange = cmd.getOptionValue(googleSheetRangeOpt.getOpt());
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -505,13 +541,16 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            dataLoader.setWithoutSuperscript(ignoreSuperscript);
-            dataLoader.setUseCellValue(useCellValue);
+            if (googleSheetID == null) {
+                dataLoader.setWithoutSuperscript(ignoreSuperscript);
+                dataLoader.setUseCellValue(useCellValue);
 
-            // Load data
-
-            loadWorkbook();
-            loadCatFiles();
+                // Load data
+                loadWorkbook();
+                loadCatFiles();
+            } else {
+                // TODO Check the Google Sheets spreadsheet by its ID
+            }
 
             if (Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory);
 
@@ -629,7 +668,68 @@ public final class TabbyXL {
         System.out.println();
     }
 
+    private static void processGoogleSheetTable(Consumer<CTable> executionOption) throws IOException {
+        CTable table = GoogleSheetDataLoader.load(googleSheetID, googleSheetRange);
+
+        if (table == null) return;
+
+        // Assign a NER tag to each cell of the table
+        if (useNer) {
+            ner.process(table);
+        }
+
+        Date startDate = new Date();
+        executionOption.accept(table);
+        Date endDate = new Date();
+
+        currentRulesetExecutionTime = endDate.getTime() - startDate.getTime();
+        totalRulesetExecutionTime += currentRulesetExecutionTime;
+
+        table.update();
+
+        System.out.println(table.trace());
+        System.out.println();
+
+        CanonicalForm canonicalForm = table.toCanonicalForm();
+        System.out.println("Canonical form:");
+        canonicalForm.print();
+        System.out.println();
+
+        StatisticsManager.Statistics statistics = statisticsManager.collect(table);
+        System.out.println(statistics.trace());
+        System.out.printf("Current rule firing time: %s%n%n", currentRulesetExecutionTime);
+
+        //String fileName = FilenameUtils.removeExtension(inputExcelFile.getName());
+
+        String outFileName;
+        if (useShortNames) {
+            String sheetName = googleSheetRange == null ? "Sheet1" : googleSheetRange;
+            sheetName.replaceAll(":", "-");
+            outFileName = String.format("%s.xlsx", sheetName);
+
+        } else {
+            outFileName = String.format("%s_%s_%s.xlsx", googleSheetID, 1, 1);
+        }
+        Path outPath = outputDirectory.resolve(outFileName);
+
+        // Write output to Excel
+        TableWriter tableWriter;
+        File outFile = outPath.toFile();
+
+        // Only basic and debug table writers supported
+        tableWriter = new BasicTableWriter(outFile);
+        tableWriter.write(table);
+    }
+
     private static void processTables(Consumer<CTable> executionOption) throws IOException {
+        if (inputExcelFile != null) {
+            processExcelTables(executionOption);
+        } else if (googleSheetID != null) {
+            processGoogleSheetTable(executionOption);
+        }
+    }
+
+    private static void processExcelTables(Consumer<CTable> executionOption) throws IOException {
         int count = 0;
 
         for (int sheetNo : sheetIndexes) {
@@ -689,8 +789,8 @@ public final class TabbyXL {
                 TableWriter tableWriter;
                 File outFile = outPath.toFile();
 
-                final boolean useDebug = false; // Comment me to use debug table writing
-                //final boolean useDebug = true; // Uncomment me to use debug table writing
+                //final boolean useDebug = false; // Comment me to use debug table writing
+                final boolean useDebug = true; // Uncomment me to use debug table writing
 
                 if (useDebug)
                     tableWriter = new DebugTableWriter(outFile);

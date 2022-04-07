@@ -207,6 +207,7 @@ public final class DataLoader {
 
             for (Cell cell : row) {
                 String text = getFormatCellValue(cell);
+                //System.out.printf("%s IN CELL (%d, %d) \"%s\"%n", tag, cell.getColumnIndex(), cell.getRowIndex(), text);
                 if (tag.equals(text))
                     return new CPoint(cell.getColumnIndex(), cell.getRowIndex());
             }
@@ -219,7 +220,8 @@ public final class DataLoader {
             formulaEvaluator.evaluate(excelCell);
             return formatter.formatCellValue(excelCell, formulaEvaluator);
         } catch (FormulaParseException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.err.println(e.getMessage());
             return null;
         }
     }
