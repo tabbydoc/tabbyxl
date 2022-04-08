@@ -13,8 +13,6 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.*;
-import com.google.api.services.sheets.v4.model.Color;
-import com.google.api.services.sheets.v4.model.Sheet;
 import ru.icc.td.tabbyxl.model.CCell;
 import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.TypeTag;
@@ -72,7 +70,7 @@ public class GoogleSheetDataLoader {
             return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                     .setApplicationName(APPLICATION_NAME)
                     .build();
-        } catch (IOException|GeneralSecurityException e) {
+        } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
             return null;
         }
@@ -130,47 +128,70 @@ public class GoogleSheetDataLoader {
         int numRows = gd.getRowMetadata().size();
         int numCols = gd.getColumnMetadata().size();
 
+        System.out.printf("START ROW = %d%n", gd.getStartRow());
+        System.out.printf("START COLUMN = %d%n", gd.getStartColumn());
+        final int rowShift = gd.getStartRow() == null ? 0 : gd.getStartRow();
+        final int columnShift = gd.getStartColumn() == null ? 0 : gd.getStartColumn();
+
         //System.out.printf("%d, %d%n", numRows, numCols);
         CTable table = new CTable(numRows, numCols);
 
         final List<GridRange> merges = sheet.getMerges();
 
         int rowIndex = 0;
-        for (RowData rd: rowData) {
-            rowIndex ++;
+        for (RowData rd : rowData) {
+            rowIndex++;
             int columnIndex = 0;
             List<CellData> cellData = rd.getValues();
             if (null == cellData) continue;
             for (CellData cd : cellData) {
-                columnIndex ++;
+                columnIndex++;
                 if (null == cd) continue;
 
                 //String value = cd.getFormattedValue();
                 //CellFormat format = cd.getEffectiveFormat();
                 //System.out.printf("cell (%d, %d): %s, format %s%n", rowIndex, columnIndex, value, format);
 
-                CCell cell = table.newCell();
+                if (merges.isEmpty()) {
+                    CCell cell = table.newCell();
+                    cell.setCl(columnIndex);
+                    cell.setRt(rowIndex);
+                    cell.setCr(columnIndex);
+                    cell.setRb(rowIndex);
+                    fillCell(cell, cd);
+                } else {
+                    boolean isMerged = false;
+                    for (GridRange merge : merges) {
+                        int rt = merge.getStartRowIndex() - rowShift + 1;
+                        int cl = merge.getStartColumnIndex() - columnShift + 1;
+                        int rb = merge.getEndRowIndex() - rowShift;
+                        int cr = merge.getEndColumnIndex() - columnShift;
 
-                cell.setCl(columnIndex);
-                cell.setRt(rowIndex);
-                cell.setCr(columnIndex);
-                cell.setRb(rowIndex);
+                        if (rowIndex == rt && columnIndex == cl) {
+                            CCell cell = table.newCell();
+                            cell.setCl(cl);
+                            cell.setRt(rt);
+                            cell.setCr(cr);
+                            cell.setRb(rb);
+                            fillCell(cell, cd);
 
-                for (GridRange merge: merges) {
+                            System.out.printf("merge (rt = %d, cl = %d, rb = %d, cr = %d)%n", rt, cl, rb, cr);
 
-                    int rt = merge.getStartRowIndex() + 1;
-                    int cl = merge.getStartColumnIndex() + 1;
-                    int rb = merge.getEndRowIndex() + 1;
-                    int cr = merge.getEndColumnIndex() + 1;
-
-                    if (rowIndex == rt && columnIndex == cl) {
-                        cell.setCr(cr);
-                        cell.setRb(rb);
-                        //System.out.printf("merge (rt = %d, cl = %d, rb = %d, cr = %d)%n", rt, cl, rb, cr);
+                            isMerged = true;
+                        } else if (rowIndex >= rt && columnIndex >= cl && rowIndex <= rb && columnIndex <= cr) {
+                            isMerged = true;
+                        }
+                    }
+                    if (!isMerged) {
+                        CCell cell = table.newCell();
+                        cell.setCl(columnIndex);
+                        cell.setRt(rowIndex);
+                        cell.setCr(columnIndex);
+                        cell.setRb(rowIndex);
+                        fillCell(cell, cd);
                     }
                 }
 
-                fillCell(cell, cd);
                 //System.out.println(cell.trace());
             }
         }
@@ -256,7 +277,7 @@ public class GoogleSheetDataLoader {
         //String reference = new CellReference(excelCell).formatAsString(false);
         //cell.setProvenance(reference);
 
-        cellCount ++;
+        cellCount++;
     }
 
     private static CColor convertColor(Color color) {
@@ -316,7 +337,7 @@ public class GoogleSheetDataLoader {
                 return VertAlignment.CENTER;
             case "BOTTOM":
                 return VertAlignment.BOTTOM;
-           default:
+            default:
                 return null;
         }
     }

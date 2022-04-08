@@ -678,6 +678,9 @@ public final class TabbyXL {
             ner.process(table);
         }
 
+        //System.out.println(table.trace());
+        //System.out.println();
+
         Date startDate = new Date();
         executionOption.accept(table);
         Date endDate = new Date();
