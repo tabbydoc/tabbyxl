@@ -128,8 +128,8 @@ public class GoogleSheetDataLoader {
         int numRows = gd.getRowMetadata().size();
         int numCols = gd.getColumnMetadata().size();
 
-        System.out.printf("START ROW = %d%n", gd.getStartRow());
-        System.out.printf("START COLUMN = %d%n", gd.getStartColumn());
+        //System.out.printf("START ROW = %d%n", gd.getStartRow());
+        //System.out.printf("START COLUMN = %d%n", gd.getStartColumn());
         final int rowShift = gd.getStartRow() == null ? 0 : gd.getStartRow();
         final int columnShift = gd.getStartColumn() == null ? 0 : gd.getStartColumn();
 
