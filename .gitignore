@@ -12,7 +12,8 @@ target
 out
 tokens
 examples/results/*
-/src/main/resources/credentials.json
+/src/main/resources/credentials/*
+examples/keys
 
 #OS junk files
 [Tt]humbs.db

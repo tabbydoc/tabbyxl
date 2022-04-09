@@ -62,8 +62,9 @@ public final class TabbyXL {
     private static boolean useNer;
 
     // Support Google Sheets
-    private static String googleSheetID;
-    private static String googleSheetRange;
+    private static String gSpreadsheetID;
+    private static String gSpreadsheetRange;
+    private static File gServiceAccountKeyFile;
 
     // Statistics
 
@@ -256,6 +257,29 @@ public final class TabbyXL {
         return false;
     }
 
+    private static File parseGServiceAccountKeyFileParam(String path) {
+        if (null != path) {
+            File file = new File(path);
+
+            if (file.exists()) {
+                if (file.canRead()) {
+                    String fileExtension = FilenameUtils.getExtension(file.getName());
+                    if (!fileExtension.equalsIgnoreCase("p12")) {
+                        System.err.println("The extension of the Google Sheets service account key file is not p12");
+                    }
+                    return file;
+                } else {
+                    System.err.println("The Google Sheets service account key file cannot be read");
+                    System.exit(0);
+                }
+            } else {
+                System.err.println("The Google Sheets service account key file does not exist");
+                System.exit(0);
+            }
+        }
+        return null;
+    }
+
     private static String traceParsedParams() {
         StringBuilder sb = new StringBuilder();
         sb.append("Command line parameters:\r\n");
@@ -278,12 +302,6 @@ public final class TabbyXL {
                 sb.append(indent).append("Sheets in processing: ALL\n");
             }
 
-            if (googleSheetID != null) {
-                sb.append(indent).append(String.format("GoogleSheets Spreadsheet ID: \"%s\"%n", googleSheetID));
-                if (googleSheetRange != null)
-                    sb.append(indent).append(String.format("GoogleSheets Spreadsheet Range: \"%s\"%n", googleSheetRange));
-            }
-
             if (null != catDirectory)
                 sb.append(indent).append(String.format("Category directory: \"%s\"%n", catDirectory.toRealPath()));
 
@@ -294,6 +312,14 @@ public final class TabbyXL {
             sb.append(indent).append(String.format("Debugging mode: %b%n", debuggingMode));
             sb.append(indent).append(String.format("Using a rule engine: %b", useRuleEngine));
 
+            // Support Google Sheets
+            if (gSpreadsheetID != null) {
+                sb.append(indent).append(String.format("Google Sheets Spreadsheet ID: \"%s\"%n", gSpreadsheetID));
+                if (gSpreadsheetRange != null)
+                    sb.append(indent).append(String.format("Google Sheets Spreadsheet Range: \"%s\"%n", gSpreadsheetRange));
+                if (gServiceAccountKeyFile != null)
+                    sb.append(indent).append(String.format("Google Service Account Key File: \"%s\"%n", gServiceAccountKeyFile));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -396,17 +422,23 @@ public final class TabbyXL {
                 .create("help");
 
         // Support Google Sheets
-        Option googleSheetIdOpt = OptionBuilder
+        Option gSpreadsheetIdOpt = OptionBuilder
                 .withArgName("id")
                 .hasArg()
                 .withDescription("specify a Google Sheets spreadsheet ID (this can be extracted from its URL)")
-                .create("googleSheetID");
+                .create("gSheetID");
 
-        Option googleSheetRangeOpt = OptionBuilder
+        Option gSpreadsheetRangeOpt = OptionBuilder
                 .withArgName("range")
                 .hasArg()
-                .withDescription("specify a range (e.g. \"MySheet!A1:F5\") in the Google Sheets spreadsheet specified by its ID")
-                .create("googleSheetRange");
+                .withDescription("specify a range (e.g. \"MySheet!A1:F5\") of the Google Sheets spreadsheet")
+                .create("gSheetRange");
+
+        Option gServiceAccountKeyFileOpt = OptionBuilder
+                .withArgName("path")
+                .hasArg()
+                .withDescription("specify a path to the Google service account key file")
+                .create("gServiceAccountKey");
 
         Options options = new Options();
 
@@ -424,8 +456,9 @@ public final class TabbyXL {
         options.addOption(helpOpt);
 
         // Support Google Sheets
-        options.addOption(googleSheetIdOpt);
-        options.addOption(googleSheetRangeOpt);
+        options.addOption(gSpreadsheetIdOpt);
+        options.addOption(gSpreadsheetRangeOpt);
+        options.addOption(gServiceAccountKeyFileOpt);
 
         CommandLineParser clParser = new BasicParser();
 
@@ -472,9 +505,10 @@ public final class TabbyXL {
             useNer = parseUseNerParam(useNerParam);
 
             // Support Google Sheets
-            googleSheetID = cmd.getOptionValue(googleSheetIdOpt.getOpt());
-            googleSheetRange = cmd.getOptionValue(googleSheetRangeOpt.getOpt());
-
+            gSpreadsheetID = cmd.getOptionValue(gSpreadsheetIdOpt.getOpt());
+            gSpreadsheetRange = cmd.getOptionValue(gSpreadsheetRangeOpt.getOpt());
+            String gServiceAccountKeyFileParam = cmd.getOptionValue(gServiceAccountKeyFileOpt.getOpt());
+            gServiceAccountKeyFile = parseGServiceAccountKeyFileParam(gServiceAccountKeyFileParam);
         } catch (ParseException e) {
             e.printStackTrace();
             System.exit(0);
@@ -541,7 +575,7 @@ public final class TabbyXL {
             parseCommandLineParams(args);
             System.out.printf("%s%n%n", traceParsedParams());
 
-            if (googleSheetID == null) {
+            if (gSpreadsheetID == null) {
                 dataLoader.setWithoutSuperscript(ignoreSuperscript);
                 dataLoader.setUseCellValue(useCellValue);
 
@@ -669,7 +703,8 @@ public final class TabbyXL {
     }
 
     private static void processGoogleSheetTable(Consumer<CTable> executionOption) throws IOException {
-        CTable table = GoogleSheetDataLoader.load(googleSheetID, googleSheetRange);
+        GoogleSheetsDataLoader dataLoader = new GoogleSheetsDataLoader(gServiceAccountKeyFile);
+        CTable table = dataLoader.getTable(gSpreadsheetID, gSpreadsheetRange);
 
         if (table == null) return;
 
@@ -703,12 +738,12 @@ public final class TabbyXL {
 
         String outFileName;
         if (useShortNames) {
-            String sheetName = googleSheetRange == null ? "Sheet1" : googleSheetRange;
+            String sheetName = gSpreadsheetRange == null ? "Sheet1" : gSpreadsheetRange;
             sheetName.replaceAll(":", "-");
             outFileName = String.format("%s.xlsx", sheetName);
 
         } else {
-            outFileName = String.format("%s_%s_%s.xlsx", googleSheetID, 1, 1);
+            outFileName = String.format("%s_%s_%s.xlsx", gSpreadsheetID, 1, 1);
         }
         Path outPath = outputDirectory.resolve(outFileName);
 
@@ -724,7 +759,7 @@ public final class TabbyXL {
     private static void processTables(Consumer<CTable> executionOption) throws IOException {
         if (inputExcelFile != null) {
             processExcelTables(executionOption);
-        } else if (googleSheetID != null) {
+        } else if (gSpreadsheetID != null) {
             processGoogleSheetTable(executionOption);
         }
     }

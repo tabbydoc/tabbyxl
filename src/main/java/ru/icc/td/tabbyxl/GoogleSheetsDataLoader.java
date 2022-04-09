@@ -5,6 +5,7 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -18,17 +19,14 @@ import ru.icc.td.tabbyxl.model.CTable;
 import ru.icc.td.tabbyxl.model.TypeTag;
 import ru.icc.td.tabbyxl.model.style.*;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GoogleSheetDataLoader {
-    private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
+public class GoogleSheetsDataLoader {
+    private static final String APPLICATION_NAME = "TabbyXL";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
@@ -38,6 +36,17 @@ public class GoogleSheetDataLoader {
      */
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private static final String SERVICE_ACCOUNT_EMAIL = "tabbyxl-service@tabbyxl.iam.gserviceaccount.com";
+
+    private Sheets service;
+    private int cellCount;
+
+    private File gServiceAccountKeyFile;
+
+    public GoogleSheetsDataLoader(File serviceAccountKeyFile) {
+        gServiceAccountKeyFile = serviceAccountKeyFile;
+        service = createService();
+    }
 
     /**
      * Creates an authorized Credential object.
@@ -46,25 +55,43 @@ public class GoogleSheetDataLoader {
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
      */
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+    private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream in = GoogleSheetDataLoader.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        if (gServiceAccountKeyFile == null) {
+            InputStream in = GoogleSheetsDataLoader.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+            if (in == null) {
+                throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+            }
+            GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+            // Build flow and trigger user authorization request.
+
+            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                    .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                    .setAccessType("offline")
+                    .build();
+            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+
+            return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        } else {
+            try {
+                return new GoogleCredential.Builder()
+                        .setTransport(HTTP_TRANSPORT)
+                        .setJsonFactory(JSON_FACTORY)
+                        .setServiceAccountId(SERVICE_ACCOUNT_EMAIL)
+                        .setServiceAccountScopes(SCOPES)
+                        .setServiceAccountPrivateKeyFromP12File(gServiceAccountKeyFile)
+                        .build();
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
     }
 
-    private static Sheets createService() {
+    private Sheets createService() {
         try {
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
@@ -76,21 +103,8 @@ public class GoogleSheetDataLoader {
         }
     }
 
-    private static final Sheets SERVICE = createService();
-
-    public static void main(String[] args) throws IOException {
-        // The spreadsheet to request.
-        final String spreadsheetId = "1HTgl9tdKXBMo9kHaIozC6BGmQ90uXyhTiSINxKOXscE";
-        // The ranges to retrieve from the spreadsheet.
-        //List<String> ranges = new ArrayList<>(); // TODO: Update placeholder value.
-        //ranges.add("sheet1!A1:F5");
-        final String range = "sheet1!A1:F5";
-
-        load(spreadsheetId, range);
-    }
-
-    public static CTable load(String spreadsheetId, String range) throws IOException {
-        Sheets.Spreadsheets.Get request = SERVICE.spreadsheets().get(spreadsheetId);
+    public CTable getTable(String spreadsheetId, String range) throws IOException {
+        Sheets.Spreadsheets.Get request = service.spreadsheets().get(spreadsheetId);
         List<String> ranges = new ArrayList<>();
         ranges.add(range);
         request.setRanges(ranges);
@@ -100,7 +114,7 @@ public class GoogleSheetDataLoader {
         return parseResponse(response);
     }
 
-    private static CTable parseResponse(Spreadsheet response) {
+    private CTable parseResponse(Spreadsheet response) {
         List<Sheet> sheets = response.getSheets();
         if (null == sheets || sheets.isEmpty()) return null;
 
@@ -199,9 +213,7 @@ public class GoogleSheetDataLoader {
         return table;
     }
 
-    private static int cellCount;
-
-    private static void fillCell(CCell cell, CellData cd) {
+    private void fillCell(CCell cell, CellData cd) {
         String rawTextualContent = null;
         TypeTag typeTag = null;
 
@@ -280,7 +292,7 @@ public class GoogleSheetDataLoader {
         cellCount++;
     }
 
-    private static CColor convertColor(Color color) {
+    private CColor convertColor(Color color) {
         if (color == null) return null;
 
         Float red = color.getRed();
@@ -296,7 +308,7 @@ public class GoogleSheetDataLoader {
         return new CColor(new byte[]{r, g, b});
     }
 
-    private static void fillFont(CFont font, TextFormat tf) {
+    private void fillFont(CFont font, TextFormat tf) {
         if (tf == null) return;
 
         font.setName(tf.getFontFamily());
@@ -310,7 +322,7 @@ public class GoogleSheetDataLoader {
         font.setUnderline(tf.getUnderline());
     }
 
-    private static HorzAlignment toHorizontalAlignment(String googleHorizontalAlignment) {
+    private HorzAlignment toHorizontalAlignment(String googleHorizontalAlignment) {
         if (googleHorizontalAlignment == null) return null;
 
         switch (googleHorizontalAlignment) {
@@ -327,7 +339,7 @@ public class GoogleSheetDataLoader {
         }
     }
 
-    private static VertAlignment toVerticalAlignment(String googleVerticalAlignment) {
+    private VertAlignment toVerticalAlignment(String googleVerticalAlignment) {
         if (googleVerticalAlignment == null) return null;
 
         switch (googleVerticalAlignment) {
@@ -342,7 +354,7 @@ public class GoogleSheetDataLoader {
         }
     }
 
-    private static BorderType toBorderType(String googleBorderStyle) {
+    private BorderType toBorderType(String googleBorderStyle) {
         if (googleBorderStyle == null) return null;
 
         switch (googleBorderStyle) {
@@ -363,14 +375,14 @@ public class GoogleSheetDataLoader {
         }
     }
 
-    private static void fillBorder(CBorder border, Border googleBorder) {
+    private void fillBorder(CBorder border, Border googleBorder) {
         if (googleBorder == null) return;
 
         border.setType(toBorderType(googleBorder.getStyle()));
         border.setColor(convertColor(googleBorder.getColor()));
     }
 
-    private static void fillCellStyle(CStyle cellStyle, CellFormat cf) {
+    private void fillCellStyle(CStyle cellStyle, CellFormat cf) {
         if (cf == null) return;
 
         CFont font = cellStyle.getFont();
