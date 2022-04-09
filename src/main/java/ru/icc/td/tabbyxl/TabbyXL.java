@@ -343,7 +343,12 @@ public final class TabbyXL {
        -useShortNames <true|false>        specify true to use short names (just sheet names) for output files (false used by default)
        -debuggingMode <true|false>        specify true to turn on debugging mode (false used by default)
        -ruleEngineConfig <path>           specify a path to a rule crl2j configuration file (*.properties) you prefer to use (e.g. Drools, JESS)
+
        -help                              print this usage
+
+       -gSheetID <id>                     specify a Google Sheets spreadsheet ID (this can be extracted from its URL)
+       -gSheetRange <range>               specify a range (e.g. "sheet1!A1:F5") in the Google Sheets spreadsheet
+       -gServiceAccountKey <path>         specify a path to the Google service account key file (e.g. "mydata/key.p12")
      */
 
     @SuppressWarnings("static-access")

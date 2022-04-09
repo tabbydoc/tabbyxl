@@ -19,8 +19,9 @@ Params:
 
 -help                              print this usage
 
--googleSheetID                     specify a Google Sheets spreadsheet ID (this can be extracted from its URL)
--googleSheetRange                  specify a range (e.g. "sheet1!A1:F5") in the Google Sheets spreadsheet specified by its ID
+-gSheetID <id>                     specify a Google Sheets spreadsheet ID (this can be extracted from its URL)
+-gSheetRange <range>               specify a range (e.g. "sheet1!A1:F5") in the Google Sheets spreadsheet
+-gServiceAccountKey <path>         specify a path to the Google service account key file (e.g. "mydata/key.p12")
 ```
 
 Mandatory parameters:
