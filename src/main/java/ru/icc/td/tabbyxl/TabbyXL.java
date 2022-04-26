@@ -600,9 +600,6 @@ public final class TabbyXL {
             else
                 runWithCRL2J();
 
-        } catch (IOException | ReflectiveOperationException | RuleException | RecognitionException e) {
-            e.printStackTrace();
-        } finally {
             endTime = new Date().getTime();
             System.out.println(statisticsManager.trace());
 
@@ -612,6 +609,12 @@ public final class TabbyXL {
             System.out.printf("\tTotal time: %s ms%n", endTime - startTime);
             System.out.println();
             System.out.printf("End timestamp: %s%n", new Timestamp(new Date().getTime()));
+
+        } catch (IOException | ReflectiveOperationException | RuleException | RecognitionException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+
             categoryTemplateManager.release();
         }
     }
