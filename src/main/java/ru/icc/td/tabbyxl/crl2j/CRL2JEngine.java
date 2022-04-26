@@ -145,6 +145,7 @@ public final class CRL2JEngine {
         } catch (CharSequenceCompilerException e) {
             System.err.println("The generated java files could not be compiled");
             e.printStackTrace();
+            System.exit(1);
         }
     }
 
