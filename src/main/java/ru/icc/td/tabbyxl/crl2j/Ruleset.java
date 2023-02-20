@@ -23,7 +23,7 @@ import ru.icc.td.tabbyxl.model.COwned;
 import java.util.ArrayList;
 import java.util.List;
 
-final class Ruleset {
+public final class Ruleset {
 
     private List<StaticImportDescriptor> staticImportDescriptors = new ArrayList<>();
     private List<Rule> rules = new ArrayList<>();

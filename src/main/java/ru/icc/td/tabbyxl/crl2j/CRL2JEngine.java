@@ -34,7 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public final class CRL2JEngine {
+public class CRL2JEngine {
 
     private static final String filledLine = StringUtils.repeat("=", 100);
     private static final CharSequenceCompiler compiler;
@@ -77,7 +77,7 @@ public final class CRL2JEngine {
         return (Tree) parser.ruleset().getTree();
     }
 
-    private void generateJavaFiles(Tree ast) {
+    public void generateJavaFiles(Tree ast) {
 
         // Analyze and interpret AST to create a Ruleset model
 
@@ -89,7 +89,7 @@ public final class CRL2JEngine {
         sourceCodeUnits = codeGenerator.generateSourceCode();
     }
 
-    private void createTableConsumers(Map<String, JavaFileObject> sourceCodeUnits) throws CharSequenceCompilerException {
+    public void createTableConsumers(Map<String, JavaFileObject> sourceCodeUnits) throws CharSequenceCompilerException {
         try {
 
             for (String qualifiedClassName : sourceCodeUnits.keySet()) {

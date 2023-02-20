@@ -32,7 +32,7 @@ import static java.lang.reflect.Modifier.isStatic;
 
 import com.squareup.javapoet.*;
 
-final class CodeGenerator {
+public final class CodeGenerator {
     private static final List<Field> fields = new ArrayList<>();
     private static final List<String> binaryOperators;
 
@@ -72,12 +72,12 @@ final class CodeGenerator {
     private String packageName;
     private Ruleset ruleset;
 
-    CodeGenerator(String packageName, Ruleset ruleset) {
+    public CodeGenerator(String packageName, Ruleset ruleset) {
         this.packageName = packageName;
         this.ruleset = ruleset;
     }
 
-    Map<String, JavaFileObject> generateSourceCode() {
+    public Map<String, JavaFileObject> generateSourceCode() {
         List<Rule> rules = ruleset.getRules();
 
         if (rules.isEmpty()) return null;

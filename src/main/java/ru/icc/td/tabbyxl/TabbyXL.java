@@ -496,7 +496,7 @@ public final class TabbyXL {
     public static void main(String[] args) {
 
         // This is needed for setting up log4j properly
-        org.apache.log4j.BasicConfigurator.configure();
+//        org.apache.log4j.BasicConfigurator.configure();
 
         startTime = new Date().getTime();
         System.out.printf("Start timestamp: %s%n%n", new Timestamp(new Date().getTime()));

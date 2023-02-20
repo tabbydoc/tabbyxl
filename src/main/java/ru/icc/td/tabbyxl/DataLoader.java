@@ -35,7 +35,7 @@ import static org.apache.poi.ss.usermodel.CellType.STRING;
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.*;
 import static org.apache.poi.ss.usermodel.HorizontalAlignment.DISTRIBUTED;
 
-public final class DataLoader {
+public class DataLoader {
     private File sourceWorkbookFile;
     private Workbook workbook;
     private Sheet sheet;
